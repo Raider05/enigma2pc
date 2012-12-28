@@ -1,0 +1,65 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-12 15:57+0100\n"
+"PO-Revision-Date: 2011-11-13 09:09+0100\n"
+"Last-Translator: Free User <free@user.de>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: plugin.py:65
+msgid "Select device and press OK to umount or EXIT to quit"
+msgstr "Wähle Laufwerk und drücke OK zum Unmounten oder EXIT zum Beenden"
+
+#: plugin.py:66
+msgid "DEVICE"
+msgstr "LAUFWERK"
+
+#: plugin.py:67
+msgid "MOUNTED ON"
+msgstr "GEMOUNTED EIN"
+
+#: plugin.py:68
+msgid "TYPE"
+msgstr "TYP"
+
+#: plugin.py:69
+msgid "SIZE"
+msgstr "GRÖSSE"
+
+#: plugin.py:90
+msgid "umount return code"
+msgstr "Unmount liefert Code"
+
+#: plugin.py:93
+msgid "Cannot umount device"
+msgstr "Kann Laufwerk nicht unmounten"
+
+#: plugin.py:101
+msgid "Really umount device"
+msgstr "Laufwerk wirklich unmounten"
+
+#: plugin.py:111
+msgid "WARNING: cannot read any mount point"
+msgstr "WARNUNG: kann keine Mountpoints lesen"
+
+#: plugin.py:112
+msgid "probably no mass storage device inserted"
+msgstr "wahrscheinlich kein Massenspeicher eingesteckt"
+
+#: plugin.py:145
+msgid "Simple mass storage umounter extension"
+msgstr "Einfache Massenspeicher-Unmount Erweiterung"
+
+msgid "Show only removable devices"
+msgstr "Zeige nur entfernbare Laufwerke"
+

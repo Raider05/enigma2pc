@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/images/favicon.png">
+<link rel="stylesheet" type="text/css" href="/css/style.css" />
+<link type="text/css" href="/css/jquery-ui-1.8.18.custom.css" rel="stylesheet" />	
+<script type="text/javascript" src="/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="/js/openwebif.js"></script>
+
+<title>Open Webif</title>
+</head>
+
+<body>
+	<div id="container">
+		<div id="header">
+			<h1><a href="/">Open<span class="off">Webif</span></a></h1>
+			<h2>Open Source Web Interface for Linux set-top box</h2>
+		</div>
+		
+		<div id="osd">
+			Nothing playing.
+		</div>
+		<div id="osd_bottom">
+			
+		</div>
+		
+		<div id="dialog" title="Work in progress">
+			<p>Sorry, this function is not yet implemented.</p>
+		</div>
+		
+		<div id="leftmenu">
+			#def menu($title, $name, $content)
+			<div id="leftmenu_main">
+				<div id="leftmenu_top">
+					$title
+					#if $name in $collapsed
+					<div id="leftmenu_expander_$name" class="leftmenu_icon leftmenu_icon_collapse" onclick="toggleMenu('$name');"></div>
+					#else
+					<div id="leftmenu_expander_$name" class="leftmenu_icon" onclick="toggleMenu('$name');"></div>
+					#end if
+				</div>
+				#if $name in $collapsed
+				<div id="leftmenu_container_$name" style="display: none;">
+				#else
+				<div id="leftmenu_container_$name">
+				#end if
+				$content
+				</div>
+			</div>
+			#end def
+		
+			#def mainMenu
+			<ul>
+				<li><a href='#' onclick="load_maincontent('ajax/tv'); return false;">Television</a></li>
+				<li><a href='#' onclick="load_maincontent('ajax/radio'); return false;">Radio</a></li>
+			</ul>
+			#end def
+		
+			#def volumeMenu
+			<div class="volslider">
+					<p style="text-align:center; padding-bottom:8px;"> 
+						<label for="amount">Volume:</label>
+						<input type="text" id="amount" style="border:0; color:#f6931f; font-weight:bold; width:40px;" />
+					</p>
+				<div id="slider" style="width:130px;"></div>
+			</div>
+			<div style="width:100%; text-align:center; padding-top:5px; padding-bottom:10px;"><img id="volimage" src="images/volume.png" title="" border="0"></div>
+			#end def
+
+			#def controlMenu
+			<ul>
+				<li><a href='#' onclick="load_maincontent('ajax/powerstate'); return false;">Power Control</a></li>
+				<li><a href='#' onclick="load_maincontent('ajax/screenshot'); return false;">Grab Screenshot</a></li>
+				<li><a href='#' onclick="load_maincontent('ajax/message'); return false;">Send a Message</a></li>
+				<li><a href='#' onclick="load_maincontent('ajax/timers'); return false;">Timers</a></li>
+			</ul>
+			#end def
+		
+			#def infoMenu
+			<ul>
+				<li><a href="#" onclick="load_maincontent('ajax/boxinfo'); return false">Box Info</a></li>
+				<li><a href="#" onclick="load_maincontent('ajax/about'); return false">About</a></li>
+			</ul>
+			#end def
+		
+			#def streamMenu
+			<ul>
+				<li><a href='#' onclick="load_maincontent_spin('ajax/movies'); return false;">Movies</a></li>
+ <!--				<li><a href='#' onclick="load_maincontent('ajax/workinprogress'); return false;">Web Tv</a></li> -->
+				#if $zapstream
+				<li><input type="checkbox" name="zapstream" checked="checked" />zap before Stream</li>
+				#else
+				<li><input type="checkbox" name="zapstream" />zap before Stream</li>
+				#end if
+			</ul>
+			#end def
+		
+			#def searchMenu
+			<form action="" onSubmit="open_epg_search_pop(); return false;">
+				<div style="width:100%; text-align:center; padding-top:5px;"><input type="text" id="epgSearch" size="14" /></div>
+				<div style="width:100%; text-align:center;padding-top:5px; padding-bottom:7px;" class="epgsearch"><button>Search</button></div>
+			</form>
+			#end def
+			
+			#def remoteMenu
+			<div style="width:100%; text-align:center;">
+				<img src="images/remotes/ow_remote.png" width="135" height="183" usemap="#menuremote" border="0">
+				<map name="menuremote" >
+					<area shape="circle" coords="67,148,13" alt="ok" onclick="pressMenuRemote('352');">
+					<area shape="circle" coords="68,173,9" alt="down" onclick="pressMenuRemote('108');">
+					<area shape="circle" coords="44,148,9" alt="left" onclick="pressMenuRemote('105');">
+					<area shape="circle" coords="92,147,9" alt="right" onclick="pressMenuRemote('106');">
+					<area shape="circle" coords="68,126,8" alt="up" onclick="pressMenuRemote('103');">
+					<area shape="circle" coords="117,163,10" alt="blue" onclick="pressMenuRemote('401');">
+					<area shape="circle" coords="118,132,11" alt="yellow" onclick="pressMenuRemote('400');">
+					<area shape="circle" coords="18,163,11" alt="green" onclick="pressMenuRemote('399');">
+					<area shape="circle" coords="19,133,10" alt="red" onclick="pressMenuRemote('398');">
+					<area shape="rect" coords="5,89,44,117" alt="menu" onclick="pressMenuRemote('139');">
+					<area shape="rect" coords="90,89,128,117" alt="exit" onclick="pressMenuRemote('174');">
+					<area shape="rect" coords="47,89,87,117" alt="0" onclick="pressMenuRemote('11');">
+					<area shape="rect" coords="90,60,128,86" alt="9" onclick="pressMenuRemote('10');">
+					<area shape="rect" coords="47,60,87,86" alt="8" onclick="pressMenuRemote('9');">
+					<area shape="rect" coords="4,60,44,86" alt="7" onclick="pressMenuRemote('8');">
+					<area shape="rect" coords="90,30,129,57" alt="6" onclick="pressMenuRemote('7');">
+					<area shape="rect" coords="47,30,87,57" alt="5" onclick="pressMenuRemote('6');">
+					<area shape="rect" coords="4,30,44,57" alt="4" onclick="pressMenuRemote('5');">
+					<area shape="rect" coords="90,0,129,27" alt="3" onclick="pressMenuRemote('4');">
+					<area shape="rect" coords="46,0,88,28" alt="2" onclick="pressMenuRemote('3');">
+					<area shape="rect" coords="5,0,45,28" alt="1" onclick="pressMenuRemote('2');">
+				</map>
+				<div id="help">
+					(shift + click for long pressure)
+				</div>
+				<ul>
+					#if $remotegrabscreenshot
+					<li><input type="checkbox" name="remotegrabscreen" checked="checked" />Grab screenshot</li>
+					#else
+					<li><input type="checkbox" name="remotegrabscreen" />Grab screenshot</li>
+					#end if
+					<li><a href="#" onclick="toggleFullRemote(); return false;">Show full remote</a></li>
+				</ul>
+			</div>
+			#end def
+			
+			#def configMenu
+			<ul>
+				#for $section in $configsections
+					<li><a href='#' onclick="load_maincontent('ajax/config?section=$section["key"]'); return false;">$section["description"]</a></li>
+				#end for
+			</ul>
+			#end def
+		
+			<div id="menucontainer">
+				$menu("Main", "main", $mainMenu)
+				$menu("Volume Control", "volume", $volumeMenu)
+				$menu("Box Control", "control", $controlMenu)
+				$menu("Remote", "remote", $remoteMenu)
+				$menu("Info", "info", $infoMenu)
+				$menu("Stream", "stream", $streamMenu)
+				$menu("Settings", "config", $configMenu)
+				$menu("Epg Search", "search", $searchMenu)
+			</div>
+			<div id="remotecontainer" style="display: none;">
+				<div id="leftmenu_main">
+					<div id="leftmenu_top">Remote Control</div>
+					<div style="width:100%; text-align:center;">
+						<div id="remote_container" style="width:100%; text-align:center;"></div>
+						<script type="text/javascript">
+							\$(document).ready(function() {
+								\$("#remote_container").load("/static/remotes/${remote}.html");
+							});
+						</script>
+						<div id="help">
+							(shift + click for long pressure)
+						</div>
+						<ul>
+							#if $remotegrabscreenshot
+							<li><input type="checkbox" name="remotegrabscreen" checked="checked" />Grab screenshot</li>
+							#else
+							<li><input type="checkbox" name="remotegrabscreen" />Grab screenshot</li>
+							#end if
+							<li><a href="#" onclick="toggleFullRemote(); return false;" class="leftmenu_remotelink">Hide full remote</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="content">
+			<div id="content_container">
+			$content
+			</div>
+			<div id="footer"><h3>&nbsp;&nbsp;<a href="https://github.com/E2OpenPlugins">E2OpenPlugins</a> | <a href="http://www.vuplus-community.net">Black Hole</a> | <a href="http://openpli.org">OpenPli</a> | <a href="http://forum.sifteam.eu">Sif</a> | <a href="http://www.vuplus-support.org">Vti</a></h3></div>
+		</div>
+	</div>
+</body>
+</html>

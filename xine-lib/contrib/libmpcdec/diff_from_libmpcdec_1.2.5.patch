@@ -1,0 +1,20 @@
+Use xine's os_types.h file.
+Define MPC_LITTLE_ENDIAN when needed.
+
+Index: libmpcdec/mpcdec/config_types.h
+===================================================================
+--- libmpcdec.orig/mpcdec/config_types.h
++++ libmpcdec/mpcdec/config_types.h
+@@ -35,7 +35,11 @@
+ #ifndef __MUSEPACK_CONFIG_TYPES_H__
+ #define __MUSEPACK_CONFIG_TYPES_H__
+ 
+-#include <inttypes.h>
++#include "os_types.h"
++
++#ifndef WORDS_BIGENDIAN
++# define MPC_LITTLE_ENDIAN
++#endif
+ 
+ typedef unsigned char mpc_bool_t;
+ #define TRUE  1

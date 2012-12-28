@@ -1,0 +1,53 @@
+#!/bin/bash
+#killall oscam
+#sleep 3
+#/usr/local/bin/oscam -c /etc/vdr/oscam > /dev/null  &
+# Source function library.
+#. /etc/init.d/functions
+
+# Source networking configuration.
+#. /etc/sysconfig/network
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin:/root/bin
+
+. /lib/lsb/init-functions
+
+# Check that networking is up.
+#[ ${NETWORKING} = "no" ] && exit 0
+
+[ -f /usr/local/bin/oscam ] || exit 0
+
+OSCAM="/usr/local/bin/oscam"
+
+OSCAM_OPTS="-c /etc/vdr/oscam"
+
+case "$1" in
+start)
+echo -n $"Starting OSCAM: \n"
+#/usr/local/bin/oscam  $OSCAM_OPTS &
+$OSCAM $OSCAM_OPTS &
+sleep 1
+;;
+stop)
+echo -n $"Shutting down OSCAM: \n "
+killall oscam
+;;
+restart|reload)
+$0 stop
+echo "restart oscam"
+sleep 1
+$0 start
+;;
+version)
+echo "webif sh4"
+;;
+info)
+echo "oscam"
+;;
+*)
+echo "Usage: $0 start|stop|restart"
+exit 1
+;;
+esac
+exit 0 
+

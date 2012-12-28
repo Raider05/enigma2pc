@@ -1,0 +1,1564 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Creator: fig2dev Version 3.2 Patchlevel 5 -->
+<!-- CreationDate: Sat Jun  2 20:48:15 2007 -->
+<!-- Magnification: 1.050 -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="10.2in"
+   height="9.9in"
+   viewBox="-12 81 12214 11883"
+   id="svg4143"
+   sodipodi:version="0.32"
+   inkscape:version="0.45.1"
+   sodipodi:docname="post_frame.svg"
+   sodipodi:docbase="/home/flame/devel/repos/xine/xine-lib-1.2-newdocbook/doc/hackersguide"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <metadata
+     id="metadata4494">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs4492" />
+  <sodipodi:namedview
+     inkscape:window-height="611"
+     inkscape:window-width="722"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="0.45679015"
+     inkscape:cx="459"
+     inkscape:cy="445.49997"
+     inkscape:window-x="552"
+     inkscape:window-y="25"
+     inkscape:current-layer="svg4143" />
+  <rect
+     style="fill:#ffffff;fill-opacity:1"
+     id="rect4496"
+     width="12700.504"
+     height="12145.769"
+     x="-201.72523"
+     y="-6.5896807" />
+  <g
+     style="stroke-width:.025in; stroke:black; fill:none"
+     id="g4145">
+<!-- Line -->    <polyline
+       points="3165,944 4110,944 4110,661 "
+       style="stroke:#000000;stroke-width:16; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline4147" />
+<!-- Line: box -->    <rect
+       x="3165"
+       y="661"
+       width="6614"
+       height="9732"
+       rx="0"
+       style="stroke:#000000;stroke-width:16; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect4149" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="3259"
+       y="850"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4151">post plugin</text>
+<!-- Line: box -->    <rect
+       x="1039"
+       y="1181"
+       width="1417"
+       height="425"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect4153" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="1228"
+       y="1464"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4155">get_frame</text>
+<!-- Line: box -->    <rect
+       x="1039"
+       y="2125"
+       width="1417"
+       height="1559"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect4157" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="1228"
+       y="2598"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4159">field</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="1228"
+       y="2834"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4161">lock</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="1228"
+       y="3070"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4163">proc_frame</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="1228"
+       y="3307"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4165">proc_slice</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="1228"
+       y="3543"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4167">proc_macroblock</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="1228"
+       y="2362"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4169">draw</text>
+<!-- Line: box -->    <rect
+       x="1039"
+       y="4299"
+       width="1417"
+       height="2834"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect4171" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="1228"
+       y="4782"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4173">field</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="1228"
+       y="4998"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4175">lock</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="1228"
+       y="5216"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4177">proc_frame</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="1228"
+       y="5433"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4179">proc_slice</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="1228"
+       y="5651"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4181">proc_macroblock</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="1228"
+       y="4563"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4183">draw</text>
+<!-- Line: box -->    <rect
+       x="1039"
+       y="7700"
+       width="1417"
+       height="1370"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect4185" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="1228"
+       y="7984"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4187">draw</text>
+<!-- Line: box -->    <rect
+       x="10488"
+       y="1181"
+       width="1417"
+       height="425"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect4189" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10677"
+       y="1464"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4191">get_frame</text>
+<!-- Line: box -->    <rect
+       x="10488"
+       y="2125"
+       width="1417"
+       height="1559"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect4193" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10677"
+       y="2598"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4195">field</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10677"
+       y="2834"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4197">lock</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10677"
+       y="3070"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4199">proc_frame</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10677"
+       y="3307"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4201">proc_slice</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10677"
+       y="3543"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4203">proc_macroblock</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10677"
+       y="2362"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4205">draw</text>
+<!-- Line: box -->    <rect
+       x="10488"
+       y="4346"
+       width="1417"
+       height="425"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect4207" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10677"
+       y="4629"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4209">get_frame</text>
+<!-- Line: box -->    <rect
+       x="10488"
+       y="4960"
+       width="1417"
+       height="1559"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect4211" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10677"
+       y="5433"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4213">field</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10677"
+       y="5669"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4215">lock</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10677"
+       y="5905"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4217">proc_frame</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10677"
+       y="6141"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4219">proc_slice</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10677"
+       y="6377"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4221">proc_macroblock</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10677"
+       y="5196"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4223">draw</text>
+<!-- Line: box -->    <rect
+       x="10488"
+       y="6708"
+       width="1417"
+       height="425"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect4225" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10677"
+       y="6992"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4227">free</text>
+<!-- Line: box -->    <rect
+       x="1039"
+       y="9732"
+       width="1417"
+       height="425"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect4229" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="1228"
+       y="10015"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4231">free / dispose</text>
+<!-- Line: box -->    <rect
+       x="10488"
+       y="9732"
+       width="1417"
+       height="425"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect4233" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10677"
+       y="10015"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4235">free / dispose</text>
+<!-- Line -->    <polygon
+       points="7417,5244 7181,5480 7653,5480 7417,5244 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#bfbfbf; "
+       id="polygon4237" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6992"
+       y="5669"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4239">modify frame</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7181"
+       y="5858"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4241">content</text>
+<!-- Line -->    <polyline
+       points="661,11574 661,10960 850,10960 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline4243" />
+<!-- Arrowhead on XXXpoint 661 10960 - 1055 10960-->    <polygon
+       points="853 11023 1042 10960 853 10897 853 11023  "
+       style="stroke:#000000;stroke-width:8; fill:#000000;"
+       id="polygon4245" />
+<!-- Line -->    <polyline
+       points="2456,11574 2456,11055 2266,11055 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline4247" />
+<!-- Arrowhead on XXXpoint 2456 11055 - 2062 11055-->    <polygon
+       points="2264 10992 2075 11055 2264 11118 2264 10992  "
+       style="stroke:#000000;stroke-width:8; fill:#000000;"
+       id="polygon4249" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4629"
+       y="10960"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="189"
+       text-anchor="start"
+       id="text4251">frame from original port</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4629"
+       y="11622"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="189"
+       text-anchor="start"
+       id="text4253">intercepted frame</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8456"
+       y="10866"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="189"
+       text-anchor="end"
+       id="text4255">downstream</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8456"
+       y="11181"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="189"
+       text-anchor="end"
+       id="text4257">meta-information</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8456"
+       y="11496"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="189"
+       text-anchor="end"
+       id="text4259">from decoder</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8456"
+       y="11811"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="189"
+       text-anchor="end"
+       id="text4261">to output</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10346"
+       y="10866"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="189"
+       text-anchor="start"
+       id="text4263">upstream</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10346"
+       y="11181"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="189"
+       text-anchor="start"
+       id="text4265">meta-information</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10346"
+       y="11496"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="189"
+       text-anchor="start"
+       id="text4267">from output</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10346"
+       y="11811"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="189"
+       text-anchor="start"
+       id="text4269">to decoder</text>
+<!-- Line -->    <polyline
+       points="8503,11338 9212,11338 9212,11195 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline4271" />
+<!-- Arrowhead on XXXpoint 9212 11338 - 9212 10992-->    <polygon
+       points="9275 11193 9212 11004 9149 11193 9275 11193  "
+       style="stroke:#000000;stroke-width:8; fill:#000000;"
+       id="polygon4273" />
+<!-- Line -->    <polyline
+       points="10299,11338 9590,11338 9590,11195 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline4275" />
+<!-- Arrowhead on XXXpoint 9590 11338 - 9590 10992-->    <polygon
+       points="9653 11193 9590 11004 9527 11193 9653 11193  "
+       style="stroke:#000000;stroke-width:8; fill:#000000;"
+       id="polygon4277" />
+<!-- Line -->    <polyline
+       points="10488,1370 7575,1370 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:41 41;"
+       id="polyline4279" />
+<!-- Arrowhead on XXXpoint 10488 1370 - 7543 1370-->    <polyline
+       points="7745 1307 7556 1370 7745 1433 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline4281" />
+<!-- Line -->    <polyline
+       points="5291,1370 2473,1370 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:41 41;"
+       id="polyline4283" />
+<!-- Arrowhead on XXXpoint 5291 1370 - 2440 1370-->    <polyline
+       points="2643 1307 2454 1370 2643 1433 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline4285" />
+<!-- Line -->    <polyline
+       points="2456,2456 10470,2456 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:41 41;"
+       id="polyline4287" />
+<!-- Arrowhead on XXXpoint 2456 2456 - 10503 2456-->    <polyline
+       points="10301 2519 10490 2456 10301 2393 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline4289" />
+<!-- Line -->    <polyline
+       points="10488,3401 2473,3401 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:41 41;"
+       id="polyline4291" />
+<!-- Arrowhead on XXXpoint 10488 3401 - 2440 3401-->    <polyline
+       points="2643 3338 2454 3401 2643 3464 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline4293" />
+<!-- Line -->    <polyline
+       points="2456,4535 5905,4535 5905,6897 2473,6897 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:41 41;"
+       id="polyline4295" />
+<!-- Arrowhead on XXXpoint 5905 6897 - 2440 6897-->    <polyline
+       points="2643 6834 2454 6897 2643 6960 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline4297" />
+<!-- Line -->    <polyline
+       points="10488,6188 6897,6188 6897,6897 10470,6897 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:41 41;"
+       id="polyline4299" />
+<!-- Arrowhead on XXXpoint 6897 6897 - 10503 6897-->    <polyline
+       points="10301 6960 10490 6897 10301 6834 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline4301" />
+<!-- Line -->    <polyline
+       points="10488,4535 6897,4535 6897,5244 10470,5244 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:41 41;"
+       id="polyline4303" />
+<!-- Arrowhead on XXXpoint 6897 5244 - 10503 5244-->    <polyline
+       points="10301 5307 10490 5244 10301 5181 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline4305" />
+<!-- Line -->    <polyline
+       points="2456,7937 5905,7937 5905,8881 2473,8881 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:41 41;"
+       id="polyline4307" />
+<!-- Arrowhead on XXXpoint 5905 8881 - 2440 8881-->    <polyline
+       points="2643 8818 2454 8881 2643 8944 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline4309" />
+<!-- Line -->    <polyline
+       points="0,1889 12188,1889 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:104 104;"
+       id="polyline4311" />
+<!-- Line -->    <polyline
+       points="0,3968 12188,3968 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:104 104;"
+       id="polyline4313" />
+<!-- Line -->    <polyline
+       points="0,7417 12188,7417 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:104 104;"
+       id="polyline4315" />
+<!-- Line -->    <polyline
+       points="2456,9921 5273,9921 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:41 41;"
+       id="polyline4317" />
+<!-- Arrowhead on XXXpoint 2456 9921 - 5307 9921-->    <polyline
+       points="5104 9984 5293 9921 5104 9858 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline4319" />
+<!-- Line -->    <polyline
+       points="7559,9921 10470,9921 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:41 41;"
+       id="polyline4321" />
+<!-- Arrowhead on XXXpoint 7559 9921 - 10503 9921-->    <polyline
+       points="10301 9984 10490 9921 10301 9858 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline4323" />
+<!-- Line -->    <polygon
+       points="6377,94 6377,566 3354,566 3165,330 3354,94 6377,94 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polygon4325" />
+<!-- Line -->    <polygon
+       points="6472,94 6472,566 9590,566 9779,330 9590,94 6472,94 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polygon4327" />
+<!-- Line -->    <polyline
+       points="0,9401 12188,9401 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:104 104;"
+       id="polyline4329" />
+<!-- Line -->    <polyline
+       points="3354,10488 3354,11952 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline4331" />
+<!-- Line -->    <polyline
+       points="6803,10488 6803,11952 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline4333" />
+<!-- Line: box -->    <rect
+       x="5291"
+       y="1181"
+       width="2267"
+       height="425"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ff0000; "
+       id="rect4335" />
+<!-- Line: box -->    <rect
+       x="3921"
+       y="1133"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#00ffff; "
+       id="rect4337" />
+<!-- Line: box -->    <rect
+       x="5291"
+       y="2267"
+       width="2267"
+       height="425"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect4339" />
+<!-- Line: box -->    <rect
+       x="5291"
+       y="3212"
+       width="2267"
+       height="425"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect4341" />
+<!-- Line: box -->    <rect
+       x="3921"
+       y="2220"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#00ffff; "
+       id="rect4343" />
+<!-- Line: box -->    <rect
+       x="8314"
+       y="2220"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#00ffff; "
+       id="rect4345" />
+<!-- Line: box -->    <rect
+       x="8314"
+       y="3165"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#00ffff; "
+       id="rect4347" />
+<!-- Line: box -->    <rect
+       x="3921"
+       y="3165"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#00ffff; "
+       id="rect4349" />
+<!-- Line: box -->    <rect
+       x="8267"
+       y="4960"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#00bf00; "
+       id="rect4351" />
+<!-- Line: box -->    <rect
+       x="3921"
+       y="4299"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#00ffff; "
+       id="rect4353" />
+<!-- Line: box -->    <rect
+       x="8267"
+       y="6614"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#00bf00; "
+       id="rect4355" />
+<!-- Line: box -->    <rect
+       x="8267"
+       y="5905"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#00bf00; "
+       id="rect4357" />
+<!-- Line: box -->    <rect
+       x="3921"
+       y="7700"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#00ffff; "
+       id="rect4359" />
+<!-- Line: box -->    <rect
+       x="3921"
+       y="8645"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#00ffff; "
+       id="rect4361" />
+<!-- Line: box -->    <rect
+       x="5291"
+       y="8220"
+       width="2267"
+       height="425"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect4363" />
+<!-- Line: box -->    <rect
+       x="5291"
+       y="4677"
+       width="2267"
+       height="425"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect4365" />
+<!-- Line: box -->    <rect
+       x="5291"
+       y="6330"
+       width="2267"
+       height="425"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect4367" />
+<!-- Line: box -->    <rect
+       x="3921"
+       y="6661"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#00ffff; "
+       id="rect4369" />
+<!-- Line: box -->    <rect
+       x="5291"
+       y="9732"
+       width="2267"
+       height="425"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#00ffff; "
+       id="rect4371" />
+<!-- Line: box -->    <rect
+       x="1133"
+       y="10771"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect4373" />
+<!-- Line: box -->    <rect
+       x="3543"
+       y="11244"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ff0000; "
+       id="rect4375" />
+<!-- Line: box -->    <rect
+       x="3543"
+       y="10582"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#00ffff; "
+       id="rect4377" />
+<!-- Line: box -->    <rect
+       x="8929"
+       y="10535"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect4379" />
+<!-- Line: box -->    <rect
+       x="3921"
+       y="9685"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#00ffff; "
+       id="rect4381" />
+<!-- Line: box -->    <rect
+       x="8267"
+       y="9637"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#00ffff; "
+       id="rect4383" />
+<!-- Line: box -->    <rect
+       x="8267"
+       y="1086"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#00ffff; "
+       id="rect4385" />
+<!-- Line: box -->    <rect
+       x="8267"
+       y="4251"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#00ffff; "
+       id="rect4387" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5480"
+       y="1464"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4389">_x_post_intercept_frame</text>
+<!-- Line: box -->    <rect
+       x="3826"
+       y="1039"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ff0000; "
+       id="rect4391" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5480"
+       y="2551"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4393">_x_post_frame_copy_down</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5480"
+       y="3496"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4395">_x_post_frame_copy_up</text>
+<!-- Line: box -->    <rect
+       x="3826"
+       y="2125"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ff0000; "
+       id="rect4397" />
+<!-- Line: box -->    <rect
+       x="8220"
+       y="2125"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect4399" />
+<!-- Line: box -->    <rect
+       x="8220"
+       y="3070"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect4401" />
+<!-- Line: box -->    <rect
+       x="3826"
+       y="3070"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ff0000; "
+       id="rect4403" />
+<!-- Line: box -->    <rect
+       x="3826"
+       y="4204"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ff0000; "
+       id="rect4405" />
+<!-- Line: box -->    <rect
+       x="3826"
+       y="7606"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ff0000; "
+       id="rect4407" />
+<!-- Line: box -->    <rect
+       x="3826"
+       y="8551"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ff0000; "
+       id="rect4409" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5480"
+       y="8503"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4411">_x_post_frame_u_turn</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5480"
+       y="4960"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4413">_x_post_frame_copy_down</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5480"
+       y="6614"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4415">_x_post_frame_copy_up</text>
+<!-- Line: box -->    <rect
+       x="3826"
+       y="6566"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ff0000; "
+       id="rect4417" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5480"
+       y="10015"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4419">_x_post_restore_video_frame</text>
+<!-- Line: box -->    <rect
+       x="1039"
+       y="10677"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect4421" />
+<!-- Line: box -->    <rect
+       x="3826"
+       y="9590"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ff0000; "
+       id="rect4423" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4015"
+       y="2551"
+       stroke="#000000"
+       fill="#000000"
+       font-family="Helvetica"
+       font-style="normal"
+       font-weight="bold"
+       font-size="315"
+       text-anchor="start"
+       id="text4425">d</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8503"
+       y="2645"
+       stroke="#000000"
+       fill="#000000"
+       font-family="Helvetica"
+       font-style="normal"
+       font-weight="bold"
+       font-size="315"
+       text-anchor="start"
+       id="text4427">d</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8503"
+       y="3590"
+       stroke="#000000"
+       fill="#000000"
+       font-family="Helvetica"
+       font-style="normal"
+       font-weight="bold"
+       font-size="315"
+       text-anchor="start"
+       id="text4429">d u</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4015"
+       y="3496"
+       stroke="#000000"
+       fill="#000000"
+       font-family="Helvetica"
+       font-style="normal"
+       font-weight="bold"
+       font-size="315"
+       text-anchor="start"
+       id="text4431">d u</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8456"
+       y="5385"
+       stroke="#000000"
+       fill="#000000"
+       font-family="Helvetica"
+       font-style="normal"
+       font-weight="bold"
+       font-size="315"
+       text-anchor="start"
+       id="text4433">d</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4015"
+       y="4629"
+       stroke="#000000"
+       fill="#000000"
+       font-family="Helvetica"
+       font-style="normal"
+       font-weight="bold"
+       font-size="315"
+       text-anchor="start"
+       id="text4435">d</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8456"
+       y="7039"
+       stroke="#000000"
+       fill="#000000"
+       font-family="Helvetica"
+       font-style="normal"
+       font-weight="bold"
+       font-size="315"
+       text-anchor="start"
+       id="text4437">d u</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8456"
+       y="6330"
+       stroke="#000000"
+       fill="#000000"
+       font-family="Helvetica"
+       font-style="normal"
+       font-weight="bold"
+       font-size="315"
+       text-anchor="start"
+       id="text4439">d u</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4015"
+       y="8031"
+       stroke="#000000"
+       fill="#000000"
+       font-family="Helvetica"
+       font-style="normal"
+       font-weight="bold"
+       font-size="315"
+       text-anchor="start"
+       id="text4441">d</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4015"
+       y="8976"
+       stroke="#000000"
+       fill="#000000"
+       font-family="Helvetica"
+       font-style="normal"
+       font-weight="bold"
+       font-size="315"
+       text-anchor="start"
+       id="text4443">d u</text>
+<!-- Line: box -->    <rect
+       x="236"
+       y="661"
+       width="519"
+       height="1133"
+       rx="0"
+       style="stroke:#000000;stroke-width:16; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect4445" />
+<!-- Text -->    <g
+       transform="translate(566,1748) rotate(-90.00021046)"
+       id="g4447">
+      <text
+         xml:space="preserve"
+         x="0"
+         y="0"
+         stroke="#000000"
+         fill="#000000"
+         font-family="DejaVu Sans Condensed"
+         font-style="normal"
+         font-weight="normal"
+         font-size="189"
+         text-anchor="start"
+         id="text4449">interception</text>
+    </g>
+<!-- Line: box -->    <rect
+       x="236"
+       y="2031"
+       width="519"
+       height="1842"
+       rx="0"
+       style="stroke:#000000;stroke-width:16; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect4451" />
+<!-- Text -->    <g
+       transform="translate(566,3543) rotate(-90.00021046)"
+       id="g4453">
+      <text
+         xml:space="preserve"
+         x="0"
+         y="0"
+         stroke="#000000"
+         fill="#000000"
+         font-family="DejaVu Sans Condensed"
+         font-style="normal"
+         font-weight="normal"
+         font-size="189"
+         text-anchor="start"
+         id="text4455">pass through</text>
+    </g>
+<!-- Line: box -->    <rect
+       x="236"
+       y="4110"
+       width="519"
+       height="3212"
+       rx="0"
+       style="stroke:#000000;stroke-width:16; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect4457" />
+<!-- Text -->    <g
+       transform="translate(566,6472) rotate(-90.00021046)"
+       id="g4459">
+      <text
+         xml:space="preserve"
+         x="0"
+         y="0"
+         stroke="#000000"
+         fill="#000000"
+         font-family="DejaVu Sans Condensed"
+         font-style="normal"
+         font-weight="normal"
+         font-size="189"
+         text-anchor="start"
+         id="text4461">modifying a copy</text>
+    </g>
+<!-- Line: box -->    <rect
+       x="236"
+       y="7559"
+       width="519"
+       height="1748"
+       rx="0"
+       style="stroke:#000000;stroke-width:16; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect4463" />
+<!-- Text -->    <g
+       transform="translate(566,9118) rotate(-90.00021046)"
+       id="g4465">
+      <text
+         xml:space="preserve"
+         x="0"
+         y="0"
+         stroke="#000000"
+         fill="#000000"
+         font-family="DejaVu Sans Condensed"
+         font-style="normal"
+         font-weight="normal"
+         font-size="189"
+         text-anchor="start"
+         id="text4467">dead-end draw</text>
+    </g>
+<!-- Line: box -->    <rect
+       x="236"
+       y="9543"
+       width="519"
+       height="850"
+       rx="0"
+       style="stroke:#000000;stroke-width:16; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect4469" />
+<!-- Text -->    <g
+       transform="translate(566,10299) rotate(-90.00021046)"
+       id="g4471">
+      <text
+         xml:space="preserve"
+         x="0"
+         y="0"
+         stroke="#000000"
+         fill="#000000"
+         font-family="DejaVu Sans Condensed"
+         font-style="normal"
+         font-weight="normal"
+         font-size="189"
+         text-anchor="start"
+         id="text4473">freeing</text>
+    </g>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4015"
+       y="6992"
+       stroke="#000000"
+       fill="#000000"
+       font-family="Helvetica"
+       font-style="normal"
+       font-weight="bold"
+       font-size="315"
+       text-anchor="start"
+       id="text4475">d u</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="425"
+       y="11811"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="189"
+       text-anchor="start"
+       id="text4477">frame</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2078"
+       y="11811"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="189"
+       text-anchor="start"
+       id="text4479">frame-&gt;next</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="9118"
+       y="10960"
+       stroke="#000000"
+       fill="#000000"
+       font-family="Helvetica"
+       font-style="normal"
+       font-weight="bold"
+       font-size="315"
+       text-anchor="start"
+       id="text4481">d u</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4015"
+       y="10015"
+       stroke="#000000"
+       fill="#000000"
+       font-family="Helvetica"
+       font-style="normal"
+       font-weight="bold"
+       font-size="315"
+       text-anchor="start"
+       id="text4483">d</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8456"
+       y="10062"
+       stroke="#000000"
+       fill="#000000"
+       font-family="Helvetica"
+       font-style="normal"
+       font-weight="bold"
+       font-size="315"
+       text-anchor="start"
+       id="text4485">d</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6000"
+       y="425"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="252"
+       text-anchor="start"
+       id="text4487">up</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6614"
+       y="425"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="252"
+       text-anchor="start"
+       id="text4489">down</text>
+  </g>
+</svg>

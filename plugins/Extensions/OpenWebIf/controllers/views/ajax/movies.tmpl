@@ -1,0 +1,75 @@
+#from urllib import quote
+<div id="content_main" style="min-height: 500px;">
+	<div id="info">
+		<h3>Movielist</h3>
+		<hr />
+		
+		<div style="width: 100%; text-align: left; margin-bottom: 20px;">
+
+		#set $path=''
+		
+		<span id="moviebuttons">
+			<button onclick="load_maincontent_spin('/ajax/movies?dirname=/'); return false">Root</button>
+			#for $dir in $directory[0:-1].split("/")[1:-1]
+				#set $path += '/' + $dir
+				<button onclick="load_maincontent_spin('/ajax/movies?dirname='+escape('$path'));">$dir</button>
+			#end for
+			#if $directory != '/'
+				<button><span style="color: red; font-weight: bold;">
+					#echo $directory[0:-1].split("/")[-1]
+				</span></button>
+			#end if
+		</span>
+
+		#if $len($bookmarks)
+			<select name="directory" onChange="load_maincontent_spin('/ajax/movies?dirname='+escape(options[selectedIndex].value)); return false;">
+			<option>Subdirs:</option>
+			#for $bookmark in $bookmarks
+				<option value="$directory$bookmark">$bookmark</option>
+			#end for
+			</select>
+		#end if
+		</div>
+
+		<div style="height: 640px; overflow: auto;">
+		#set $count = 0
+		#for $movie in $movies
+			<div class="moviecontainer_main" id="$count">
+				<div class="moviecontainer_left">
+					#if $movie.eventname != ""
+						<div style="padding: 3px;">
+							<span style="color: #176093; font-weight: bold;">$movie.eventname</span><br /> $movie.servicename  $movie.begintime<br /> $movie.length min.
+						</div>
+						<div style="padding: 3px;">
+							<span style="color: #7F8181; font-weight: bold;">$movie.description</span>
+						</div>
+					#else
+						<div style="padding: 3px;">
+							<span style="color: #176093; font-weight: bold;">$movie.filename</span>
+						</div>
+					#end if
+				</div>
+				<div class="moviecontainer_right">
+					<div style="padding: 3px; text-align: right;">
+						<a target="_blank" href='/web/ts.m3u?file=$quote($movie.filename)'>
+						<img align="top" src="../images/ico_stream.png" title="Stream $movie.eventname" border="0">
+						</a>
+						<a href='/file?action=download&file=$quote($movie.filename)'>
+						<img align="top" src="../images/ico_download.png" title="Download $movie.eventname" border="0">
+						</a>
+						<a href='#' onClick="deleteMovie('$quote($movie.serviceref)', '$count'); return false;">
+						<img src="../images/ico_delete.png" title="Delete Movie" border="0"></a>
+						</a>
+					</div>
+				</div>
+				<div style="clear: both;"></div>
+				#set $count += 1
+			</div>
+		#end for
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+\$('#moviebuttons').buttonset();
+</script>

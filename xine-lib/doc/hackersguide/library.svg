@@ -1,0 +1,1732 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Creator: fig2dev Version 3.2 Patchlevel 5 -->
+<!-- CreationDate: Sat Jun  2 20:32:50 2007 -->
+<!-- Magnification: 1.050 -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="12.1in"
+   height="10.7in"
+   viewBox="314 346 14485 12800"
+   id="svg2178"
+   sodipodi:version="0.32"
+   inkscape:version="0.45.1"
+   sodipodi:docname="library.svg"
+   sodipodi:docbase="/home/flame/devel/repos/xine/xine-lib-1.2-newdocbook/doc/hackersguide"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <metadata
+     id="metadata2549">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs2547" />
+  <sodipodi:namedview
+     inkscape:window-height="611"
+     inkscape:window-width="722"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="1"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="0.42263759"
+     inkscape:cx="544.5"
+     inkscape:cy="557.3407"
+     inkscape:window-x="552"
+     inkscape:window-y="330"
+     inkscape:current-layer="svg2178" />
+  <rect
+     style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     id="rect2569"
+     width="14823.248"
+     height="13218.187"
+     x="125.1688"
+     y="152.64401" />
+  <g
+     style="stroke-width:.025in; stroke:black; fill:none"
+     id="g2180">
+<!-- Line -->    <polyline
+       points="944,472 1133,472 1133,879 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2182" />
+<!-- Arrowhead on XXXpoint 1133 472 - 1133 913-->    <polyline
+       points="1102 769 1133 895 1165 769 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline2184" />
+<!-- Line -->    <polyline
+       points="1228,897 1228,472 1399,472 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2186" />
+<!-- Arrowhead on XXXpoint 1228 472 - 1433 472-->    <polyline
+       points="1289 503 1415 472 1289 440 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline2188" />
+<!-- Line: box -->    <rect
+       x="1984"
+       y="7842"
+       width="1511"
+       height="519"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect2190" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2314"
+       y="8125"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2192">xine_stream_t</text>
+<!-- Line -->    <polygon
+       points="3496,8078 3685,7700 4393,7700 4582,8078 4393,8456 3685,8456 3496,8078 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polygon2194" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="3590"
+       y="8125"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2196">xine_post_wire</text>
+<!-- Line -->    <polyline
+       points="5007,7086 5196,7086 5196,7493 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2198" />
+<!-- Arrowhead on XXXpoint 5196 7086 - 5196 7527-->    <polyline
+       points="5165 7383 5196 7509 5228 7383 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline2200" />
+<!-- Line -->    <polyline
+       points="5291,7511 5291,7086 5462,7086 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2202" />
+<!-- Arrowhead on XXXpoint 5291 7086 - 5496 7086-->    <polyline
+       points="5352 7118 5478 7086 5352 7055 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline2204" />
+<!-- Line -->    <polyline
+       points="4866,7795 5716,7795 5716,7511 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2206" />
+<!-- Line: box -->    <rect
+       x="4866"
+       y="7511"
+       width="2551"
+       height="1133"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect2208" />
+<!-- Line -->    <polyline
+       points="4866,8645 4582,8645 4582,7511 4866,7511 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2210" />
+<!-- Line -->    <polyline
+       points="7417,8645 7700,8645 7700,7511 7417,7511 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2212" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4110"
+       y="6897"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2214">xine_list_post_plugins_typed</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4110"
+       y="6661"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2216">xine_list_post_plugins</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5527"
+       y="7133"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2218">xine_post_dispose</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4913"
+       y="7700"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2220">xine_post_t</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4110"
+       y="7133"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2222">xine_post_init</text>
+<!-- Text -->    <g
+       transform="translate(4771,8503) rotate(-90.00021046)"
+       id="g2224">
+      <text
+         xml:space="preserve"
+         x="0"
+         y="0"
+         stroke="#000000"
+         fill="#000000"
+         font-family="DejaVu Sans Condensed"
+         font-style="normal"
+         font-weight="normal"
+         font-size="139"
+         text-anchor="start"
+         id="text2226">xine_post_in_t</text>
+    </g>
+<!-- Text -->    <g
+       transform="translate(7606,8551) rotate(-90.00021046)"
+       id="g2228">
+      <text
+         xml:space="preserve"
+         x="0"
+         y="0"
+         stroke="#000000"
+         fill="#000000"
+         font-family="DejaVu Sans Condensed"
+         font-style="normal"
+         font-weight="normal"
+         font-size="139"
+         text-anchor="start"
+         id="text2230">xine_post_out_t</text>
+    </g>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6377"
+       y="8267"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2232">xine_post_output</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4913"
+       y="8267"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2234">xine_post_list_outputs</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4913"
+       y="8031"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2236">xine_post_list_inputs</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6377"
+       y="8031"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2238">xine_post_input</text>
+<!-- Line -->    <polygon
+       points="7700,8078 7889,7700 8598,7700 8787,8078 8598,8456 7889,8456 7700,8078 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polygon2240" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7795"
+       y="8125"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2242">xine_post_wire</text>
+<!-- Line: box -->    <rect
+       x="8808"
+       y="7808"
+       width="1301"
+       height="506"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect2244" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="9139"
+       y="8092"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2246">xine_post_t</text>
+<!-- Line -->    <polygon
+       points="10110,8078 10299,7700 11905,7700 12094,8078 11905,8456 10299,8456 10110,8078 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polygon2248" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10251"
+       y="8125"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2250">xine_post_wire_video_port</text>
+<!-- Line: box -->    <rect
+       x="12115"
+       y="7808"
+       width="1301"
+       height="506"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect2252" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="12236"
+       y="8092"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2254">xine_video_port_t</text>
+<!-- Line -->    <polygon
+       points="2740,7842 2362,7653 2362,6047 2740,5858 3118,6047 3118,7653 2740,7842 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polygon2256" />
+<!-- Text -->    <g
+       transform="translate(2787,7700) rotate(-90.00021046)"
+       id="g2258">
+      <text
+         xml:space="preserve"
+         x="0"
+         y="0"
+         stroke="#000000"
+         fill="#000000"
+         font-family="DejaVu Sans Condensed"
+         font-style="normal"
+         font-weight="normal"
+         font-size="139"
+         text-anchor="start"
+         id="text2260">xine_stream_master_slave</text>
+    </g>
+<!-- Line -->    <polyline
+       points="12236,2976 12425,2976 12425,3383 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2262" />
+<!-- Arrowhead on XXXpoint 12425 2976 - 12425 3417-->    <polyline
+       points="12393 3273 12425 3399 12456 3273 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline2264" />
+<!-- Line -->    <polyline
+       points="12519,3401 12519,2976 12690,2976 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2266" />
+<!-- Arrowhead on XXXpoint 12519 2976 - 12724 2976-->    <polyline
+       points="12580 3007 12706 2976 12580 2944 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline2268" />
+<!-- Line -->    <polyline
+       points="12094,3685 13322,3685 13322,3401 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2270" />
+<!-- Line: box -->    <rect
+       x="12094"
+       y="3401"
+       width="2173"
+       height="803"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect2272" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10724"
+       y="2834"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2274">xine_list_video_output_plugins</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="12755"
+       y="3023"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2276">xine_close_video_driver</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10724"
+       y="3023"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2278">xine_open_video_driver</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="12141"
+       y="3590"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2280">xine_video_port_t</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="12236"
+       y="3968"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2282">xine_port_send_gui_data</text>
+<!-- Line -->    <polygon
+       points="10110,5622 10299,5244 11905,5244 12094,5622 11905,6000 10299,6000 10110,5622 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polygon2284" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10251"
+       y="5669"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2286">xine_post_wire_audio_port</text>
+<!-- Line: box -->    <rect
+       x="8808"
+       y="5352"
+       width="1301"
+       height="506"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect2288" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="9139"
+       y="5635"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2290">xine_post_t</text>
+<!-- Line -->    <polyline
+       points="12236,4677 12425,4677 12425,5084 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2292" />
+<!-- Arrowhead on XXXpoint 12425 4677 - 12425 5118-->    <polyline
+       points="12393 4974 12425 5100 12456 4974 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline2294" />
+<!-- Line -->    <polyline
+       points="12519,5102 12519,4677 12690,4677 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2296" />
+<!-- Arrowhead on XXXpoint 12519 4677 - 12724 4677-->    <polyline
+       points="12580 4708 12706 4677 12580 4645 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline2298" />
+<!-- Line -->    <polyline
+       points="12094,5385 13322,5385 13322,5102 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2300" />
+<!-- Line: box -->    <rect
+       x="12094"
+       y="5102"
+       width="2173"
+       height="803"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect2302" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10724"
+       y="4535"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2304">xine_list_audio_output_plugins</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="12755"
+       y="4724"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2306">xine_close_audio_driver</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10724"
+       y="4724"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2308">xine_open_audio_driver</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="12141"
+       y="5291"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2310">xine_audio_port_t</text>
+<!-- Line -->    <polyline
+       points="2125,3307 2314,3307 2314,3714 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2312" />
+<!-- Arrowhead on XXXpoint 2314 3307 - 2314 3748-->    <polyline
+       points="2283 3604 2314 3730 2346 3604 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline2314" />
+<!-- Line -->    <polyline
+       points="2409,3732 2409,3307 2580,3307 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2316" />
+<!-- Arrowhead on XXXpoint 2409 3307 - 2614 3307-->    <polyline
+       points="2470 3338 2596 3307 2470 3275 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline2318" />
+<!-- Text -->    <g
+       transform="translate(7559,4771) rotate(-90.00021046)"
+       id="g2320">
+      <text
+         xml:space="preserve"
+         x="0"
+         y="0"
+         stroke="#000000"
+         fill="#000000"
+         font-family="DejaVu Sans Condensed"
+         font-style="normal"
+         font-weight="normal"
+         font-size="139"
+         text-anchor="start"
+         id="text2322">xine_post_out_t</text>
+    </g>
+<!-- Text -->    <g
+       transform="translate(7559,5811) rotate(-90.00021046)"
+       id="g2324">
+      <text
+         xml:space="preserve"
+         x="0"
+         y="0"
+         stroke="#000000"
+         fill="#000000"
+         font-family="DejaVu Sans Condensed"
+         font-style="normal"
+         font-weight="normal"
+         font-size="139"
+         text-anchor="start"
+         id="text2326">xine_post_out_t</text>
+    </g>
+<!-- Line -->    <polyline
+       points="7370,4818 7653,4818 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2328" />
+<!-- Line -->    <polyline
+       points="7370,5858 7653,5858 7653,3732 7370,3732 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2330" />
+<!-- Line -->    <polyline
+       points="1984,4015 2976,4015 2976,3732 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2332" />
+<!-- Line: box -->    <rect
+       x="1984"
+       y="3732"
+       width="5385"
+       height="2125"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect2334" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="3165"
+       y="4771"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2336">xine_get_error</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="3165"
+       y="5007"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2338">xine_get_status</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="3165"
+       y="5244"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2340">xine_get_pos_length</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="3165"
+       y="5480"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2342">xine_get_audio_lang</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="3165"
+       y="5716"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2344">xine_get_spu_lang</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2220"
+       y="4299"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2346">xine_open</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2220"
+       y="4535"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2348">xine_play</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2220"
+       y="4771"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2350">xine_stop</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2220"
+       y="5007"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2352">xine_close</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2220"
+       y="5244"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2354">xine_eject</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="3165"
+       y="4299"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2356">xine_set_param</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="3165"
+       y="4535"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2358">xine_get_param</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2645"
+       y="3354"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2360">xine_stream_dispose</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2031"
+       y="3921"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2362">xine_stream_t</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="992"
+       y="3354"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2364">xine_stream_new</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5811"
+       y="4299"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2366">xine_get_current_frame</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5811"
+       y="4535"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2368">xine_get_current_vpts</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5811"
+       y="4771"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2370">xine_trick_mode</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5811"
+       y="5244"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2372">xine_get_audio_source</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5811"
+       y="5480"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2374">xine_get_video_source</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4393"
+       y="4299"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2376">xine_get_stream_info</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4393"
+       y="4535"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2378">xine_get_meta_info</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="992"
+       y="1464"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2380">xine_init</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="992"
+       y="1700"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2382">xine_engine_set_param</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="992"
+       y="1937"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2384">xine_engine_get_param</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6141"
+       y="1464"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2386">xine_get_browse_mrls</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6141"
+       y="1700"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2388">xine_get_autoplay_input_plugin_ids</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6141"
+       y="1937"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2390">xine_get_autoplay_mrls</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6141"
+       y="2173"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2392">xine_get_file_extensions</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6141"
+       y="2409"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2394">xine_get_mime_types</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6141"
+       y="2645"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2396">xine_get_demux_for_mime_type</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6141"
+       y="2881"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2398">xine_get_input_plugin_description</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4157"
+       y="1464"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2400">xine_config_register_*</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4157"
+       y="1700"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2402">xine_config_get_first_entry</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4157"
+       y="1937"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2404">xine_config_get_next_entry</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4157"
+       y="2173"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2406">xine_config_lookup_entry</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4157"
+       y="2409"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2408">xine_config_update_entry</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2787"
+       y="1464"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2410">xine_config_load</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2787"
+       y="1700"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2412">xine_config_save</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2787"
+       y="1937"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2414">xine_config_reset</text>
+<!-- Line -->    <polyline
+       points="4204,10204 4393,10204 4393,10612 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2416" />
+<!-- Arrowhead on XXXpoint 4393 10204 - 4393 10645-->    <polyline
+       points="4362 10501 4393 10627 4425 10501 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline2418" />
+<!-- Line -->    <polyline
+       points="4488,10629 4488,10204 4659,10204 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2420" />
+<!-- Arrowhead on XXXpoint 4488 10204 - 4692 10204-->    <polyline
+       points="4549 10236 4675 10204 4549 10173 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline2422" />
+<!-- Line -->    <polyline
+       points="4960,11149 5149,11149 5149,11556 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2424" />
+<!-- Arrowhead on XXXpoint 5149 11149 - 5149 11590-->    <polyline
+       points="5118 11446 5149 11572 5181 11446 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline2426" />
+<!-- Line -->    <polyline
+       points="5244,11574 5244,11149 5415,11149 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2428" />
+<!-- Arrowhead on XXXpoint 5244 11149 - 5448 11149-->    <polyline
+       points="5304 11181 5430 11149 5304 11118 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline2430" />
+<!-- Line: box -->    <rect
+       x="4677"
+       y="11574"
+       width="1039"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect2432" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4818"
+       y="11763"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2434">xine_event_t</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5527"
+       y="11196"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2436">xine_event_free</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4015"
+       y="11149"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2438">xine_event_get</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4015"
+       y="11291"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2440">xine_event_wait</text>
+<!-- Line -->    <polyline
+       points="3874,10913 5338,10913 5338,10629 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2442" />
+<!-- Line: box -->    <rect
+       x="3874"
+       y="10629"
+       width="2787"
+       height="1653"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect2444" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2787"
+       y="10251"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2446">xine_event_new_queue</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4771"
+       y="10251"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2448">xine_event_dispose_queue</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="3968"
+       y="10818"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2450">xine_event_queue_t</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4015"
+       y="12141"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2452">xine_event_create_listener_thread</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2787"
+       y="12708"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2454">xine_event_send</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8834"
+       y="1464"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="bold"
+       font-size="139"
+       text-anchor="start"
+       id="text2456">xine_list_input_plugins</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8834"
+       y="1700"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="bold"
+       font-size="139"
+       text-anchor="start"
+       id="text2458">xine_list_demuxer_plugins</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8834"
+       y="1937"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="bold"
+       font-size="139"
+       text-anchor="start"
+       id="text2460">xine_list_video_decoder_plugins</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8834"
+       y="2173"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="bold"
+       font-size="139"
+       text-anchor="start"
+       id="text2462">xine_list_audio_decoder_plugins</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8834"
+       y="2409"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="bold"
+       font-size="139"
+       text-anchor="start"
+       id="text2464">xine_list_spu_plugins</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="11669"
+       y="1464"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2466">xine_get_log_section_count</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="11669"
+       y="1700"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2468">xine_get_log_names</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="11669"
+       y="1937"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2470">xine_log</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="11669"
+       y="2173"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2472">xine_get_log</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="11669"
+       y="2409"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2474">xine_register_log_cb</text>
+<!-- Line -->    <polyline
+       points="8173,10204 8362,10204 8362,10612 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2476" />
+<!-- Arrowhead on XXXpoint 8362 10204 - 8362 10645-->    <polyline
+       points="8330 10501 8362 10627 8393 10501 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline2478" />
+<!-- Line -->    <polyline
+       points="8456,10629 8456,10204 8627,10204 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2480" />
+<!-- Arrowhead on XXXpoint 8456 10204 - 8661 10204-->    <polyline
+       points="8517 10236 8643 10204 8517 10173 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline2482" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7984"
+       y="11149"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2484">xine_osd_draw_*</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7984"
+       y="12094"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2486">xine_osd_set_encoding</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7984"
+       y="11858"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2488">xine_osd_set_font</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7984"
+       y="11622"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2490">xine_osd_get_text_size</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7984"
+       y="12330"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2492">xine_osd_set_position</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7984"
+       y="11385"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2494">xine_osd_get_capabilities</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="9874"
+       y="10913"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2496">xine_osd_show</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="9874"
+       y="12094"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2498">xine_osd_get_palette</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="9874"
+       y="11858"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2500">xine_osd_set_text_palette</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="9874"
+       y="11622"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2502">xine_osd_clear</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="9874"
+       y="11385"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2504">xine_osd_hide</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="9874"
+       y="11149"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2506">xine_osd_show_unscaled</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="9874"
+       y="12330"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2508">xine_osd_set_palette</text>
+<!-- Line -->    <polyline
+       points="7842,10913 8740,10913 8740,10629 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2510" />
+<!-- Line: box -->    <rect
+       x="7842"
+       y="10629"
+       width="3921"
+       height="1889"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect2512" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8740"
+       y="10251"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2514">xine_osd_free</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7937"
+       y="10818"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2516">xine_osd_t</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7275"
+       y="10251"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2518">xine_osd_new</text>
+<!-- Line -->    <polyline
+       points="803,1181 1417,1181 1417,897 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2520" />
+<!-- Line: box -->    <rect
+       x="803"
+       y="897"
+       width="13984"
+       height="8125"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect2522" />
+<!-- Line -->    <polygon
+       points="7653,3968 7842,3590 11905,3590 12094,3968 11905,4346 7842,4346 7653,3968 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polygon2524" />
+<!-- Line -->    <polygon
+       points="7653,5622 7842,5244 8598,5244 8787,5622 8598,6000 7842,6000 7653,5622 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polygon2526" />
+<!-- Line -->    <polyline
+       points="2645,9448 1984,7842 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:10 31;"
+       id="polyline2528" />
+<!-- Line -->    <polyline
+       points="1984,8362 2645,13133 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:10 31;"
+       id="polyline2530" />
+<!-- Line -->    <polyline
+       points="2645,9732 3732,9732 3732,9448 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline2532" />
+<!-- Line: box -->    <rect
+       x="2645"
+       y="9448"
+       width="9685"
+       height="3685"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect2534" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="897"
+       y="1086"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2536">xine_t</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="1464"
+       y="519"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2538">xine_exit</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="330"
+       y="519"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2540">xine_new</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2929"
+       y="519"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2542">xine_health_check</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2740"
+       y="9637"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text2544">xine_stream_t</text>
+  </g>
+</svg>

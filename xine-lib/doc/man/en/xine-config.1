@@ -1,0 +1,79 @@
+.de TQ
+.br
+.ns
+.TP \\$1
+..
+.TH XINE 1 2001-08-28 "The xine project"
+.SH NAME
+xine\-config - script to get information about the installed version of libxine
+.SH SYNOPSIS
+.B xine\-config
+[\-\-prefix\fI[=DIR]\fP] [\-\-exec\-prefix\fI[=DIR]\fP] [\-\-version]
+[\-\-libs] [\-\-cflags] [\-\-objcflags]
+[\-\-plugindir] [\-\-datadir] [\-\-scriptdir] [\-\-localedir]
+.SH DESCRIPTION
+.PP
+\fIxine\-config is DEPRECATED. Use pkg\-config instead.\fP
+.PP
+\fIxine\-config\fP is a tool that is used to determine
+the compiler and linker flags that should be used to compile
+and link programs that use \fIlibxine\fP. It can also be used to determine
+the directories where \fIlibxine\fP expects plugins.
+.SH OPTIONS
+\fIxine\-config\fP accepts the following options, passing them on (possibly
+modified) to \fIpkg\-config libxine\fP:
+.TP 8
+.B  \-\-version
+\-\-modversion
+.br
+Print the currently installed version of \fIlibxine\fP on the standard output.
+.TP 8
+.B  \-\-libs
+.TQ 8
+.B  \-\-cflags
+.TQ 8
+.B  \-\-objcflags
+Passed on unmodified.
+.br
+Print the compiler flags (for C and Objective C, respectively) that are
+necessary to compile a program that uses \fIlibxine\fP.
+.TP 8
+.B  \-\-bindir
+.TQ 8
+.B  \-\-plugindir
+.TQ 8
+.B  \-\-datadir
+.TQ 8
+.B  \-\-scriptdir
+.TQ 8
+.B  \-\-localedir
+\-\-variable=...
+.br
+Print the directory where, respectively, \fIlibxine\fP binaries, plugins,
+data files, scripts and locale data are stored/expected.
+.TP 8
+.B  \-\-prefix=PREFIX
+\-\-define\-variable=prefix=PREFIX
+.br
+If specified, use PREFIX instead of the installation prefix that \fIxine-lib\fP
+was built with. This option is also used for the exec prefix if
+\-\-exec\-prefix was not specified.
+
+.TP 8
+.B  \-\-exec\-prefix=PREFIX
+\-\-define\-variable=exec_prefix=PREFIX
+.br
+If specified, use PREFIX instead of the installation exec prefix that
+\fIxine-lib\fP was built with.
+.SH SEE ALSO
+.BR xine-lib (3),
+.BR xine (1)
+.SH COPYRIGHT
+Copyright \(co 2001 Siggi Langauf, \(co 2001-2008 the xine project.
+Based on the man page for gtk-config, \(co 1998 Owen Taylor.
+
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted,
+provided that the above copyright notice appear in all copies and that
+both that copyright notice and this permission notice appear in
+supporting documentation.

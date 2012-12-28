@@ -1,0 +1,185 @@
+
+   ----------------------
+            xine
+   ----------------------
+
+     a free video player
+
+
+Introduction
+============
+
+This documentation is intended for users of a dxr3 decoder card
+from creative labs or a hollywood plus decoder card from sigma
+designs.
+
+This version of xine contains a plugin for the mentioned hardware
+decoders "out of the box". The missing part is the linux kernel
+driver. The driver can be obtained from the main dxr3/hw+ linux
+development site at
+
+	http://dxr3.sourceforge.net/
+
+The various release formats (tarball, RPMs) are listed on
+
+	http://dxr3.sourceforge.net/download.html
+
+As setting up the dxr3/hw+ driver is a little bit tricky, please
+consult also the HOWTO:
+
+	http://dxr3.sourceforge.net/howto.html
+
+The xine dxr3 plugin requires at least the version
+em8300-0.8.1 of the linux drivers.
+
+Additional information on using xine with the dxr3 and on how to
+setup the kernel module along with precompiled RPMs can be found
+here:
+	http://www.amalthea.de/xine/
+
+
+XINE dxr3 plugin
+=================
+
+There are two different ways in which xine can make use of the dxr3
+card.
+
+1. mpeg-1/mpeg-2 (DVD, VCD, ...) decoding and displaying.
+
+This is the normal use.  Instead of doing the mpeg decoding in
+software, xine sets up the display (TV or overlay) and sends the mpeg
+data via the kernel driver to the mpeg decoder on the dxr3 card, very
+much like the Windows player that you problably got with the card. In
+this mode, you should be using the dxr3 video decoder plugin together
+with the dxr3 video out plugin.
+
+Xine should select the dxr3 video decoder plugin automatically when it
+encounters an mpeg stream, but it is possible it does not use the dxr3
+video out plugin by default. In that case, start xine with the
+"-V dxr3" argument to specify the dxr3 video out plugin. If you use
+another video out driver, such as Xv or XShm, xine won't be able
+to use the mpeg decoding capability of the dxr3 hardware and will
+use libmpeg2 instead.
+
+Here's a short overview what happens when you play a dvd with xine
+using the dxr3 video out driver:
+
+DVD -> split mpeg video and audio and audio streams
+-> send mpeg video to dxr3 -> image appears on screen
+
+2. displaying non-mpeg video on dxr3 hardware.
+
+Non-mpeg video may be AVI, quicktime, windows media files or whatever
+else xine can decode.
+
+This option must be compiled in and requires a supported mpeg encoder.
+At the moment there are three:
+- libavcodec from xine-lib's ffmpeg plugin (good quality, quite fast)
+- libfame from fame.sourceforge.net (very fast, good quality)
+  (currently the 0.9 versions of libfame don't work, use the 0.8 versions)
+- librte (version 0.4) from zapping.sourceforge.net (fast, very good quality)
+If configure finds one or both it will compile in encoding support into
+the dxr3 driver.
+
+In order to use this driver for output instead of, say, Xv, just start
+xine with the command line option "-V dxr3", for example
+% xine -V dxr3 my_movie.avi
+
+Unlike in case 1), where the card does the video decoding, in this
+case Xine does the decoding in software, as usual, and sends the
+decompressed image to the video out driver.  The dxr3 video out
+driver encodes, in real time, this image as an mpeg-1 intra frame and
+sends it to the mpeg decoder on the card.
+
+Using this trick, we can display arbitrary video formats via the
+tv out port of the dxr3 card. Nifty huh? The only downside is that
+it requires extra computational power, because we have to both
+decode the original video and encode to mpeg-1 in software. The
+cpu power needed depends of course on the resolution and the source
+format, but as a rule of thumb it is recommended to do this on a
+system with at least 128 MB of RAM and a P-III/Athlon at 800 MHz.
+
+Here's an overview what happens when you play an AVI this way
+(compare this with the previous overview!)
+
+-> split video and audio streams -> decode video stream
+-> encode video as mpeg-1 -> send mpeg-1 stream to dxr3
+-> image appears on screen
+
+
+XINE configuration
+==================
+
+The dxr3 video driver can be forced using the "-V dxr3"
+command line option. Only the tvmode value has to be edited
+if the default driver setting is not correct. Of course you can also
+use xine-ui's setup dialog to edit your configuration. Have a look
+at the DXR3 section of the configuration.
+
+Here are some additional settings interesting for the DXR3:
+
+video.driver:
+	dxr3	The dxr3 video driver does all the necessary card setup
+		and the mpeg encoding when playing non-mpeg video.
+		(see above)
+
+audio.driver:
+	oss	The em8300 audio output is available as an usual
+		OSS device. Therefore the audio driver must be
+		set to oss. Can also be specified using "-A oss"
+		on the command line.
+
+audio.device.oss_device_number:
+	0-16	Machines with a dxr3 installed often have a usual
+		soundcard too. If audio playback occurs on the
+		wrong device, the demanded device can be set using
+		this option.
+
+engine.decoder_priorities.dxr3-mpeg2:
+	10	Priority of the dxr3 video decoder plugin. <5 means
+		that hardware decoding by the card will be disabled
+		and libmpeg2 will be used instead. Therefore all video
+		material including mpeg will pass the software
+		decoding and mpeg re-encoding stages.
+		(see also above explanation of the encoding mode)
+
+
+Zooming Feature (TVout Only)
+============================
+Pressing the 'z' key enables another tv-only mode which zooms into the
+centre of a 16:9 video to display much smaller (or none) black bars
+top & bottom.  It crops the video on the left and right sides to
+maintain the correct aspect ratio. Use SHIFT-z to disable.
+
+
+TV mode Cycling Feature
+======================
+Pressing CTRL-o repeatedly will allow you to cycle between tv modes PAL,
+PAL60, & NTSC.  The format selected will only remain valid for the
+current xine session, on startup the tv mode will revert to the default
+in .xine/config
+
+
+VGA overlay feature
+===================
+
+In previous versions of xine support, one had to use dxr3view in order
+to use the em8300 overlay mechanism. Now, since the xine 0.5 version,
+it is possible to output the em8300 overlay directly in the video
+out window.
+
+In order to activate it, "dxr3.output.mode" must be set to "overlay".
+But it won't work until the old dxr3view works too (just a check). Before
+a first use, "autocal" has to be run. This will store the right overlay
+parameters in "~/.overlay". For more information, please consult the
+dxr3 howto too.
+
+As of version 0.9.5, you can now switch between overlay and tv-out modes
+on-the-fly, simply by hiding the video_out window ('h' key by default,
+see the README file).  If you want to start xine with video on the tv,
+you can run xine with the -H option to auto-hide the vo window, instead
+of changing the configuration (although you can still do that instead if you
+prefer, of course).
+
+Have a look at the previous explained configuration options dxr3.output.keycolor
+and dxr3.output.keycolor_interval too.

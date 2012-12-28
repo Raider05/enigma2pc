@@ -1,0 +1,39 @@
+.TH XINE 1 2001-08-28 "The xine project"
+.SH NAME
+@XL@ - get supported filetype information from xine-lib
+.SH SYNOPSIS
+.B @XL@
+[\fPoptions...\fI]
+.SH DESCRIPTION
+.PP
+\fI@XL@\fP is a tool that is used to list the MIME type and filename
+extension information known and supported by the installed \fIxine-lib\fP.
+It is of use in filling in MIME information in front ends' desktop files.
+.
+.SH OPTIONS
+\fI@XL@\fP accepts the following options:
+.TP 8
+.B \-m
+.B \-\-mime\-types
+List the MIME types known to \fIxine-lib\fP. (This is the default action.)
+.TP 8
+.B \-e
+.B \-\-extensions
+List the file types (filename extensions) known to \fIxine-lib\fP.
+.TP 8
+.B \-a
+.B \-\-all
+List the MIME types known to \fIxine-lib\fP, along with their filename
+extensions and descriptions.
+.TP 8
+.B \-p
+.B \-\-pretty\-print
+Add line feeds; print each item on a line of its own.
+.SH COPYRIGHT
+Copyright \(co 2008 the xine project.
+
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted, provided
+that the above copyright notice appear in all copies and that both that
+copyright notice and this permission notice appear in supporting
+documentation.

@@ -1,0 +1,34 @@
+# oscam.server generated automatically by Streamboard OSCAM 1.20-unstable_svn build #6324
+# Read more: http://streamboard.gmc.to/svn/oscam/trunk/Distribution/doc/txt/oscam.server.txt
+
+# Example config for NTV+ and Tricolor
+
+[reader]
+label                         = view-camd
+protocol                      = cs378x
+enable                        = 1
+device                        = IP_SERVER,PORT
+key                           = 0102030405060708091011121314
+user                          = Username
+password                      = Password
+inactivitytimeout             = 2
+reconnecttimeout              = 1
+caid                          = 0500,4AE1
+ident                         = 0500:030600,040600;4AE1:000000
+group                         = 1
+
+
+[reader]
+label                         = view-camd-fall
+enable                        = 0
+protocol                      = cs378x
+device                        = IP_SERVER_FALLBACK,PORT
+key                           = 0102030405060708091011121314
+user                          = Username
+password                      = Password
+inactivitytimeout             = 2
+reconnecttimeout              = 1
+fallback                      = 1
+caid                          = 0500,4AE1
+ident                         = 0500:030600,040600;4AE1:000000
+group                         = 1

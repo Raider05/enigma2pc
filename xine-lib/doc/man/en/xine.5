@@ -1,0 +1,364 @@
+.\" -*-Nroff-*-
+.\""
+.de Vb \" Begin verbatim text
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve \" End verbatim text
+.ft R
+
+.fi
+..
+.TH XINE 5 2005-06-15 "The xine project"
+.\" NAME should be all caps, SECTION should be 1-8, maybe w/ subsection
+.\" other parms are allowed: see man(7), man(1)
+.\""
+.SH NAME
+xine \- a free video player
+.SH MRL (media resource locator)
+MRLs are similar to URLs in your web browser. They describe the media
+to read from. Valid MRLs may be plain file names or one of the following
+(see also the notes below):
+.TP
+\(bu Filesystem:
+.br
+.BI file: <path>
+.br
+.BI fifo: <path>
+.br
+.BI stdin:/
+.LP
+.TP
+\(bu CD and DVD:
+.br
+.BI dvd:/[ device_name ][/ title [. part ]]
+.br
+.BI dvd:/ DVD_image_file [/ title [. part ]]
+.br
+.BI dvd:/ DVD_directory [/ title [. part ]]
+.br
+	(use the path of the directory which contains VIDEO_TS)
+.br
+.BI vcd://[ CD_image_or_device_name ][@[ letter ] number ]
+.br
+.BI vcdo:// track_number
+.br
+.BI cdda:/[ device ][/ track_number ]
+.LP
+.TP
+\(bu Video devices:
+.br
+.BI v4l://[ tuner_device / frequency ]
+.br
+.BI v4l2:// tuner_device
+.br
+.BI dvb:// channel_number
+.br
+	(nth channel in your channels.conf)
+.br
+.BI dvb:// channel_name
+.br
+.BI dvbc:// channel_name : tuning_parameters
+.br
+.BI dvbs:// channel_name : tuning_parameters
+.br
+.BI dvbt:// channel_name : tuning_parameters
+.br
+.BI dvba:// channel_name : tuning_parameters
+.br
+.BI pvr:/ tmp_files_path ! saved_files_path ! max_page_age
+.br
+	(for WinTV PVR 250 and 350)
+.LP
+.TP
+\(bu Network:
+.br
+.BI http:// host...
+.br
+.BI tcp:// host [: port ]
+.br
+.BI udp:// host [: port [?iface= interface ]]
+.br
+.BI rtp:// host [: port [?iface= interface ]]
+.br
+	(default port for tcp, udp and rtp is 7658)
+.br
+.BI smb://...
+.br
+.BI mms:// host...
+.br
+.BI pnm:// host...
+.br
+.BI rtsp:// host... "\fR  (requires Real codecs)"
+.br
+.LP
+Additional input plugins will provide additional MRL types. The ones listed
+above are available with stock libxine.
+
+\fBNOTE:\fP where a file name is required, the \fIfull path must be
+provided\fP - from a shell, you can normally use \fB"$PWD/file"\fP or
+\fB"$(pwd)/file"\fP or \fB"\`pwd\`/file"\fP if the file is in the current
+directory. (Which one depends on your shell; all three work in bash. Also,
+normal URL encoding rules apply; `%', in particular, must be encoded as `%25'.)
+
+As of xine-lib 1.1.3, the DVD title number may be 0 (select navigation) and
+the chapter number may be 0 (full title).
+
+.SS VCD MRL Syntax
+A simple \fBvcd:/\fP runs the default item (e.g. perhaps track 1 or entry 0)
+using the default VCD device (perhaps /dev/cdrom). Both the default item and
+default device are user-configurable.
+
+It is however also possible to specify both Video CD device/filename and item
+explicitly in the MRL.
+
+For example \fBvcd:/dev/dvd\fP specifies the default entry using device
+/dev/dvd which might useful if this is your DVD which is different than your
+CD-ROM device and your DVD drive can play CD's. And
+\fBvcd://test_svcd_ntsc.cue\fP specifies the cue file for CD image on disk.
+(test_svcd_ntsc.bin is the corresponding bin file, but using that won't
+work.)
+
+After the optional device name or file name, you can name the kind of unit,
+preceded by a colon. An MRL which ends in a colon is like not adding it at
+all: the default entry type and number is used. Items come in 4 flavours:
+"\fBTrack\fP", "\fBEntry\fP", "\fBPlayback\fP" and "\fBSegment\fP". These
+units are indicated with the capital first letter of each type: \fBT\fP,
+\fBE\fP, \fBP\fP, \fBS\fP, \fBs\fP. An uppercase \fBS\fP in the MRL display
+indicates a NTSC segment while a lowercase \fBs\fP indicates a PAL segment.
+However, when you enter an MRL, the case of these letters is insignificant.
+
+Depending on the Video CD, you might not have any playable segments
+(\fBS\fP,\fBs\fP) or playback control (\fBP\fP).  If you give a MRL that
+refers to a playback control entry but there is no playback control, your
+playback number will silently be converted into the corresponding entry
+number.
+
+You can configure various things that affect MRLs are selected when there is
+some ambiguity in the MRL name. \fImedia.vcd.autoplay\fP sets what kind of
+unit to to use in a MRL is none is given.  Another configuration setting,
+\fIvcd.device\fP, determines what device to use if that part is not given.
+When you hit the VCD button, that is equivalent to entering \fBvcd:/\fP and
+thus these two configuration settings are used to expand the MRL.
+
+Some examples of MRLs are given below. In the examples, we assume the
+following configuration settings:
+
+.TP
+.BI vcd://
+Play (navigate) default item (in this case Entry ID 0) from the default
+device (in this case set to /dev/cdrom)
+.TP
+.BI vcd://@
+Same as above
+.TP
+.BI vcd:///dev/cdrom@
+Same effect as above since the default device is set to /dev/cdrom.
+.TP
+.BI vcd:///dev/cdrom@E0
+Same as above. But note that this is because we have autoplay:entry which is
+no longer the default value.
+.TP
+.BI vcd:///dev/cdrom2@
+Play (navigate) the default item of /dev/cdrom2
+.TP
+.BI vcd:///dev/cdrom2
+should be same as above but is currently broken?
+.TP
+.BI vcd:///dev/cdrom2@T1
+Play Track 1 from /dev/cdrom2
+.TP
+.BI vcd:///dev/cdrom@S1
+Play segment 1 from /dev/cdrom. This assumes that there *is* a segment 1.
+Check the MRL list to see if that is the case.
+.TP
+.BI vcd://@P1
+Play playlist item 1 from default device. If there is no playback control,
+the MRL will be converted into vcd:/@E0.
+Again check the MRL list to see if there is a P1.
+.TP
+.BI vcd://@P1*
+Probably same as above.
+.TP
+.BI vcd:///dev/cdrom@E1
+Play Entry id 1 from default device.
+.TP
+.BI vcd://@S0
+Play segment 0 from default device.
+.TP
+.BI vcd://@3
+Play track 3 from default device.
+.TP
+.BI vcd:///dev/cdrom2:1
+Play track 1 from /dev/cdrom2.
+.TP
+.BI vcd:///tmp/ntsc.cue@
+Play default item (E0) of /tmp/ntsc.bin. Note trailing \fB@\fP.
+.TP
+.BI vcd://ntsc.cue/@E0
+Play entry 0 of ntsc.bin.
+.TP
+.BI vcd:///tmp/ntsc.nrg/@E0
+Play entry 0 of /tmp/ntsc.nrg (Nero file). Works for some simple Nero images.
+.br
+.SS DVB
+.PP
+DVB MRLs require that xine-lib/channels.conf exists in $XDG_CONFIG_HOME/ or
+~/.config/ and contains valid data.
+This can be obtained by generating a tuning file using the LinuxTV DVB apps
+utility "scan" (or "dvbscan" if you're using a version newer than 1.1.0):
+.PP
+.B scan -o zap /usr/share/doc/dvb-utils/examples/scan/dvb-t/uk-PontopPike >~/.config/xine-lib/channels.conf
+.PP
+(This example is for the writer's local transmitter, using a file from the
+Debian dvb-utils package.)
+.PP
+For the dvbc, dvbs and dvbt MRLs, tuning parameters are expected, taking one
+of the following forms:
+.TP
+.B DVB-S
+<frequency>:<polarisation>:<sat-no>:<sym-rate>:<vpid>:<apid>:<service-id>
+.TP
+.B DVB-C
+<frequency>:<inversion>:<sym-rate>:<fec>:<qam>:<vpid>:<apid>:<service-id>
+.TP
+.B DVB-T
+<frequency>:<inversion>:<bw>:<fec-hp>:<fec-lp>:<qam>:<transmission-mode>:<guardlist>:<hierarchy-info>:<vpid>:<apid>:<service-id>
+.TP
+.B DVB-A
+<frequency>:<qam>:<vpid>:<apid>:<service-id>
+.PP
+The individual parameters are:
+.TP 20
+.B frequency
+number, usually in kHz
+.TP 20
+.B polarisation
+`v' or `h'
+.TP 20
+.B sat-no
+unsigned long, usually 0
+.TP 20
+.B sym-rate
+symbol rate in MSyms/sec
+.TP 20
+.B inversion
+INVERSION_ON, INVERSION_OFF, INVERSION_AUTO
+.TP 20
+.B fec, fec-hp, fec-lp
+FEC_1_2, FEC_2_3, FEC_3_4 ... FEC_8_9, FEC_AUTO, FEC_NONE
+.TP 20
+.B qam
+QPSK, QAM_128, QAM_16 ...
+.TP 20
+.B bw
+BANDWIDTH_6_MHZ, BANDWIDTH_7_MHZ, BANDWIDTH_8_MHZ
+.TP 20
+.B transmission-mode
+TRANSMISSION_MODE_2K, TRANSMISSION_MODE_8K
+.TP 20
+.B guardlist
+GUARD_INTERVAL_1_4, GUARD_INTERVAL_1_8, GUARD_INTERVAL_1_16, GUARD_INTERVAL_1_32,
+.TP 20
+.B hierarchy-info
+HIERARCHY_1, HIERARCHY_2, HIERARCHY_4, HIERARCHY_NONE
+.TP 20
+.B vpid
+video program ID
+.TP 20
+.B apid
+audio program ID
+.TP 20
+.B service-id
+service ID (needed for now/next information etc.)
+.PP
+The following keyboard & mouse inputs may be accepted:
+.TP 24
+.B Menu 2
+Start/stop recording
+.TP 24
+.B Menu 3
+Toggle zoom
+.TP 24
+.B Menu 7
+Toggle now/next display
+.TP 24
+.B Previous/Next Chapter
+Previous/next channel
+.TP 24
+.B Mouse wheel & button 1
+Scroll through channel list & select the highlighted channel
+.SH SUBTITLE
+.B external subtitle files (any mrl)
+.br
+Text subtitle files may be appended to the MRL:.
+.TP
+.BI <mrl>#subtitle:<subtitlefile>
+This is the normal way to define the subtitle file to use. The frontend will
+not take any notice of the subtitle file. For example:
+.br
+.I file://home/user/wibble.mpg#subtitle:/home/user/wibble.sub
+.br
+(Note that some front ends can detect subtitles files where the name differs
+as shown in the example.)
+.br
+.SH STREAM OPTIONS
+.br
+After a delimiting \fB#\fP you can add several stream parameters:
+.TP
+.B novideo
+Video will be ignored.
+.TP
+.B noaudio
+Audio will be ignored.
+.TP
+.B nospu
+Subpictures will be ignored.
+.TP
+.BI demux: <demux\ name>
+Specify the demux plugin to use.
+.TP
+.BI volume: <level>
+Set audio volume.
+.TP
+.BI compression: <level>
+Set audio dynamic range compression.
+.TP
+.BI <config\ entry> : <config\ value>
+Assign a new value to any config entry.
+.TP
+.BI save: <file>
+Save the stream (if allowed) to the named file, relative to the directory
+given by the option "media.capture.save_dir".
+.TP
+.B change configuration option 'on the fly':
+.br
+You can change a configuration option at any time, using the special
+.B cfg:/
+MRL style. The syntax is:
+.br
+	cfg:/<config\ entry> : <config\ value>
+.br
+Unlike stream config option, you can change anything \fIbefore\fP playing the
+stream.
+
+.SH "SEE ALSO"
+\fBxine\fP(1), \fBaaxine\fP(1), \fBgxine\fP(1), \fBtoxine\fP(1),
+\fBtotem\fP(1), \fBkaffeine\fP(1) ...
+
+.br
+The programs are documented fully on the xine home page:
+.UR http://www.xine-project.org/
+.IR "http://www.xine-project.org/"
+.UE
+.SH AUTHOR
+This text was extracted from the xine man page by Darren Salt
+<dsalt@users.sourceforge.net>.
+The xine man page was written by Siggi Langauf <siggi@debian.org> for the
+xine project.
+Lots of additions by
+Guenter Bartsch <guenter@users.sourceforge.net>,
+Daniel Caujolle-Bert <f1rmb@users.sourceforge.net>,
+Rocky Bernstein <rocky@panix.com>, and
+Philipp Hahn <pmhahn@users.sourceforge.net>.

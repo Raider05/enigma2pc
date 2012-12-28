@@ -1,0 +1,2134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Creator: fig2dev Version 3.2 Patchlevel 5 -->
+<!-- CreationDate: Sat Jun  2 20:46:36 2007 -->
+<!-- Magnification: 1.050 -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="10.2in"
+   height="7.5in"
+   viewBox="1252 270 12271 8954"
+   id="svg3541"
+   sodipodi:version="0.32"
+   inkscape:version="0.45.1"
+   sodipodi:docname="architecture.svg"
+   sodipodi:docbase="/home/flame/devel/repos/xine/xine-lib-1.2-newdocbook/doc/hackersguide"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <metadata
+     id="metadata4074">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs4072" />
+  <sodipodi:namedview
+     inkscape:window-height="611"
+     inkscape:window-width="722"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="0.60296296"
+     inkscape:cx="459"
+     inkscape:cy="337.5"
+     inkscape:window-x="0"
+     inkscape:window-y="330"
+     inkscape:current-layer="svg3541" />
+  <rect
+     style="fill:#ffffff;fill-opacity:1"
+     id="rect4076"
+     width="12503.331"
+     height="9244.4844"
+     x="1185.4929"
+     y="146.92683" />
+  <g
+     style="stroke-width:.025in; stroke:black; fill:none"
+     id="g3543">
+<!-- Line: box -->    <rect
+       x="10535"
+       y="1795"
+       width="755"
+       height="5858"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3545" />
+<!-- Line: box -->    <rect
+       x="10582"
+       y="1748"
+       width="755"
+       height="5858"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3547" />
+<!-- Line: box -->    <rect
+       x="2645"
+       y="4110"
+       width="1086"
+       height="1086"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3549" />
+<!-- Line -->    <polyline
+       points="2645,4346 3732,4346 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3551" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2692"
+       y="4913"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3553">demuxer plugin</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2787"
+       y="4299"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3555">demuxer loop</text>
+<!-- Line: box -->    <rect
+       x="6000"
+       y="4724"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3557" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6094"
+       y="4913"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3559">buf</text>
+<!-- Line: box -->    <rect
+       x="4913"
+       y="4204"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3561" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5007"
+       y="4393"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3563">buf</text>
+<!-- Line: box -->    <rect
+       x="5102"
+       y="4535"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3565" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5196"
+       y="4724"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3567">buf</text>
+<!-- Line: box -->    <rect
+       x="5480"
+       y="4913"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3569" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5574"
+       y="5102"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3571">buf</text>
+<!-- Line: box -->    <rect
+       x="5622"
+       y="4299"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3573" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5716"
+       y="4488"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3575">buf</text>
+<!-- Line: box -->    <rect
+       x="4866"
+       y="4866"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3577" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4960"
+       y="5055"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3579">buf</text>
+<!-- Line: box -->    <rect
+       x="6094"
+       y="4157"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3581" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6188"
+       y="4346"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3583">buf</text>
+<!-- Line: box -->    <rect
+       x="4724"
+       y="3921"
+       width="1889"
+       height="1700"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3585" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5338"
+       y="5527"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3587">buffer pool</text>
+<!-- Line: box -->    <rect
+       x="1322"
+       y="4440"
+       width="944"
+       height="566"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3589" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="1417"
+       y="4771"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3591">input plugin</text>
+<!-- Line: box -->    <rect
+       x="7748"
+       y="4251"
+       width="1559"
+       height="944"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3593" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8220"
+       y="4771"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3595">metronom</text>
+<!-- Line: box -->    <rect
+       x="1275"
+       y="1700"
+       width="9070"
+       height="6047"
+       rx="0"
+       style="stroke:#000000;stroke-width:16; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3597" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="1417"
+       y="1889"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3599">xine stream</text>
+<!-- Line: box -->    <rect
+       x="1275"
+       y="283"
+       width="9118"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3601" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4818"
+       y="472"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3603">stream layer</text>
+<!-- Line: box -->    <rect
+       x="7133"
+       y="661"
+       width="3259"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3605" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8362"
+       y="850"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3607">decoder layer</text>
+<!-- Line: box -->    <rect
+       x="4110"
+       y="661"
+       width="2929"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3609" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5291"
+       y="850"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3611">stream fifos</text>
+<!-- Line: box -->    <rect
+       x="2456"
+       y="661"
+       width="1559"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3613" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2787"
+       y="850"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3615">demuxer layer</text>
+<!-- Line: box -->    <rect
+       x="1275"
+       y="661"
+       width="1086"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3617" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="1464"
+       y="850"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3619">input layer</text>
+<!-- Line: box -->    <rect
+       x="11858"
+       y="4251"
+       width="1559"
+       height="944"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3621" />
+<!-- Line -->    <polyline
+       points="13417,4724 12283,4724 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3623" />
+<!-- Line -->    <polyline
+       points="12283,5196 12283,4535 13417,4535 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3625" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="12000"
+       y="4488"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3627">metronom clock</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="12330"
+       y="4677"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3629">clock sync loop</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="12330"
+       y="5007"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3631">scr plugin</text>
+<!-- Line: box -->    <rect
+       x="10488"
+       y="283"
+       width="3023"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3633" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="11627"
+       y="472"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3635">output layer</text>
+<!-- Line: box -->    <rect
+       x="10629"
+       y="1700"
+       width="755"
+       height="5858"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3637" />
+<!-- Line: box -->    <rect
+       x="11622"
+       y="944"
+       width="1889"
+       height="755"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3639" />
+<!-- Line -->    <polyline
+       points="12236,944 12236,1700 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3641" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="12377"
+       y="1370"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3643">overlay manager</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="11763"
+       y="1370"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3645">OSD</text>
+<!-- Line -->    <polyline
+       points="1559,9070 2108,9070 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:10 10;"
+       id="polyline3647" />
+<!-- Arrowhead on XXXpoint 1559 9070 - 2141 9070-->    <polyline
+       points="1997 9102 2123 9070 1997 9039 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3649" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2314"
+       y="9118"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3651">extra info datapath</text>
+<!-- Line -->    <polyline
+       points="1559,8740 2108,8740 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:41 41;"
+       id="polyline3653" />
+<!-- Arrowhead on XXXpoint 1559 8740 - 2141 8740-->    <polyline
+       points="1997 8771 2123 8740 1997 8708 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3655" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2314"
+       y="8787"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3657">detailed datapath</text>
+<!-- Line -->    <polyline
+       points="1559,8409 2108,8409 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3659" />
+<!-- Arrowhead on XXXpoint 1559 8409 - 2141 8409-->    <polyline
+       points="1997 8440 2123 8409 1997 8377 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3661" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="2314"
+       y="8456"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3663">datapath</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5007"
+       y="8456"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3665">xine buffer</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5007"
+       y="8787"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3667">discontinuity</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5007"
+       y="9118"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3669">presentation timestamp</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7984"
+       y="8456"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3671">virtual presentation timestamp</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7984"
+       y="8787"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3673">subpicture unit</text>
+<!-- Line: box -->    <rect
+       x="4535"
+       y="2551"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3675" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4629"
+       y="2740"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3677">buf</text>
+<!-- Line: box -->    <rect
+       x="6236"
+       y="2551"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3679" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6330"
+       y="2740"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3681">buf</text>
+<!-- Line: box -->    <rect
+       x="5480"
+       y="2551"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3683" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5574"
+       y="2740"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3685">buf</text>
+<!-- Line: box -->    <rect
+       x="5007"
+       y="2551"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3687" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5102"
+       y="2740"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3689">buf</text>
+<!-- Line: box -->    <rect
+       x="4440"
+       y="2503"
+       width="2267"
+       height="661"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3691" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5291"
+       y="3070"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3693">video fifo</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6000"
+       y="2740"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3695">...</text>
+<!-- Line: box -->    <rect
+       x="4535"
+       y="6330"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3697" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4629"
+       y="6519"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3699">buf</text>
+<!-- Line: box -->    <rect
+       x="6236"
+       y="6330"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3701" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6330"
+       y="6519"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3703">buf</text>
+<!-- Line: box -->    <rect
+       x="5480"
+       y="6330"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3705" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5574"
+       y="6519"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3707">buf</text>
+<!-- Line: box -->    <rect
+       x="5007"
+       y="6330"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3709" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5102"
+       y="6519"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3711">buf</text>
+<!-- Line: box -->    <rect
+       x="4440"
+       y="6283"
+       width="2267"
+       height="661"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3713" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="5291"
+       y="6850"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3715">audio fifo</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6000"
+       y="6519"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3717">...</text>
+<!-- Line: box -->    <rect
+       x="7417"
+       y="6141"
+       width="1889"
+       height="944"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3719" />
+<!-- Line -->    <polyline
+       points="7795,7086 7795,6425 9307,6425 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3721" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7559"
+       y="6330"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3723">audio decoder loop</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7889"
+       y="6803"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3725">audio decoder plugin</text>
+<!-- Line: box -->    <rect
+       x="7417"
+       y="2362"
+       width="1889"
+       height="944"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3727" />
+<!-- Line -->    <polyline
+       points="7795,3307 7795,3023 9307,3023 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3729" />
+<!-- Line -->    <polyline
+       points="9307,2929 7795,2929 7795,2645 9307,2645 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3731" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7559"
+       y="2551"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3733">video decoder loop</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7889"
+       y="3212"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3735">spu decoder plugin</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7889"
+       y="2834"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3737">video decoder plugin</text>
+<!-- Line: box -->    <rect
+       x="11622"
+       y="6141"
+       width="1889"
+       height="944"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3739" />
+<!-- Line -->    <polyline
+       points="12000,7086 12000,6425 13511,6425 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3741" />
+<!-- Line -->    <polyline
+       points="12850,6141 12850,6425 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3743" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="11763"
+       y="6330"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3745">audio out loop</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="12094"
+       y="6803"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3747">audio out plugin</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="12944"
+       y="6330"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3749">out fifo</text>
+<!-- Line: box -->    <rect
+       x="11622"
+       y="2362"
+       width="1889"
+       height="944"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="rect3751" />
+<!-- Line -->    <polyline
+       points="12000,3307 12000,2645 13511,2645 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3753" />
+<!-- Line -->    <polyline
+       points="12850,2362 12850,2645 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3755" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="11763"
+       y="2551"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3757">video out loop</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="12094"
+       y="3023"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3759">video out plugin</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="12944"
+       y="2551"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3761">out fifo</text>
+<!-- Line -->    <polyline
+       points="12661,2362 12659,2361 12654,2360 12645,2356 12633,2352 12615,2346 12593,2339 12565,2329 12536,2319 12503,2306 12469,2293 12433,2279 12398,2264 12363,2248 12329,2232 12297,2214 12266,2196 12238,2176 12212,2156 12188,2134 12170,2110 12155,2085 12144,2058 12141,2031 12144,2004 12155,1977 12170,1952 12188,1928 12212,1906 12238,1886 12266,1866 12297,1848 12329,1830 12363,1814 12398,1798 12433,1783 12469,1769 12503,1756 12536,1743 12565,1733 12593,1723 12615,1716 12633,1710 12644,1704 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:bevel; stroke-linecap:butt; "
+       id="polyline3763" />
+<!-- Arrowhead on XXXpoint 12633 1710 - 12676 1695-->    <polyline
+       points="12550 1771 12659 1700 12529 1711 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3765" />
+<!-- Line -->    <polyline
+       points="12661,1700 12663,1701 12669,1703 12679,1707 12693,1712 12713,1719 12739,1729 12767,1740 12798,1753 12833,1767 12868,1783 12902,1799 12937,1817 12971,1835 13002,1855 13033,1875 13059,1897 13083,1920 13104,1945 13120,1972 13129,2002 13133,2031 13129,2060 13120,2090 13104,2117 13083,2142 13059,2165 13033,2187 13002,2207 12971,2227 12937,2245 12902,2263 12868,2279 12833,2295 12798,2309 12767,2322 12739,2333 12713,2343 12693,2350 12677,2355 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:bevel; stroke-linecap:butt; "
+       id="polyline3767" />
+<!-- Arrowhead on XXXpoint 12693 2350 - 12645 2367-->    <polyline
+       points="12770 2290 12662 2362 12791 2349 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3769" />
+<!-- Line -->    <polyline
+       points="7511,6141 6622,4738 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3771" />
+<!-- Arrowhead on XXXpoint 7511 6141 - 6604 4710-->    <polyline
+       points="6707 4814 6614 4725 6654 4848 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3773" />
+<!-- Line -->    <polyline
+       points="4724,4724 3749,4724 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3775" />
+<!-- Arrowhead on XXXpoint 4724 4724 - 3716 4724-->    <polyline
+       points="3860 4692 3734 4724 3860 4755 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3777" />
+<!-- Line -->    <polyline
+       points="2267,4724 2627,4724 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3779" />
+<!-- Arrowhead on XXXpoint 2267 4724 - 2661 4724-->    <polyline
+       points="2517 4755 2643 4724 2517 4692 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3781" />
+<!-- Line -->    <polyline
+       points="3732,4724 4434,6598 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3783" />
+<!-- Arrowhead on XXXpoint 3732 4724 - 4446 6628-->    <polyline
+       points="4368 6509 4439 6612 4425 6488 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3785" />
+<!-- Line -->    <polyline
+       points="6708,2834 7399,2834 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3787" />
+<!-- Arrowhead on XXXpoint 6708 2834 - 7433 2834-->    <polyline
+       points="7289 2866 7415 2834 7289 2803 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3789" />
+<!-- Line -->    <polyline
+       points="3732,4724 4434,2849 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3791" />
+<!-- Arrowhead on XXXpoint 3732 4724 - 4446 2818-->    <polyline
+       points="4425 2958 4439 2835 4369 2937 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3793" />
+<!-- Line -->    <polyline
+       points="6708,6614 7399,6614 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3795" />
+<!-- Arrowhead on XXXpoint 6708 6614 - 7433 6614-->    <polyline
+       points="7289 6645 7415 6614 7289 6582 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3797" />
+<!-- Line -->    <polyline
+       points="7511,3307 6622,4709 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3799" />
+<!-- Arrowhead on XXXpoint 7511 3307 - 6604 4737-->    <polyline
+       points="6654 4598 6614 4722 6707 4632 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3801" />
+<!-- Line -->    <polyline
+       points="7653,3307 8351,4238 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3803" />
+<!-- Arrowhead on XXXpoint 7653 3307 - 8371 4264-->    <polyline
+       points="8260 4169 8361 4250 8310 4131 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3805" />
+<!-- Line -->    <polyline
+       points="7653,6141 8351,5209 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3807" />
+<!-- Arrowhead on XXXpoint 7653 6141 - 8371 5184-->    <polyline
+       points="8310 5317 8361 5197 8260 5279 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3809" />
+<!-- Line -->    <polyline
+       points="8976,3307 8976,4234 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3811" />
+<!-- Arrowhead on XXXpoint 8976 3307 - 8976 4267-->    <polyline
+       points="8944 4123 8976 4249 9007 4123 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3813" />
+<!-- Line -->    <polyline
+       points="8740,4251 8740,3323 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3815" />
+<!-- Arrowhead on XXXpoint 8740 4251 - 8740 3291-->    <polyline
+       points="8771 3435 8740 3309 8708 3435 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3817" />
+<!-- Line -->    <polyline
+       points="1275,1937 2314,1937 2314,1700 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3819" />
+<!-- Line -->    <polyline
+       points="2409,7937 2409,614 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:10 31;"
+       id="polyline3821" />
+<!-- Line -->    <polyline
+       points="4062,7937 4062,614 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:10 31;"
+       id="polyline3823" />
+<!-- Line -->    <polyline
+       points="7086,7937 7086,614 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:10 31;"
+       id="polyline3825" />
+<!-- Line -->    <polyline
+       points="10440,7937 10440,283 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; stroke-dasharray:31 31;"
+       id="polyline3827" />
+<!-- Line -->    <polyline
+       points="12094,5196 11815,6124 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3829" />
+<!-- Arrowhead on XXXpoint 12094 5196 - 11805 6156-->    <polyline
+       points="11816 6009 11811 6139 11877 6027 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3831" />
+<!-- Line -->    <polyline
+       points="12094,4251 11815,3322 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3833" />
+<!-- Arrowhead on XXXpoint 12094 4251 - 11805 3291-->    <polyline
+       points="11877 3419 11811 3308 11816 3437 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3835" />
+<!-- Line -->    <polyline
+       points="9324,6897 11604,6897 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3837" />
+<!-- Arrowhead on XXXpoint 9307 6897 - 11637 6897-->    <polyline
+       points="11493 6929 11619 6897 11493 6866 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3839" />
+<!-- Arrowhead on XXXpoint 11622 6897 - 9291 6897-->    <polyline
+       points="9435 6866 9309 6897 9435 6929 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3841" />
+<!-- Line -->    <polyline
+       points="9324,2692 11604,2692 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3843" />
+<!-- Arrowhead on XXXpoint 9307 2692 - 11637 2692-->    <polyline
+       points="11493 2724 11619 2692 11493 2661 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3845" />
+<!-- Arrowhead on XXXpoint 11622 2692 - 9291 2692-->    <polyline
+       points="9435 2661 9309 2692 9435 2724 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3847" />
+<!-- Line -->    <polyline
+       points="9324,3212 10204,3212 12222,1710 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; "
+       id="polyline3849" />
+<!-- Arrowhead on XXXpoint 10204 3212 - 12248 1691-->    <polyline
+       points="12152 1801 12235 1701 12114 1751 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3851" />
+<!-- Arrowhead on XXXpoint 10204 3212 - 9294 3220-->    <polyline
+       points="9437 3187 9312 3220 9438 3250 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3853" />
+<!-- Line -->    <polyline
+       points="4724,4582 4723,4582 4721,4582 4716,4583 4708,4584 4698,4585 4684,4587 4666,4590 4644,4593 4619,4595 4591,4599 4558,4602 4522,4606 4483,4611 4443,4615 4398,4619 4353,4622 4306,4626 4258,4630 4207,4634 4156,4637 4103,4639 4050,4641 3995,4642 3939,4643 3882,4643 3822,4642 3762,4641 3699,4638 3635,4634 3568,4629 3500,4622 3429,4615 3357,4605 3285,4595 3212,4582 3132,4566 3056,4550 2984,4532 2920,4514 2861,4495 2810,4477 2766,4459 2728,4441 2697,4424 2670,4407 2649,4391 2632,4375 2617,4360 2605,4344 2595,4329 2586,4314 2577,4300 2569,4285 2558,4270 2545,4256 2532,4241 2514,4226 2493,4212 2468,4197 2438,4182 2405,4169 2366,4155 2324,4142 2277,4131 2227,4121 2177,4114 2125,4110 2073,4109 2025,4111 1980,4115 1939,4121 1901,4131 1868,4140 1838,4151 1812,4162 1788,4175 1767,4186 1749,4199 1732,4213 1716,4225 1702,4238 1689,4251 1676,4265 1664,4279 1652,4292 1640,4307 1629,4322 1618,4337 1609,4352 1600,4368 1591,4385 1585,4402 1582,4419 1581,4437 1584,4454 1592,4471 1606,4488 1627,4502 1653,4516 1683,4529 1719,4539 1757,4549 1798,4556 1842,4562 1887,4567 1934,4573 1983,4576 2032,4579 2083,4581 2135,4583 2187,4584 2239,4585 2290,4585 2341,4585 2389,4585 2435,4585 2477,4585 2515,4584 2549,4584 2577,4583 2600,4583 2618,4583 2628,4582 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:bevel; stroke-linecap:butt; stroke-dasharray:41 41;"
+       id="polyline3855" />
+<!-- Arrowhead on XXXpoint 2618 4583 - 2660 4581-->    <polyline
+       points="2517 4619 2642 4582 2514 4557 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3857" />
+<!-- Line -->    <polyline
+       points="9307,6519 9308,6518 9311,6516 9315,6512 9322,6504 9333,6495 9346,6483 9362,6468 9381,6450 9402,6430 9425,6407 9450,6382 9476,6355 9502,6327 9528,6298 9553,6266 9580,6235 9604,6201 9627,6167 9650,6131 9670,6094 9690,6054 9707,6013 9722,5970 9735,5924 9744,5876 9751,5826 9753,5776 9751,5722 9743,5670 9732,5620 9718,5574 9700,5530 9680,5490 9659,5453 9636,5417 9611,5383 9585,5351 9558,5320 9530,5292 9502,5264 9474,5238 9446,5213 9420,5191 9396,5171 9374,5153 9355,5139 9339,5126 9327,5117 9319,5111 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:bevel; stroke-linecap:butt; "
+       id="polyline3859" />
+<!-- Arrowhead on XXXpoint 9327 5117 - 9293 5092-->    <polyline
+       points="9426 5150 9307 5103 9390 5202 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3861" />
+<!-- Line -->    <polyline
+       points="9320,6699 9322,6696 9332,6687 9345,6676 9361,6661 9380,6644 9403,6624 9427,6602 9455,6577 9483,6550 9513,6521 9544,6491 9575,6458 9607,6426 9638,6391 9669,6355 9699,6319 9728,6281 9756,6242 9782,6202 9807,6160 9830,6117 9851,6072 9871,6025 9887,5976 9902,5925 9911,5872 9919,5818 9921,5763 9918,5706 9910,5650 9899,5596 9883,5546 9865,5499 9843,5454 9820,5413 9794,5373 9766,5336 9737,5300 9707,5267 9675,5235 9643,5205 9609,5175 9575,5148 9542,5121 9509,5097 9477,5074 9447,5051 9419,5033 9394,5016 9372,5001 9352,4988 9337,4979 9324,4972 9316,4966 9311,4962 9308,4961 9307,4960 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:bevel; stroke-linecap:butt; "
+       id="polyline3863" />
+<!-- Arrowhead on XXXpoint 9322 6696 - 9295 6718-->    <polyline
+       points="9386 6603 9309 6707 9426 6651 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3865" />
+<!-- Line -->    <polyline
+       points="9322,4340 9323,4338 9335,4331 9349,4324 9366,4314 9386,4303 9411,4289 9436,4275 9464,4258 9493,4239 9524,4219 9554,4198 9586,4176 9616,4153 9647,4128 9676,4102 9704,4075 9731,4046 9757,4015 9780,3983 9802,3948 9822,3910 9839,3870 9854,3827 9864,3782 9871,3734 9874,3685 9871,3634 9864,3584 9854,3534 9839,3487 9822,3441 9802,3397 9780,3355 9757,3315 9731,3275 9704,3237 9676,3201 9647,3165 9616,3130 9586,3097 9554,3064 9524,3034 9493,3003 9464,2975 9436,2950 9411,2925 9386,2904 9366,2886 9349,2871 9335,2858 9323,2849 9316,2841 9311,2837 9308,2835 9307,2834 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:bevel; stroke-linecap:butt; "
+       id="polyline3867" />
+<!-- Arrowhead on XXXpoint 9323 4338 - 9293 4352-->    <polyline
+       points="9408 4261 9309 4345 9436 4318 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3869" />
+<!-- Line -->    <polyline
+       points="9320,2750 9324,2752 9336,2761 9351,2772 9370,2787 9392,2804 9418,2824 9446,2846 9477,2871 9510,2898 9545,2927 9581,2957 9616,2990 9653,3022 9689,3057 9724,3092 9759,3129 9793,3167 9825,3206 9856,3246 9884,3288 9911,3331 9935,3376 9958,3423 9977,3471 9993,3523 10005,3575 10012,3630 10015,3685 10012,3742 10004,3798 9990,3851 9972,3902 9951,3949 9926,3994 9899,4035 9869,4075 9837,4112 9803,4148 9769,4181 9732,4213 9694,4243 9655,4272 9616,4300 9579,4327 9540,4351 9503,4374 9468,4396 9437,4415 9407,4432 9381,4447 9359,4459 9341,4469 9328,4476 9318,4481 9312,4486 9308,4487 9307,4488 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:bevel; stroke-linecap:butt; "
+       id="polyline3871" />
+<!-- Arrowhead on XXXpoint 9324 2752 - 9294 2731-->    <polyline
+       points="9429 2786 9309 2741 9394 2837 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3873" />
+<!-- Line -->    <polyline
+       points="9307,6803 9308,6803 9310,6803 9314,6803 9321,6803 9332,6802 9344,6802 9361,6802 9382,6801 9407,6800 9435,6800 9467,6797 9503,6796 9542,6795 9583,6793 9628,6792 9674,6790 9722,6787 9773,6785 9825,6782 9878,6779 9931,6775 9986,6771 10041,6768 10097,6763 10154,6759 10212,6752 10268,6747 10327,6740 10386,6733 10446,6725 10507,6717 10567,6707 10629,6697 10692,6685 10756,6672 10819,6660 10883,6645 10946,6629 11007,6614 11085,6592 11158,6569 11222,6546 11279,6527 11330,6508 11372,6492 11407,6477 11437,6466 11460,6456 11479,6448 11495,6441 11506,6436 11514,6432 11522,6428 11527,6425 11532,6422 11537,6416 11543,6411 11549,6405 11556,6396 11566,6386 11576,6372 11590,6355 11606,6335 11623,6312 11641,6285 11661,6254 11681,6219 11700,6181 11716,6141 11729,6100 11737,6059 11742,6019 11745,5983 11746,5949 11748,5919 11748,5891 11746,5868 11745,5847 11744,5829 11742,5814 11741,5801 11740,5788 11738,5778 11736,5767 11733,5757 11729,5745 11724,5734 11718,5720 11710,5704 11699,5687 11686,5666 11669,5641 11649,5614 11625,5583 11596,5548 11563,5510 11524,5470 11481,5428 11433,5385 11386,5349 11339,5313 11292,5279 11246,5249 11202,5220 11161,5195 11122,5172 11086,5152 11055,5135 11025,5120 10999,5106 10976,5095 10955,5085 10935,5077 10916,5068 10898,5061 10881,5055 10864,5048 10846,5042 10827,5035 10805,5028 10782,5020 10755,5012 10726,5002 10692,4992 10655,4981 10613,4969 10566,4955 10515,4940 10459,4924 10400,4910 10337,4894 10271,4879 10204,4866 10130,4853 10058,4843 9991,4834 9930,4827 9876,4822 9828,4817 9787,4814 9753,4812 9724,4809 9700,4808 9681,4806 9665,4805 9652,4804 9640,4803 9629,4803 9619,4803 9608,4804 9596,4805 9582,4807 9565,4810 9544,4814 9519,4820 9490,4829 9456,4839 9417,4852 9373,4867 9324,4886 9273,4907 9219,4932 9165,4960 9116,4990 9069,5020 9026,5050 8987,5081 8952,5110 8920,5138 8893,5163 8869,5186 8848,5208 8829,5227 8813,5244 8800,5260 8788,5275 8777,5289 8768,5301 8760,5315 8751,5328 8743,5341 8734,5356 8726,5372 8718,5390 8707,5409 8697,5432 8686,5457 8675,5484 8662,5516 8649,5550 8637,5588 8624,5629 8614,5672 8604,5717 8598,5763 8596,5815 8597,5865 8603,5912 8613,5956 8625,5997 8641,6036 8659,6072 8678,6106 8700,6137 8722,6167 8746,6196 8771,6223 8797,6248 8824,6272 8850,6296 8876,6317 8901,6337 8924,6355 8946,6371 8965,6385 8982,6397 8996,6407 9006,6413 9008,6415 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:bevel; stroke-linecap:butt; stroke-dasharray:41 41;"
+       id="polyline3875" />
+<!-- Arrowhead on XXXpoint 9006 6413 - 9036 6433-->    <polyline
+       points="8898 6379 9021 6424 8934 6326 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3877" />
+<!-- Line -->    <polyline
+       points="9307,2834 9308,2834 9310,2834 9315,2833 9321,2833 9332,2832 9345,2830 9363,2829 9384,2827 9409,2825 9439,2822 9472,2819 9509,2816 9550,2813 9594,2809 9640,2806 9690,2802 9742,2798 9796,2795 9850,2791 9907,2788 9965,2786 10024,2783 10083,2781 10143,2779 10203,2777 10264,2777 10325,2776 10386,2777 10447,2779 10509,2781 10572,2784 10634,2788 10697,2793 10760,2800 10824,2807 10888,2815 10951,2826 11015,2837 11077,2851 11138,2866 11196,2881 11261,2902 11321,2923 11376,2945 11425,2966 11468,2987 11507,3007 11541,3025 11570,3042 11595,3057 11616,3070 11634,3083 11649,3093 11661,3103 11671,3112 11679,3120 11686,3127 11692,3134 11696,3142 11700,3148 11703,3156 11708,3165 11711,3173 11714,3185 11717,3196 11720,3211 11723,3227 11728,3246 11731,3268 11734,3292 11737,3319 11739,3350 11739,3383 11738,3420 11734,3459 11727,3500 11716,3543 11700,3586 11682,3630 11661,3672 11638,3712 11616,3751 11593,3786 11571,3819 11549,3849 11529,3878 11510,3903 11492,3926 11477,3946 11461,3966 11446,3983 11433,4000 11420,4014 11406,4029 11393,4043 11379,4056 11365,4071 11350,4086 11332,4100 11313,4116 11291,4134 11266,4152 11238,4172 11207,4194 11171,4217 11131,4242 11086,4268 11037,4296 10982,4325 10923,4354 10860,4384 10793,4413 10724,4440 10657,4465 10588,4486 10522,4504 10458,4520 10398,4535 10342,4546 10289,4557 10241,4565 10197,4572 10158,4577 10122,4581 10090,4583 10061,4585 10035,4586 10012,4586 9990,4586 9970,4585 9951,4584 9932,4582 9914,4580 9896,4578 9876,4576 9854,4573 9830,4571 9805,4567 9777,4564 9745,4561 9711,4557 9672,4554 9629,4550 9582,4544 9531,4539 9477,4533 9418,4527 9357,4518 9293,4510 9229,4499 9165,4488 9086,4471 9014,4453 8946,4434 8887,4415 8834,4397 8790,4382 8752,4366 8721,4352 8697,4341 8676,4329 8661,4320 8648,4310 8639,4303 8632,4295 8625,4287 8620,4279 8614,4270 8606,4261 8598,4250 8587,4238 8575,4223 8558,4206 8538,4187 8514,4165 8487,4139 8456,4111 8423,4079 8387,4044 8350,4007 8314,3968 8277,3923 8243,3878 8215,3834 8191,3792 8171,3752 8154,3714 8141,3677 8131,3643 8123,3609 8117,3576 8114,3545 8112,3514 8111,3485 8111,3458 8112,3430 8113,3406 8115,3384 8117,3364 8119,3348 8121,3334 8122,3323 8122,3322 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:bevel; stroke-linecap:butt; stroke-dasharray:41 41;"
+       id="polyline3879" />
+<!-- Arrowhead on XXXpoint 8122 3323 - 8128 3291-->    <polyline
+       points="8135 3437 8124 3308 8073 3426 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3881" />
+<!-- Line -->    <polyline
+       points="3448,5196 3447,5198 3446,5204 3444,5212 3441,5226 3436,5243 3430,5265 3424,5291 3417,5320 3411,5351 3404,5384 3398,5417 3394,5451 3390,5484 3387,5518 3387,5550 3390,5582 3394,5612 3402,5641 3414,5669 3428,5694 3448,5716 3474,5734 3503,5746 3532,5753 3564,5755 3596,5753 3628,5748 3660,5739 3693,5729 3727,5716 3758,5702 3790,5689 3819,5674 3846,5661 3869,5649 3888,5639 3906,5629 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:bevel; stroke-linecap:butt; stroke-dasharray:10 10;"
+       id="polyline3883" />
+<!-- Arrowhead on XXXpoint 3888 5639 - 3934 5613-->    <polyline
+       points="3825 5711 3920 5622 3794 5656 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3885" />
+<!-- Line -->    <polyline
+       points="3732,4393 3733,4392 3736,4390 3741,4386 3749,4379 3759,4370 3772,4359 3786,4345 3802,4329 3819,4312 3837,4295 3854,4275 3870,4255 3885,4234 3899,4211 3910,4187 3921,4163 3928,4137 3932,4109 3932,4078 3929,4048 3921,4015 3908,3984 3890,3954 3871,3927 3849,3905 3826,3886 3803,3870 3779,3859 3755,3849 3732,3842 3708,3836 3685,3830 3661,3825 3638,3819 3615,3813 3593,3804 3571,3795 3551,3781 3532,3766 3517,3749 3504,3729 3497,3707 3496,3685 3502,3662 3517,3643 3537,3625 3561,3610 3589,3598 3620,3588 3654,3580 3690,3572 3728,3566 3765,3561 3803,3556 3840,3552 3874,3549 3903,3547 3927,3545 3951,3543 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:bevel; stroke-linecap:butt; stroke-dasharray:10 10;"
+       id="polyline3887" />
+<!-- Arrowhead on XXXpoint 3927 3545 - 3983 3542-->    <polyline
+       points="3840 3581 3965 3543 3837 3518 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3889" />
+<!-- Line -->    <polyline
+       points="6897,6519 6896,6518 6894,6515 6891,6509 6886,6501 6880,6490 6873,6477 6865,6461 6856,6445 6849,6426 6841,6408 6835,6388 6832,6369 6830,6350 6831,6330 6835,6311 6844,6291 6856,6272 6874,6254 6897,6236 6922,6222 6951,6209 6981,6200 7012,6193 7043,6187 7076,6183 7108,6180 7141,6178 7173,6178 7206,6178 7238,6178 7270,6179 7299,6180 7327,6182 7352,6183 7373,6185 7390,6186 7400,6187 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:bevel; stroke-linecap:butt; stroke-dasharray:10 10;"
+       id="polyline3891" />
+<!-- Arrowhead on XXXpoint 7390 6186 - 7432 6190-->    <polyline
+       points="7286 6209 7414 6188 7290 6148 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3893" />
+<!-- Line -->    <polyline
+       points="6897,2740 6896,2738 6893,2732 6889,2723 6882,2710 6875,2693 6867,2672 6857,2650 6849,2626 6840,2601 6834,2576 6831,2550 6830,2524 6833,2500 6840,2475 6853,2452 6872,2429 6897,2409 6922,2395 6951,2385 6981,2376 7012,2371 7043,2368 7076,2366 7108,2367 7141,2368 7173,2370 7206,2374 7238,2377 7270,2383 7299,2387 7327,2392 7352,2396 7373,2401 7390,2404 7400,2406 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:bevel; stroke-linecap:butt; stroke-dasharray:10 10;"
+       id="polyline3895" />
+<!-- Arrowhead on XXXpoint 7390 2404 - 7432 2411-->    <polyline
+       points="7285 2416 7415 2408 7295 2354 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3897" />
+<!-- Line -->    <polyline
+       points="7511,2362 7512,2361 7514,2359 7519,2355 7526,2350 7535,2343 7549,2333 7565,2321 7585,2306 7607,2290 7632,2271 7660,2251 7692,2230 7724,2208 7760,2185 7796,2162 7835,2139 7874,2117 7914,2094 7956,2073 8000,2052 8045,2032 8091,2014 8138,1997 8188,1982 8240,1968 8295,1956 8351,1946 8410,1940 8472,1935 8534,1934 8598,1937 8661,1943 8722,1952 8781,1965 8837,1981 8890,1997 8940,2016 8986,2037 9032,2059 9074,2082 9113,2108 9152,2133 9188,2159 9224,2185 9257,2213 9289,2241 9320,2268 9350,2297 9377,2324 9403,2350 9427,2375 9449,2398 9469,2419 9487,2439 9502,2456 9514,2470 9524,2481 9531,2490 9531,2490 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:bevel; stroke-linecap:butt; stroke-dasharray:10 10;"
+       id="polyline3899" />
+<!-- Arrowhead on XXXpoint 9531 2490 - 9552 2515-->    <polyline
+       points="9436 2425 9541 2501 9484 2384 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3901" />
+<!-- Line -->    <polyline
+       points="7464,6236 7463,6237 7461,6240 7458,6244 7453,6253 7446,6263 7437,6278 7425,6295 7413,6316 7398,6340 7382,6367 7365,6396 7348,6428 7331,6460 7314,6496 7297,6532 7281,6569 7268,6606 7255,6645 7245,6684 7236,6725 7230,6766 7227,6808 7228,6852 7232,6896 7239,6942 7253,6990 7271,7037 7294,7085 7322,7133 7352,7174 7384,7213 7418,7250 7453,7285 7486,7316 7518,7344 7548,7371 7577,7395 7604,7416 7628,7435 7651,7453 7671,7468 7691,7483 7709,7497 7725,7508 7742,7520 7759,7531 7776,7542 7794,7552 7813,7562 7834,7572 7857,7582 7882,7592 7910,7602 7942,7611 7977,7622 8017,7630 8061,7639 8110,7647 8163,7653 8220,7657 8281,7659 8344,7658 8409,7653 8471,7645 8532,7633 8591,7617 8648,7601 8703,7581 8755,7559 8807,7534 8855,7509 8901,7483 8946,7456 8990,7426 9030,7397 9071,7366 9110,7335 9148,7303 9185,7271 9220,7238 9255,7206 9288,7173 9320,7142 9351,7110 9379,7081 9405,7053 9429,7025 9453,7001 9471,6979 9489,6959 9504,6942 9516,6929 9525,6918 9532,6910 9531,6910 "
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:bevel; stroke-linecap:butt; stroke-dasharray:10 10;"
+       id="polyline3903" />
+<!-- Arrowhead on XXXpoint 9532 6910 - 9552 6885-->    <polyline
+       points="9488 7016 9542 6898 9438 6977 "
+       style="stroke:#000000;stroke-width:8; "
+       id="polyline3905" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7984"
+       y="9118"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3907">extra info</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10771"
+       y="4629"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3909">post</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10771"
+       y="4866"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3911">plugins</text>
+<!-- Line: box -->    <rect
+       x="1795"
+       y="3921"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3913" />
+<!-- Line: box -->    <rect
+       x="4110"
+       y="4535"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3915" />
+<!-- Line: box -->    <rect
+       x="6850"
+       y="5385"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3917" />
+<!-- Line: box -->    <rect
+       x="6850"
+       y="3732"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3919" />
+<!-- Line: box -->    <rect
+       x="7700"
+       y="5527"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3921" />
+<!-- Line: box -->    <rect
+       x="7653"
+       y="3543"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3923" />
+<!-- Line: box -->    <rect
+       x="9307"
+       y="5338"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3925" />
+<!-- Line: box -->    <rect
+       x="9637"
+       y="6283"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3927" />
+<!-- Line: box -->    <rect
+       x="9354"
+       y="3826"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3929" />
+<!-- Line: box -->    <rect
+       x="8929"
+       y="3732"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3931" />
+<!-- Line: box -->    <rect
+       x="8409"
+       y="3496"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3933" />
+<!-- Line: box -->    <rect
+       x="11858"
+       y="5480"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3935" />
+<!-- Line: box -->    <rect
+       x="11858"
+       y="3732"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3937" />
+<!-- Line: box -->    <rect
+       x="11669"
+       y="1937"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3939" />
+<!-- Line: box -->    <rect
+       x="9826"
+       y="4771"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3941" />
+<!-- Line: box -->    <rect
+       x="8503"
+       y="5385"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3943" />
+<!-- Line: box -->    <rect
+       x="9921"
+       y="3307"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3945" />
+<!-- Line: box -->    <rect
+       x="8314"
+       y="3826"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3947" />
+<!-- Line: box -->    <rect
+       x="9826"
+       y="4346"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3949" />
+<!-- Line: box -->    <rect
+       x="4299"
+       y="8267"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3951" />
+<!-- Line: box -->    <rect
+       x="4299"
+       y="8598"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3953" />
+<!-- Line: box -->    <rect
+       x="4299"
+       y="8929"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3955" />
+<!-- Line: box -->    <rect
+       x="7275"
+       y="8267"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3957" />
+<!-- Line: box -->    <rect
+       x="7275"
+       y="8598"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3959" />
+<!-- Line: box -->    <rect
+       x="3921"
+       y="5574"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3961" />
+<!-- Line: box -->    <rect
+       x="3921"
+       y="3496"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3963" />
+<!-- Line: box -->    <rect
+       x="6850"
+       y="2692"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3965" />
+<!-- Line: box -->    <rect
+       x="6850"
+       y="6472"
+       width="377"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3967" />
+<!-- Line: box -->    <rect
+       x="9496"
+       y="2456"
+       width="708"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3969" />
+<!-- Line: box -->    <rect
+       x="9496"
+       y="6803"
+       width="708"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3971" />
+<!-- Line: box -->    <rect
+       x="12283"
+       y="1889"
+       width="708"
+       height="283"
+       rx="0"
+       style="stroke:#000000;stroke-width:8; stroke-linejoin:miter; stroke-linecap:butt; fill:#ffffff; "
+       id="rect3973" />
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="1889"
+       y="4110"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3975">buf</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4204"
+       y="4724"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3977">buf</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6944"
+       y="5574"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3979">buf</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6944"
+       y="3921"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3981">buf</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7795"
+       y="5716"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3983">disc</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7748"
+       y="3732"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3985">disc</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="9401"
+       y="5527"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3987">pts</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="9732"
+       y="6472"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3989">vpts</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="9448"
+       y="4015"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3991">pts</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="9023"
+       y="3921"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3993">pts</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8503"
+       y="3685"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3995">vpts</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="11952"
+       y="5669"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3997">time</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="11952"
+       y="3921"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text3999">time</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="11763"
+       y="2125"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4001">spu</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="9921"
+       y="4960"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4003">pts</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8598"
+       y="5574"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4005">vpts</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="10015"
+       y="3496"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4007">vpts</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="8409"
+       y="4015"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4009">vpts</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="9921"
+       y="4535"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4011">pts</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4393"
+       y="8456"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4013">buf</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4393"
+       y="8787"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4015">disc</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4393"
+       y="9118"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4017">pts</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7370"
+       y="8456"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4019">vpts</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="7370"
+       y="8787"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4021">spu</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4015"
+       y="5763"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4023">buf</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="4015"
+       y="3685"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4025">buf</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6944"
+       y="2881"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4027">buf</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="6944"
+       y="6661"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4029">buf</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="9590"
+       y="2645"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4031">frames</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="9590"
+       y="6992"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4033">samples</text>
+<!-- Text -->    <text
+       xml:space="preserve"
+       x="12377"
+       y="2078"
+       stroke="#000000"
+       fill="#000000"
+       font-family="DejaVu Sans Condensed"
+       font-style="normal"
+       font-weight="normal"
+       font-size="139"
+       text-anchor="start"
+       id="text4035">frames</text>
+<!-- Circle -->    <circle
+       cx="4582"
+       cy="2598"
+       r="10"
+       style="fill:#000000;stroke:#000000;stroke-width:8;"
+       id="circle4037" />
+<!-- Circle -->    <circle
+       cx="5055"
+       cy="2598"
+       r="10"
+       style="fill:#000000;stroke:#000000;stroke-width:8;"
+       id="circle4039" />
+<!-- Circle -->    <circle
+       cx="5527"
+       cy="2598"
+       r="10"
+       style="fill:#000000;stroke:#000000;stroke-width:8;"
+       id="circle4041" />
+<!-- Circle -->    <circle
+       cx="6283"
+       cy="2598"
+       r="10"
+       style="fill:#000000;stroke:#000000;stroke-width:8;"
+       id="circle4043" />
+<!-- Circle -->    <circle
+       cx="4572"
+       cy="6377"
+       r="10"
+       style="fill:#000000;stroke:#000000;stroke-width:8;"
+       id="circle4045" />
+<!-- Circle -->    <circle
+       cx="5055"
+       cy="6377"
+       r="10"
+       style="fill:#000000;stroke:#000000;stroke-width:8;"
+       id="circle4047" />
+<!-- Circle -->    <circle
+       cx="5527"
+       cy="6377"
+       r="10"
+       style="fill:#000000;stroke:#000000;stroke-width:8;"
+       id="circle4049" />
+<!-- Circle -->    <circle
+       cx="6283"
+       cy="6377"
+       r="10"
+       style="fill:#000000;stroke:#000000;stroke-width:8;"
+       id="circle4051" />
+<!-- Circle -->    <circle
+       cx="3958"
+       cy="5622"
+       r="10"
+       style="fill:#000000;stroke:#000000;stroke-width:8;"
+       id="circle4053" />
+<!-- Circle -->    <circle
+       cx="3968"
+       cy="3543"
+       r="10"
+       style="fill:#000000;stroke:#000000;stroke-width:8;"
+       id="circle4055" />
+<!-- Circle -->    <circle
+       cx="6897"
+       cy="2729"
+       r="10"
+       style="fill:#000000;stroke:#000000;stroke-width:8;"
+       id="circle4057" />
+<!-- Circle -->    <circle
+       cx="6897"
+       cy="6519"
+       r="10"
+       style="fill:#000000;stroke:#000000;stroke-width:8;"
+       id="circle4059" />
+<!-- Circle -->    <circle
+       cx="7501"
+       cy="6188"
+       r="10"
+       style="fill:#000000;stroke:#000000;stroke-width:8;"
+       id="circle4061" />
+<!-- Circle -->    <circle
+       cx="7464"
+       cy="2409"
+       r="10"
+       style="fill:#000000;stroke:#000000;stroke-width:8;"
+       id="circle4063" />
+<!-- Circle -->    <circle
+       cx="9543"
+       cy="2503"
+       r="10"
+       style="fill:#000000;stroke:#000000;stroke-width:8;"
+       id="circle4065" />
+<!-- Circle -->    <circle
+       cx="9532"
+       cy="6850"
+       r="10"
+       style="fill:#000000;stroke:#000000;stroke-width:8;"
+       id="circle4067" />
+<!-- Circle -->    <circle
+       cx="7464"
+       cy="9070"
+       r="10"
+       style="fill:#000000;stroke:#000000;stroke-width:8;"
+       id="circle4069" />
+  </g>
+</svg>

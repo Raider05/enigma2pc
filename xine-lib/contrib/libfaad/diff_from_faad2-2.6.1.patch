@@ -1,0 +1,11 @@
+--- faad2/libfaad/common.h	2007-11-01 13:33:30.000000000 +0100
++++ faad2/libfaad/common.h	2007-11-01 18:51:01.480721384 +0100
+@@ -36,7 +36,7 @@
+ #endif
+ 
+ #ifdef HAVE_CONFIG_H
+-#  include "../config.h"
++#  include <config.h>
+ #endif
+ 
+ #if 1

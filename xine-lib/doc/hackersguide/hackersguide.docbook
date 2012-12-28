@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+  "/usr/share/sgml/docbook/xml-dtd-4.4/docbookx.dtd" [
+<!ENTITY intro     SYSTEM "intro.docbook"    >
+<!ENTITY library   SYSTEM "library.docbook"  >
+<!ENTITY overview  SYSTEM "overview.docbook" >
+<!ENTITY internals SYSTEM "internals.docbook">
+<!ENTITY stream    SYSTEM "stream.docbook"   >
+<!ENTITY output    SYSTEM "output.docbook"   >
+]>
+
+<book>
+
+ <bookinfo>
+  <title>The xine hacker's guide</title>
+  <titleabbrev>hackersguide</titleabbrev>
+  <authorgroup>
+   <author><firstname>Günter</firstname><surname>Bartsch</surname></author>
+   <author><firstname>Heiko</firstname><surname>Schäfer</surname></author>
+   <author><firstname>Richard</firstname><surname>Wareham</surname></author>
+   <author><firstname>Miguel</firstname><surname>Freitas</surname></author>
+   <author><firstname>James</firstname><surname>Courtier-Dutton</surname></author>
+   <author><firstname>Siggi</firstname><surname>Langauf</surname></author>
+   <author><firstname>Marco</firstname><surname>Zühlke</surname></author>
+   <author><firstname>Mike</firstname><surname>Melanson</surname></author>
+   <author><firstname>Michael</firstname><surname>Roitzsch</surname></author>
+   <author><firstname>Diego</firstname><surname>Pettenò</surname></author>
+   <author><firstname>Darren</firstname><surname>Salt</surname></author>
+  </authorgroup>
+  <copyright>
+   <year>2001-2010</year>
+   <holder>the xine project team</holder>
+  </copyright>
+  <abstract>
+   <para>
+    This document should help xine hackers to find their way through
+    xine's architecture and source code. It's a pretty free-form document
+    containing a loose collection of articles describing various aspects
+    of xine's internals.
+   </para>
+  </abstract>
+ </bookinfo>
+
+ &intro;
+ &library;
+ &overview;
+ &internals;
+ &stream;
+ &output;
+
+</book>

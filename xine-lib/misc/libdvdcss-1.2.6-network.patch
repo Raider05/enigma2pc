@@ -1,0 +1,512 @@
+diff -u --new-file libdvdcss-1.2.6/src/Makefile.am libdvdcss-1.2.6-network/src/Makefile.am
+--- libdvdcss-1.2.6/src/Makefile.am	2003-03-10 12:57:09.000000000 -0500
++++ libdvdcss-1.2.6-network/src/Makefile.am	2003-05-06 15:59:47.000000000 -0400
+@@ -4,6 +4,7 @@
+ 
+ libdvdcss_la_SOURCES = \
+ 	libdvdcss.c libdvdcss.h \
++	network.c network.h \
+ 	device.c device.h \
+ 	css.c css.h csstables.h \
+ 	ioctl.c ioctl.h \
+diff -u --new-file libdvdcss-1.2.6/src/libdvdcss.c libdvdcss-1.2.6-network/src/libdvdcss.c
+--- libdvdcss-1.2.6/src/libdvdcss.c	2003-02-01 16:24:49.000000000 -0500
++++ libdvdcss-1.2.6-network/src/libdvdcss.c	2003-05-06 16:28:21.000000000 -0400
+@@ -125,6 +125,9 @@
+ #include "libdvdcss.h"
+ #include "ioctl.h"
+ #include "device.h"
++#include "network.h"
++
++#define MAX_ERR_MSG 300
+ 
+ /**
+  * \brief Symbol for version checks.
+@@ -204,6 +207,10 @@
+         }
+     }
+ 
++    dvdcss->i_socket_fd = dvdcss_network_connect( dvdcss->psz_device );
++    if( dvdcss->i_socket_fd != -1 )
++      return dvdcss;
++
+     /*
+      *  Find method from DVDCSS_METHOD environment variable
+      */
+@@ -439,6 +446,16 @@
+  */
+ extern char * dvdcss_error ( dvdcss_t dvdcss )
+ {
++    if( dvdcss->i_socket_fd != -1 )
++    {
++      static char buf[MAX_ERR_MSG];
++
++      if( dvdcss_network_command( dvdcss->i_socket_fd, buf, "dvd_error") < 0 )
++        return "(network error)";
++      else
++        return buf;
++    }
++
+     return dvdcss->psz_error;
+ }
+ 
+@@ -468,6 +485,12 @@
+  */
+ extern int dvdcss_seek ( dvdcss_t dvdcss, int i_blocks, int i_flags )
+ {
++    if( dvdcss->i_socket_fd != -1 )
++    {
++      return dvdcss_network_command( dvdcss->i_socket_fd, NULL,
++                              "dvd_seek %d %d", i_blocks, i_flags);
++    }
++
+     /* title cracking method is too slow to be used at each seek */
+     if( ( ( i_flags & DVDCSS_SEEK_MPEG )
+              && ( dvdcss->i_method != DVDCSS_METHOD_TITLE ) )
+@@ -512,6 +535,12 @@
+ {
+     int i_ret, i_index;
+ 
++    if( dvdcss->i_socket_fd != -1 )
++    {
++      return dvdcss_network_command( dvdcss->i_socket_fd, p_buffer,
++                              "dvd_read %d %d", i_blocks, i_flags);
++    }
++
+     i_ret = dvdcss->pf_read( dvdcss, p_buffer, i_blocks );
+ 
+     if( i_ret <= 0
+@@ -588,6 +617,12 @@
+     void *iov_base;
+     size_t iov_len;
+ 
++    if( dvdcss->i_socket_fd != -1 )
++    {
++      printf("error: network dvdcss_readv not implemented\n");
++      return -1;
++    }
++
+     i_ret = dvdcss->pf_readv( dvdcss, _p_iovec, i_blocks );
+ 
+     if( i_ret <= 0
+@@ -642,20 +677,28 @@
+     dvd_title_t *p_title;
+     int i_ret;
+ 
+-    /* Free our list of keys */
+-    p_title = dvdcss->p_titles;
+-    while( p_title )
++    if( dvdcss->i_socket_fd != -1 )
+     {
+-        dvd_title_t *p_tmptitle = p_title->p_next;
+-        free( p_title );
+-        p_title = p_tmptitle;
++        close(dvdcss->i_socket_fd);
+     }
++    else
++    {
+ 
+-    i_ret = _dvdcss_close( dvdcss );
++        /* Free our list of keys */
++        p_title = dvdcss->p_titles;
++        while( p_title )
++        {
++            dvd_title_t *p_tmptitle = p_title->p_next;
++            free( p_title );
++            p_title = p_tmptitle;
++        }
+ 
+-    if( i_ret < 0 )
+-    {
+-        return i_ret;
++        i_ret = _dvdcss_close( dvdcss );
++
++        if( i_ret < 0 )
++        {
++            return i_ret;
++        }
+     }
+ 
+     free( dvdcss->psz_device );
+@@ -670,6 +713,11 @@
+ #undef dvdcss_title
+ extern int dvdcss_title ( dvdcss_t dvdcss, int i_block )
+ {
++    if( dvdcss->i_socket_fd != -1 )
++    {
++      return dvdcss_network_command( dvdcss->i_socket_fd, NULL, 
++                              "dvd_title %d", i_block);
++    }
+     return _dvdcss_title( dvdcss, i_block );
+ }
+ 
+diff -u --new-file libdvdcss-1.2.6/src/libdvdcss.h libdvdcss-1.2.6-network/src/libdvdcss.h
+--- libdvdcss-1.2.6/src/libdvdcss.h	2002-12-19 10:36:04.000000000 -0500
++++ libdvdcss-1.2.6-network/src/libdvdcss.h	2003-04-29 05:31:04.000000000 -0400
+@@ -34,6 +34,7 @@
+     int    i_fd;
+     int    i_read_fd;
+     int    i_pos;
++    int    i_socket_fd;
+ 
+     /* File handling */
+     int ( * pf_seek )  ( dvdcss_t, int );
+diff -u --new-file libdvdcss-1.2.6/src/network.c libdvdcss-1.2.6-network/src/network.c
+--- libdvdcss-1.2.6/src/network.c	1969-12-31 19:00:00.000000000 -0500
++++ libdvdcss-1.2.6-network/src/network.c	2003-05-06 16:28:04.000000000 -0400
+@@ -0,0 +1,331 @@
++/***************************************************************************
++                          network.c  -  description
++                             -------------------
++    begin                : Wed Mar 19 2003
++    copyright            : (C) 2003 by miguel
++    email                : miguel@miguel
++ ***************************************************************************/
++
++/***************************************************************************
++ *                                                                         *
++ *   This program is free software; you can redistribute it and/or modify  *
++ *   it under the terms of the GNU General Public License as published by  *
++ *   the Free Software Foundation; either version 2 of the License, or     *
++ *   (at your option) any later version.                                   *
++ *                                                                         *
++ ***************************************************************************/
++
++
++#include <stdio.h>
++#include <stdlib.h>
++#include <stdarg.h>
++#include <unistd.h>
++#include <string.h>
++#include <signal.h>
++#include <errno.h>
++#include <sys/time.h>
++#include <sys/socket.h>
++#include <netinet/in.h>
++#include <arpa/inet.h>
++#include <netdb.h>
++
++
++#define _BUFSIZ 300
++   
++static int host_connect_attempt (struct in_addr ia, int port) 
++{
++    int                s;
++    struct sockaddr_in sin;
++  
++    s=socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
++  
++    if (s==-1) {
++        printf("network: failed to open socket\n");
++        return -1;
++    }
++  
++    sin.sin_family = AF_INET;	
++    sin.sin_addr   = ia;
++    sin.sin_port   = htons(port);
++  
++    if (connect(s, (struct sockaddr *)&sin, sizeof(sin))==-1 && errno != EINPROGRESS) {
++        printf("network: cannot connect to host\n");
++        close(s);
++        return -1;
++    }
++  
++    return s;
++}
++
++static int host_connect (const char *host, int port) 
++{
++    struct hostent *h;
++    int i;
++    int s;
++    
++    h=gethostbyname(host);
++    if (h==NULL) {
++        printf("network: unable to resolve >%s<\n", host);
++        return -1;
++    }
++  
++    for(i=0; h->h_addr_list[i]; i++) {
++        struct in_addr ia;
++        memcpy(&ia, h->h_addr_list[i], 4);
++        s=host_connect_attempt(ia, port);
++        if(s != -1) {
++          signal( SIGPIPE, SIG_IGN );
++          return s;
++        }
++    }
++  
++    printf("network: unable to connect to >%s<\n", host);
++    return -1;
++}
++
++   
++static int parse_url (char *urlbuf, char** host, int *port) {
++    char   *start = NULL;
++    char   *portcolon = NULL;
++    
++    if (host != NULL)
++        *host = NULL;
++    
++    if (port != NULL)
++        *port = 0;
++    
++    start = strstr(urlbuf, "://");
++    if (start != NULL)
++        start += 3;
++    else
++        start = urlbuf;
++
++    while( *start == '/' )
++      start++;
++      
++    portcolon = strchr(start, ':');
++    
++    if (host != NULL)
++        *host = start;
++    
++    if (portcolon != NULL)
++    {
++        *portcolon = '\0';
++      
++        if (port != NULL)
++            *port = atoi(portcolon + 1);
++    }
++    
++    return 0;
++}
++   
++static int sock_check_opened(int socket) {
++  fd_set   readfds, writefds, exceptfds;
++  int      retval;
++  struct   timeval timeout;
++  
++  for(;;) {
++    FD_ZERO(&readfds); 
++    FD_ZERO(&writefds); 
++    FD_ZERO(&exceptfds);
++    FD_SET(socket, &exceptfds);
++    
++    timeout.tv_sec  = 0; 
++    timeout.tv_usec = 0;
++    
++    retval = select(socket + 1, &readfds, &writefds, &exceptfds, &timeout);
++    
++    if(retval == -1 && (errno != EAGAIN && errno != EINTR))
++      return 0;
++    
++    if (retval != -1)
++      return 1;
++  }
++
++  return 0;
++}
++
++/*
++ * read binary data from socket 
++ */
++static int sock_data_read (int socket, char *buf, int nlen) {
++  int n, num_bytes;
++
++  if((socket < 0) || (buf == NULL))
++      return -1;
++
++  if(!sock_check_opened(socket))
++      return -1;
++  
++  num_bytes = 0;
++
++  while (num_bytes < nlen) {
++
++    n = read (socket, &buf[num_bytes], nlen - num_bytes);
++
++    /* read errors */
++    if (n < 0) {
++      if(errno == EAGAIN) {
++        fd_set rset;
++        struct timeval timeout;
++
++        FD_ZERO (&rset);
++        FD_SET  (socket, &rset);
++
++        timeout.tv_sec  = 30;
++        timeout.tv_usec = 0;
++
++        if (select (socket+1, &rset, NULL, NULL, &timeout) <= 0) {
++          printf ("network: timeout on read\n");
++          return 0;
++        }
++        continue;
++      }
++      printf ("network: read error %d\n", errno);
++      return 0;
++    }
++
++    num_bytes += n;
++
++    /* end of stream */
++    if (!n) break;
++  }
++
++  return num_bytes;
++}
++
++/*
++ * read a line (\n-terminated) from socket 
++ */
++static int sock_string_read(int socket, char *buf, int len) {
++  char    *pbuf;
++  int      r, rr;
++  void    *nl;
++  
++  if((socket < 0) || (buf == NULL))
++    return -1;
++
++  if(!sock_check_opened(socket))
++    return -1;
++  
++  if (--len < 1)
++    return(-1);
++  
++  pbuf = buf;
++  
++  do {
++    
++    if((r = recv(socket, pbuf, len, MSG_PEEK)) <= 0)
++      return -1;
++
++    if((nl = memchr(pbuf, '\n', r)) != NULL)
++      r = ((char *) nl) - pbuf + 1;
++    
++    if((rr = read(socket, pbuf, r)) < 0)
++      return -1;
++    
++    pbuf += rr;
++    len -= rr;
++
++  } while((nl == NULL) && len);
++  
++  if (pbuf > buf && *(pbuf-1) == '\n'){
++    *(pbuf-1) = '\0';
++  }
++  *pbuf = '\0';
++  return (pbuf - buf);
++}
++
++/*
++ * Write to socket.
++ */
++static int sock_data_write(int socket, char *buf, int len) {
++  ssize_t  size;
++  int      wlen = 0;
++  
++  if((socket < 0) || (buf == NULL))
++    return -1;
++  
++  if(!sock_check_opened(socket))
++    return -1;
++  
++  while(len) {
++    size = write(socket, buf, len);
++    
++    if(size <= 0)
++      return -1;
++    
++    len -= size;
++    wlen += size;
++    buf += size;
++  }
++
++  return wlen;
++}
++
++int dvdcss_network_command( int socket, char *data_buf, char *msg, ...) 
++{
++    char     buf[_BUFSIZ];
++    va_list  args;
++    int      ret, n;
++      
++    va_start(args, msg);
++    vsnprintf(buf, _BUFSIZ - 1, msg, args);
++    va_end(args);
++    
++    /* Each line sent is '\n' terminated */
++    if((buf[strlen(buf)] == '\0') && (buf[strlen(buf) - 1] != '\n'))
++        strcat(buf, "\n");
++    
++    if( sock_data_write(socket, buf, strlen(buf)) < (int)strlen(buf) )
++    {
++        printf("network: error writing to socket\n");
++        return -1;
++    }
++        
++    if( sock_string_read(socket, buf, _BUFSIZ) <= 0 )
++    {
++        printf("network: error reading from socket\n");
++        return -1;
++    }
++    
++    sscanf(buf, "%d %d", &ret, &n );
++    
++    if( n ) {
++        if( !data_buf ) {
++            printf("network: protocol error, data returned but no buffer provided.\n");
++            return -1;
++        }
++        if( sock_data_read(socket, data_buf, n) < n )
++            return -1;
++    }
++    
++    return ret;
++}
++
++int dvdcss_network_connect( char *url )
++{
++  char *host;
++  int port;
++  int fd;
++
++  url = strdup(url);
++  parse_url(url, &host, &port);
++
++  if( !host || !strlen(host) || !port )
++  {
++    free(url);
++    return -1;
++  }
++
++  fd = host_connect( host, port );
++  free(url);
++
++  if( fd != -1 ) {
++    if( dvdcss_network_command(fd, NULL, "dvd_open") < 0 ) {
++      close(fd);
++      return -1;
++    }
++  }
++  return fd;
++}
+diff -u --new-file libdvdcss-1.2.6/src/network.h libdvdcss-1.2.6-network/src/network.h
+--- libdvdcss-1.2.6/src/network.h	1969-12-31 19:00:00.000000000 -0500
++++ libdvdcss-1.2.6-network/src/network.h	2003-05-06 16:26:15.000000000 -0400
+@@ -0,0 +1,20 @@
++/***************************************************************************
++                          network.h  -  description
++                             -------------------
++    begin                : Wed Mar 19 2003
++    copyright            : (C) 2003 by miguel
++    email                : miguel@miguel
++ ***************************************************************************/
++
++/***************************************************************************
++ *                                                                         *
++ *   This program is free software; you can redistribute it and/or modify  *
++ *   it under the terms of the GNU General Public License as published by  *
++ *   the Free Software Foundation; either version 2 of the License, or     *
++ *   (at your option) any later version.                                   *
++ *                                                                         *
++ ***************************************************************************/
++
++int dvdcss_network_connect( char *url );
++
++int dvdcss_network_command( int socket, char *data_buf, char *msg, ...);

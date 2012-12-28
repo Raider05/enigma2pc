@@ -1,0 +1,137 @@
+
+xine Digital TV (DVB)
+=====================
+
+xine can be used to watch digital television.
+
+xine supports Digital TV (Digital Video Broadcasting - DVB) cards using the
+Linux DVB drivers in your kernel or from http://www.linuxtv.org/.
+
+Many DVB-S (direct satellite reception), DVB-C (Cable) and DVB-T and ATSC
+(Terrestrial) devices are supported via these drivers.
+
+
+Driver download and installation
+--------------------------------
+
+You may need to download and install drivers for recent hardware. See the
+"Getting Started" section at http://www.linuxtv.org/wiki/index.php/ .
+
+You will probably need to add yourself to group "video". With a DVB device
+installed and recognised:
+
+  $ ls -l /deb/dvb/adapter0
+  total 0
+  crw-rw---- 1 root video 212, 4 2007-08-07 15:33 demux0
+  crw-rw---- 1 root video 212, 5 2007-08-07 15:33 dvr0
+  crw-rw---- 1 root video 212, 3 2007-08-07 15:33 frontend0
+  crw-rw---- 1 root video 212, 7 2007-08-07 15:33 net0
+
+This shows that you need to be either root or in group "video" to be able to
+use the DVB device.
+
+You can find out if you're already in this group by using the "groups"
+command in a terminal. If you aren't, then trying to use the DVB plugin will
+cause a "no input plugin" error: this is somewhat misleading because the DVB
+plugin was actually found but it failed because it couldn't open the device
+nodes.
+
+Adding yourself to group "video" is the best way; one of
+
+  # adduser fred video
+  $ sudo adduser fred video
+
+will do the job for a user named "fred". Note that the change won't take
+effect until after fred has logged out if he's currently logged in.
+
+
+Install a channel list
+----------------------
+
+xine-lib's dvb input plugin needs a channel/transponder list that fits your
+dvb equipment. xine-lib uses the channels.conf format of szap, czap and tzap
+as appropriate for DVB-S, DVB-C and DVB-T. It will search the channel list
+file in ~/.config/xine/channels.conf.
+
+channel list format for DVB-S: (satellite)
+-------------------------------------------
+NBC         :11053   :h  :1        :27500      :550 :551 :1  :8008
+station name:freqency:h/v:sat no   :symbol rate:vpid:apid:sid:????
+-------------------------------------------
+
+channel list format for DVB-T (terrestrial):
+-------------------------------------------
+WINSA	    :557500000:INVERSION_AUTO:BANDWIDTH_7_MHZ:FEC_2_3:FEC_AUTO:QAM_64: \
+		   TRANSMISSION_MODE_8K:GUARD_INTERVAL_1_8:HIERARCHY_NONE :33  :36  :1
+station name:frequency:config options go on seemingly forever ...         :vpid:apid:serviceid
+-------------------------------------------
+
+You scan for all available channels using the scan utility which comes with
+the dvb-apps package (also known as dvb-utils). See
+http://www.linuxtv.org/wiki/index.php/Scan for more information.
+
+  $ scan /usr/share/doc/dvb-utils/examples/scan/dvb-t/uk-PontopPike >~/.config/xine/channels.conf
+  $ scan Hotbird-13.0 >~/.config/xine/channels.conf
+
+This can take a while. In a DiSEqC environment, use the -s N switch to
+select different satellites to scan and paste the results in one big
+channels.conf file. As always, please be sure to read the man page for the
+version of the tool you are using.
+
+HINT: you might want to manually sort the channels.conf file to have your
+favourite channels at the top and maybe remove any scrambled channels to
+which you don't have access.
+
+
+Using xine to watch digital television
+--------------------------------------
+
+Make sure you have a recent libxine and front end installed, then simply
+start something like
+
+  $ gxine dvb://
+
+or, perhaps, click on the DVB button in xine-ui. You should be able to zap
+around using the NumPad-9 / NumPad-3 keys, the xine playlist, or using the
+next/previous chapter buttons in your gui.
+
+An OSD menu is available too. Press NumPad-8 / NumPad-2 to scroll through
+the channels, then press NumPad-Enter to switch to the channel you have
+selected. The channel list can be brought up and scrolled through via the
+mouse wheel. Use the left mouse button to switch to the channel you've
+selected. The side buttons (6 & 7) can be used to rapidly switch to
+previous/next channels, if they are available on your mouse.
+
+You can use MENU3 (F2 in xine-ui, F3 in gxine) to zoom into the centre of a
+videostream. This will allow you to view 4:3 content that has been embedded
+into a 16:9 stream in fullscreen (no more black borders). Press the key
+again to return to normal viewing. There is also an option in the xine
+preferences to zoom automatically when using xine to view DVB.
+
+MENU7 (F6 in xine-ui or F7 in gxine) will toggle viewing of the current
+channel's Electronic Program Guide (information on the current/next program)
+on the OSD, if available.
+
+HINT: if audio or video is stuttering, pause (space key) shortly to give
+xine-lib a chance to fill its buffers. If watching a large HDTV stream, you
+may need to increase the xine video & audio buffer size - increasing audio
+buffers to 300 and video buffers to 700 has been known to work with streams
+up to 1920x1088 in size.
+
+
+Recording digital television
+----------------------------
+
+There is a very simple VCR-like feature built into the xine engine. just
+press MENU2 (that is F2 in gxine, or F1 in xine-ui for example) to
+start/stop recording the currently displayed program to your local disc. A
+small OSD message in the upper left corner of your screen will tell you the
+file name the recorded stream is being written to. You can select the
+directory to save to in the xine configuration under the MISC tab, otherwise
+the plugin will record to your home directory. You can pause the recording
+at any time by pressing MENU4 (F3 in xine-ui, F4 in gxine). An OSD in the
+top left hand corner will notify you of the status of the recording.
+Pressing MENU4 again will resume recording.
+
+Have fun.
+

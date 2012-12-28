@@ -1,0 +1,175 @@
+Introduction
+------------
+
+This document describes how to build xine library under Windows.
+
+
+Download
+--------
+Checkout source code from CVS (under Windows can be used CygWin or another tool). You will need 'xine-lib' (the library) and 'xine-win32' (testing Windows frontend). Instead xine-win32 you can use any other frontend working under Windows (toxine, ...)
+
+
+Build
+-----
+
+There are three different ports on Windows:
+ 1) MinGW (the simplest and recommended)
+ 1) CygWin
+ 3) M$ Visual C, or maybe .NET (recommended for debugging)
+
+
+1. MinGW port
+-------------
+This is the best way. Result is 100% native Windows library with all optimizations.
+
+Also you can use cross-build from comfortable unix-like system. See README.MINGWCROSS for more information.
+
+Requirements for compilation under Windows:
+  a) installed MinGW
+  b) LIB.EXE, LINK.EXE and MSPDB60.DLL from M$ Visual C
+     (necessary only for usability created xine library by M$ compilers)
+
+How to build:
+    #
+    # configure for building in MinGW under Windows
+    #
+    ./configure --with-dxheaders=DIRECTORY
+
+    #
+    # compile
+    #
+    make
+
+    #
+    # install and manually remove the static plugins
+    #
+    make install DESTDIR=/tmp/xine-lib
+
+Prepare xine library for using in M$ compilers too:
+    # run terminal window (MinGW for example)
+    ...
+    # creating libxine-1.lib file
+    cd <path_where_libxine_is_installed>/lib
+    cp ../bin/libxine-1.dll .
+    <path_to_M$VC>/VC98/BIN/LIB.EXE /machine:i386 /def:libxine-1.def
+    rm libxine-1.dll
+
+For 64bit, use x86 instead of i386:
+    <path_to_M$VC>/VC98/BIN/LIB.EXE /machine:x86 /def:libxine-1.def
+
+
+2. CygWin port
+--------------
+This is the second way. Created library won't be 100% windows native: it will contains some additional emulation code and I'm not sure, if it can be used with M$ compilers.
+
+It's possible to use CygWin for cross-compiling with MinGW.
+
+How to build:
+    #
+    # configure
+    #
+    ./configure --with-dxheaders=DIRECTORY
+
+    #
+    # compile
+    #
+    make
+
+    #
+    # install
+    #
+    make install DESTDIR=/tmp/xine-lib
+
+
+3. M$ Visual C port
+-------------------
+This build system is different from the one, used for all other platforms, but we partially keep it up to date - just for experimental reasons, but only if we have access to some M$ computer.
+
+Reasons, why not to use this port:
+ - can't compile included ffmpeg (important multi-decoder in xine)
+ - can't compile new assembler code (it means degradation of power)
+ - never 100% up to date
+ - somebody must own the OS and compiler
+
+Reasons, why to use this port:
+ - obtaining cute backtrace after crash, debugging
+
+How to build xine in M$ Visual C:
+  - Set up MSVC to look for DirectX headers.
+
+  - Download Pthreads Win32
+    (ftp://sources.redhat.com/pub/pthreads-win32/), from prebuild directory
+    install include/*.h, lib/pthreadVC2.lib and lib/pthreadVC2.dll,
+    rename pthreadVC2.lib to pthread.lib
+    set up MSVC - libraries and headers.
+
+  - Download zlib (http://www.zlib.net), instal all in include and lib,
+    set up MSVC - libraries and headers.
+
+  - Copy include/xine.h.in to include/xine.h, replace @text@ by right values
+    (eg. XINE_MAJOR 1, XINE_MINOR 1, XINE_SUB 0, XINE_VERSION "1.1.0")
+
+  - Open up the xine.dsw workspace/project in MSVC.
+
+  - Click on the FileView tab.
+
+  - Build the following projects in this order:
+    libxinesuppt
+    libxine
+    libdvdnav
+
+  - Next build any desired plugins (decoders/demuxers ...). The ao_out_directx2 and vo_out_directx are required for Win32. ao_out_directx is obsoleted. There is a possibility to use the vo_out_sdl but sdl.dll must be present for that to take place. There have also been some issues observed with the directX video driver on some machines.
+
+  - If you want ffmpeg decoder plugin, you must use precompiled version. If you want to compile it, you should have the files LIB.EXE, LINK.EXE and MSPDB60.DLL from the Visual C++.
+    Under MinGW you can compile ffmpeg for xine by this way:
+
+    #
+    # run the script/patch necessary for MSVC and for xine
+    #
+    cd ffmpeg
+    sh ../xine-lib/win32/scripts/ffmpeg_win32.patch
+
+    #
+    # (for cross-compiling add "--cross-prefix=i386-mingw32-"
+    #  and "--disable-mmx")
+    #
+    ./configure \
+       --enable-gpl \
+       --enable-pp \
+       --enable-shared \
+       --disable-zlib \
+       --enable-mingw32
+    make
+
+    #
+    # linking by running this command in libavcodec/ directory (use wine for
+    # cross-compiling)
+    #
+    # it's done automatically if you have 'LIB.EXE' linked to 'lib' in your
+    # $PATH and set wine
+    #
+    wine LIB.EXE /machine:i386 /def:avcodec.def
+
+    #
+    # install
+    #
+    PREFIX=/tmp/ffmpeg; make install prefix=$PREFIX bindir=$PREFIX libdir=$PREFIX/lib
+    cp libavcodec/avcodec.lib $PREFIX/lib
+    cp libavformat/avformat.lib $PREFIX/lib
+    cp libavutil/avutil.lib $PREFIX/lib
+
+
+Status
+------
+
+There remains many of work yet on Windows port.
+
+Limitations:
+ - file > 1GB doesn't work (MinGW problem?)
+ - seeking doesn't work with testing frontend, but it should be OK in library
+ - libcdio not ported to mingw32-w64 (frelling headers :-))
+
+Bugs:
+ - random crashes and random locks in stress tests
+ - non-seekable input plugins crash
+ - ffmpeg bug visible for some video sizes

@@ -1,0 +1,54 @@
+<chapter id="intro">
+ <title>Introduction</title>
+
+ <sect1>
+  <title>Where am I?</title>
+  <para>
+   You are currently looking at a piece of documentation for xine.
+   xine is a free video player. It lives on
+   <ulink url="http://www.xine-project.org/">http://www.xine-project.org/</ulink>. Specifically
+   this document goes under the moniker of the "xine Hackers' Guide".
+  </para>
+ </sect1>
+
+ <sect1>
+  <title>What does this text do?</title>
+  <para>
+   This document should help xine hackers to find their way through
+   xine's architecture and source code. It's a pretty free-form document
+   containing a loose collection of articles describing various aspects
+   of xine's internals. It has been written by a number of people who work
+   on xine themselves and is intended to provide the important concepts and
+   methods used within xine. Readers should not consider this document to be
+   an exhausative description of the internals of xine. As with all projects
+   which provide access, the source-code should be considered the definitive
+   source of information.
+  </para>
+ </sect1>
+
+ <sect1>
+  <title>New versions of this document</title>
+  <para>
+   This document is being developed in the xine-lib cvs repository within
+   the directory <filename>doc/hackersguide/</filename>. If you are
+   unsure what to do with the stuff in that directory, please read the
+   <filename>README</filename> file located there.
+  </para>
+  <para>
+   New versions of this document can also be obtained from the xine web site:
+   <ulink url="http://www.xine-project.org/">http://www.xine-project.org/</ulink>.
+  </para>
+ </sect1>
+
+ <sect1>
+  <title>Feedback</title>
+  <para>
+   All comments, error reports, additional information and criticism
+   concerning this document should be directed to the xine documentations
+   mailing list <email>xine-docs@lists.sourceforge.net</email>.
+   Questions about xine hacking in general should be sent to the
+   developer mailing list <email>xine-devel@lists.sourceforge.net</email>.
+  </para>
+ </sect1>
+
+</chapter>

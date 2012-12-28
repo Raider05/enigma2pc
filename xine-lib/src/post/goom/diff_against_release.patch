@@ -1,0 +1,692 @@
+diff -ru goom2k4-0/src/filters.c xine-lib/src/post/goom/filters.c
+--- filters.c	2005-02-07 11:46:41.000000000 -0200
++++ filters.c	2005-07-18 12:15:50.000000000 -0300
+@@ -704,7 +704,7 @@
+     
+     data->general_speed = 0.0f;
+     data->reverse = 0;
+-    data->theMode = AMULETTE_MODE;
++    data->theMode = rand() % 10;
+     data->waveEffect = 0;
+     data->hypercosEffect = 0;
+     data->vPlaneEffect = 0;
+Index: filters.c
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/post/goom/filters.c,v
+retrieving revision 1.19
+retrieving revision 1.20
+diff -u -p -r1.19 -r1.20
+--- filters.c	25 Aug 2005 15:36:30 -0000	1.19
++++ filters.c	22 May 2006 16:57:36 -0000	1.20
+@@ -740,7 +740,7 @@ static void zoomFilterVisualFXWrapper_ap
+ 
+ VisualFX zoomFilterVisualFXWrapper_create(void)
+ {
+-    VisualFX fx;
++    VisualFX fx = {0};
+     fx.init = zoomFilterVisualFXWrapper_init;
+     fx.free = zoomFilterVisualFXWrapper_free;
+     fx.apply = zoomFilterVisualFXWrapper_apply;
+diff -ru goom2k4-0/src/goom_core.c xine-lib/src/post/goom/goom_core.c
+--- goom_core.c	2005-02-07 11:46:41.000000000 -0200
++++ goom_core.c	2005-07-19 12:39:22.000000000 -0300
+@@ -26,6 +26,8 @@
+ #include "goom_fx.h"
+ #include "goomsl.h"
+ 
++#include "xine_internal.h"
++
+ /* #define VERBOSE */
+ 
+ #define STOP_SPEED 128
+@@ -736,7 +738,12 @@
+         /* affichage et swappage des buffers.. */
+         goomInfo->cycle++;
+         
++        /* xine: no convolve_fx */
++        /*
+         goomInfo->convolve_fx.apply(&goomInfo->convolve_fx,return_val,goomInfo->outputBuf,goomInfo);
++        */
++        xine_fast_memcpy(goomInfo->outputBuf, return_val, goomInfo->screen.size * sizeof(Pixel));
++
+         
+         return (guint32*)goomInfo->outputBuf;
+ }
+diff -ru goom2k4-0/src/goom_tools.c xine-lib/src/post/goom/goom_tools.c
+--- goom_tools.c	2005-02-07 11:46:41.000000000 -0200
++++ goom_tools.c	2005-07-18 14:30:02.000000000 -0300
+@@ -3,7 +3,6 @@
+ 
+ GoomRandom *goom_random_init(int i) {
+ 	GoomRandom *grandom = (GoomRandom*)malloc(sizeof(GoomRandom));
+-	srand (i);
+ 	grandom->pos = 1;
+ 	goom_random_update_array(grandom, GOOM_NB_RAND);
+ 	return grandom;
+diff -ru goom2k4-0/src/ifs.c xine-lib/src/post/goom/ifs.c
+--- ifs.c	2005-02-07 11:46:41.000000000 -0200
++++ ifs.c	2005-07-19 14:20:20.000000000 -0300
+@@ -503,6 +503,13 @@
+ 
+ 		for (i = 0; i < 4; i++) {
+ 			*tmp = (*tmp) >> cycle10;
++
++      /* xine: make it darker */
++      if( *tmp && !((*tmp) >> 1) )
++        *tmp = 1;
++      else
++        *tmp = (*tmp) >> 1;
++
+ 			tmp++;
+ 		}
+ 	}
+Index: ifs.c
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/post/goom/ifs.c,v
+retrieving revision 1.11
+retrieving revision 1.12
+diff -u -p -r1.11 -r1.12
+--- ifs.c	19 Jul 2005 18:10:30 -0000	1.11
++++ ifs.c	22 May 2006 16:57:36 -0000	1.12
+@@ -762,7 +762,7 @@ static void ifs_vfx_free(VisualFX *_this
+ }
+ 
+ VisualFX ifs_visualfx_create(void) {
+-	VisualFX vfx;
++	VisualFX vfx = {0};
+ 	vfx.init = ifs_vfx_init;
+ 	vfx.free = ifs_vfx_free;
+ 	vfx.apply = ifs_vfx_apply;
+diff -ru goom2k4-0/src/tentacle3d.c xine-lib/src/post/goom/tentacle3d.c
+--- tentacle3d.c	2005-02-07 11:46:41.000000000 -0200
++++ tentacle3d.c	2005-07-19 14:04:57.000000000 -0300
+@@ -10,7 +10,7 @@
+ #define D 256.0f
+ 
+ #define nbgrid 6
+-#define definitionx 15
++#define definitionx 9
+ #define definitionz 45
+ 
+ typedef struct _TENTACLE_FX_DATA {
+Index: tentacle3d.c
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/post/goom/tentacle3d.c,v
+retrieving revision 1.5
+retrieving revision 1.6
+diff -u -p -r1.5 -r1.6
+--- tentacle3d.c	19 Jul 2005 18:10:31 -0000	1.5
++++ tentacle3d.c	22 May 2006 16:57:36 -0000	1.6
+@@ -95,7 +95,7 @@ static void tentacle_fx_free(VisualFX *_
+ }
+ 
+ VisualFX tentacle_fx_create(void) {
+-	VisualFX fx;
++	VisualFX fx = {0};
+ 	fx.init = tentacle_fx_init;
+ 	fx.apply = tentacle_fx_apply;
+ 	fx.free = tentacle_fx_free;
+diff -ru goom2k4-0/src/xmmx.c xine-lib/src/post/goom/xmmx.c
+--- xmmx.c	2005-02-07 11:46:41.000000000 -0200
++++ xmmx.c	2005-07-18 15:26:23.000000000 -0300
+@@ -239,7 +239,11 @@
+ 
+ 		++loop;
+ 	}
+-	__asm__ __volatile__ ("femms\n");
++/*#ifdef HAVE_ATHLON*/
++	__asm__ __volatile__ ("emms\n");
++/*#else
++	emms();
++#endif*/
+ }
+ 
+ #define DRAWMETHOD_PLUS_XMMX(_out,_backbuf,_col) \
+@@ -387,7 +391,7 @@
+ 		}
+ 	}
+ end_of_line:
+-	__asm__ __volatile__ ("femms\n"); 
++	__asm__ __volatile__ ("emms\n"); 
+ }
+ 
+ #endif
+Index: xmmx.c
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/post/goom/xmmx.c,v
+retrieving revision 1.6
+diff -u -r1.6 xmmx.c
+--- xmmx.c	19 Jul 2005 18:10:31 -0000	1.6
++++ xmmx.c	21 Jul 2005 20:48:09 -0000
+@@ -50,10 +50,10 @@
+ 	ratiox.d[1] = buffratio;
+ 
+   asm volatile
+-    ("\n\t movq  %[ratio], %%mm6"
++    ("\n\t movq  %0, %%mm6"
+      "\n\t pslld $16,      %%mm6" /* mm6 = [rat16=buffratio<<16 | rat16=buffratio<<16] */
+      "\n\t pxor  %%mm7,    %%mm7" /* mm7 = 0 */
+-     ::[ratio]"m"(ratiox));
++     ::"m"(ratiox));
+ 
+ 	loop=0;
+ 
+@@ -69,8 +69,8 @@
+ 		 */
+ 
+ 		asm volatile
+-      ("#1 \n\t movq %[brutS], %%mm0"
+-       "#1 \n\t movq %[brutD], %%mm1"
++      ("#1 \n\t movq       %0, %%mm0"
++       "#1 \n\t movq       %1, %%mm1"
+        "#1 \n\t psubd   %%mm0, %%mm1" /* mm1 = D - S */
+        "#1 \n\t movq    %%mm1, %%mm2" /* mm2 = D - S */
+        "#1 \n\t pslld     $16, %%mm1"
+@@ -83,8 +83,8 @@
+        "#1 \n\t paddd   %%mm1, %%mm0"  /* mm0 = S + mm1 */
+        "#1 \n\t psrld   $16,   %%mm0"
+        :
+-       : [brutS]"g"(brutS[loop])
+-       , [brutD]"g"(brutD[loop])
++       : "g"(brutS[loop])
++       , "g"(brutD[loop])
+       );               /* mm0 = S */
+ 
+ 		/*
+@@ -94,7 +94,7 @@
+ 		 * modified : mm0,mm1,mm2
+ 		 */
+     asm volatile
+-      ("#1 \n\t movq %[prevXY], %%mm1"
++      ("#1 \n\t movq       %0, %%mm1"
+        "#1 \n\t pcmpgtd %%mm0,  %%mm1"
+        /* mm0 en X contient (idem pour Y) :
+         *   1111 si prevXY > px
+@@ -107,7 +107,7 @@
+ #endif
+ 
+        "#1 \n\t pand %%mm1, %%mm0" /* on met a zero la partie qui deborde */
+-        ::[prevXY]"m"(prevXY));
++        ::"m"(prevXY));
+ 
+ 		/* Thread #2
+ 		 * pre :  mm0 : clipped position on screen
+@@ -127,11 +127,11 @@
+ 			"#2 \n\t shll $6,%%esi"
+ 			"#2 \n\t movd %%mm1,%%eax"
+ 
+-			"#2 \n\t addl %[precalCoef],%%esi"
++			"#2 \n\t addl %0,%%esi"
+ 			"#2 \n\t andl $15,%%eax"
+ 
+ 			"#2 \n\t movd (%%esi,%%eax,4),%%mm3"
+-			::[precalCoef]"g"(precalCoef):"eax","esi");
++			::"g"(precalCoef):"eax","esi");
+ 
+ 		/*
+ 		 * extraction des coefficients... (Thread #3)
+@@ -160,7 +160,7 @@
+       "#4 \n\t movd %%mm1,%%eax"
+ 			"#3 \n\t movq %%mm3,%%mm5" 
+ 
+-			"#4 \n\t mull %[prevX]"
++			"#4 \n\t mull %1"
+ 			"#4 \n\t movd %%mm0,%%esi"
+ 
+       "#3 \n\t punpcklbw %%mm5, %%mm3"
+@@ -169,18 +169,18 @@
+       "#3 \n\t movq %%mm3, %%mm4"     
+       "#3 \n\t movq %%mm3, %%mm5"     
+ 
+-      "#4 \n\t movl %[expix1], %%esi"
++      "#4 \n\t movl %0, %%esi"
+       "#3 \n\t punpcklbw %%mm5, %%mm3"
+ 
+       "#4 \n\t movq (%%esi,%%eax,4),%%mm0"
+       "#3 \n\t punpckhbw %%mm5, %%mm4"
+ 
+-      "#4 \n\t addl %[prevX],%%eax"
++      "#4 \n\t addl %1,%%eax"
+       "#4 \n\t movq (%%esi,%%eax,4),%%mm2"
+ 
+ 			:
+-      : [expix1] "g"(expix1)
+-      , [prevX]  "g"(prevX)
++      : "g"(expix1)
++      , "g"(prevX)
+       :"eax","esi"
+ 		);
+ 
+Index: convolve_fx.c
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/post/goom/convolve_fx.c,v
+retrieving revision 1.4
+diff -u -r1.4 convolve_fx.c
+--- convolve_fx.c	19 Jul 2005 18:10:29 -0000	1.4
++++ convolve_fx.c	22 Jul 2005 16:37:15 -0000
+@@ -172,7 +172,7 @@
+     {
+       __asm__ __volatile__
+         (
+-         "\n\t movd  %[src], %%mm0"  /* mm0 = src */
++         "\n\t movd  %1, %%mm0"  /* mm0 = src */
+          "\n\t paddd %%mm4, %%mm2"   /* [ ytex | xtex ] += [ -s | s ] */
+          "\n\t movd  %%esi, %%mm5"   /* save esi into mm5 */
+          "\n\t movq  %%mm2, %%mm3"
+@@ -190,7 +190,7 @@
+          "\n\t xorl  %%ecx, %%ecx"
+          "\n\t movb  (%%eax,%%esi), %%cl"
+ 
+-         "\n\t movl  %[ifftab], %%eax"
++         "\n\t movl  %2, %%eax"
+          "\n\t movd  %%mm5, %%esi"    /* restore esi from mm5 */
+          "\n\t movd  (%%eax,%%ecx,4), %%mm1" /* mm1 = [0|0|0|iff2] */
+ 
+@@ -202,10 +202,10 @@
+          "\n\t pmullw    %%mm1, %%mm0"
+          "\n\t psrlw     $5,    %%mm0"
+          "\n\t packuswb  %%mm7, %%mm0"
+-         "\n\t movd      %%mm0, %[dest]"
+-         : [dest] "=g" (dest[i].val)
+-         : [src]   "g"  (src[i].val)
+-         , [ifftab]"g"(&ifftab[0])
++         "\n\t movd      %%mm0, %0"
++         : "=g" (dest[i].val)
++         : "g"  (src[i].val)
++         , "g"(&ifftab[0])
+          : "eax","ecx");
+ 
+       i++;
+Index: convolve_fx.c
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/post/goom/convolve_fx.c,v
+retrieving revision 1.5
+diff -u -r1.5 convolve_fx.c
+--- convolve_fx.c	22 Jul 2005 16:37:44 -0000	1.5
++++ convolve_fx.c	22 Jul 2005 16:41:19 -0000
+@@ -154,19 +154,19 @@
+ #ifdef HAVE_MMX
+     __asm__ __volatile__
+       ("\n\t pxor  %%mm7,  %%mm7"  /* mm7 = 0   */
+-       "\n\t movd %[xtex],  %%mm2"
+-       "\n\t movd %[ytex],  %%mm3"
++       "\n\t movd %0,  %%mm2"
++       "\n\t movd %1,  %%mm3"
+        "\n\t punpckldq %%mm3, %%mm2" /* mm2 = [ ytex | xtex ] */
+-       "\n\t movd %[c],     %%mm4"
+-       "\n\t movd %[s],     %%mm6"
++       "\n\t movd %2,     %%mm4"
++       "\n\t movd %3,     %%mm6"
+        "\n\t pxor  %%mm5,   %%mm5"
+        "\n\t psubd %%mm6,   %%mm5"
+        "\n\t punpckldq %%mm5, %%mm4" /* mm4 = [ -s | c ]      */
+-       "\n\t movd %[motif], %%mm6"   /* mm6 = motif           */
++       "\n\t movd %4, %%mm6"   /* mm6 = motif           */
+ 
+-       ::[xtex]"g"(xtex) ,[ytex]"g"(ytex)
+-        , [c]"g"(c), [s]"g"(s)
+-        , [motif] "g"(&data->conv_motif[0][0]));
++       ::"g"(xtex) ,"g"(ytex)
++        , "g"(c), "g"(s)
++        , "g"(&data->conv_motif[0][0]));
+     
+     for (x=info->screen.width;x--;)
+     {
+Index: goom_core.c
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/post/goom/goom_core.c,v
+retrieving revision 1.13
+diff -u -p -r1.13 goom_core.c
+--- goom_core.c	19 Jul 2005 18:10:30 -0000	1.13
++++ goom_core.c	27 Jul 2005 20:28:29 -0000
+@@ -35,18 +35,18 @@
+ #define TIME_BTW_CHG 300
+ 
+ static void choose_a_goom_line (PluginInfo *goomInfo, float *param1, float *param2, int *couleur,
+-                                int *mode, float *amplitude, int far);
++                                int *mode, float *amplitude, int isfar);
+ 
+ static void update_message (PluginInfo *goomInfo, char *message);
+ 
+ static void init_buffers(PluginInfo *goomInfo, int buffsize)
+ {
+     goomInfo->pixel = (guint32 *) malloc (buffsize * sizeof (guint32) + 128);
+-    bzero (goomInfo->pixel, buffsize * sizeof (guint32) + 128);
++    memset (goomInfo->pixel, 0, buffsize * sizeof (guint32) + 128);
+     goomInfo->back = (guint32 *) malloc (buffsize * sizeof (guint32) + 128);
+-    bzero (goomInfo->back, buffsize * sizeof (guint32) + 128);
++    memset (goomInfo->back, 0, buffsize * sizeof (guint32) + 128);
+     goomInfo->conv = (Pixel *) malloc (buffsize * sizeof (guint32) + 128);
+-    bzero (goomInfo->conv, buffsize * sizeof (guint32) + 128);
++    memset (goomInfo->conv, 0, buffsize * sizeof (guint32) + 128);
+ 
+     goomInfo->outputBuf = goomInfo->conv;
+     
+@@ -780,13 +780,13 @@ void goom_close (PluginInfo *goomInfo)
+ /* *** */
+ void
+ choose_a_goom_line (PluginInfo *goomInfo, float *param1, float *param2, int *couleur, int *mode,
+-                    float *amplitude, int far)
++                    float *amplitude, int isfar)
+ {
+     *mode = goom_irand(goomInfo->gRandom,3);
+     *amplitude = 1.0f;
+     switch (*mode) {
+         case GML_CIRCLE:
+-            if (far) {
++            if (isfar) {
+                 *param1 = *param2 = 0.47f;
+                 *amplitude = 0.8f;
+                 break;
+@@ -804,7 +804,7 @@ choose_a_goom_line (PluginInfo *goomInfo
+             }
+             break;
+         case GML_HLINE:
+-            if (goom_irand(goomInfo->gRandom,4) || far) {
++            if (goom_irand(goomInfo->gRandom,4) || isfar) {
+                 *param1 = goomInfo->screen.height / 7;
+                 *param2 = 6.0f * goomInfo->screen.height / 7.0f;
+             }
+@@ -814,7 +814,7 @@ choose_a_goom_line (PluginInfo *goomInfo
+             }
+             break;
+         case GML_VLINE:
+-            if (goom_irand(goomInfo->gRandom,3) || far) {
++            if (goom_irand(goomInfo->gRandom,3) || isfar) {
+                 *param1 = goomInfo->screen.width / 7.0f;
+                 *param2 = 6.0f * goomInfo->screen.width / 7.0f;
+             }
+--- filters.c.orig	2005-08-20 12:29:12.000000000 +0200
++++ filters.c	2005-08-20 12:28:25.000000000 +0200
+@@ -201,8 +201,8 @@ static inline v2g zoomVector(ZoomFilterF
+     /* Noise */
+     if (data->noisify)
+     {
+-        vx += (((float)random()) / ((float)RAND_MAX) - 0.5f) / 50.0f;
+-        vy += (((float)random()) / ((float)RAND_MAX) - 0.5f) / 50.0f;
++        vx += (((float)rand()) / ((float)RAND_MAX) - 0.5f) / 50.0f;
++        vy += (((float)rand()) / ((float)RAND_MAX) - 0.5f) / 50.0f;
+     }
+     
+     /* Hypercos */
+diff -r -u xine-lib-1.1.0-orig/src/post/goom/convolve_fx.c xine-lib-1.1.0/src/post/goom/convolve_fx.c
+--- convolve_fx.c	2005-07-22 12:42:00.000000000 -0400
++++ convolve_fx.c	2005-11-11 14:59:39.925112333 -0500
+@@ -151,7 +155,8 @@
+     ytex = yprime + yi + CONV_MOTIF_W * 0x10000 / 2;
+     yprime += c;
+ 
+-#ifdef HAVE_MMX
++#if defined(HAVE_MMX) && ! defined(ARCH_X86_64)
++/* This code uses 32-bit registers eax,ecx,esi */
+     __asm__ __volatile__
+       ("\n\t pxor  %%mm7,  %%mm7"  /* mm7 = 0   */
+        "\n\t movd %0,  %%mm2"
+diff -r -u xine-lib-1.1.0-orig/src/post/goom/mmx.c xine-lib-1.1.0/src/post/goom/mmx.c
+--- mmx.c	2004-07-21 10:38:30.000000000 -0400
++++ mmx.c	2005-11-11 14:51:52.890358793 -0500
+@@ -4,6 +4,7 @@
+ #define BUFFPOINTMASK 0xffff
+ #define BUFFINCR 0xff
+ 
++#include <stddef.h>
+ #include "mmx.h"
+ #include "goom_graphic.h"
+ 
+@@ -23,6 +24,7 @@
+ 		      int precalCoef[16][16])
+ {
+ 	unsigned int ax = (prevX-1)<<PERTEDEC, ay = (prevY-1)<<PERTEDEC;
++        size_t sizeX = prevX;
+ 
+ 	int bufsize = prevX * prevY;
+ 	int loop;
+@@ -33,7 +35,7 @@
+ 	{
+ 		/*      int couleur; */
+ 		int px,py;
+-		int pos;
++		size_t pos;
+ 		int coeffs;
+ 
+ 		int myPos = loop << 1,
+@@ -91,7 +93,7 @@
+ 		"punpckhbw %%mm7, %%mm5 \n\t"	/* 00-c4-00-c4-00-c4-00-c4 */
+ 
+ 		/* ajouter la longueur de ligne a esi */
+-		"addl 8(%%ebp),%1 \n\t"
++		"add %4,%1 \n\t"
+ 
+ 		/* recuperation des 2 derniers pixels */
+ 		"movq (%3,%1,4), %%mm1 \n\t"
+@@ -114,8 +116,8 @@
+ 		"packuswb %%mm7, %%mm0 \n\t"
+ 
+ 		"movd %%mm0,%0 \n\t"
+-		  :"=g"(expix2[loop])
+-		  :"r"(pos),"r"(coeffs),"r"(expix1)
++		  :"=g"(expix2[loop]),"+r"(pos)
++		  :"r"(coeffs),"r"(expix1),"g"(sizeX)
+ 
+ 		);
+ 
+diff -r -u xine-lib-1.1.0-orig/src/post/goom/mmx.h xine-lib-1.1.0/src/post/goom/mmx.h
+--- mmx.h	2005-07-19 14:10:30.000000000 -0400
++++ mmx.h	2005-11-11 14:51:52.890358793 -0500
+@@ -27,6 +27,10 @@
+ #ifndef _MMX_H
+ #define _MMX_H
+ 
++#ifdef HAVE_CONFIG_H
++# include "config.h"
++#endif
++
+ #include "goom_graphic.h"
+ 
+ /*	Warning:  at this writing, the version of GAS packaged
+@@ -69,6 +73,9 @@
+ 		 13 if AMD Extended MMX, &3dNow supported
+ 	   0 if hardware does not support any of these
+ 	*/
++#ifdef ARCH_X86_64
++	return 13;
++#else
+ 	register int rval = 0;
+ 
+ 	__asm__ __volatile__ (
+@@ -223,6 +230,7 @@
+ 
+ 	/* Return */
+ 	return(rval);
++#endif
+ }
+ 
+ /*	Function to test if mmx instructions are supported...
+diff -r -u xine-lib-1.1.0-orig/src/post/goom/xmmx.c xine-lib-1.1.0/src/post/goom/xmmx.c
+--- xmmx.c	2005-07-21 16:48:37.000000000 -0400
++++ xmmx.c	2005-11-11 14:51:52.890358793 -0500
+@@ -23,7 +23,12 @@
+ #include "goom_graphic.h"
+ 
+ int xmmx_supported (void) {
++#ifdef ARCH_X86_64
++	return 0; /* Haven't yet converted zoom_filter_xmmx 
++                     to support 64-bit memory index registers (rsi,rax) */
++#else
+ 	return (mm_support()&0x8)>>3;
++#endif
+ }
+ 
+ void zoom_filter_xmmx (int prevX, int prevY,
+@@ -31,6 +36,7 @@
+                        int *lbruS, int *lbruD, int buffratio,
+                        int precalCoef[16][16])
+ {
++#ifndef ARCH_X86_64
+ 	int bufsize = prevX * prevY; /* taille du buffer */
+ 	volatile int loop;                    /* variable de boucle */
+ 
+@@ -244,6 +250,7 @@
+ /*#else
+ 	emms();
+ #endif*/
++#endif /* ARCH_X86_64 */
+ }
+ 
+ #define DRAWMETHOD_PLUS_XMMX(_out,_backbuf,_col) \
+Index: goom_config.h
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/post/goom/goom_config.h,v
+retrieving revision 1.9
+diff -u -p -r1.9 goom_config.h
+--- goom_config.h	21 Nov 2004 15:10:40 -0000	1.9
++++ goom_config.h	8 Apr 2006 15:35:01 -0000
+@@ -1,3 +1,7 @@
++#ifdef HAVE_CONFIG_H
++#include "config.h"
++#endif
++
+ #if WORDS_BIGENDIAN
+ #define COLOR_ARGB
+ #else
+Index: gfontlib.c
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/post/goom/gfontlib.c,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -u -p -r1.4 -r1.5
+--- gfontlib.c	21 Jul 2004 14:38:29 -0000	1.4
++++ gfontlib.c	4 May 2006 20:50:55 -0000	1.5
+@@ -1,5 +1,5 @@
+ #include "goom_config.h"
+-#include "gfontrle.h"
++#include "gfontrle.c"
+ #include "gfontlib.h"
+ #include <string.h>
+ #include <stdlib.h>
+Index: gfontrle.c
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/post/goom/gfontrle.c,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -u -p -r1.4 -r1.5
+--- gfontrle.c	4 May 2006 18:10:40 -0000	1.4
++++ gfontrle.c	4 May 2006 20:50:55 -0000	1.5
+@@ -1,6 +1,6 @@
+ /* RGBA C-Source image dump (with zRLE compression) */
+ 
+-const struct {
++static const struct {
+   unsigned int width;
+   unsigned int height;
+   unsigned int bytes_per_pixel;
+--- gfontrle.h	Sun Jun 11 17:22:15 2006	1.2
++++ gfontrle.h	Sun Jun 11 17:22:15 2006
+@@ -1,7 +0,0 @@
+-extern const struct {
+-	unsigned int width;
+-	unsigned int height;
+-	unsigned int bytes_per_pixel;
+-	unsigned int rle_size;
+-	unsigned char rle_pixel [49725];
+-} the_font ;
+Index: goomsl_heap.c
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/post/goom/goomsl_heap.c,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -u -p -r1.1 -r1.2
+--- goomsl_heap.c	19 Jul 2005 18:10:30 -0000	1.1
++++ goomsl_heap.c	7 Jun 2006 22:52:29 -0000	1.2
+@@ -39,7 +39,7 @@ static void align_it(GoomHeap *_this, in
+ {
+   if ((alignment > 1) && (_this->number_of_arrays>0)) {
+     void *last_array = _this->arrays[_this->number_of_arrays - 1];
+-    int   last_address = (int)last_array + _this->consumed_in_last_array;
++    long  last_address = (long)last_array + _this->consumed_in_last_array;
+     int   decal = (last_address % alignment);
+     if (decal != 0) {
+       _this->consumed_in_last_array += alignment - decal;
+Index: mathtools.c
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/post/goom/mathtools.c,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -u -p -r1.1 -r1.2
+--- mathtools.c	27 Jun 2004 11:58:47 -0000	1.1
++++ mathtools.c	2 Jun 2006 22:13:45 -0000	1.2
+@@ -8,9 +8,7 @@
+ */
+ /*---------------------------------------------------------------------------*/
+ 
+-#include "mathtools.h"
+-
+-float sin256[256] = {
++static const float sin256[256] = {
+   0,0.0245412,0.0490677,0.0735646,0.0980171,0.122411,0.14673,0.170962
+   ,0.19509,0.219101,0.24298,0.266713,0.290285,0.313682,0.33689,0.359895
+   ,0.382683,0.405241,0.427555,0.449611,0.471397,0.492898,0.514103,0.534998
+@@ -46,7 +44,7 @@ float sin256[256] = {
+ 
+ };
+ 
+-float cos256[256] = {
++static const float cos256[256] = {
+   0,0.999699,0.998795,0.99729,0.995185,0.99248,0.989177,0.985278
+   ,0.980785,0.975702,0.970031,0.963776,0.95694,0.949528,0.941544,0.932993
+   ,0.92388,0.91421,0.903989,0.893224,0.881921,0.870087,0.857729,0.844854
+Index: mathtools.h
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/post/goom/mathtools.h,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -u -p -r1.2 -r1.3
+--- mathtools.h	27 Jun 2004 11:58:47 -0000	1.2
++++ mathtools.h	2 Jun 2006 22:13:45 -0000	1.3
+@@ -29,8 +29,7 @@
+ #define SINCOS(f,s,c) {s=sin(f);c=cos(f);}
+ #endif
+ 
+-extern float sin256[256];
+-extern float cos256[256];
++#include "mathtools.c"
+ 
+ #endif
+ 
+diff -r 96c7f8460d61 src/post/goom/convolve_fx.c
+--- convolve_fx.c	Mon Nov 10 16:33:51 2008 +0100
++++ convolve_fx.c	Sun Nov 16 21:14:29 2008 +0100
+@@ -73,7 +73,7 @@ static void set_motif(ConvData *data, Mo
+ 
+ static void convolve_init(VisualFX *_this, PluginInfo *info) {
+   ConvData *data;
+-  data = (ConvData*)malloc(sizeof(ConvData));
++  data = (ConvData*)calloc(1, sizeof(ConvData));
+   _this->fx_data = (void*)data;
+ 
+   data->light = secure_f_param("Screen Brightness");
+diff -r 96c7f8460d61 src/post/goom/goom_core.c
+--- goom_core.c	Mon Nov 10 16:33:51 2008 +0100
++++ goom_core.c	Sun Nov 16 21:14:29 2008 +0100
+@@ -76,6 +76,10 @@ PluginInfo *goom_init (guint32 resx, gui
+     goomInfo->tentacles_fx = tentacle_fx_create();
+     goomInfo->tentacles_fx.init(&goomInfo->tentacles_fx, goomInfo);
+     
++    goomInfo->screen.width = resx;
++    goomInfo->screen.height = resy;
++    goomInfo->screen.size = resx * resy;
++    
+     goomInfo->convolve_fx = convolve_create();
+     goomInfo->convolve_fx.init(&goomInfo->convolve_fx, goomInfo);
+     
+@@ -83,10 +87,6 @@ PluginInfo *goom_init (guint32 resx, gui
+     plugin_info_add_visual (goomInfo, 1, &goomInfo->tentacles_fx);
+     plugin_info_add_visual (goomInfo, 2, &goomInfo->star_fx);
+     plugin_info_add_visual (goomInfo, 3, &goomInfo->convolve_fx);
+-    
+-    goomInfo->screen.width = resx;
+-    goomInfo->screen.height = resy;
+-    goomInfo->screen.size = resx * resy;
+     
+     init_buffers(goomInfo, goomInfo->screen.size);
+     goomInfo->gRandom = goom_random_init((uintptr_t)goomInfo->pixel);

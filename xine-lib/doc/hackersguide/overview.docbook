@@ -1,0 +1,876 @@
+<chapter id="overview">
+ <title>xine code overview</title>
+
+ <sect1>
+  <title>Walking the source tree</title>
+  <para>
+   The <filename>src/</filename> directory in xine-lib contains several
+   modules, this should give you a quick overview on where
+   to find what sources.
+  </para>
+  <para>
+   Directories marked with "(imported)" contain
+   code that is copied from an external project into xine-lib.
+   Everything below such a directory is up to this project. When modifying
+   code there, be sure to send the patches on. If some xine specific
+   adaptation of the code is absolutely necessary, a patch containing
+   the changes should be stored in Mercurial to not lose the changes the
+   next time we sync with the external project.
+  </para>
+  <para>
+   <variablelist>
+    <varlistentry>
+     <term><filename>audio_out</filename></term>
+     <listitem>
+      <para>
+       Audio output plugins. These provide a thin abstraction layer
+       around different types of audio output architectures or platforms.
+       Basically an audio output plugin provides functions to query and setup
+       the audio hardware and output audio data (e.g. PCM samples).
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>demuxers</filename></term>
+     <listitem>
+      <para>
+       Demuxer plugins that handle various system layer file formats
+       like avi, asf or mpeg. The ideal demuxer know nothing about where the
+       data comes from and who decodes it. It should basically just unpack
+       it into chunks the rest of the engine can eat.
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>dxr3</filename></term>
+     <listitem>
+      <para>
+       Code to support the DXR3 / hollywood+ hardware mpeg decoder.
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>input</filename></term>
+     <listitem>
+      <para>
+       Input plugins encapsulate the origin of the data. Data sources like
+       ordinary files, DVDs, CDA or streaming media are handled here.
+      </para>
+      <para>
+       <variablelist>
+        <varlistentry>
+         <term><filename>dvb</filename></term>
+         <listitem>
+          <para>
+           Some headers for Digital Video Broadcast.
+          </para>
+          <para></para>
+         </listitem>
+        </varlistentry>
+        <varlistentry>
+         <term><filename>libdvdnav</filename> (imported)</term>
+         <listitem>
+          <para>
+           The libdvdnav library for DVD navigation is used
+           by xine's DVD input plugin.
+          </para>
+          <para></para>
+         </listitem>
+        </varlistentry>
+        <varlistentry>
+         <term><filename>libreal</filename>, <filename>librtsp</filename></term>
+         <listitem>
+          <para>
+           Support for RealMedia streaming as used by the RTSP input plugin.
+          </para>
+          <para></para>
+         </listitem>
+        </varlistentry>
+        <varlistentry>
+         <term><filename>vcd</filename></term>
+         <listitem>
+          <para>
+           The enhanced VCD input plugin which also handles VCD navigation.
+          </para>
+          <para>
+           <variablelist>
+            <varlistentry>
+             <term><filename>libcdio</filename>, <filename>libvcd</filename> (imported)</term>
+             <listitem>
+              <para>
+               Libraries used by the enhanced VCD plugin.
+              </para>
+              <para></para>
+             </listitem>
+            </varlistentry>
+           </variablelist>
+          </para>
+          <para></para>
+         </listitem>
+        </varlistentry>
+       </variablelist>
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>liba52</filename> (imported)</term>
+     <listitem>
+      <para>
+       A52 (aka AC3, aka Dolby Digital) audio decoder library and xine plugin.
+      </para>
+      <para>
+       We maintain some small integration improving differences between the
+       original liba52 and our copy in the file
+       <filename>diff_against_release.patch</filename>.
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>libdts</filename> (imported)</term>
+     <listitem>
+      <para>
+       AC5 (aka DTS) audio decoder library and xine plugin, which is capable
+       of software decoding as well as digital passthrough.
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>libfaad</filename> (imported)</term>
+     <listitem>
+      <para>
+       The Free AAC Decoder library and xine plugin.
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>libffmpeg</filename></term>
+     <listitem>
+      <para>
+       A xine decoder plugin using various audio and video decoders from the
+       ffmpeg decoder pack libavcodec. Their MPEG encoder is also for the DXR3.
+      </para>
+      <para>
+       To optimize the integration of libavcodec and the xine engine, we maintain
+       some differences between the original ffmpeg and our copy in the file
+       <filename>diff_to_ffmpeg_cvs.txt</filename>.
+      </para>
+      <para>
+       <variablelist>
+        <varlistentry>
+         <term><filename>libavcodec</filename> (imported)</term>
+         <listitem>
+          <para>
+           The libavcodec decoder pack as used by xine's ffmpeg plugin.
+          </para>
+          <para></para>
+         </listitem>
+        </varlistentry>
+       </variablelist>
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>libflac</filename></term>
+     <listitem>
+      <para>
+       A xine demuxer and decoder plugin for the Free Lossless Audio Codec library,
+       which has to be installed separately.
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>liblpcm</filename></term>
+     <listitem>
+      <para>
+       Audio decoder plugin that "decodes" raw PCM data; most notably
+       endianess-conversions are done here.
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>libmad</filename> (imported)</term>
+     <listitem>
+      <para>
+       Mpeg audio decoder plugin (i.e. mp2 and mp3 decoding).
+       ISO/IEC compliant decoder using fixed point math.
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>libmpeg2</filename> (imported)</term>
+     <listitem>
+      <para>
+       Most important MPEG video decoder plugin, provides fast and
+       high-precision MPEG-1/2 video decoding.
+      </para>
+      <para>
+       Although this is an imported library, we have heavily modified
+       our internal copy to blend it as seamlessly as possible into
+       the xine engine in order to get the maximum MPEG decoding
+       performance.
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>libmpeg2new</filename></term>
+     <listitem>
+      <para>
+       James started an effort to bring a recent and unmodified version
+       of libmpeg2 into xine to one day replace our current internal
+       modified libmpeg2 with one closer to the original. But since
+       the full feature catalog has not yet been achieved with the new
+       one, it is still disabled.
+      </para>
+      <para>
+       <variablelist>
+        <varlistentry>
+         <term><filename>include</filename>, <filename>libmpeg2</filename> (imported)</term>
+         <listitem>
+          <para>
+           The code of the imported new libmpeg2.
+          </para>
+          <para></para>
+         </listitem>
+        </varlistentry>
+       </variablelist>
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>libreal</filename></term>
+     <listitem>
+      <para>
+       A thin wrapper around Real's binary codecs from the Linux RealPlayer to
+       use them as a xine plugin.
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>libspeex</filename></term>
+     <listitem>
+      <para>
+       A xine decoder plugin for the speex library,
+       which has to be installed separately.
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>libspucc</filename></term>
+     <listitem>
+      <para>
+       Closed caption subtitle decoder plugin.
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>libspudec</filename></term>
+     <listitem>
+      <para>
+       DVD SPU subtitle decoder plugin.
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>libsputext</filename></term>
+     <listitem>
+      <para>
+       Plain text subtitle decoder plugins.
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>libtheora</filename></term>
+     <listitem>
+      <para>
+       A xine decoder plugin for the theora library,
+       which has to be installed separately.
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>libvorbis</filename></term>
+     <listitem>
+      <para>
+       A xine decoder plugin for the ogg/vorbis library,
+       which has to be installed separately.
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>libw32dll</filename></term>
+     <listitem>
+      <para>
+       Video and audio decoder plugins that exploit some wine code
+       to use win32 (media player and Quicktime) codecs in xine.
+       Works on x86 platforms only.
+      </para>
+      <para>
+       <variablelist>
+        <varlistentry>
+         <term>
+          <filename>DirectShow</filename>, <filename>dmo</filename>,
+          <filename>qtx</filename>, <filename>wine</filename> (imported)
+         </term>
+         <listitem>
+          <para>
+           Stripped down version of wine to support Video for Windows DLLs
+           and additional code to use DirectShow, DMO and QuickTime DLLs.
+          </para>
+          <para></para>
+         </listitem>
+        </varlistentry>
+       </variablelist>
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>libxineadec</filename></term>
+     <listitem>
+      <para>
+       xine's decoder pack of additional audio decoders.
+      </para>
+      <para>
+       <variablelist>
+        <varlistentry>
+         <term><filename>gsm610</filename> (imported)</term>
+         <listitem>
+          <para>
+           The gsm610 audio decoder library as used by the related xine plugin.
+          </para>
+          <para></para>
+         </listitem>
+        </varlistentry>
+        <varlistentry>
+         <term><filename>nosefart</filename> (imported)</term>
+         <listitem>
+          <para>
+           The nosefart audio decoder library as used by the related xine plugin.
+          </para>
+          <para></para>
+         </listitem>
+        </varlistentry>
+       </variablelist>
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>libxinevdec</filename></term>
+     <listitem>
+      <para>
+       xine's decoder pack of additional video decoders.
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>post</filename></term>
+     <listitem>
+      <para>
+       Video and audio post effect plugins live here. Post plugins
+       modify streams of video frames or audio buffers as they leave
+       the decoder to provide conversion or effects.
+      </para>
+      <para>
+       <variablelist>
+        <varlistentry>
+         <term><filename>audio</filename></term>
+         <listitem>
+          <para>
+           Some audio effects as xine audio filter posts.
+          </para>
+          <para></para>
+         </listitem>
+        </varlistentry>
+        <varlistentry>
+         <term><filename>deinterlace</filename> (imported)</term>
+         <listitem>
+          <para>
+           The tvtime deinterlacer as a xine video filter post.
+          </para>
+          <para></para>
+         </listitem>
+        </varlistentry>
+        <varlistentry>
+         <term><filename>goom</filename> (imported)</term>
+         <listitem>
+          <para>
+           The goom audio visualizer as a xine visualizer post.
+          </para>
+          <para></para>
+         </listitem>
+        </varlistentry>
+        <varlistentry>
+         <term><filename>mosaico</filename></term>
+         <listitem>
+          <para>
+           Some post plugins merging multiple frames into one. For example
+           picture in picture can be done with this.
+          </para>
+          <para></para>
+         </listitem>
+        </varlistentry>
+        <varlistentry>
+         <term><filename>planar</filename></term>
+         <listitem>
+          <para>
+           Some simple 2D video effects as xine video filter posts.
+          </para>
+          <para></para>
+         </listitem>
+        </varlistentry>
+        <varlistentry>
+         <term><filename>visualizations</filename></term>
+         <listitem>
+          <para>
+           Audio visualization post plugins.
+          </para>
+          <para></para>
+         </listitem>
+        </varlistentry>
+       </variablelist>
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>video_out</filename></term>
+     <listitem>
+      <para>
+       Contains various video output driver plugins. Video output drivers
+       are thin abstraction layers over various video output platforms
+       (e.g. X11, directfb, directX, &hellip;). Video output driver plugins
+       provide functions like frame allocation and drawing and handle
+       stuff like hardware acceleration, scaling and colorspace conversion
+       if necessary. They do not handle a/v sync since this is done
+       in the xine-engine already.
+      </para>
+      <para>
+       <variablelist>
+        <varlistentry>
+         <term><filename>libdha</filename> (imported)</term>
+         <listitem>
+          <para>
+           A library for direct hardware access to the graphics card
+           as used by the vidix video out plugin.
+          </para>
+          <para></para>
+         </listitem>
+        </varlistentry>
+        <varlistentry>
+         <term><filename>vidix</filename> (imported)</term>
+         <listitem>
+          <para>
+           The vidix system for high performance video output
+           as used by the vidix video out plugin.
+          </para>
+          <para></para>
+         </listitem>
+        </varlistentry>
+       </variablelist>
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>xine-engine</filename></term>
+     <listitem>
+      <para>
+       The heart of xine &ndash; its engine. Contains code to
+       load and handle all the plugins, the configuration repository
+       as well as the generic decoding loops and code for synchronized output.
+       A lot of helper functions for plugins to use live here as well.
+       What's in the individual files should be guessable by the files'
+       names. This document is not going to explain the source, because
+       it simply changes too often. A look at the architectural drawing
+       in the <link linkend="internals">internals section</link> should
+       give you a pretty good idea, what to expect in this directory.
+       Basically, everything in this picture that is not called "plugin"
+       lives here.
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term><filename>xine-utils</filename></term>
+     <listitem>
+      <para>
+       Collection of utility functions and platform abstractions.
+       Also contains a simple XML parser for frontend playlist handling.
+      </para>
+      <para></para>
+     </listitem>
+    </varlistentry>
+   </variablelist>
+  </para>
+ </sect1>
+
+ <sect1>
+  <title>Object oriented programming in C</title>
+  <para>
+   xine uses a lot of design principles normally found in
+   object oriented designs. As xine is written in C, a few
+   basic principles shall be explained here on how xine
+   is object oriented anyway.
+  </para>
+  <para>
+   Classes are structs containing function pointers and public member data.
+   Example:
+   <programlisting>
+&nbsp;&nbsp;&nbsp;typedef struct my_stack_s my_class_t;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;struct my_stack_s {
+&nbsp;&nbsp;&nbsp;  /* method "push" with one parameter and no return value */
+&nbsp;&nbsp;&nbsp;  void (*push)(my_stack_t *this, int i);
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;  /* method "add" with no parameters and no return value */
+&nbsp;&nbsp;&nbsp;  void (*add)(my_stack_t *this);
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;  /* method "pop" with no parameters (except "this") and a return value */
+&nbsp;&nbsp;&nbsp;  int (*pop) (my_stack_t *this);
+&nbsp;&nbsp;&nbsp;};
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;/* constructor */
+&nbsp;&nbsp;&nbsp;my_class_t *new_my_stack(void);</programlisting>
+  </para>
+  <para>
+   To derive from such a class, private member variables can be added:
+   <programlisting>
+&nbsp;&nbsp;&nbsp;typedef struct {
+&nbsp;&nbsp;&nbsp;  my_stack_t    stack; /* public part */
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;  /* private part follows here */
+&nbsp;&nbsp;&nbsp;  int           values[MAX_STACK_SIZE];
+&nbsp;&nbsp;&nbsp;  int           stack_size;
+&nbsp;&nbsp;&nbsp;} intstack_t;</programlisting>
+   Each method is implemented as a static method (static to prevent
+   namespace pollution). The "this" pointer needs to be cast to the
+   private pointer type to gain access to the private member variables.
+  </para>
+  <para>
+   Implementation of the "push" method follows:
+   <programlisting>
+&nbsp;&nbsp;&nbsp;static void push (my_stack_t *this_gen, int i) {
+&nbsp;&nbsp;&nbsp;  intstack_t *this = (intstack_t *)this_gen;
+&nbsp;&nbsp;&nbsp;  this-&gt;values[MAX_STACK_SIZE - ++this-&gt;stack_size] = i;
+&nbsp;&nbsp;&nbsp;}</programlisting>
+  </para>
+  <para>
+   The part added to the derived class is private, because when
+   defining the new structure directly in the .c file, where it will
+   be used, outside modules have no way of seeing the definition
+   of the derived class. A public derivation is possible by defining
+   the above structure in a .h file for others to include.
+  </para>
+  <para>
+   Something similar to a protected, package or friend visibility is also
+   possible:
+   <programlisting>
+&nbsp;&nbsp;&nbsp;struct my_stack_s {
+&nbsp;&nbsp;&nbsp;  void (*push)(my_stack_t *this, int i);
+&nbsp;&nbsp;&nbsp;  void (*add)(my_stack_t *this);
+&nbsp;&nbsp;&nbsp;  int  (*pop)(my_stack_t *this);
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;#ifdef STACK_INTERNAL
+&nbsp;&nbsp;&nbsp;  void (*flush)(my_stack_t *this);
+&nbsp;&nbsp;&nbsp;#endif
+&nbsp;&nbsp;&nbsp;};</programlisting>
+   All modules, who need to access the internal part have to add
+   <programlisting>&nbsp;&nbsp;&nbsp;#define STACK_INTERNAL</programlisting>
+   before including the header with the definition. It is clear that only
+   those friend modules can derive from this class.
+  </para>
+  <para>
+   Finally the contructor malloc()s the data struct (private variant)
+   and fills in function pointers and default values. Usually the
+   constructor is the only public (i.e. non-static) function in the module:
+   <programlisting>
+&nbsp;&nbsp;&nbsp;my_stack_t *new_my_stack(void) {
+&nbsp;&nbsp;&nbsp;  intstack_t *this;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;  /* alloc memory */
+&nbsp;&nbsp;&nbsp;  this = malloc(sizeof(intstack_t));
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;  /* fill in methods */
+&nbsp;&nbsp;&nbsp;  this-&gt;push = push;
+&nbsp;&nbsp;&nbsp;  this-&gt;add  = add;
+&nbsp;&nbsp;&nbsp;  this-&gt;pop  = pop;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;  /* init data fields */
+&nbsp;&nbsp;&nbsp;  this-&gt;stack_size = 0;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;  /* return public part */
+&nbsp;&nbsp;&nbsp;  return &amp;this-&gt;stack;
+&nbsp;&nbsp;&nbsp;}</programlisting>
+  </para>
+  <sect2>
+   <title>Why not using C++?</title>
+   <para>
+    After all these considerations about object oriented C, you might
+    ask, why we do not use C++ after all? The easy answer would be: xine wants
+    to be as fast as possible and C++ is simply too slow. But this is only the
+    easy answer and it is not entirely true any more. Thoughtfully applied, you
+    can write very fast C++ code with today's compilers, but these compilers might
+    not be available on all platforms in the necessary quality. Even with
+    a sophisticated compiler, C++ is much harder to optimize than plain C and thus
+    C compiles much faster. Another big problem is that the C++ ABI is not as
+    well-defined as the C ABI. With C, you can easily mix libraries and
+    applications built by different compilers. With C++, this is unlikely to work.
+    But the final argument is that xine does not really need C++. xine's
+    inheritance hierarchy is very flat, mostly one level only and does not need
+    things like multiple or virtual inheritance. Most of the external projects
+    that are used by xine are plain C as well and using more than one language
+    complicates the build system. As we saw above, we can emulate
+    object orientation reduced to our real needs in plain C.
+   </para>
+  </sect2>
+ </sect1>
+
+ <sect1>
+  <title>Coding style and guidelines</title>
+  <para>
+   This section contains some guidelines for writing xine-code.
+   These are really just guidelines, no strict rules.
+   Contributions will not be rejected if they do not meet these
+   rules but they will be even more appreciated if they do.
+   <itemizedlist>
+    <listitem>
+     <para>
+      Comment your interfaces directly in the header files.
+      No doxygen comments, ordinary C comments will do.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Use C-style comments (/* */), not C++-style (//).
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      When in doubt, use lower case. BTW: This thing is called xine, never Xine.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Use expressive variable and function identifiers on all public interfaces.
+      Use underscores to seperate words in identifiers, not uppercase
+      letters (my_function_name is ok, myFunctionName is not ok).
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Avoid macros unless they are really useful. Avoid gotos.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      use something like
+      <programlisting>&nbsp;&nbsp;&nbsp;printf("module: ..."[,&hellip;]);</programlisting>
+      for console output. All console output goes to stdout and
+      must be prefixed by the module name which generates the
+      output (see example above).
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Refer to emac's C-mode for all questions of proper indentiation.
+      That first of all means: indent with two spaces.
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+ </sect1>
+
+ <sect1>
+  <title>The xine logging system</title>
+  <para>
+   xine offers a wide range of possibilities to display
+   strings. This section should describe when to use
+   which way and how to do it right.
+  </para>
+  <sect2>
+   <title>xine_log</title>
+   <para>
+    Output which is done thru this function will be
+    displayed for the end user by the frontend.
+    If <varname>xine-&gt;verbosity</varname> is not 0 the messages will also
+    be displayed on the console. Ideally these strings
+    are translated.
+    This function is for information which the user should
+    read always.
+    <programlisting>&nbsp;&nbsp;&nbsp;xine_log(xine_t *xine, int buf, const char *format, ...);</programlisting>
+    <varname>buf</varname> is either XINE_LOG_MSG for general messages or
+    XINE_LOG_PLUGIN for messages about plugins.
+   </para>
+  </sect2>
+  <sect2>
+   <title>xprintf</title>
+   <para>
+    This macro uses the <varname>xine-&gt;verbosity</varname> value to decide
+    if the string should be printed to the console. Possible
+    values are XINE_VERBOSITY_NONE, XINE_VERBOSITY_LOG or
+    XINE_VERBOSITY_DEBUG. By default nothing is printed.
+    When you use xine-ui you can enable this output with
+    the <parameter>--verbose=[1,2]</parameter> options.
+    This function should be used for information which the
+    user should only read up on request.
+    <programlisting>&nbsp;&nbsp;&nbsp;xprintf(xine_t *xine, int verbosity, const char *format, ...);</programlisting>
+   </para>
+  </sect2>
+  <sect2>
+   <title>lprintf/llprintf</title>
+   <para>
+    These macros are for debugging purpose only. Under normal
+    circumstances it is disabled. And can only be enabled by changing
+    a define statement and a recompilation. It has to be enabled for these
+    files that are of interest.
+    It should only be used for information which is intended for developers.
+    <programlisting>
+&nbsp;&nbsp;&nbsp;lprintf(const char *format, ...);
+&nbsp;&nbsp;&nbsp;llprintf(bool, const char *format, ...);</programlisting>
+    <varname>bool</varname> is a flag which enables or disables this logging.
+   </para>
+   <para>
+    <function>lprintf</function> can be enabled by defining LOG at the top of the source file.
+    <function>llprintf</function> can be used for more than one categorie
+    per file by using diffent lables:
+    <programlisting>
+&nbsp;&nbsp;&nbsp;#define LOG_LOAD 1
+&nbsp;&nbsp;&nbsp;#define LOG_SAVE 0
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;llprintf(LOG_LOAD, "loading was successful\n");
+&nbsp;&nbsp;&nbsp;llprintf(LOG_SAVE, "could not save to file %s\n", filename);</programlisting>
+   </para>
+   <para>
+    In this case only the first messages is printed. To enable/disable change the defines.
+   </para>
+   <para>
+    LOG_MODULE should be used to set the modulename for xprintf/lprintf/llprintf.
+    Each output line will start with "modulename: ".
+    <programlisting>&nbsp;&nbsp;&nbsp;#define LOG_MODULE "modulename"</programlisting>
+   </para>
+   <para>
+    LOG_VERBOSE can be defined to enable the logging of functionname and linenumbers.
+    Then the output will be: "modulename: (function_name:42) message".
+   </para>
+  </sect2>
+  <sect2>
+   <title>_x_assert/_x_abort</title>
+   <para>
+    These are not purely logging functions, but despite their original C library versions,
+    they always output debugging text, which is why usage of these functions is preferred.
+   </para>
+   <para>
+    <function>_x_assert()</function> checks a condition and prints a note,
+    when the condition is false. In addition, a debug build and only a debug build will
+    terminate the application, when the condition is false. Release versions will only
+    print the note, but try to continue.
+   </para>
+   <para>
+    <function>_x_abort()</function> always terminates the application after printing a note.
+   </para>
+  </sect2>
+ </sect1>
+
+ <sect1 id="contribute">
+  <title>How to contribute</title>
+  <para>
+   Make sure you send your patches in unified diff format to
+   the xine-devel mailing list. You'll have to subscribe first,
+   otherwise you're not allowed to post. Please do not send
+   patches to individual developers unless instructed otherwise
+   because your patch is more likely to get lost in an overfull
+   INBOX in that case. Please be patient, it may take 1-2 weeks
+   before you hear any comments on your work (developers may be
+   working on other parts of the code or are simply busy at
+   the moment).
+  </para>
+  <para>
+   We prefer to receive patches in a format which is immediately
+   committable. This normally means that we want your name and email address
+   (we're not keen on pseudonyms), a subject line which provides a
+   convenient summary of your changes, and body text which provides a longer
+   description (if needed).
+  </para>
+  <para>
+   There are a few ways to submit your patches:
+  </para>
+  <itemizedlist>
+   <listitem>
+    <para>
+     <command>hg diff</command> is probably the easiest. You'll need a
+     subject line and body text as described above. If you're copying or
+     renaming files, or a file should be marked as executable, then use
+     <command>hg diff --git</command>; this will include the necessary
+     information (if copying or renaming, you need to have used <command>hg
+     copy</command> or <command>hg rename</command> for this to work).
+    </para>
+    <para>
+     If you're attaching the patch (recommended), then including the
+     metadata in the patch file is recommended, e.g.
+    </para>
+    <screen>From: Fred Patcher &lt;patcher@example.com&gt;
+Subject: Properly toggle the randomiser switch
+
+The randomiser switch was sometimes not being toggled, leading to random
+behaviour.
+
+diff --git a/foo/control.c b/foo/control.c
+...</screen>
+   </listitem>
+   <listitem>
+    <para>
+     <command>diff -u</command> is also acceptable, but we prefer that you
+     do so from the top-level directory within the source code (prefix the
+     files' path names with <parameter>./</parameter>) or from the directory
+     containing the source code directory. Basically, use <command>hg
+     diff</command> if you can.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <command>hg email</command> is preferred. You'll need to commit your
+     changes locally for this to work, but this is the easiest way of
+     sending a set of patches for inclusion and review; it'll send the mail
+     directly.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     <command>hg export</command> can also be used with specific changeset
+     identifiers. Again, you'll need to commit your changes locally for
+     this to work.
+    </para>
+   </listitem>
+  </itemizedlist>
+  <para>
+  </para>
+  <para>
+   Patches should normally be included as attachments. Some mail clients and
+   webmail services are known to mangle whitespace or wrap lines, either of
+   which is enough to render a patch potentially useless.
+  </para>
+ </sect1>
+
+</chapter>

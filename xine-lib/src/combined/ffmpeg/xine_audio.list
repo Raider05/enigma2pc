@@ -1,0 +1,57 @@
+type=audio
+
+# xine-lib BUF_AUDIO_	ffmpeg CODEC_ID_	description or comment
+# ("!"=ignore)					(quote any "s)
+
+WMAV1			WMAV1			MS Windows Media Audio 1
+WMAV2			WMAV2			MS Windows Media Audio 2
+WMAPRO			WMAPRO			MS Windows Media Audio Professional
+14_4			RA_144			Real 14.4
+28_8			RA_288			Real 28.8
+MPEG			MP3			MP3
+MP3ADU			MP3ADU			MPEG-3 adu
+MSADPCM			ADPCM_MS		MS ADPCM
+QTIMAADPCM		ADPCM_IMA_QT		QT IMA ADPCM
+MSIMAADPCM		ADPCM_IMA_WAV		MS IMA ADPCM
+DK3ADPCM		ADPCM_IMA_DK3		Duck DK3 ADPCM
+DK4ADPCM		ADPCM_IMA_DK4		Duck DK4 ADPCM
+VQA_IMA			ADPCM_IMA_WS		Westwood Studios IMA
+SMJPEG_IMA		ADPCM_IMA_SMJPEG	SMJPEG IMA
+XA_ADPCM		ADPCM_XA		CD-ROM/XA ADPCM
+4X_ADPCM		ADPCM_4XM		4X ADPCM
+EA_ADPCM		ADPCM_EA		Electronic Arts ADPCM
+MULAW			PCM_MULAW		mu-law logarithmic PCM
+ALAW			PCM_ALAW		A-law logarithmic PCM
+ROQ			ROQ_DPCM		RoQ DPCM
+INTERPLAY		INTERPLAY_DPCM		Interplay DPCM
+MAC3			MACE3			MACE 3:1
+MAC6			MACE6			MACE 6:1
+XAN_DPCM		XAN_DPCM		Origin Xan DPCM
+VMD			VMDAUDIO		Sierra VMD Audio
+FLAC			FLAC			FLAC
+SHORTEN			SHORTEN			Shorten
+ALAC			ALAC			ALAC
+QDESIGN2		QDM2			QDesign
+COOK			COOK			RealAudio Cooker
+TRUESPEECH		TRUESPEECH		TrueSpeech
+TTA			TTA			True Audio Lossless
+SMACKER			SMACKAUDIO		Smacker
+FLVADPCM		ADPCM_SWF		Flash ADPCM
+WAVPACK			WAVPACK			WavPack
+AMR_NB			AMR_NB			AMR narrow band
+AMR_WB			AMR_WB			AMR wide band
+EAC3			EAC3			E-AC-3
+AAC_LATM		AAC_LATM		AAC LATM
+
+# disabled codecs (ref. configure.ac)
+!			AAC
+!			AC3
+!			ADPCM_ADX
+!			ADPCM_G726
+!			DSICINAUDIO
+!			DVAUDIO
+!			IMC
+!			MP3ON4
+!			SONIC
+!			SONIC_LS
+!			VORBIS

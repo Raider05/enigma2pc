@@ -1,0 +1,467 @@
+--- src/input/libdvdnav/dvdnav.c
++++ src/input/libdvdnav/dvdnav.c
+@@ -67,7 +67,7 @@
+   struct timeval time;
+   
+   /* Create a new structure */
+-  fprintf(MSG_OUT, "libdvdnav: Using dvdnav version %s from http://dvd.sf.net\n", VERSION);
++  fprintf(MSG_OUT, "libdvdnav: Using dvdnav version %s from http://xine.sf.net\n", VERSION);
+ 
+   (*dest) = NULL;
+   this = (dvdnav_t*)malloc(sizeof(dvdnav_t));
+--- src/input/libdvdnav/dvd_reader.c
++++ src/input/libdvdnav/dvd_reader.c
+@@ -61,6 +61,7 @@
+ #include <mntent.h>
+ #endif
+ 
++#include "compat.h"
+ #include "dvd_udf.h"
+ #include "dvd_input.h"
+ #include "dvd_reader.h"
+@@ -409,7 +410,7 @@
+ 	    
+ 	    if( cdir >= 0 ) {
+ 		chdir( path_copy );
+-		new_path = getcwd( NULL, PATH_MAX );
++		new_path = getcwd( NULL, XINE_PATH_MAX );
+ 		fchdir( cdir );
+ 		close( cdir );
+ 		if( new_path ) {
+@@ -595,7 +596,7 @@
+ 
+ static int findDVDFile( dvd_reader_t *dvd, const char *file, char *filename )
+ {
+-    char video_path[ PATH_MAX + 1 ];
++    char video_path[ XINE_PATH_MAX + 1 ];
+     const char *nodirfile;
+     int ret;
+ 
+@@ -629,7 +630,7 @@
+  */
+ static dvd_file_t *DVDOpenFilePath( dvd_reader_t *dvd, char *filename )
+ {
+-    char full_path[ PATH_MAX + 1 ];
++    char full_path[ XINE_PATH_MAX + 1 ];
+     dvd_file_t *dvd_file;
+     struct stat fileinfo;
+     dvd_input_t dev;
+@@ -722,7 +723,7 @@
+ static dvd_file_t *DVDOpenVOBPath( dvd_reader_t *dvd, int title, int menu )
+ {
+     char filename[ MAX_UDF_FILE_NAME_LEN ];
+-    char full_path[ PATH_MAX + 1 ];
++    char full_path[ XINE_PATH_MAX + 1 ];
+     struct stat fileinfo;
+     dvd_file_t *dvd_file;
+     int i;
+Index: dvd_input.c
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/input/libdvdnav/dvd_input.c,v
+retrieving revision 1.6
+diff -u -r1.6 dvd_input.c
+--- dvd_input.c	5 Apr 2004 18:01:09 -0000	1.6
++++ dvd_input.c	27 May 2006 16:11:09 -0000
+@@ -35,6 +35,7 @@
+ int         (*dvdinput_title) (dvd_input_t, int); 
+ int         (*dvdinput_read)  (dvd_input_t, void *, int, int);
+ char *      (*dvdinput_error) (dvd_input_t);
++int         (*dvdinput_is_encrypted) (dvd_input_t);
+ 
+ #ifdef HAVE_DVDCSS_DVDCSS_H
+ /* linking to libdvdcss */
+@@ -55,6 +56,73 @@
+ #include "../../msvc/contrib/dlfcn.c"
+ #endif
+ 
++/* Copied from css.h */
++#define KEY_SIZE 5
++
++typedef uint8_t dvd_key_t[KEY_SIZE];
++
++typedef struct dvd_title_s
++{
++    int                 i_startlb;
++    dvd_key_t           p_key;
++    struct dvd_title_s *p_next;
++} dvd_title_t;
++
++typedef struct css_s
++{
++    int             i_agid;      /* Current Authenication Grant ID. */
++    dvd_key_t       p_bus_key;   /* Current session key. */
++    dvd_key_t       p_disc_key;  /* This DVD disc's key. */
++    dvd_key_t       p_title_key; /* Current title key. */
++} css_t;
++
++/* Copied from libdvdcss.h */
++
++#ifndef PATH_MAX
++#define PATH_MAX 4096
++#endif
++
++struct dvdcss_s
++{
++    /* File descriptor */
++    char * psz_device;
++    int    i_fd;
++    int    i_read_fd;
++    int    i_pos;
++
++    /* File handling */
++    void *pf_seek;
++    void *pf_read;
++    void *pf_readv;
++
++    /* Decryption stuff */
++    int          i_method;
++    css_t        css;
++    int          b_ioctls;
++    int          b_scrambled;
++    dvd_title_t *p_titles;
++
++    /* Key cache directory and pointer to the filename */
++    char   psz_cachefile[PATH_MAX];
++    char * psz_block;
++
++    /* Error management */
++    char * psz_error;
++    int    b_errors;
++    int    b_debug;
++
++#ifdef WIN32
++    int    b_file;
++    char * p_readv_buffer;
++    int    i_readv_buf_size;
++#endif
++
++#ifndef WIN32
++    int    i_raw_fd;
++#endif
++};
++
++
+ typedef struct dvdcss_s *dvdcss_handle;
+ static dvdcss_handle (*DVDcss_open)  (const char *);
+ static int           (*DVDcss_close) (dvdcss_handle);
+@@ -149,8 +217,13 @@
+   return 0;
+ }
+ 
+-
+-
++static int css_is_encrypted (dvd_input_t dev)
++{
++  if (dev->dvdcss == NULL) {
++    return 0;
++  }
++  return dev->dvdcss->b_scrambled;
++}
+ 
+ 
+ 
+@@ -269,6 +342,10 @@
+   return 0;
+ }
+ 
++static int file_is_encrypted (dvd_input_t dev)
++{
++  return 0;
++}
+ 
+ /**
+  * Setup read functions with either libdvdcss or minimal DVD access.
+@@ -347,6 +424,7 @@
+     dvdinput_title = css_title;
+     dvdinput_read  = css_read;
+     dvdinput_error = css_error;
++    dvdinput_is_encrypted = css_is_encrypted;
+     return 1;
+     
+   } else {
+@@ -359,6 +437,7 @@
+     dvdinput_title = file_title;
+     dvdinput_read  = file_read;
+     dvdinput_error = file_error;
++    dvdinput_is_encrypted = file_is_encrypted;
+     return 0;
+   }
+ }
+Index: dvd_input.h
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/input/libdvdnav/dvd_input.h,v
+retrieving revision 1.1
+diff -u -r1.1 dvd_input.h
+--- dvd_input.h	29 Apr 2003 15:58:29 -0000	1.1
++++ dvd_input.h	27 May 2006 16:11:09 -0000
+@@ -38,6 +38,7 @@
+ extern int         (*dvdinput_title) (dvd_input_t, int); 
+ extern int         (*dvdinput_read)  (dvd_input_t, void *, int, int);
+ extern char *      (*dvdinput_error) (dvd_input_t);
++extern int         (*dvdinput_is_encrypted) (dvd_input_t);
+ 
+ /**
+  * Setup function accessed by dvd_reader.c.  Returns 1 if there is CSS support.
+Index: dvd_reader.c
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/input/libdvdnav/dvd_reader.c,v
+retrieving revision 1.11
+diff -u -r1.11 dvd_reader.c
+--- dvd_reader.c	20 Sep 2004 19:30:04 -0000	1.11
++++ dvd_reader.c	27 May 2006 16:11:09 -0000
+@@ -480,6 +480,13 @@
+ 			     me->mnt_fsname,
+ 			     me->mnt_dir );
+                     auth_drive = DVDOpenImageFile( me->mnt_fsname, have_css );
++		    /* If the device is not encrypted, don't access the device
++		     * directly as it would fail for non-UDF DVDs */
++		    if ( dvdinput_is_encrypted( auth_drive->dev ) == 0) {
++		      DVDClose( auth_drive );
++		      auth_drive = NULL;
++		      break;
++		    }
+ 		    dev_name = strdup(me->mnt_fsname);
+                     break;
+                 }
+Index: src/input/libdvdnav/md5.c
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/input/libdvdnav/md5.c,v
+retrieving revision 1.2
+diff -u -r1.2 md5.c
+--- src/input/libdvdnav/md5.c	29 Apr 2003 21:46:05 -0000	1.2
++++ src/input/libdvdnav/md5.c	2 Jun 2006 19:14:50 -0000
+@@ -26,14 +26,8 @@
+ 
+ #include <sys/types.h>
+ 
+-#if STDC_HEADERS || defined _LIBC
+-# include <stdlib.h>
+-# include <string.h>
+-#else
+-# ifndef HAVE_MEMCPY
+-#  define memcpy(d, s, n) bcopy ((s), (d), (n))
+-# endif
+-#endif
++#include <stdlib.h>
++#include <string.h>
+ 
+ #include "md5.h"
+ /* #include "unlocked-io.h" */
+Index: src/input/libdvdnav/bswap.h
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/input/libdvdnav/bswap.h,v
+retrieving revision 1.3
+diff -u -p -u -r1.3 bswap.h
+--- src/input/libdvdnav/bswap.h	26 May 2003 23:11:44 -0000	1.3
++++ src/input/libdvdnav/bswap.h	17 Sep 2006 12:50:16 -0000
+@@ -35,7 +35,7 @@
+ #include <sys/param.h>
+ #endif
+ 
+-#if defined(__linux__)
++#if defined(__linux__) || defined(__GLIBC__)
+ #include <byteswap.h>
+ #define B2N_16(x) x = bswap_16(x)
+ #define B2N_32(x) x = bswap_32(x)
+@@ -41,6 +41,12 @@
+ #define B2N_32(x) x = bswap_32(x)
+ #define B2N_64(x) x = bswap_64(x)
+
++#elif defined(__APPLE__)
++#include <libkern/OSByteOrder.h>
++#define B2N_16(x) x = OSSwapBigToHostInt16(x)
++#define B2N_32(x) x = OSSwapBigToHostInt32(x)
++#define B2N_64(x) x = OSSwapBigToHostInt64(x)
++
+ #elif defined(__NetBSD__)
+ #include <sys/endian.h>
+ #define B2N_16(x) BE16TOH(x)
+Index: src/input/libdvdnav/dvd_reader.c
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/input/libdvdnav/dvd_reader.c,v
+retrieving revision 1.13
+diff -u -p -u -r1.13 dvd_reader.c
+--- src/input/libdvdnav/dvd_reader.c	15 Jun 2006 14:26:40 -0000	1.13
++++ src/input/libdvdnav/dvd_reader.c	17 Sep 2006 12:50:16 -0000
+@@ -32,8 +32,13 @@
+ #include <limits.h>
+ #include <dirent.h>
+ 
+-/* misc win32 helpers */
+-#ifdef WIN32
++#ifndef HAVE_GETTIMEOFDAY
++#  ifdef WIN32
++#    include <winsock.h>
++struct timezone;
++#  else
++#    include <sys/time.h>
++#  endif
+ /* replacement gettimeofday implementation */
+ #include <sys/timeb.h>
+ static inline int _private_gettimeofday( struct timeval *tv, void *tz )
+@@ -45,6 +50,10 @@ static inline int _private_gettimeofday(
+   return 0;
+ }
+ #define gettimeofday(TV, TZ) _private_gettimeofday((TV), (TZ))
++#endif
++
++/* misc win32 helpers */
++#ifdef WIN32
+ #include <io.h> /* read() */
+ #define lseek64 _lseeki64
+ #endif
+Index: src/input/libdvdnav/dvd_reader.h
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/input/libdvdnav/dvd_reader.h,v
+retrieving revision 1.5
+diff -u -p -u -r1.5 dvd_reader.h
+--- src/input/libdvdnav/dvd_reader.h	16 Mar 2004 11:43:38 -0000	1.5
++++ src/input/libdvdnav/dvd_reader.h	17 Sep 2006 12:50:16 -0000
+@@ -21,9 +21,11 @@
+  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  */
+ 
+-#ifdef _MSC_VER
++#ifdef HAVE_CONFIG_H
+ #include "config.h"
++#endif
+ 
++#ifdef _MSC_VER
+ #include <stdio.h>
+ #include <stdlib.h>
+ #endif
+Index: src/input/libdvdnav/dvdnav_internal.h
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/input/libdvdnav/dvdnav_internal.h,v
+retrieving revision 1.15
+diff -u -p -u -r1.15 dvdnav_internal.h
+--- src/input/libdvdnav/dvdnav_internal.h	20 Sep 2004 19:30:04 -0000	1.15
++++ src/input/libdvdnav/dvdnav_internal.h	17 Sep 2006 12:50:16 -0000
+@@ -34,6 +34,34 @@
+ #include <limits.h>
+ #include <string.h>
+ 
++#ifndef HAVE_GETTIMEOFDAY
++#  ifdef WIN32
++#    include <winsock.h>
++struct timezone;
++#  else
++#    include <sys/time.h>
++#  endif
++/* replacement gettimeofday implementation */
++#include <sys/timeb.h>
++static inline int dvdnav_private_gettimeofday( struct timeval *tv, void *tz )
++{
++  struct timeb t;
++  ftime( &t );
++  tv->tv_sec = t.time;
++  tv->tv_usec = t.millitm * 1000;
++  return 0;
++}
++#define gettimeofday(TV, TZ) dvdnav_private_gettimeofday((TV), (TZ))
++#define HAVE_GETTIMEOFDAY 1
++#endif
++
++#ifndef HAVE_SNPRINTF
++#  ifdef HAVE__SNPRINTF
++#    define snprintf _snprintf
++#    define HAVE_SNPRINTF 1
++#  endif
++#endif
++
+ #ifdef WIN32
+ 
+ /* pthread_mutex_* wrapper for win32 */
+@@ -45,17 +73,6 @@ typedef CRITICAL_SECTION pthread_mutex_t
+ #define pthread_mutex_unlock(a)  LeaveCriticalSection(a)
+ #define pthread_mutex_destroy(a)
+ 
+-/* replacement gettimeofday implementation */
+-#include <sys/timeb.h>
+-static inline int _private_gettimeofday( struct timeval *tv, void *tz )
+-{
+-  struct timeb t;
+-  ftime( &t );
+-  tv->tv_sec = t.time;
+-  tv->tv_usec = t.millitm * 1000;
+-  return 0;
+-}
+-#define gettimeofday(TV, TZ) _private_gettimeofday((TV), (TZ))
+ #include <io.h> /* read() */
+ #define lseek64 _lseeki64
+ 
+Index: src/input/libdvdnav/remap.c
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/input/libdvdnav/remap.c,v
+retrieving revision 1.4
+diff -u -p -u -r1.4 remap.c
+--- src/input/libdvdnav/remap.c	25 Aug 2003 21:51:40 -0000	1.4
++++ src/input/libdvdnav/remap.c	17 Sep 2006 12:50:16 -0000
+@@ -22,14 +22,17 @@
+ #include <string.h>
+ #include <stdio.h>
+ 
+-#ifndef _MSC_VER 
++#ifdef HAVE_SYS_PARAM_H
+ #include <sys/param.h>
++#endif
++
++#ifdef HAVE_SYS_FCNTL_H
+ #include <sys/fcntl.h>
+ #else
+ #ifndef MAXPATHLEN
+ #define MAXPATHLEN 255
+ #endif
+-#endif /* _MSC_VER */
++#endif /* HAVE fcntl.h */
+ 
+ #include <assert.h>
+ #include "remap.h"
+Index: src/input/libdvdnav/searching.c
+===================================================================
+RCS file: /cvsroot/xine/xine-lib/src/input/libdvdnav/searching.c,v
+retrieving revision 1.19
+diff -u -p -u -r1.19 searching.c
+--- src/input/libdvdnav/searching.c	14 Oct 2005 21:02:16 -0000	1.19
++++ src/input/libdvdnav/searching.c	17 Sep 2006 12:50:16 -0000
+@@ -105,7 +105,6 @@ dvdnav_status_t dvdnav_time_search(dvdna
+   int32_t found;
+   cell_playback_t *cell;
+   dvd_state_t *state;
+-  dvdnav_status_t result;
+ 
+   if(this->position_current.still != 0) {
+     printerr("Cannot seek in a still frame.");
+--- src/input/libdvdnav/ifo_types.h	Tue Apr 10 13:13:59 2007 +0200
++++ src/input/libdvdnav/ifo_types.h	Tue Apr 10 13:38:19 2007 +0200
+@@ -23,2 +25,2 @@
+ #include <inttypes.h>
+ #include "dvd_reader.h"
+
++#include "config.h"
++ 
+-
+-#undef ATTRIBUTE_PACKED
+-#undef PRAGMA_PACK_BEGIN 
+-#undef PRAGMA_PACK_END
+-
+-#if defined(__GNUC__)
+-#if __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ >= 95)
+-#define ATTRIBUTE_PACKED __attribute__ ((packed))
+-#define PRAGMA_PACK 0
+-#endif
+-#endif
+-
+-#if !defined(ATTRIBUTE_PACKED)
+-#define ATTRIBUTE_PACKED
+-#define PRAGMA_PACK 1
+-#endif
+-
+-#if PRAGMA_PACK
+-#pragma pack(1)
+-#endif
+-
++#define ATTRIBUTE_PACKED XINE_PACKED
+ 
+ /**
+  * Common

@@ -1,0 +1,4 @@
+# Extra file just to get LIBNAME correctly.
+# Unfortunate but it's the only way to avoid changing po/Makefile.in.in
+
+LIBNAME = @LIBNAME@

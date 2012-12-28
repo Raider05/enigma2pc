@@ -1,0 +1,6 @@
+This directory holds some documentation which is "internal to the xine
+project".
+
+These files should not be distributed, not even with released tarballs, as
+they are only useful in their most recent version, and only for a few core
+developers who are supposed to have a CVS tree, anyway...

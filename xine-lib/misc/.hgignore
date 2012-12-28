@@ -1,0 +1,5 @@
+SlackBuild
+build_rpms.sh
+libxine.pc
+relchk.sh
+xine-lib.spec

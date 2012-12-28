@@ -1,0 +1,67 @@
+XINE_LIB = $(top_builddir)/src/xine-engine/libxine.la
+
+xineincludedir = $(includedir)/xine
+
+xineplugdir = $(XINE_PLUGINDIR)
+xineplug_ldflags = $(LDFLAGS_NOUNDEFINED) $(GCSECTIONS) -avoid-version -module
+
+xinepostdir = $(XINE_PLUGINDIR)/post
+vidixdir = $(XINE_PLUGINDIR)/vidix
+
+$(XINE_LIB):
+	$(MAKE) -C $(top_builddir)/src/xine-engine libxine.la
+
+$(top_builddir)/contrib/libxdg-basedir/libxdg-basedir.la:
+	$(MAKE) -C $(top_builddir)/contrib/libxdg-basedir
+
+install-data-hook:
+	@if test $$MAKELEVEL -le 4 ; then \
+	  if test -x "$(top_srcdir)/post-install.sh" ; then \
+	    $(top_srcdir)/post-install.sh ; \
+	  fi; \
+	fi; \
+	if test -x /usr/bin/chcon -a "`id -u`" -eq 0; then \
+	  list='$(xineplug_LTLIBRARIES)'; \
+	    for p in $$list; do \
+	      p="`echo $$p | sed -e 's/\.la$$/\.so/g;s|^.*/||'`"; \
+	      echo " chcon system_u:object_r:texrel_shlib_t $(DESTDIR)$(xineplugdir)/$$p"; \
+	      chcon system_u:object_r:texrel_shlib_t $(DESTDIR)$(xineplugdir)/$$p || :; \
+	    done; \
+	  list='$(xinepost_LTLIBRARIES)'; \
+	    for p in $$list; do \
+	      p="`echo $$p | sed -e 's/\.la$$/\.so/g;s|^.*/||'`"; \
+	      echo " chcon system_u:object_r:texrel_shlib_t $(DESTDIR)$(xinepostdir)/$$p"; \
+	      chcon system_u:object_r:texrel_shlib_t $(DESTDIR)$(xinepostdir)/$$p || :; \
+	    done; \
+	fi
+
+pass1:
+	@$(MAKE) MULTIPASS_CFLAGS="$(PASS1_CFLAGS)"
+
+pass2:
+	@$(MAKE) MULTIPASS_CFLAGS="$(PASS2_CFLAGS)"
+
+uninstall-hook:
+	@list='$(xineplug_LTLIBRARIES)'; for p in $$list; do \
+	  p="`echo $$p | sed -e 's/\.la$$/\.so/g;s|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(xineplugdir)/$$p"; \
+	  rm -f $(DESTDIR)$(xineplugdir)/$$p; \
+	done;
+	@list='$(xinepost_LTLIBRARIES)'; for p in $$list; do \
+	  p="`echo $$p | sed -e 's/\.la$$/\.so/g;s|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(xinepostdir)/$$p"; \
+	  rm -f $(DESTDIR)$(xinepostdir)/$$p; \
+	done;
+	@list='$(vidix_LTLIBRARIES)'; for p in $$list; do \
+	  p="`echo $$p | sed -e 's/\.la$$/\.so/g;s|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(vidixdir)/$$p"; \
+	  rm -f $(DESTDIR)$(vidixdir)/$$p; \
+	done;
+
+mostlyclean-generic:
+	-rm -f *~ \#* .*~ .\#*
+
+maintainer-clean-generic:
+	-@echo "This command is intended for maintainers to use;"
+	-@echo "it deletes files that may require special tools to rebuild."
+	-rm -f Makefile.in

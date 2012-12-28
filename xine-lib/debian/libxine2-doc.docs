@@ -1,0 +1,8 @@
+debian/tmp/usr/share/doc/libxine2/faq/*
+debian/tmp/usr/share/doc/libxine2/README_xxmc.html
+debian/tmp/usr/share/doc/libxine2/README
+debian/tmp/usr/share/doc/libxine2/faq.*
+debian/tmp/usr/share/doc/libxine2/README.opengl*
+debian/tmp/usr/share/doc/libxine2/README.dxr3*
+debian/tmp/usr/share/doc/libxine2/README.dvb*
+NEWS

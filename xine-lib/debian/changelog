@@ -1,0 +1,982 @@
+xine-lib-1.2 (1.2.1~hg-0) experimental; urgency=low
+
+  * Hg snapshot.
+  * Adjust for libxine2.
+  * libxine-dev → libxine2-dev.
+
+ -- Darren Salt <linux@youmustbejoking.demon.co.uk>  Wed, 25 Jan 2012 00:53:33 +0000
+
+xine-lib (1.1.21~hg-0) unstable; urgency=low
+
+  * Hg snapshot (dev build). Changelog is irrelevant :-)
+
+ -- Darren Salt <linux@youmustbejoking.demon.co.uk>  Tue, 17 Jan 2012 19:06:22 +0000
+
+xine-lib (1.1.5~cvs-0) unstable; urgency=low
+
+  * CVS snapshot.
+
+  [Darren Salt]
+  * Resync build deps with 1.1.4-2.
+  * Add or update some minimum version numbers.
+  * Add a build dependency on libdirectfb-dev.
+
+ -- Darren Salt <linux@youmustbejoking.demon.co.uk>  Fri, 16 Mar 2007 01:33:24 +0000
+
+xine-lib (1.1.3-0) unstable; urgency=medium
+
+  * New upstream release.
+
+  [Darren Salt]
+  * debian/rules: work around version number breakage in libavcodec.pc.
+
+ -- Darren Salt <linux@youmustbejoking.demon.co.uk>  Thu, 28 Dec 2006 00:16:11 +0000
+
+xine-lib (1.1.2+dfsg-2) unstable; urgency=medium
+
+  * Bug fix: "CVE-2006-6172: xine-lib libreal Buffer Overflow
+    Vulnerabilities", thanks to Stefan Fritsch (Closes: #401740).
+
+ -- Reinhard Tartler <siretart@tauware.de>  Wed,  6 Dec 2006 22:15:11 +0100
+
+xine-lib (1.1.2+dfsg-1) unstable; urgency=medium
+
+  * Urgency medium for fixing release critical bug
+  * replace cetus.ttf with a new one based on FreeSans.ttf. Many thanks go
+    to Sune Vuorela for creating this! (Closes: #393677)
+  * apply patch from http://bugzilla.gnome.org/show_bug.cgi?id=344592 to
+    fix title menu if there is no DVD menu. (Closes: #369319)
+  * rename to XS-X-Vcs-Bzr field
+
+ -- Reinhard Tartler <siretart@tauware.de>  Thu, 26 Oct 2006 23:16:12 +0200
+
+xine-lib (1.1.2-6) unstable; urgency=low
+
+  * change override for -dbg package to extra
+  * added X-Vcs-Bzr tag to the source package
+  * revert the following commit from upstream, because it causes FTBFS on
+    many arches:
+    -  [xine-lib @ 2006-07-12 21:08:46 by dsalt]
+        Tidy up the formatting of tvtime method help texts to allow better wrapping
+        by the front end.
+
+ -- Reinhard Tartler <siretart@tauware.de>  Fri, 22 Sep 2006 21:49:56 +0200
+
+xine-lib (1.1.2-5) unstable; urgency=low
+
+  * Urgency kept low despite RC bug. (only FTBFS bug, does not affect testing)
+  * fetched patches from 1.1.3 branch:
+   -  [xine-lib @ 2006-07-12 21:08:46 by dsalt]
+       Tidy up the formatting of tvtime method help texts to allow better wrapping
+       by the front end.
+   -  [xine-lib @ 2006-07-21 03:31:42 by dgp85]
+       Fix building with LOG enabled.
+   -  [xine-lib @ 2006-07-21 04:47:17 by dgp85]
+       When trying to get the langinfo code, first of all, set the locale,
+       or you'll always get ANSI/ASCII.
+   -  [xine-lib @ 2006-08-05 13:31:13 by hadess]
+       use the gdkpixbuf loader to handle JPEG stills in Quicktime movies, as
+       the ffmpeg MJPEG decoder isn't appropriate
+   -  [xine-lib @ 2006-08-05 13:34:42 by hadess]
+       avoid crashing when the FLAC file is broken
+   -  [xine-lib @ 2006-08-08 03:15:02 by miguelfreitas]
+         patch by Chris Brien
+         1) Return the stream length correctly. This fixes a FIXME.
+         2) Set the width and height metadata.
+         3) Reset the demuxer status to DEMUX_OK on seek.
+       (in  src/demuxers/demux_rawdv.c)
+   -  [xine-lib @ 2006-08-08 03:34:15 by miguelfreitas]
+        video/x-ms-wma -> audio/x-ms-wma
+        (in src/demuxers/demux_asf.c)
+        Update API for libcaca 0.99. Patch by cjacker huang.
+        Update libcaca check to use the pkg-config file shipped with libcaca
+        0.99, and change --disable-caca to --without-caca (to conform with
+        other external libraries).
+        Remove reference to removed caca.m4 (libcaca 0.99 will use
+        pkg-config).
+        Removed m4/caca.m4 (Closes: #386745)
+  * Dropped Replaces on xine-dvdnav (only in woody) and xine (only in
+    potato!)
+  * Dropping Conflicts on sinek and xine-ui (<< 0.9.10) (all only woody)
+  * cleaning m4/caca.m4, no longer used
+  * removing doc/faq/faq.html doc/faq/faq.txt doc/hackersguide/hackersguide.html
+    on clean, missed by build system
+  * include some targets to build 'orig' tarballs from the current branch.
+    This mainly for my convinience for bootstrapping cvs versions of xine and
+    preparing tarballs for the 'main' section of ubuntu, which I carry here in
+    order to minimize divergence
+
+ -- Reinhard Tartler <siretart@tauware.de>  Thu, 14 Sep 2006 21:27:27 +0200
+
+xine-lib (1.1.2-4) unstable; urgency=low
+
+  * build against external liba52
+  * Bug fix: "libxine1: Please use the Debian ffmpeg version", thanks to
+    Josselin Mouette. Please note that the ffmpeg version used has WMV3
+    support. Unfortunately, this version of xine cannot use that support
+    yet. This is 1.1.3 stuff. (Closes: #367095).
+  * Bug fix: "libxine1: Please support m4b files", thanks to Johannes
+    Adams. Bugfix by copying src/demuxers/demux_qt.c from CVS
+    version. (Closes: #384435).
+  * Build against internal libvcdinfo for now and add libvcdinfo-dev to
+    build-conflicts. This is a workaround for Bug: #364837, using internal
+    libvcdinfo makes the segfault go away.
+  * install a note for reportbug users
+  * cleanup (actually remove) confusing and unnecessary documentation.
+  * fetch bug from upstream cvs to fix bug where incorrect aspect ratio was
+    being passed to post plugins up (src/post/planar/expand.c, rev 1.16)
+  * add build dependency on sgmltools-lite to build faq
+  * add build dependencies transfig and gs to correctly build the
+    hackersguide
+  * bump shlibs to this revision because of changes in libcaca output plugin
+
+ -- Reinhard Tartler <siretart@tauware.de>  Sun, 27 Aug 2006 21:41:58 +0200
+
+xine-lib (1.1.2-3) unstable; urgency=low
+
+  * backport fix for cdda:/ MRL from upstream (Closes: #276728)
+  * add note from darren to xine(5) as well
+  * fix totem-xine crashing when started with no argument (closes: #370283)
+    (patch taken from upstream)
+
+ -- Reinhard Tartler <siretart@tauware.de>  Sat, 12 Aug 2006 00:27:15 +0200
+
+xine-lib (1.1.2-2) unstable; urgency=high
+
+  Urgency high because of security related upload
+
+  * readd debian/watch file
+  * update debian/rules from CVS. more complete handling of noauto flag
+    to prevent running auto* tools.
+  * disable AC_C_ALWAYS_INLINE from configure.ac. Should fix FTBFS on a
+    number of architectures. (Closes: #378043)
+  * added patch from Darren Salt to fix build with -O0 on at least amd64
+    in src/libffmpeg/libavcodec/i386/Makefile.am
+  * Imported further fixes from upstream CVS:
+    +  src/input/input_dvb.c
+    + src/xine-utils/xine_mutex.c
+  * Imported security fix for included copy of libmms from upstream CVS,
+    (e.g. USN-315-1)
+
+ -- Reinhard Tartler <siretart@tauware.de>  Thu, 13 Jul 2006 21:51:46 +0200
+
+xine-lib (1.1.2-1) unstable; urgency=low
+
+  * New upstream release: 1.1.2
+  * use internal ffmpeg for upload to unstable, we will reinvestigate again
+    in experimental later..
+  * [sparc] Upstream fixed '--enable-vis'. So if compiling with vis, we are
+    using -mcpu=v9. This creates binaries, which probably segfault on 'true'
+    sparc32, but these poor old machines are not going to have much fun with
+    xine anyway... If there is an increasing demand for non-vis sparc
+    binaries, please contact me
+  * updated README.Debian
+  * use AM_MAINTAINER_MODE in configure.ac again
+
+  [Darren Salt]
+  * Option to prevent autogen.sh from being run on package build.
+    Use DEB_BUILD_OPTIONS='noauto'.
+
+ -- Reinhard Tartler <siretart@tauware.de>  Wed, 12 Jul 2006 09:53:38 +0200
+
+xine-lib (1.1.1+cvs20060702-1) experimental; urgency=low
+
+  * new CVS snapshot, including fix for FTBFS on arm
+  * compiling with -mcpu=ultrasparc to avoid FTBFS
+  * updated cvs snapshot
+
+ -- Reinhard Tartler <siretart@tauware.de>  Fri, 30 Jun 2006 22:35:06 +0200
+
+xine-lib (1.1.1+cvs20060624-1) experimental; urgency=low
+
+  * new upstream snapshot, featuring (from upstream ChangeLog)
+    + Security fixes:
+      - CVE-2005-4048: possible buffer overflow in libavcodec (crafted PNGs).
+      - CVE-2006-2802: possible buffer overflow in the HTTP plugin.
+      - possible buffer overflow via bad indexes in specially-crafted AVI files
+    + Also look for Xv support in /usr/lib for X.org's new location
+    + Support for Vorbis-style comments in FLAC files (Closes: #354188)
+    + Add ATSC support to the DVB plugin (Closes: #287875)
+    + Fix up health check to find libX11 and libXv shared objects even if
+      devel packages aren't installed (where appropriate). (Ubuntu 47357)
+    + Fix install problems in case configure was generated by autoconf >= 2.59c.
+      (already included in older debian upload)
+    + Add support for RealPlayer 10 codecs (from SUSE) (Closes: #274180)
+  * add w3m to build-depends
+  * New upstream fixes implicit pointer conversion. Thanks David Mosberger for
+    testing (Closes: #360003)
+  * cleanups in debian/rules
+  * use external (debian) ffmpeg
+  * run autohell on build time (read: on the buildds)
+
+ -- Reinhard Tartler <siretart@tauware.de>  Sat, 24 Jun 2006 13:22:26 +0000
+
+xine-lib (1.1.1-3) UNRELEASED; urgency=low
+
+  * (re)introduce libxine1-dbg package. (Closes: #373135)
+
+ -- Reinhard Tartler <siretart@tauware.de>  Wed, 14 Jun 2006 11:27:35 +0200
+
+xine-lib (1.1.1-2) unstable; urgency=medium
+
+  [ Reinhard Tartler ]
+
+  * Use external libmad, acknowledging NMU (Closes: #336437)
+  * enable support for libxvmc1, now that we have xorg in debian
+    (Closes: #281572)
+  * Conflict/Replaces obsolete package 'xine' (Closes: #300852)
+  * Incorporated Darren's changes into a new maintainer upload.
+  * medium urgency, although security fixes a lot of other functionality
+    changes
+  * Some more fixages to inline usage in internal copy of ffmpeg, continuing
+    the patch from Darren Salt.
+  * Verified that this upload fixes build on mips, and other build failiures
+    look pretty similar. Therefore (Closes: #354436)
+  * Verified that /usr/share/doc/libxine1/faq/faq.{html,txt} is now installed
+    correctly (Closes: #369658)
+  * fix gnome-vfs plugin to allow play back of http URLs again. Patch from
+    upstream CVS, thank you for pointing this out, Sam Morris (Closes: #369974)
+
+  [ Darren Salt ]
+
+   * SECURITY FIXES (closes: #369876):
+    - Possible buffer overflow in the AVI demuxer, caused by
+      specially-crafted files or streams;
+    - Possible buffer overflow in the HTTP header-fetching code.
+      (CVE-2006-2802)
+
+  * Tidy up the FAQ list and README installation to quieten dh_install.
+  * Re-update the FSF address in debian/copyright. It got lost in 1.1.1-1.
+  * Add build-dep alternatives for those of us who do backports to sarge.
+  * Tidy up the package descriptions a little.
+  * Bump shlibs to >= 1.1.0 due to new functions. (Closes: #358429, #368247)
+  * Empty config file no longer prevents the config from being saved.
+    (Fixed in upstream 1.1.1) (Closes: #320164)
+  * Pulled in some patches from CVS:
+    - the above security fixes;
+    - fix ALSA resume-from-suspend;
+    - fix incorrect size calculation in interlaced Matroska demuxing;
+    - various uninitialised variables, some of which should be non-zero;
+    - HTTP MRLs requiring authentication would only work when using a proxy;
+    - fix possibly-broken locale handling in the SMB input plugin;
+    - avoid problems where the ffmpeg audio decoder can't find a codec;
+    - avoid a couple of compiler warnings (libavutil);
+    - fix up some typecasting in the win32 codec interface;
+    - avoid problems with negative sizes (general demuxing);
+    - some plugin cache reading code should also be used on ia64;
+    - fix a couple of printf warnings on 64-bit;
+    - add some locking around playback speed change code;
+    - incorrect default CPU acceleration setting on powerpc;
+    - fix crash at startup if VO deinterlacing is enabled, onefield_xv is
+      selected and the image format is YV12;
+    - avoid possible segfault with 1x1 PNGs when handled by the ffmpeg plugin;
+    - wrong names used for libX11 and libXv in the health check code (we now
+      detect the correct names at build time);
+    - add a missing -I to src/libffmpeg/libavcodec/sparc/Makefile.am (should
+      fix an FTBFS on sparc);
+    - alter configure.ac to avoid FTBFS when configure is regenerated with
+      autoconf 2.59c or later.
+  * Add AM_MAINTAINER_MODE.
+  * Fix usage of inlined functions in libffmpeg before they're defined. This is
+    not implemented for all architectures in gcc 4.0.x and was causing FTBFS.
+  * Kill some pointer<->int casting warnings on 64-bit architectures. (Taken
+    from CVS HEAD)
+
+ -- Reinhard Tartler <siretart@tauware.de>  Mon, 12 Jun 2006 18:16:30 +0200
+
+xine-lib (1.1.1-1.1) unstable; urgency=low
+
+  * NMU.
+  * Use external libmad, which fixes crashes on amd64 on apps loading both
+    libxine1 and libmad0. (Closes: #336437)
+  * Pass --with-xv-path=/usr/lib to configure, since otherwise Xv support was
+    lost when compiling against modular X.
+
+ -- Adeodato Simó <dato@net.com.org.es>  Sat, 15 Apr 2006 19:34:33 +0200
+
+xine-lib (1.1.1-1) unstable; urgency=low
+
+  * New upstream release! (Closes: #326936, #353150, #332919)
+
+  [ Reinhard Tartler ]
+    - adding myself to uploaders
+    - Remove build dependencies on xlibs-dev, as well as alternatives on
+      xlibs-dev-static. Debian is on its way towards X11R7!
+      (Closes: #337997, #346488, #345499, #342208, #347162)
+    - Rechecking the long list of NMUs. Thanks to all submitters!
+
+  [ Darren Salt ]
+    - Add debian/watch file for uscan.
+    - Convert debian/copyright to UTF-8.
+    - Add build-deps on libxv-dev and libvcdinfo-dev.
+    - Bump standards version to 3.6.2
+    - Make "post-Sarge"-tagged changes to debian/rules and strip debian/tmp/
+      from debian/*.install.
+    - Remove *.gmo on clean (Just In Case). (Closes: #338000)
+    - Do a little preparation for a possible -dbg package.
+
+  * Acknowledge NMUs.
+    - Backports and gcc 4.0 fixes dropped since they're already in this version.
+      Closes: #288189, #318838
+    - slang transition: Closes: #315986
+    - aalib transition: Closes: #320317, #323276
+    - flac transition: Closes: #325960
+    - fix of dependency generation script debian/shlibdeps.sh:
+      Closes: #326935, #327203, #328168, #328184, #328265, #328454
+    - fix bashism in debian/rules: Closes: #337996
+
+ -- Reinhard Tartler <siretart@tauware.de>  Sun, 19 Feb 2006 18:34:51 +0100
+
+xine-lib (1.0.1-1.6) unstable; urgency=low
+
+  * NMU - Brown paper bag release
+  * debian/control:
+  - make libxine-dev depend on the same -dev packages it build-depends on
+    instead of depending on xlibs-dev (Closes: #347162)
+
+ -- Gustavo Noronha Silva <kov@debian.org>  Wed, 11 Jan 2006 17:32:43 -0200
+
+xine-lib (1.0.1-1.5) unstable; urgency=high
+
+  * Non-maintainer upload.
+  * debian/control:
+  - updated build-depends to no longer depend on the xlibs-dev package,
+    but on the split up packages it really needs
+    (Closes: #337997, #347162, #346488, #345499)
+  * debian/patches/heap-overflow-fix.diff:
+  - security fix for CVE-2005-4048 (Closes: #342208)
+    + urgency high because of this fix
+  * debian/copyright:
+  - updated FSF's address
+
+ -- Gustavo Noronha Silva <kov@debian.org>  Wed, 11 Jan 2006 00:56:18 -0200
+
+xine-lib (1.0.1-1.4) unstable; urgency=high
+
+  * Non-maintainer upload for RC-(security-)bugs.
+  * Apply patch from Ulf Harnhammar fixing a format string vulnerability
+    in CDDB response parsing (CVE-2005-2967, Closes: #332919, #333682).
+  * Fix bashism in debian/rules causing a FTBFS (Closes: #337996).
+
+ -- Thijs Kinkhorst <kink@squirrelmail.org>  Wed, 23 Nov 2005 09:42:39 +0100
+
+xine-lib (1.0.1-1.3) unstable; urgency=low
+  * Non-maintainer upload.
+
+  * Backport patch from 1.0.2 that fixes hard hang-ups when a plugin listed in
+    ~/.xine/catalog.cache becomes unloadable (closes: #328454). Plugins can
+    become unloadable if DT_NEEDED libraries get uninstalled, which is
+    possible because the package lists many of these libraries in the
+    Recommends or Suggests fields only. With this fix, amarok should not
+    freeze with the XINE engine anymore (closes: #327203), and totem either
+    (closes: #328265).
+
+    Patch included in debian/patches/fix-hangs-at-load-time.diff, but since
+    there's no patch applying code in debian/rules, it's present in the
+    .diff.gz as well.
+
+  * Fix the script that invokes dpkg-shlibdeps to split dependencies among
+    Depends, Recommends, and Suggests: it generated empty fields if one of the
+    expected plugins was not actually available. (Closes: #328184)
+
+    This means that now the package now suggests libgnomevfs2-0 (closes:
+    #326935) and libflac7 (closes: #328168). Submitters may wish to reopen if
+    they want a discussion with the maintainer about the need of these being
+    strong Depends instead of Suggests.
+
+  * xineplug_flac.so now links against libflac7 instead of libflac6, which
+    closes: #325960 (the FLAC transition bug).
+
+ -- Adeodato Simó <asp16@alu.ua.es>  Thu, 15 Sep 2005 14:54:50 +0200
+
+xine-lib (1.0.1-1.2) unstable; urgency=low
+
+  * NMU.
+  * The -dev package should depends on libslang2-dev not
+    slang1-dev(Closes: #323276)
+
+ -- Christian Marillat <marillat@debian.org>  Tue, 16 Aug 2005 09:13:42 +0200
+
+xine-lib (1.0.1-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Medium-urgency upload for RC bugfixes.
+  * Multiple fixes for compatibility with gcc 4.0 strictness
+    (closes: #288189, #318838)
+  * This rebuild also gets rid of the dependency on libslang1
+    (closes: #315986); it only trades it for libslang2 unfortunately,
+    since libcaca is a static lib.
+  * Build-Depend on libaa1-dev instead of the removed aalib1-dev
+    (closes: #320317).
+  * Build-Depend on libxinerama-dev instead of on xlibs-static-dev,
+    which no longer provides this lib; it should be rolled back into
+    xlibs-dev as a dependency eventually, but build-depending on it
+    directly is sensible anyway.
+  * Disentangle xine from libraries it doesn't actually use directly, so
+    that the dependency tree is less brittle and requires fewer rebuilds
+    in the future (e.g., it currently has a dependency on libstdc++5
+    that it shouldn't need at all); this is doubly important since some
+    plugins aren't mentioned at all in the dependencies, and so can be
+    left unusable by library changes:
+    - relibtoolize the package to use the Debian version of libtool,
+      with support for pruning indirect dependencies from the linker
+      commandline
+    - as part of the above, add AM_MAINTAINER_MODE to configure.ac to
+      avoid any need for autotools build-dependencies
+    - hard-code -lmodplug, -lartsc, and -lgnomevfs-2, because pkg-config,
+      artsc-config, etc. spit out lib dependencies that are spurious on
+      GNU/* systems.
+
+ -- Steve Langasek <vorlon@debian.org>  Wed,  3 Aug 2005 04:21:06 -0700
+
+xine-lib (1.0.1-1) unstable; urgency=high
+
+  * new upstream release
+    * fixes MMST and RTSP vulnerabilities (CAN-2005-1195, closes #305343)
+    * presumably fixes Ogg/Vorbis/Theora audio sync (closes: #301901)
+    * fixes typo in xine-check subsystem (closes: #292341)
+  * build-depends on libsdl1.2 (closes: #297435)
+  * allow installing libxine1-dev with slang1-utf8-dev (closes: #304865)
+  * moved documentation to policy compliant directories (closes: #303463)
+  * made Vorbis and Theora hard dependancies (workaround closes: #288331)
+
+ -- Siggi Langauf <siggi@localhost.localdomain>  Wed, 27 Apr 2005 12:41:46 +0200
+
+xine-lib (1.0-1) unstable; urgency=high
+
+  * new upstream release
+    * links libXv dynamically (closes: #287186)
+  * updated build dependancies:
+    * added libcaca (colored ASCII art) support
+    * added theora support
+    * added libsmbclient based SMB input plugin in addition to the gnomevfs one
+    * added libmodplug based support for various tracker formats
+    * added MNG support via libmng
+  * added vulnerability IDs in 1-rc8-1 changelog
+
+ -- Siggi Langauf <siggi@debian.org>  Sun, 26 Dec 2004 12:20:24 +0100
+
+xine-lib (1-rc8-1) unstable; urgency=high
+
+  * new upstream release (closes: #286030)
+    * fixes PNM and RTSP related security vulnerabilities (closes: #286077)
+      This has been assigned CAN-2004-1188.
+    * fixes DVB playback for fullfeatured cards (possibly closes: #281873)
+  * added patch to fix aiff vulnerability (CAN-2004-1300, closes: #285899)
+
+ -- Siggi Langauf <siggi@debian.org>  Wed, 22 Dec 2004 11:31:09 +0100
+
+xine-lib (1-rc7-1) unstable; urgency=medium
+
+  * New upstream release
+    * new DVB subsystem (closes: #223541, #223555, #223562)
+    * makes Win32 DLL loader work with 2.6 kernels (closes: #265455)
+  * added more explicit dependancy on libpng12-dev, so maybe
+    "apt-get build-dep xine-lib" will work again...
+
+ -- Siggi Langauf <siggi@debian.org>  Wed, 10 Nov 2004 09:26:46 +0100
+
+xine-lib (1-rc6a-1) unstable; urgency=high
+
+  * new upstream release (closes: #263418)
+    * fixes buffer overflow with vcd:// MRLs (closes: #265061)
+  * merged Frank and Steve's NMU patch (closes: 270884)
+
+ -- Siggi Langauf <siggi@debian.org>  Mon, 27 Sep 2004 00:22:28 +0200
+
+xine-lib (1-rc5-1.1) unstable; urgency=high
+
+  * Non-maintainer upload, prepared by Steve Langasek and me
+  * High-urgency upload for a sarge-targetted RC fix.
+  * Use --build, not --host, to specify the architecture; otherwise
+    autoconf thinks we're cross-compiling when we aren't.
+  * src/libffmpeg/libavcodec/sparc/dsputil_vis.c et al: make this code
+    conditional on ENABLE_VIS, since that's what that define is for;
+    fixes FTBFS on sparc when using a 32-bit target (closes: #270884).
+  * Add patch to fix overflows when handling vcd:// MRLs
+    (closes: #265061).
+
+ -- Frank Lichtenheld <djpig@debian.org>  Sun, 26 Sep 2004 02:22:51 +0200
+
+xine-lib (1-rc5-1) unstable; urgency=medium
+
+  * New upstream release (closes: #258274)
+    * fixes MPEG demuxer selection (closes: #249247)
+    * suppresses warning about skipped frames on fast-fwd (closes: #255125)
+  * re-processed autogen.sh, so Debian's libtool is used (closes:  #251584)
+  * passing CFLAGS explicitly to make (closes: 251103)
+
+ -- Siggi Langauf <siggi@debian.org>  Sun, 11 Jul 2004 21:01:43 +0200
+
+xine-lib (1-rc4a-1) unstable; urgency=high
+
+  * new upstream version
+    - fixes display errors with popular (Matrox, ATI) graphics cards
+
+  This version, as 1-rc4 before, contains a security fix for the RTSP
+  vulnerability (XSA-2004-3, Bug#247353)
+
+ -- Siggi Langauf <siggi@debian.org>  Thu, 13 May 2004 07:04:14 +0200
+
+xine-lib (1-rc4-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Siggi Langauf <siggi@debian.org>  Wed, 28 Apr 2004 20:28:02 +0200
+
+xine-lib (1-rc3c-1) unstable; urgency=low
+
+  * new upstream version
+    - includes workaround for XV_HUE bug on NVidia cards (closes: #238433)
+  * build-depends on libpng-dev for PNG support (closes: #240524)
+  * build-depends on libfreetype6-dev for TTF support (closes: #242031)
+
+ -- Siggi Langauf <siggi@debian.org>  Wed,  7 Apr 2004 23:58:08 +0200
+
+xine-lib (1-rc3b-1) unstable; urgency=low
+
+  * new upstream release
+    - lots of bug fixes (see upstream ChangeLog), including:
+    - allows devfs compatible DSP device names (closes: #193459)
+    - Michel's segfault patch (closes: #22875)
+
+ -- Siggi Langauf <siggi@debian.org>  Tue, 16 Mar 2004 22:43:36 +0100
+
+xine-lib (1-rc3a-2) unstable; urgency=high
+
+  * updated shlibs: 1-rc3(a) provides new OSD functions (will close: 225618)
+  * fixed OSS plugin initialization code (closes: 225275)
+
+ -- Siggi Langauf <siggi@debian.org>  Wed, 31 Dec 2003 15:41:17 +0100
+
+xine-lib (1-rc3a-1) unstable; urgency=high
+
+  * new upstream release
+    * fixes ABI compatibility (closes: 224931)
+  * audio demuxer group is loaded again (closes: 225158)
+
+ -- Siggi Langauf <siggi@debian.org>  Sun, 28 Dec 2003 11:56:16 +0100
+
+xine-lib (1-rc3-2) unstable; urgency=low
+
+  * merged some updates from upstream CVS:
+    * define SCSI_BLK_MAJOR macro for kernel 2.6 (closes: 224695)
+    * fix endianness for arts audio (closes: 190356)
+
+ -- Siggi Langauf <siggi@debian.org>  Tue, 23 Dec 2003 01:38:29 +0100
+
+xine-lib (1-rc3-1) unstable; urgency=low
+
+  * new upstream release
+    * builds libxine with -fPIC on all architectures (closes: #217140)
+
+ -- Siggi Langauf <siggi@debian.org>  Mon, 15 Dec 2003 11:49:25 +0100
+
+xine-lib (1-rc2-1) unstable; urgency=low
+
+  * new upstream release
+    * handles "#" and "%" characters in filenames gracefully (closes: #206890)
+    * includes enhanced VCD input plugin (closes: 130489)
+
+ -- Siggi Langauf <siggi@debian.org>  Mon, 27 Oct 2003 17:10:28 +0100
+
+xine-lib (1-rc1-1) unstable; urgency=high
+
+  * new upstream release
+    * doesn't link static libXv any more (closes: #210650)
+    * ALSA driver doesn't block on busy device any more (closes: #211304)
+  * suggesting libartsc0 (I have a bad feeling about this, closes: #203961)
+
+ -- Siggi Langauf <siggi@debian.org>  Sun,  5 Oct 2003 11:28:06 +0200
+
+xine-lib (1-rc0a-1) unstable; urgency=low
+
+  * new upstream release
+    * includes missing DXR3 support file (source only)
+    * keeps xine from aborting on broken MPEG streams
+  * added speex support
+
+ -- Siggi Langauf <siggi@debian.org>  Sat,  2 Aug 2003 15:40:13 +0200
+
+xine-lib (1-rc0-1) unstable; urgency=low
+
+  * new upstream release
+    * new versioning scheme should sort correctly (closes: #194063)
+    * includes liba52 fix (closes: #196327)
+    * resets decoder priorities if an old config file is found (closes: 193303)
+  * libxine-dev depends on libfreetype6-dev (closes: #195738)
+
+ -- Siggi Langauf <siggi@debian.org>  Fri,  1 Aug 2003 08:55:22 +0200
+
+xine-lib (1-beta12-1) unstable; urgency=low
+
+  * new upstream version
+    * ALSA plugin opens audio device in non-blocking mode (closes: #177877)
+    * (old?) QT DLL decoder fixes (closes: #179136)
+
+ -- Siggi Langauf <siggi@debian.org>  Mon, 12 May 2003 18:59:34 +0200
+
+xine-lib (1-beta11-0) unstable; urgency=low
+
+  * New Upstream release
+
+ -- Siggi Langauf <siggi@debian.org>  Sun, 27 Apr 2003 14:08:30 +0200
+
+xine-lib (1-beta10-2) unstable; urgency=low
+
+  * backported xine-lib configure check from upstream CVS
+
+ -- Siggi Langauf <siggi@debian.org>  Wed, 16 Apr 2003 12:46:26 +0200
+
+xine-lib (1-beta10-1) unstable; urgency=low
+
+  * new upstream release
+  * updated debhelper dependancy, avoid using --list-missing (closes: #187433)
+  * changed libxine-dev section to new "libdevel"
+
+ -- Siggi Langauf <siggi@debian.org>  Mon,  7 Apr 2003 19:31:03 +0200
+
+xine-lib (1-beta9-1) unstable; urgency=low
+
+  * New upstream release
+  * correct demuxer should be used since 1-beta8 (closes: #180011)
+
+ -- Siggi Langauf <siggi@debian.org>  Sun, 23 Mar 2003 21:15:42 +0100
+
+xine-lib (1-beta8-1) unstable; urgency=low
+
+  * Add pmhahn as Uploaders.
+  * New upstream release.
+  * Standards-Version 3.5.9:
+    - debhelper 4
+    - Use 'noopt' instead of 'debug'
+    - Remove overrides for plugin shared libraries.
+  * Provide non-developer documentation in library package.
+  * Build with dxr3 support (closes: #117170)
+
+ -- Philipp Matthias Hahn <pmhahn@debian.org>  Fri, 14 Mar 2003 10:03:16 +0100
+
+xine-lib (1-beta6-1) unstable; urgency=low
+
+  * new upstream release
+  * updated artsc build dependancy (closes: #182137)
+  * removed obsolete dh_testversion call
+
+ -- Siggi Langauf <siggi@debian.org>  Sun, 23 Feb 2003 00:53:19 +0100
+
+xine-lib (1-beta4-3) unstable; urgency=low
+
+  * added version on FLAC dependancy (closes: #181399)
+  * fixed Replaces: xine-dvdnav, so apt should do the transition smoothly
+    (closes: #175790)
+  * downgraded GNOME recommendation to suggestion (closes: #179523)
+
+ -- Siggi Langauf <siggi@debian.org>  Wed, 19 Feb 2003 04:29:21 +0100
+
+xine-lib (1-beta4-2) unstable; urgency=low
+
+  * updated dependancies (closes: #179251):
+    - added gnome-vfs input and FLAC support
+    - made those dependancies "suggests:"
+    - made sdl optional as well
+
+ -- Siggi Langauf <siggi@debian.org>  Sun,  2 Feb 2003 22:09:02 +0100
+
+xine-lib (1-beta4-1) unstable; urgency=low
+
+  * new upstream release (fixes compilation on mmx capable ix86 machines)
+
+ -- Siggi Langauf <siggi@debian.org>  Wed, 29 Jan 2003 19:37:15 +0100
+
+xine-lib (1-beta3-1) unstable; urgency=low
+
+  * new upstream release
+
+ -- Siggi Langauf <siggi@debian.org>  Tue, 28 Jan 2003 21:41:05 +0100
+
+xine-lib (1-beta2-4) unstable; urgency=low
+
+  * removed HPPA compiler hacks (3.2 is now default, and it choked anyway...)
+  * removed DXR3 support (closes: #175392, reopens: #117170)
+
+ -- Siggi Langauf <siggi@debian.org>  Wed,  8 Jan 2003 21:49:25 +0100
+
+xine-lib (1-beta2-3) unstable; urgency=high
+
+  * A backslash got lost in the last upload.
+    gcc-3.2 should finally be used on HPPA now...
+
+ -- Siggi Langauf <siggi@debian.org>  Thu,  2 Jan 2003 20:39:51 +0100
+
+xine-lib (1-beta2-2) unstable; urgency=low
+
+  working around autobuilder bugs:
+  - actually using gcc-3.2 on HPPA
+  - uploading i386 binaries, since the i386 autobuilder dies from #165458
+
+ -- Siggi Langauf <siggi@debian.org>  Thu,  2 Jan 2003 12:11:24 +0100
+
+xine-lib (1-beta2-1) unstable; urgency=low
+
+  * new upstream release
+  * on HPPA: working around a compiler bug by explicit build-depend on
+    gcc-3.2 (closes: #174813)
+
+ -- Siggi Langauf <siggi@debian.org>  Thu,  2 Jan 2003 00:43:42 +0100
+
+xine-lib (1-beta1-1) unstable; urgency=low
+
+  * new upstream release.
+    This is actually uploaded to unstable again, so let's check bugs:
+  * doesn't segfault with any of my VCDs (closes: #173424)
+  * supports WMV8 codecs (binary DLL only) (closes: #163363)
+  * should build with dxr3 support (closes: #117170)
+
+ -- Siggi Langauf <siggi@debian.org>  Tue, 24 Dec 2002 18:07:17 +0100
+
+xine-lib (1-beta0-1) unstable; urgency=low
+
+  * new upstream release (now labelled beta)
+    This one fixes the packaging issues, so it's a candidate for unstable.
+
+ -- Siggi Langauf <siggi@debian.org>  Wed, 11 Dec 2002 13:48:35 +0100
+
+xine-lib (1-alpha2-0) experimental; urgency=low
+
+  * yet another upstream alpha. This one is becoming usable, but has some
+    packaging issues which prevent a parallel installation of libxine0.
+
+ -- Siggi Langauf <siggi@debian.org>  Tue, 26 Nov 2002 00:34:35 +0100
+
+xine-lib (1-alpha1-0) experimental; urgency=low
+
+  * another upstream alpha. This is still not ready for prime time, but it will
+    build from source if you really want to give it a try...
+
+ -- Siggi Langauf <siggi@debian.org>  Sat,  9 Nov 2002 23:39:01 +0100
+
+xine-lib (1-alpha0-0) unstable; urgency=low
+
+  * new upstream (alpha!) release
+    (this is not suited for the Debian archives, yet.)
+  * NOTE: conflicts with libxine0, because of fonts and l18n
+
+ -- Siggi Langauf <siggi@debian.org>  Sun,  3 Nov 2002 03:00:41 +0100
+
+xine-lib (0.9.13-1) unstable; urgency=low
+
+  * new upstream release
+    - includes ALSA big-endian fix (closes: #154914)
+    - only shows frame stats if frames have been skipped (closes: #151610)
+  * removed control information concerning unreleased betas
+  * conflicts: packages compiled against incompatible libxine0 (closes: #150832)
+ -- Siggi Langauf <siggi@debian.org>  Sat,  3 Aug 2002 22:47:56 +0200
+
+xine-lib (0.9.12-1) unstable; urgency=low
+
+  * new upstream release
+    (only small improvements, see upstream ChangeLog)
+  * moved locale files from libxine-dev to the libxine0
+
+ -- Siggi Langauf <siggi@debian.org>  Sun, 23 Jun 2002 11:33:37 +0200
+
+xine-lib (0.9.11-1) unstable; urgency=low
+
+  * new upstream release
+    - pads Xv images, so width % 4 == 0 (closes: #134997)
+
+ -- Siggi Langauf <siggi@debian.org>  Thu, 20 Jun 2002 00:11:37 +0200
+
+xine-lib (0.9.10-2) unstable; urgency=high
+
+  * disabled machine specific optimizations, so autobuilders will
+    build packages than run on their whole processor family (closes: #148414)
+
+ -- Siggi Langauf <siggi@debian.org>  Wed, 29 May 2002 10:06:09 +0200
+
+xine-lib (0.9.10-1) unstable; urgency=low
+
+  * new upstream release
+    * uses new logo mechanism (closes: #145483)
+    * after long fights using sane SONAME (closes: #145668, #148099)
+    * safer check and bigger buffer in xine_get_homedir() (closes: #133550)
+    (see upstream ChangeLog for further highlights)
+  * build-depends on libz-dev (closes: #14562)
+  * libxine-dev depends on slang1-dev (closes: #140842)
+  * removed references to (never released, long obsolete) xine packages
+
+ -- Siggi Langauf <siggi@debian.org>  Sun, 26 May 2002 00:00:14 +0200
+
+xine-lib (0.9.9-2) unstable; urgency=low
+
+  * using LIBRARY_PATH to complete circular linking during install
+    (closes: #145348)
+
+ -- Siggi Langauf <siggi@debian.org>  Thu,  2 May 2002 05:06:06 +0200
+
+xine-lib (0.9.9-1) unstable; urgency=low
+
+  * new upstream release
+  * downgraded ogg/vorbis dependancies to recommendations (closes: #130492)
+  * made resetting volume an option, disabled by default (closes: #127485)
+
+ -- Siggi Langauf <siggi@debian.org>  Mon, 28 Jan 2002 10:54:14 +0100
+
+xine-lib (0.9.8-2) unstable; urgency=high
+
+  * including version in shlibs file, so shlibdeps will work
+
+ -- Siggi Langauf <siggi@debian.org>  Sat, 19 Jan 2002 16:20:32 +0100
+
+xine-lib (0.9.8-1) unstable; urgency=high
+
+  * new upstream release
+
+ -- Siggi Langauf <siggi@debian.org>  Mon, 14 Jan 2002 00:43:52 +0100
+
+xine-lib (0.9.7-3) unstable; urgency=high
+
+  * re-added check for HPPA (closes: #123036)
+
+ -- Siggi Langauf <siggi@debian.org>  Mon, 17 Dec 2001 11:44:24 +0100
+
+xine-lib (0.9.7-2) unstable; urgency=low
+
+  * this package is based on a recent CVS snapshot, fixes a few things:
+  * don't try to DirectShow support on non-i386 platforms
+  * officially support s390, thanks to Gerhard Tonn (closes: #123805)
+  * subtitles other than the first one re-enabled
+  * improved antialiasinf on OSD fonts
+
+ -- Siggi Langauf <siggi@flake.langauf.de>  Sun, 16 Dec 2001 13:00:14 +0100
+
+xine-lib (0.9.7-1) unstable; urgency=low
+
+  * new upstream release, introducing upstream feature freeze for 1.0
+  * suggesting xine-dvdnav, so people find it more easily
+  * disabled Xv plugin on hppa (closes: #123036)
+
+ -- Siggi Langauf <siggi@debian.org>  Wed, 12 Dec 2001 19:32:43 +0100
+
+xine-lib (0.9.6-1) unstable; urgency=high
+
+  * new upstream release, fixes some nasty bugs
+    (the 0.9.5 package was never uploaded, sorry...)
+
+ -- Siggi Langauf <siggi@debian.org>  Sat,  1 Dec 2001 09:39:48 +0100
+
+xine-lib (0.9.5-1) unstable; urgency=high
+
+  * new upstream release
+
+ -- Siggi Langauf <siggi@debian.org>  Sun, 11 Nov 2001 12:01:00 +0100
+
+xine-lib (0.9.4-1) unstable; urgency=medium
+
+  * new upstream release, fixes libtool, so this actually compiles
+    new features include improved deinterlacing with syncfb and zoom support
+
+ -- Siggi Langauf <siggi@debian.org>  Sun,  4 Nov 2001 13:07:06 +0100
+
+xine-lib (0.9.3-1) unstable; urgency=medium
+
+  * new upstream release
+  * improved error handling in plugin loader (closes: #116572)
+
+ -- Siggi Langauf <siggi@debian.org>  Sat,  3 Nov 2001 11:24:03 +0100
+
+xine-lib (0.9.2-3) unstable; urgency=high
+
+  * removed build-dependancy on libasound (useful on i386 only)
+  * allow for architectures building only some of the plugins
+  * added build-dependancy on ogg and vorbis libraries
+
+ -- Siggi Langauf <siggi@debian.org>  Sat, 20 Oct 2001 17:58:53 +0200
+
+xine-lib (0.9.2-2) unstable; urgency=high
+
+  * added permission workaround for shlibdeps.sh (closes: #115881)
+
+ -- Siggi Langauf <siggi@debian.org>  Wed, 17 Oct 2001 00:41:51 +0200
+
+xine-lib (0.9.2-1) unstable; urgency=high
+
+  * now building alsa09 plugin (instead of alsa05, as you can't have
+                                libasound{1,2}-dev at the same time...)
+  * build-Dependancy on liblircclient-dev => lirc support on non-i386
+  * new upstream release
+    * deinterlace.c should compile everywhere (closes: #112748)
+    * including string.h in m4 test (closes: #115271)
+    * aclocal file is in /usr/share/aclocal (just as 0.9.1)  (closes: #115033)
+    * enables -fPIC on all architectures except i386 (closes: #115006)
+    * many more fixes/features (see upstream changelog)
+
+ -- Siggi Langauf <siggi@debian.org>  Mon, 15 Oct 2001 21:14:12 +0200
+
+xine-lib (0.9.1-1.1) unstable; urgency=low
+
+  * NMU.
+  * Added ia64 support to configure.in.
+  * For performance reasons, the shared libs are not compiled with
+    -fPIC in the standard distribution, which is incorrect behavior.
+    As a compromise, I've added a "--disable-fpic" configure option
+    which will only do this on platforms where this is allowed.
+    Closes: #115006.
+  * m4/xine.m4: autoconf test uses strdup w/o including string.h.
+    Closes: #115271.
+  * Don't install aclocal files in /usr/local in libxine-dev.
+    Closes: #115033.
+  * Fixed typo in src/video_out/deinterlace.c.  Closes: #112748.
+
+ -- Jeff Licquia <jlicquia@progeny.com>  Tue,  9 Oct 2001 09:55:23 -0600
+
+xine-lib (0.9.1-1) unstable; urgency=low
+
+  * new upstream release (mostly bugfix release, new deinterlacer)
+  * re-added ALSA (0.5.x) plugin
+  * now ships with aRts audio plugin
+
+ -- Siggi Langauf <siggi@debian.org>  Tue, 18 Sep 2001 11:13:34 +0200
+
+xine-lib (0.9.0-2) unstable; urgency=low
+
+  * bugfix release of the package
+  * added build-depends for zlib1g-dev (closes: #112270)
+  * using default FPM routines on m68k, as nobody seems able to write native
+    ones. Performance will be poor and it might not even work, but should
+    compile... (closes: #112257)
+
+ -- Siggi Langauf <siggi@debian.org>  Sun, 16 Sep 2001 11:08:46 +0200
+
+xine-lib (0.9.0-1) unstable; urgency=low
+
+  * new upstream release features generic menu support, see ChangeLog for more
+
+ -- Siggi Langauf <siggi@debian.org>  Fri, 14 Sep 2001 11:31:10 +0200
+
+xine-lib (0.5.3-1) unstable; urgency=low
+
+  * added build-depends: lobesd0-dev (closes: Bug#111140)
+  * new upstream release (fixes many race conditions, etc.)
+
+ -- Siggi Langauf <siggi@debian.org>  Tue,  4 Sep 2001 19:14:01 +0200
+
+xine-lib (0.5.2-1) unstable; urgency=low
+
+  * new upstream release features major rewrites of timing and audio output
+  * added configure support for m68k (libmad still won't compile on m68k!)
+
+ -- Siggi Langauf <siggi@debian.org>  Sun,  2 Sep 2001 18:04:44 +0200
+
+xine-lib (0.5.1-1) unstable; urgency=low
+
+  * new upstream version
+    (0.5.0-1 never made it into the archive)
+
+ -- Siggi Langauf <siggi@debian.org>  Mon, 27 Aug 2001 10:04:17 +0200
+
+xine-lib (0.5.0-1) unstable; urgency=low
+
+  * Initial Release of the new xine-lib/xine-ui based xine.
+
+ -- Siggi Langauf <siggi@debian.org>  Sun,  5 Aug 2001 20:26:31 +0200

@@ -1,0 +1,24 @@
+;------------------------------------------------------------
+; LIBXINESUPPORT DLL DEFINITIONS FILE
+
+EXPORTS
+
+;------------------------------------------------------------
+; dirent exports
+
+_xine_private_opendir
+_xine_private_closedir
+_xine_private_readdir
+_xine_private_rewinddir
+
+;------------------------------------------------------------
+; xine posix exports
+
+_xine_private_basename
+_xine_private_gettimeofday
+_xine_private_hstrerror
+_xine_private_setenv
+_xine_private_strcasestr
+_xine_private_strndup
+_xine_private_strsep
+_xine_private_strtok_r

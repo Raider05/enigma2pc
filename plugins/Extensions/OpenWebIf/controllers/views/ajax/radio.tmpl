@@ -1,0 +1,38 @@
+<div id="content_main">
+	<div id="tvcontentmain">
+	<div id="toolbar-header">
+		<span id="toolbar">
+			<span id="tvbutton">
+				<input type="radio" id="radiobutton0" name="radiobutton" checked="checked" /><label for="radiobutton0">Bouquets</label>
+				<input type="radio" id="radiobutton1" name="radiobutton" /><label for="radiobutton1">Providers</label>
+				<input type="radio" id="radiobutton2" name="radiobutton" /><label for="radiobutton2">Satellites</label>
+				<input type="radio" id="radiobutton3" name="radiobutton" /><label for="radiobutton3">All Channels</label>
+			</span>
+		</span>
+	</div>
+	
+	<div id="tvcontent"></div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	\$('#radiobutton0').click(function(){
+		\$("#tvcontent").html(loadspinner).load("ajax/bouquets?stype=radio");
+	});
+	\$('#radiobutton1').click(function(){
+		\$("#tvcontent").html(loadspinner).load("ajax/providers?stype=radio");
+	});
+	\$('#radiobutton2').click(function(){
+		\$("#tvcontent").load("ajax/satellites?stype=radio");
+	});
+	\$('#radiobutton3').click(function(){
+		\$("#tvcontent").html(loadspinner).load("ajax/channels?stype=radio");
+	});
+	
+	\$( "#tvbutton" ).buttonset();
+	
+	\$(document).ready(function() {
+		\$("#tvcontent").load("ajax/bouquets?stype=radio");
+	});
+</script>
+

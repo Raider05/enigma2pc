@@ -1,0 +1,179 @@
+A step-by-step guide to xine releases
+=====================================
+
+Siggi Langauf, 2003-12-17
+
+This guide provides a simple "recipe-like" guide to making releases. While
+only strictly covering releases of the "xine-lib" module, the procedure is
+almost the same for all the other modules. You only have to substitute the
+module name, and probably make other tests. ;-)
+
+Okay, so let's describe your starting point:
+You're going to be the release manager. The last release has been a long
+time ago. By now, many important bug fixes have accumulated in CVS while
+users (who are not aware of any mailing list besides xine-announce) are
+wondering if xine is still a maintained project. However, everybody's
+committing wildly to CVS, preferrably redesigning the core xine engine and
+often forgetting to make notes about their work in the ChangeLog.
+
+Currently, best practice to get a release out looks like this:
+
+1) announce the upcoming release on xine-devel! Ask developers:
+   - if they think CVS is ready for a release
+   - if there are any important known bugs
+   - to double-check and update the ChangeLog
+
+2) make pre-release checks (many of these should be already done, but now is
+   the time to go through the whole checklist:
+   - does it build? (probably best: check nightly build logs)
+     note: test at least on an ia32 machine _and_ any big endian box
+   - does it run?
+     (again: play a simple file on at least intel+any BE platform using the
+      new library)
+   - is it feature-complete?
+     Ideally, you'd test all demuxers, decoders and post plugins, along with
+     all audio and video drivers. As this is totally unrealistic, you'll
+     have to restrict yourself to a practical subset. This should include
+     the [standard test parcours] (see below)
+     note: We're going to collect all features in a strategical overview and
+           identify at least one dedicatet tester for each feature.
+           So check that overview! Ask testers to test if their feature is
+           marked "untested".
+   - you might want to run "make release-check", it will tell you about files
+     from CVS missing in the release; be sure to check these
+
+       AND
+
+     you might want to run "make distcheck", this will test the
+     packaging, building, and testing of all xine-lib. This will
+     alert you to any missing files from the tarball or problems
+     in the Makefile rules.
+
+   - does "make dist" produce a complete (ie. compilable) tarball
+     (note: nightly build logs will tell you this.)
+
+3) Versioning
+
+   You should already know by now, from which branch of CVS the release is
+   going to be made. The current scheme is to have a stable branch from
+   which the subminor releases like 1.0.1, 1.0.2,... are made and an
+   unstable branch in CVS head, which is going to become the next minor
+   (1.1) or major (2.0) xine-lib version.
+
+   Make sure you know
+   - what the new release should be called
+     (the "marketing version" part of the tarball name, for example)
+   - if any _internal_ structures (like xine_t) have changed
+   - if any _external_ interfaces (include/xine.h) have been added or changed
+
+   Then check our 3 version systems:
+   If any internal structures have changed, you may have to increase some
+   (or all) of the plugin IFACE_VERSIONs. In that case, you might want to
+   ask for help, so this doesn't take the whole day...
+   Then, edit configure.ac:
+   - set XINE_MAJOR, XINE_MINOR, XINE_SUB according to the marketing version
+   - set the XINE_LT_* constants according to the comments. DO _NOT_ mess with
+     these! If you're not sure about changed/added interfaces diff
+     include/xine.h against the previous release and/or ask!
+
+4) cvs commit your changes, and update CVS. Double-check CVS logs. Be sure
+   people have stopped comitting wildly. If they haven't: mail to xine-devel
+   and waitl till the dust settles!
+
+5) make a candidate tarball:
+   make maintainer-clean; rm .cvsversion; ./autogen.sh; make dist
+   (this is the time to make some tea, or better some strong coffee ;)
+
+6) check the candidate tarball:
+   - does it have the right name?
+   - does it unpack, compile and install correctly?
+     note: make sure to build with as many features as possible
+           on a Debian box, "apt-get build-dep xine-lib" and
+           "dpkg-buildpackage -rfakeroot" are a good way to do that
+   - test the candidate (and make sure you are running exactly the new
+     version!) This should at least cover the [standard test parcours]
+
+   If you find any errors: fix them (get help on xine-devel or #xine)
+   and go back to step 4)
+
+The tests have now all passed. you've got the release tarball in your
+hands.
+
+7) Tag the release: cvs tag -R xine-1_2_3-release
+   (this would be the tag for xine-lib-1.2.3, for example)
+
+8) upload the tarball to ftp://upload.sf.net/incoming
+   note: you can start the upload while CVS is tagging
+
+9) Write release notes: Read through the ChangeLog, try to look at any
+   changes from a "what would users note" perspective:
+   - How would you classify the release (bugfixes, new features, ...)?
+   - Has anything visibly changed from previous releases?
+   - Are there any pitfalls/tricks for this upgrade?
+   - Which are the most obvious improvements?
+   Include the output of "md5sum xine-lib-1.2.3.tar.gz" in the release notes
+   and "gpg --clearsign" them.
+
+10) Click your way through the file release system on http://sf.net!
+    Copy&Paste both the (signed!) release notes and ChangeLog in there.
+    Make sure to check the "keep my preformatted text" box
+
+11) write the announcement for xine-announce:
+    You start with the release notes from step 9, without the signature, but
+    including the MD5 sum. rewrite it to look like an email announcing the
+    release. Copy&paste all ChangeLog entries for this release into the
+    announcement. Make sure you have GPG clearsigned the announcement when
+    sending it!
+    (also make sure it gets immediately approved by the xine-announce
+     moderator!)
+
+12) write the announcement for xine-project.org:
+    You need to have an account on alioth.debian.org and a checked-out copy
+    of ssh://hg.debian.org//hg/xine-lib/xine-project-www/ (using Mercurial).
+    Add the new news item near the top of pages/news/items.xml (use the
+    provided template), run update.sh (requires xsltproc; if this fails,
+    re-edit), check that it looks fine in a convenient browser, then commit
+    and push the change. At present, you will need to request a web site
+    update via #xine on irc.oftc.net or by contacting a site admin.
+
+    You should include a link to the SourceForge Release notes/Changelog
+    page and one to the download page.
+
+    Warning: triple-check that you get the XML correct!
+
+13) write the Freshmeat announcement:
+    use your freshmeat account to log into their website, if you aren't
+    permanently logged in, anyway.
+    go to the xine project, click "add new release" and work your way
+    through. This announcement must be a bit more terse version of what you
+    wrote in step 9). And it should make people interested in the release.
+
+That's it. Finally.
+At this point, you have probably earned your sleep ;-)
+
+
+
+The [standard test parcours]
+----------------------------
+
+There are a few things that simply _must_ work. So take a few minutes to
+test at least:
+- an MPEG1 video file
+- a DivX AVI file (with AAC sound,
+                   alternatively test _any_ file with AAC sound in addition)
+- a DVD (test menu navigation, button highlighting, subtitles
+         and video playback)
+- a VCD (preferrably with menu)
+- an MP3 file, with goom visualization (does Ctrl+i overlay correct info?)
+- a QuickTime or mp4 file
+
+For all those files, check:
+- if audio/video are in sync
+- video looks good
+- audio sounds correct
+- there is no visible jitter or stuttering
+- try to seek a bit (more, yes, stress it!)
+
+If you find any anomalies: mail to xine-devel immediately! If you're lucky,
+somebody will fix it before you're throught with the rest of your release
+preparations. Asking on #xine may also help.

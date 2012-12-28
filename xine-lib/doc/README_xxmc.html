@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+  <title>Xine's xxmc plugin</title>
+</head>
+<body>
+<h1 style="text-align: center;"><a name="mozTocId168296"
+ class="mozTocH1"></a>Compiling and installing Xine's xxmc plugin.</h1>
+<ol id="mozToc">
+<!--mozToc h1 1 h2 2 h3 3 h4 4 h5 5 h6 6--><li><a href="#mozTocId168296">Compiling
+and installing Xine's xxmc plugin.</a>
+    <ol>
+      <li><a href="#mozTocId69222">Background</a></li>
+      <li><a href="#mozTocId160476">Needed drivers and
+libs</a></li>
+      <li><a href="#mozTocId849061">Configuring and
+installing</a></li>
+      <li><a href="#mozTocId197304">Running the plugin</a>
+        <ol>
+          <li><a href="#mozTocId437541">General
+            </a></li>
+          <li><a href="#mozTocId374228">Caveats
+            </a></li>
+          <li><a href="#mozTocId6059">Optimizing</a></li>
+          <li><a href="#mozTocId769361">Deinterlacing</a></li>
+        </ol>
+      </li>
+      <li><a href="#mozTocId974751">Chips supporting XvMC acceleration
+using the xxmc module.</a>
+        <ol>
+          <li><a href="#mozTocId803345">VIA Unichrome / Pro</a></li>
+          <li><a href="#mozTocId951553">Nvidia</a></li>
+        </ol>
+      </li>
+      <li><a href="#mozTocId615875">FAQ</a></li>
+    </ol>
+  </li>
+</ol>
+<h2><a name="mozTocId69222" class="mozTocH2"></a>Background</h2>
+The xine xxmc plugin supports playback with <br>
+<ul>
+  <li>Standard XvMC, as supported by many Nvidia chips.</li>
+  <li>VLD XvMC, as supported by the VIA Unichrome / Pro chips, up to
+1024x1024.<br>
+  </li>
+  <li>Standard Xv. The xxmc plugin will fall back to Xv if any of the
+above fails.</li>
+</ul>
+There is no API or hardware feature called "xxmc". It is only the name
+of Xine's plugin, since the name "xvmc" was already taken. The name
+"xxmc" stands for eXtended XvMC, and it is extended in the sense that
+it also includes support for VLD XvMC, which is a nonstandard extension
+to XvMC, proposed by the Unichrome project.<br>
+<h2><a name="mozTocId160476" class="mozTocH2"></a>Needed drivers and
+libs</h2>
+<ul>
+  <li>You need an XvMC driver for the chip you want to run accelerated
+on. (This does not apply if you only want to run Xv on the accelerated
+driver). Drivers for Nvidia chips are on <a
+ href="http://www.nvidia.com">Nvidia's website</a>. Drivers for the VIA
+CLE266 chip are present in Xorg CVS or downloadable as patches at <a
+ href="http://unichrome.sourceforge.net">The Unichrome project's site</a></li>
+  <li>You need the XvMC wrapper, present in Xorg CVS, or downloadable
+from <a href="http://unichrome.sourceforge.net">The Unichrome site</a></li>
+</ul>
+<h2><a name="mozTocId849061" class="mozTocH2"></a>Configuring and
+installing</h2>
+Make sure you have the XvMC wrapper installed. The wrapper will try to
+figure out at run-time what xvmc-hardware specific driver to load. If
+it fails it will open the file <span style="font-family: monospace;">/etc/X11/XvMCConfig</span>
+or <span style="font-family: monospace;">/usr/X11R6/lib/X11/XvMCConfig</span>
+and try to load the hardware-specific library mentioned in that file.
+If you downloaded the XvMC wrapper from the unichrome site, the default
+XvMCConfig will make the XvMC wrapper try to load the Nvidia XvMC
+driver. If you want to use it with the VIA Unichrome /Pro chips, you
+will have
+to edit the XvMCConfig file to contain the single word<br>
+<br>
+<span style="font-family: monospace;">libviaXvMC.so.1<br>
+<br>
+</span>Now configure and compile xine-lib as usual. Make sure that the
+xxmc plugin got enabled by <span style="font-family: monospace;">configure</span>
+or <span style="font-family: monospace;">autogen.sh.<br>
+</span>
+<h2><a name="mozTocId197304" class="mozTocH2"></a>Running the plugin</h2>
+<h3><a name="mozTocId437541" class="mozTocH3"></a>General<br>
+</h3>
+Start xine with xine -V xxmc, or kaffeine with kaffeine -x xxmc. If the
+XvMC wrapper fails to load a hardware specific library or fails to read
+the XvMCConfig file it will specifically tell you so. If you have the
+wrong hardware-specific library specified in the XvMCConfig file, the
+xxmc plugin will think that you are running against a remote X-server
+and fall back to software decoding. <span style="font-weight: bold;">If
+the driver uses hardware acceleration it will specifically tell you so.
+</span>At the moment, the XvMC implementation only accelerates mpeg1
+and mpeg2 files, <span style="font-weight: bold;">if the hardware
+advertises support for these file types. <br>
+<br>
+</span>
+<h3><a name="mozTocId374228" class="mozTocH3"></a>Caveats<br>
+</h3>
+Some Nvidia chips seem to use very much CPU when subtitles are
+displayed, and black areas of the screen are full of small white dots.
+These chips only use motion compensation accelaration, and are bad at
+it as well. You're better off running the Xv plugin with these chips.
+The white dots are due to hardware- or driver bugs. Nvidia chips that
+supports IDCT acceleration also seem to support motion compensation
+acceleration correctly.<br>
+<br>
+OSD might be rendered in the wrong color with Nvidia chips. To work
+around this use the xine config option<br>
+<br>
+<span style="font-family: monospace;">video.device.xvmc_nvidia_color_fix:1<br>
+<br>
+</span>This is due to a bug in the Nvidia XvMC drivers, and this bug is
+probably also present in the i810 drivers.<br>
+<br>
+There is also a bug in xine's XvMC support for interlaced streams with
+IDCT and motion compensation accelerations. The xxmc plugin will fall
+back to plain Xv for these streams. Hopefully this will be fixed in the
+not too distant future.<br>
+<br>
+<h3><a name="mozTocId6059" class="mozTocH3"></a>Optimizing</h3>
+If you are running VLD XvMC on the VIA Unichrome / Pros there are some
+options that
+may affect performance:<br>
+<br>
+<span style="font-family: monospace;">video.device.unichrome_cpu_save:1</span><br>
+<br>
+Will save a lot of CPU-power if you are running a 2.6 series kernel. It
+does this by sleeping while the hardware decoder works. Otherwise it
+will spend a lot of CPU waiting for decoder completion.<br>
+<br>
+<span style="font-family: monospace;">video.device.xvmc_more_frames:1</span><br>
+<br>
+Will allocate 15 XvMC surfaces instead of 8. This is very useful if you
+are using vdr-xine and want to avoid buffer-underrun stutters in xine.
+Don't use this with Nvidia cards since they only allow a maximum of 8
+frames. If your driver does not allow 15 frames and you turn this
+option on, it will abruptly fall back to software rendering, causing
+some rendering glitches while doing so.<br>
+<br>
+<span style="font-family: monospace;">gui.osd_use_unscaled:0</span><br>
+<br>
+Don't use unscaled overlays for OSD. Sometimes the X server will have
+severe problems painting the OSD surface when unscaled OSD:s are used.
+This will be visible as severe stutters when ANY overlay (OSD or
+subtitle) are displayed and removed. Use this option for scaled OSD
+which is considerably faster with CLE266, since blending is done in
+hardware. This option is usable also with Nvidia cards, but I've never
+seen problems with unscaled OSD with those. <br>
+<br>
+<h3><a name="mozTocId769361" class="mozTocH3"></a>Deinterlacing</h3>
+XvMC can only do very simple one-field deinterlacing in hardware. It's
+also impossible to use software deinterlacing, since XvMC does not
+allow xine to read the content of a decoded frame. Therefore, when you
+run a hardware accelerated stream, Interlacing will be toggled by
+pressing "i". If the xxmc plugin has fallen back to Xv and software
+decoding, post plugins will take care of deinterlacing. <br>
+<br>
+BOB deinterlacing (alternating between top and bottom field at double
+the frame-rate) for XvMC accelerated streams is available as an
+experimental feature. It is activated using the config option<br>
+<br>
+<span style="font-family: monospace;">video.device.xvmc_bob_deinterlacing:1<br>
+<br>
+</span>If this option is enabled, The xxmc plugin will use bob as
+deinterlacing method when deinterlace is toggled pressing "i". To get
+the best results from this method, the screen update frequency should
+be a multiple of double the frame rate. For example, if the frame-rate
+is 25Hz, Your screen update frequency should be 50Hz or 100Hz. I have
+been able to get reasonable results using a 75Hz update frequency,
+however.<br>
+<h2><a class="mozTocH2" name="mozTocId974751"></a>Chips supporting XvMC
+acceleration using the xxmc module.</h2>
+<h3><a class="mozTocH3" name="mozTocId803345"></a>VIA Unichrome / Pro</h3>
+<ul>
+  <li>CLE266: up to 1024x1024.</li>
+  <li>K8M/N800: up to 1024x1024. Use Unichrome X drivers &gt;= r31.</li>
+  <li>CN400: HDTV capable. Driver support is under development.</li>
+  <li>PM8X0: HDTV capable. Driver support is under development.<br>
+  </li>
+</ul>
+<h3><a class="mozTocH3" name="mozTocId951553"></a>Nvidia</h3>
+<ul>
+  <li>Quadro FX 1000 (IDCT / Mocomp)</li>
+  <li>Please help me fill in here.<br>
+  </li>
+</ul>
+<h2><a name="mozTocId615875" class="mozTocH2"></a>FAQ</h2>
+Q: The xxmc plugin is not enabled when I configure xine-lib<br>
+A: Check that you have installed the XvMC wrapper, and that you've run
+"ldconfig -v" as root after that.<br>
+<br>
+Q: The XvMC wrapper complains when I start xine.<br>
+A: Check that you have created an XvMCConfig file specifying the
+relevant driver name.<br>
+<br>
+Q: I'm running on a Nvidia card and my OSD colors are wrong.<br>
+A: See "caveats" above.<br>
+<br>
+Q: I'm running VDR-xine and the playback stutters.<br>
+A: See "optimizing" above.<br>
+<br>
+Q: I'm running on a CLE266 and I get severe stutter when subtitles are
+displayed.<br>
+A: See "optimizing" above.<br>
+<br>
+Q: Can I use the xxmc plugin without the XvMC wrapper?<br>
+A: Yes, you can link directly with a hardware specific library, but
+this is not recommended. Run "./configure --help" to check which
+options to use.<br>
+<br>
+</body>
+</html>

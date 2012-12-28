@@ -1,0 +1,5 @@
+xine-lib 1.2.0
+==============
+
+As of this release, xine-config is deprecated. You should use pkg-config
+libxine instead - see xine-config's man page for details.

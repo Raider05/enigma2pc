@@ -1,0 +1,109 @@
+type=video
+
+# xine-lib BUF_VIDEO_	ffmpeg CODEC_ID_	description or comment
+# ("!"=ignore)					(quote any "s)
+
+MSMPEG4_V1		MSMPEG4V1		Microsoft MPEG-4 v1
+MSMPEG4_V2		MSMPEG4V2		Microsoft MPEG-4 v2
+MSMPEG4_V3		MSMPEG4V3		Microsoft MPEG-4 v3
+WMV7			WMV1			MS Windows Media Video 7
+WMV8			WMV2			MS Windows Media Video 8
+WMV9			WMV3			MS Windows Media Video 9
+VC1			VC1			MS Windows Media Video VC-1
+MPEG4			MPEG4			ISO MPEG-4
+XVID			MPEG4			ISO MPEG-4 (XviD)
+DIVX5			MPEG4			ISO MPEG-4 (DivX5)
+3IVX			MPEG4			ISO MPEG-4 (3ivx)
+JPEG			MJPEG			Motion JPEG
+MJPEG			MJPEG			Motion JPEG
+MJPEG_B			MJPEGB			Motion JPEG B
+I263			H263I			ITU H.263
+H263			H263			H.263
+RV10			RV10			Real Video 1.0
+RV20			RV20			Real Video 2.0
+RV30			RV30			Real Video 3.0
+RV40			RV40			Real Video 4.0
+IV31			INDEO3			Indeo Video 3.1
+IV32			INDEO3			Indeo Video 3.2
+SORENSON_V1		SVQ1			Sorenson Video 1
+SORENSON_V3		SVQ3			Sorenson Video 3
+DV			DVVIDEO			DV
+HUFFYUV			HUFFYUV			HuffYUV
+VP31			VP3			On2 VP3.1
+VP5			VP5			On2 VP5
+VP6			VP6			On2 VP6
+VP6F			VP6F			On2 VP6
+VP8			VP8			On2 VP8
+4XM			4XM			4X Video
+CINEPAK			CINEPAK			Cinepak
+MSVC			MSVIDEO1		Microsoft Video 1
+MSRLE			MSRLE			Microsoft RLE
+RPZA			RPZA			Apple Quicktime Video/RPZA
+CYUV			CYUV			Creative YUV
+ROQ			ROQ			Id Software RoQ
+IDCIN			IDCIN			Id Software CIN
+WC3			XAN_WC3			Xan
+VQA			WS_VQA			Westwood Studios VQA
+INTERPLAY		INTERPLAY_VIDEO		Interplay MVE
+FLI			FLIC			FLIC Video
+8BPS			8BPS			Planar RGB
+SMC			SMC			Apple Quicktime Graphics/SMC
+DUCKTM1			TRUEMOTION1		Duck TrueMotion v1
+DUCKTM2			TRUEMOTION2		Duck TrueMotion v2
+VMD			VMDVIDEO		Sierra VMD Video
+ZLIB			ZLIB			ZLIB Video
+MSZH			MSZH			MSZH Video
+ASV1			ASV1			ASV v1 Video
+ASV2			ASV2			ASV v2 Video
+ATIVCR1			VCR1			ATI VCR-1
+FLV1			FLV1			Flash Video
+QTRLE			QTRLE			Apple Quicktime Animation/RLE
+H264			H264			H.264/AVC
+H261			H261			H.261
+AASC			AASC			Autodesk Video
+LOCO			LOCO			LOCO
+QDRW			QDRAW			QuickDraw
+QPEG			QPEG			Q-Team QPEG
+TSCC			TSCC			TechSmith Video
+ULTI			ULTI			IBM UltiMotion
+WNV1			WNV1			Winnow Video
+XL			VIXL			Miro/Pinnacle VideoXL
+RT21			INDEO2			Indeo/RealTime 2
+FPS1			FRAPS			Fraps
+MPEG			MPEG1VIDEO		MPEG 1/2
+CSCD			CSCD			CamStudio
+AVS			AVS			AVS
+ALGMM			MMVIDEO			American Laser Games MM
+ZMBV			ZMBV			Zip Motion Blocks Video
+SMACKER			SMACKVIDEO		Smacker
+NUV			NUV			NuppelVideo
+KMVC			KMVC			Karl Morton's Video Codec
+FLASHSV			FLASHSV			Flash Screen Video
+CAVS			CAVS			Chinese AVS
+VMNC			VMNC			VMware Screen Codec
+THEORA_RAW		THEORA			Theora
+SNOW			SNOW			Snow
+
+# disabled codecs (ref. configure.ac)
+!			BMP
+!			CLJR
+!			DSICINVIDEO
+!			FFV1
+!			FFVHUFF
+!			GIF
+!			H263P
+!			JPEGLS
+!			LJPEG
+!			MDEC
+!			PAM
+!			PBM
+!			PGM
+!			PGMYUV
+!			PNG
+!			PPM
+!			RAWVIDEO
+!			SP5X
+!			TARGA
+!			TIERTEXSEQVIDEO
+!			TIFF
+!			XVID			⇒ MPEG4

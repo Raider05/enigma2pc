@@ -1,0 +1,141 @@
+Building
+--------
+Mac OS X builds of xine-lib are built using the same autoconf-based build
+scripts that are used on other Unix-based platforms (e.g., Linux, FreeBSD).
+There is no Xcode project, nor is there any intention to create and/or
+maintain one in the future.  There's no good reason, and it would only add
+unnecessary complexity and an additional maintenance burden.
+
+Currently, xine-lib is only supported on Mac OS X 10.4 Tiger.  There are no
+plans to support older versions of Mac OS X for a variety of reasons.
+
+As of xine-lib 1.2, specific versions of build tools are required.  They are
+as follows:
+
+  - GNU M4 1.4.7       (1.4.9 is current,  1.4.2 is installed on Tiger)
+  - autoconf 2.59      (2.61 is current,   2.59 is installed on Tiger)
+  - automake 1.9       (1.10 is current,   1.6.3 is installed on Tiger)
+  - GNU libtool 1.5.20 (1.5.22 is current, 1.5 is installed on Tiger)
+
+When building on Tiger, since some of the system-installed tools are out of
+date, you'll need to update at least some of them.  It is recommended that you
+bring all of them up to current releases as listed above.
+
+The order in which you install updated tools to replace the system-installed
+versions is important, and in some cases, specific build options are required
+for them to work properly.
+
+ 1. Install GNU M4 >= 1.4.7
+    - This is optional if you use the system-installed version of autoconf;
+      however, if you install a newer version of autoconf, you MUST install
+      a newer version of GNU M4 first.
+    - Run its configure script with --program-prefix=g
+ 2. Install autoconf >= 2.59
+    - This is optional, but it is recommended that you use autoconf 2.61.
+    - No special configure options are required.  Simply configure, make, and
+      make install.
+ 3. Install automake >= 1.9
+    - This is required, and since it is required, it is recommended that you
+      use automake 1.10.
+    - No special configure options are required.  Simply configure, make, and
+      make install.
+ 4. Install GNU libtool >= 1.5.20
+    - This is required, and since it is required, it is recommended that you
+      use GNU libtool 1.5.22.
+    - Run its configure script with --program-prefix=g
+
+ ** A special note about GNU libtool:
+    Mac OS X has its own utility called libtool that is NOT the same as GNU
+    libtool, but the Developer tools install GNU libtool as well.  The system-
+    installed version of GNU libtool is installed with a g- prefix, and xine's
+    build scripts expect this as well if you install your own version.  If you
+    do not install GNU libtool with a g- prefix, xine's build scripts will
+    pick up the system-installed version instead of the newer one you install!
+
+With your tool chain brought up-to-date with xine's requirements, you can go
+ahead and build xine-lib by first running configure, then make, and finally,
+make install, just as you would on, say, Linux.  If you are building from a
+source repository snapshot or checkout, you will need to run autogen.sh first.
+
+When running configure, it's best if you do not attempt to forcibly enable most
+options that are disabled by default.  For example, DVB support is disabled by
+default on Mac OS X because it doesn't work.  Enabling it may allow it to build
+okay, but it will not work at runtime.
+
+The one exception is --enable-macosx-universal.  Universal binaries are not
+enabled by default, but they are fully supported.  With this optional enabled,
+the default is to build FAT binaries for ppc and i386; however, you may also
+enable support for ppc64 and/or x86_64.  For example:
+
+    ./configure --enable-macosx-universal=i386,ppc,x86_64,ppc64
+
+CoreAudio audio output support will be enabled by default.  Mac OS X video
+output support will be enabled by default.  Xwindows support will be enabled
+by default for video output (using XShm, Xv, and OpenGL).  In most cases,
+you'll probably want to disable Xwindows support, and that is safe to do by
+adding --without-x to the configure command-line.
+
+Running
+-------
+Very limited run-time testing has been done so far.  The Mac OS X port of
+xine-lib is in its early stages, only recently becoming buildable at all,
+though some quick-and-dirty efforts have been made in the past to build and
+run on Mac OS X.
+
+At this time, native video output only works with Objective-C Cocoa windows
+using the XineOpenGLView class that resides in libxineMacOSXVideo.dylib.  This
+works, but it isn't yet stable enough for every day use.  Xwindows video output
+support builds, but it is unknown whether it works.  If you plan on using the
+Cocoa video output support, you'll need to link with both libxine.dylib and
+libxineMacOSXVideo.dylib as well as libxine.dylib.
+
+Instantiate an audio output port as follows:
+
+    ao_port = xine_open_audio_driver(xine_instance, "coreaudio", NULL);
+
+Instantiate a video output port as follows:
+
+    vo_port = xine_open_video_driver(xine_instance, "macosx",
+                                     XINE_VISUAL_TYPE_MACOSX, view);
+
+In both cases, xine_instance is the return from xine_new() that has been then
+been initialized with xine_init().  For video output, the view argument to
+xine_open_video_driver() is the XineOpenGLView instance in which to render.
+
+The Future
+----------
+A full, proper port of xine-lib to Mac OS X is in progress.  Efforts are under
+way to make as many of the various plug-ins work properly on Mac OS X as makes
+sense, but it is unlikely that full support will be complete by the time that
+xine-lib 1.2 is released.
+
+The following is a list of the things that will definitely be done:
+
+  * CoreVideo support for video output instead of the current NSOpenGLView-
+    based video output plug-in.  The existing video output plugin will not be
+    retained as a plug-in, but the code will remain available based on the new
+    CoreVideo video output plugin.
+  * Building xine-lib as an application bundle embeddable framework, as well as
+    a system-wide installable framework, though the utility of the latter is
+    questionable.
+  * Enable VCD input support.  Mac OS X specific code is required in xine-lib
+    itself to support this.  Currently, only FreeBSD, Linux, and Solaris can
+    build the VCD input plugin.
+  * Investigate enabling Real binary and Win32 binary support for Intel Macs.
+  * Investigate better font support without the need for FreeType2.
+  * SPDIF pass-through for CoreAudio
+
+Known Issues
+------------
+  * Building on Leopard does not work due to build problems with ffmpeg.
+  * VCD support is not yet available, though internal versions of libcdio and
+    libvcd will build.  If you enable VCD at configure time, the build WILL
+    fail.
+  * Real binary codec support is not yet available.
+  * On Intel, Win32 binary codec support is not yet available.
+  * Very little run-time testing has been done.  Basic file input and ffmpeg
+    based demux/decoding is known to work.
+  * Xwindows support builds, but it has not been tested at all.
+  * Applications using xine-lib must link with both libxine.dylib and
+    libxineMacOSXVideo.dylib if they will be using the Cocoa video output
+    support.

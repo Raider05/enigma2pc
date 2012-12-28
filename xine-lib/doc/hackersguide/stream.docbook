@@ -1,0 +1,656 @@
+<chapter id="stream">
+ <title>xine's stream layer</title>
+
+ <sect1>
+  <title>Input layer</title>
+  <para>
+   Many media players expect streams to be stored within files on
+   some local medium. In actual fact, media may be streamed over a
+   network (e.g. via HTTP or RTP), encoded onto a specialized medium
+   (e.g. DVD), etc. To allow you to access all this media, xine supports
+   the concept of an "input plugin". The tasks performed by an
+   input plugin are:
+   <itemizedlist>
+    <listitem>
+     <para>
+      Validation of Media Resource Locators (MRLs).
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      MRL specific session management (e.g. opening and closing local files).
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Reading blocks/specific numbers of bytes from the input device.
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+  <para>
+   In addition to these tasks, the input plugin may keep track of some
+   input device-specific state information (e.g. a DVD plugin may keep
+   track of navigational state data such as current title/chapter).
+  </para>
+  <para>
+   There are two classes of input device which xine recognizes.
+   Byte-oriented devices can, upon request, return an arbitary
+   non-zero number of bytes from a stream. Examples of such devices
+   are files or network streams. Block-oriented devices, however, have
+   a prefered block or "frame"-size. An example of such a device is
+   a DVD where data is stored in logical blocks of 2048 bytes. One may
+   pass the hint to xine that the plugin is block-oriented by setting the
+   INPUT_CAP_BLOCK capability. Note that this is only a hint and
+   xine does not guarantee that all requests to the plugin will
+   be purely block based.
+  </para>
+  <sect2>
+   <title>Writing a xine input plugin</title>
+   <para>
+    An input plugin provides API functions which allow the engine to
+    access the data source the plugin encapsulates. The input plugin API
+    is declared in <filename>input/input_plugin.h</filename>.
+   </para>
+   <para>
+    An input plugin exports a public function of the form:
+    <programlisting>&nbsp;&nbsp;&nbsp;void *input_init_plugin(xine_t *xine, void *data);</programlisting>
+    This function initializes an input plugin class object with the
+    following functions:
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;char *get_description(input_class_t *this_gen);</programlisting>
+    This function returns a plaintext, one-line string describing the plugin.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;char *get_identifier(input_class_t *this_gen);</programlisting>
+    This function returns a shorter identifier describing the plugin.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;xine_mrl_t **get_dir(input_class_t *this_gen, const char *filename, int *nFiles);</programlisting>
+    Retrieves a directory listing from the plugin. This function is optional.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;char **get_autoplay_list(input_class_t *this_gen, int *num_files);</programlisting>
+    Retrieves the autoplay playlist from the plugin. This function is optional.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;int eject_media(input_class_t *this_gen);</programlisting>
+    Ejects the medium. This function is optional.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;void dispose(input_class_t *this_gen);</programlisting>
+    This function frees the memory used by the input plugin class object.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;input_plugin_t *get_instance(input_class_t *class_gen, xine_stream_t *stream, const char *mrl);</programlisting>
+    The plugin should try, if it can handle the specified MRL and return an
+    instance of itself if so. If not, NULL should be returned. When a new MRL
+    is to be played, xine engine asks all the available input plugins one by
+    one if they can handle the MRL.
+    Note that input plugins are not guaranteed to be queried
+    in any particular order and the first input plugin to claim an MRL
+    gets control so try not to duplicate MRLs already found within xine.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;int open(input_plugin_t *this_gen);</programlisting>
+    You should do any device-specific initialisation within this function.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;uint32_t get_capabilities(input_plugin_t *this_gen);</programlisting>
+    Returns a bit mask describing the input device's capabilities.
+    You may logically OR the <varname>INPUT_CAP_*</varname> constants together to get
+    a suitable bit-mask (via the '|' operator).
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;off_t read(input_plugin_t *this_gen, char *buf, off_t nlen);</programlisting>
+    Reads a specified number of bytes into a buffer and returns the number of bytes actually copied.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;buf_element_t *read_block(input_plugin_t *this_gen, fifo_buffer_t *fifo, off_t len);</programlisting>
+    Should the input plugin set the block-oriented hint and if the
+    demuxer supports it, this function will be called to read a block directly
+    into a xine buffer from the buffer pool.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;off_t seek(input_plugin_t *this_gen, off_t offset, int origin);</programlisting>
+    This function is called by xine when it is required that subsequent
+    reads come from another part of the stream.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;off_t get_current_pos(input_plugin_t *this_gen);</programlisting>
+    Returns the current position within a finite length stream.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;off_t get_length(input_plugin_t *this_gen);</programlisting>
+    Similarly this function returns the length of the stream.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;uint32_t get_blocksize(input_plugin_t *this_gen);</programlisting>
+    Returns the device's prefered block-size if applicable.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;char *get_mrl(input_plugin_t *this_gen);</programlisting>
+    Returns the current MRL.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;int get_optional_data(input_plugin_t *this_gen, void *data, int data_type);</programlisting>
+    This function allows the input to advertise extra information that is
+    not available through other API functions. See <varname>INPUT_OPTIONAL_*</varname> defines.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;void dispose(input_plugin_t *this_gen);</programlisting>
+    This function closes all resources and frees the input_plugin_t object.
+   </para>
+  </sect2>
+ </sect1>
+
+ <sect1>
+  <title>Demuxer layer</title>
+  <para>
+   This section is designed to familiarize a programmer with general demuxer
+   concepts and how they apply to the xine multimedia library.
+  </para>
+  <sect2>
+   <title>Introduction to demuxer theory</title>
+   <para>
+    xine's demuxer layer is responsible for taking apart multimedia files or
+    streams so that the engine can decode them and present them to the user.
+    "Demuxer" is short for demultiplexor, which is the opposite of
+    multiplexing. This refers to the process of combining 2 or more things
+    into one. Multimedia streams usually, at a minimum, multiplex an audio
+    stream and a video stream together into one stream. Sometimes, there are
+    multiple audio streams (e.g., for multiple language tracks). Sometimes,
+    there is a subtitle data stream multiplexed into the multimedia stream.
+   </para>
+   <para>
+    There are many different multimedia formats in existence and there are
+    varying strategies for demuxing different types of multimedia files.
+    Formats in the MPEG family, for example, are designed to allow easy
+    playback from almost any place within the file. Many formats cannot deal
+    with this circumstance and at least need to be demuxed from the beginning
+    of the stream and played through to the end. Some formats, such as MPEG and
+    AVI, have marker information before every chunk in the stream. Other
+    formats, such as Apple Quicktime, are required to have a master index that
+    contains all information for taking apart a file. Many game-oriented
+    multimedia formats are designed strictly for playing from start to finish
+    without any regard to random seeking within the file.
+   </para>
+  </sect2>
+  <sect2>
+   <title>Input considerations</title>
+   <para>
+    A xine demuxer interacts with xine's input layer in order to receive
+    data. The underlying input plugin might be a file, a network stream, or
+    a block-oriented disc storage device like a DVD. A file input offers the
+    most flexibility in being able to read either blocks of data or individual
+    bytes, and being able to seek freely. Other input plugins may not allow the
+    demuxer to seek (such as stdin or certain network streams). Some input
+    plugins only allow the demuxer to read blocks of data and not individual
+    bytes (such as the CD-DA input plugin). The demuxer needs to check the
+    capabilities of the underlying input plugin before attempting to seek
+    around.
+   </para>
+  </sect2>
+  <sect2>
+   <title>Seeking Policy</title>
+   <para>
+    If possible, it is desirable that a demuxer can seek randomly through
+    the stream. This is easier for some file formats and essentially impossible
+    for other formats. xine's seeking API function allows a seek target to be
+    specified in terms of a ratio from 0 to 65535, or time in milliseconds from 0.
+    Time-based seeking is useful for specifying, e.g., a 1-minute jump forward
+    or backward in a stream. With the ratio-based seeking, the demuxer can
+    interpret the ratio value in the domain he sees most fit. This can also be
+    some sort of time or a simple file offset.
+   </para>
+   <para>
+    If a multimedia stream has video, there generally needs to be a way to
+    identify keyframes in the stream in order to facilitate seeking. Many
+    game-oriented formats fall over in this area as they carry no keyframe
+    information aside from the implicit assumption that the first frame is a
+    keyframe.
+   </para>
+   <para>
+    In a stream with video, a seek operation should always jump to a keyframe.
+    xine Policy: When the seek target is between 2 keyframes, jump to the
+    earlier keyframe. E.g., if there are keyframes at stream offsets 10000 and
+    20000, and the user requests a seek to offset 18000, choose the keyframe
+    at offset 10000.
+   </para>
+   <para>
+    Note that there can be difficulties when the audio and video streams are
+    not tightly interleaved. In many formats, the audio frames are several
+    time units ahead of the video frames for the purpose of pre-buffering.
+    This is a typical scenario in the middle of a stream:
+    <programlisting>
+&nbsp;&nbsp;&nbsp;audio frame @ time 10
+&nbsp;&nbsp;&nbsp;video frame @ time 8
+&nbsp;&nbsp;&nbsp;audio frame @ time 11
+&nbsp;&nbsp;&nbsp;video frame @ time 9
+&nbsp;&nbsp;&nbsp;audio frame @ time 12
+&nbsp;&nbsp;&nbsp;   keyframe @ time 10
+&nbsp;&nbsp;&nbsp;audio frame @ time 13</programlisting>
+    If the demuxer seeks to the keyframe @ time 10, the next audio chunk will
+    have a timestamp of 13, which is well ahead of where the video is. While
+    the xine engine will eventually recover, it will make playback choppy for
+    a few seconds after the seek. One strategy for dealing with this situation
+    is to seek back to the nearest keyframe before the requested seek and then
+    seek back to find the audio frame with the nearest timestamp before the
+    keyframe. In this example, that would mean seeking back to [af@time 10].
+    Then, demux the chunks in order, but skip the video frames until the next
+    keyframe is encountered.
+   </para>
+  </sect2>
+  <sect2>
+   <title>Writing a xine demuxer</title>
+   <para>
+    A demuxer plugin provides API functions which allow the engine to
+    initialize demuxing, dispatch data chunks to the engine, seek within the
+    stream, get the stream length, among other functions. The demuxer API
+    is declared in <filename>demuxers/demux.h</filename>.
+   </para>
+   <para>
+    Writing a new xine demuxer is largely a process of using other demuxers as
+    references and understanding how they interact with the engine. This
+    section will give a brief overview of each API function.
+   </para>
+   <para>
+    A demuxer plugin exports a public function of the form:
+    <programlisting>&nbsp;&nbsp;&nbsp;void *demux_wc3movie_init_plugin(xine_t *xine, void *data);</programlisting>
+    This function initializes a demuxer plugin class object with 6
+    demuxer-specific functions. These functions mainly provide information
+    that a frontend can use to build user-friendly features. These functions
+    include:
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;char *get_description(demux_class_t *this_gen);</programlisting>
+    This function returns a plaintext, one-line string describing the plugin.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;char *get_identifier(demux_class_t *this_gen);</programlisting>
+    This function returns a shorter identifier describing the plugin.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;char *get_extensions(demux_class_t *this_gen);</programlisting>
+    This function returns a string with the file extensions that this demuxer
+    is known to use. For example, Microsoft .WAV files use "wav". If there are
+    multiple known extensions, separate each extension with a space. For
+    example, Apple Quicktime has the extensions "mov qt mp4".
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;char *get_mimetypes(demux_class_t *this_gen)</programlisting>
+    This function returns a string with the MIME types that this demuxer is
+    known to use. Multiple MIME type specifications should be separated with a
+    semicolon (;). For example, Apple Quicktime uses several MIME types:
+    <programlisting>
+&nbsp;&nbsp;&nbsp;return "video/quicktime: mov,qt: Quicktime animation;"
+&nbsp;&nbsp;&nbsp;       "video/x-quicktime: mov,qt: Quicktime animation;"
+&nbsp;&nbsp;&nbsp;       "application/x-quicktimeplayer: qtl: Quicktime list;";</programlisting>
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;void class_dispose(demux_class_t *this_gen);</programlisting>
+    This function frees the memory used by the demuxer plugin class object.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;demux_plugin_t *open_plugin(demux_class_t *class_gen, xine_stream_t *stream, input_plugin_t *input_gen);</programlisting>
+    This function is invoked by the xine engine to determine if the demuxer is
+    able to handle a particular multimedia stream. The engine can specify if
+    the demuxer is supposed to check the stream by content (validate the actual
+    stream data and see if it is of the expected type), by extension (check the
+    name of the MRL and see if the file extension is correct), or explicitly
+    (the engine is passing on a user request to force this demuxer to be used).
+   </para>
+   <para>
+    The order in which the engine queries the available demuxers is determined
+    by the priority stated in the demuxer_info_t, which is attached to every
+    demuxer's plugin info structure. Demuxers with higher priority values are
+    called before those with lower priority. The order amongst demuxers of
+    equal priority is undefined. The idea behind this is to have the demuxers
+    for high-level container formats have high priorities, while the raw format
+    demuxers have low priorities. This way, a stream of a high-level container
+    format with a beginning that happens to look like a low-level raw format is
+    still handled by the correct demuxer, because it is queried first.
+   </para>
+   <para>
+    NOTE: In the course of checking the stream by content, care must be taken
+    not to consume bytes out of a non-seekable stream. If the stream is
+    non-seekable, use the input plugin's preview buffer facility to get a cache
+    of the first few bytes. If the stream is seekable, reset the stream before
+    operating on the data (you do not know where some other demuxer left the
+    stream positioned).
+   </para>
+   <para>
+    If the demuxer can handle the stream, it creates a new demux_plugin_t
+    structure and initializes the main demuxer functions which are called by
+    the engine to do the tough demuxing duty. These functions include:
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;void demux_send_headers(demux_plugin_t *this_gen);</programlisting>
+    This function generally reads the headers of the stream, does whatever it
+    has to do to figure out what audio and video codecs are used in the file,
+    and asks the xine engine to initialize the correct decoders with the
+    proper parameters (like width and height for video, sample rate and
+    channels for audio).
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;int demux_send_chunk(demux_plugin_t *this_gen);</programlisting>
+    This function reads data from the stream and sends it to the appropriate
+    decoder. This is where the bulk of the demuxing work is performed. Despite
+    the name, the function is actually free to send as much data as it wants
+    to, or as much as it can. A good policy is to send an entire chunk of
+    compressed audio or video data and then return. The chunk is likely large
+    enough that it will have to be broken up into multiple xine buffers. If
+    a chunk of audio is 20000 bytes large, and the engine is returning
+    4096-byte buffers, send 4 full buffers and 1 partial buffer to the audio
+    decoder and then return.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;int demux_seek(demux_plugin_t *this_gen, off_t start_pos, int start_time, int playing);</programlisting>
+    This function is called by the engine to request stream repositioning.
+    This function should be implemented if possible. See the section on
+    "Seeking Policy" for more information. A seek operation should reposition
+    the demuxer's internal accounting variables to be ready to start
+    dispatching chunks from the new position when the xine engine calls
+    demux_send_chunk() again. If seeking is not feasible, the function quietly
+    returns and the demuxer's position is unaffected.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;void demux_dispose(demux_plugin_t *this_gen);</programlisting>
+    This function frees the demux_plugin_t object.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;int demux_get_status(demux_plugin_t *this_gen);</programlisting>
+    This function returns the current internal status of the demuxer. There
+    are 2 states: DEMUX_OK, for when the demuxer is demuxing or ready to demux,
+    and DEMUX_FINISHED, for when the demuxer has reached the end of the stream
+    or has encountered some sort of error.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;int demux_get_stream_length(demux_plugin_t *this_gen);</programlisting>
+    This function returns the length (time duration) of the stream in
+    milliseconds. If the length of the stream cannot be determined, return 0.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;uint32_t demux_get_capabilities(demux_plugin_t *this_gen);</programlisting>
+    This function returns an array of bit flags indicating special features of
+    the demuxer. See <varname>DEMUX_CAP_*</varname> defines.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;int demux_get_optional_data(demux_plugin_t *this_gen, void *data, int data_type);</programlisting>
+    This function allows the demuxer to advertise extra information that is
+    not available through other API functions. See <varname>DEMUX_OPTIONAL_*</varname> defines.
+   </para>
+  </sect2>
+  <sect2>
+   <title>Buffer types</title>
+   <para>
+    Demuxer must send data to decoders using two fifos names <varname>video_fifo</varname>
+    and <varname>audio_fifo</varname>. Both are available at <varname>stream</varname>
+    level. The following code fragment shows how it's done.
+   </para>
+   <programlisting>
+&nbsp;&nbsp;&nbsp;buf_element_t *buf;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;buf = stream-&gt;video_fifo-&gt;buffer_pool_alloc(stream-&gt;video_fifo);
+&nbsp;&nbsp;&nbsp;buf-&gt;type = BUF_CONTROL_START;
+&nbsp;&nbsp;&nbsp;stream-&gt;video_fifo-&gt;put(stream-&gt;video_fifo, buf);</programlisting>
+   <para>
+    Buffers must have set the <varname>type</varname> field as shown. All buffer types are
+    defined in <filename>xine-engine/buffer.h</filename>.
+   </para>
+   <para>
+    The control buffer types are very important and must be sent by all kinds of demuxers.
+    They tell decoders to start/stop their operations and inform metronom about
+    discontinuities, either relative or absolute. There is also a reset buffer
+    type that must be sent when demuxers are seeking as a "warm restart" indication to
+    the decoders.
+   </para>
+   <para>
+    To help finding out buffer types for known codecs, functions from <filename>buffer_types.c</filename>
+    may be used to convert "FOURCC" codes or audio format tags (as used in AVI files) to the xine
+    byffer type:
+    <programlisting>&nbsp;&nbsp;&nbsp;buf-&gt;type = fourcc_to_buf_video((void*)this-&gt;avi-&gt;bih.biCompression);</programlisting>
+   </para>
+  </sect2>
+ </sect1>
+
+ <sect1>
+  <title>Decoder layer</title>
+  <para>
+   This section is designed to familiarize a programmer with basic audio
+   and video decoding concepts and how they apply to the xine decoder API.
+  </para>
+  <sect2>
+   <title>Audio and video decoders</title>
+   <para>
+    Audio and video data requires an enormous amount of storage. Thus, the
+    raw data is encoded using a variety of compression techniques which
+    drastically reduces the amount of space required to transmit and store the
+    data. Before playback, the compressed data needs to be decoded.
+   </para>
+   <para>
+    The process of decoding data is rather straightforward in a computer
+    science sense: An array of encoded data is fed into a decoder and the
+    decoder outputs an array of decoded data which is ready to be presented
+    to the user (either displayed on the screen or played through the
+    speakers).
+   </para>
+  </sect2>
+  <sect2>
+   <title>Video output formats</title>
+   <para>
+    Raw video data comes in a variety of formats, most commonly in RGB and
+    YUV. xine's output layer currently only accepts data in YV12 format (a.k.a.
+    YUV 4:2:0 planar) or YUY2 format (a.k.a. YUV 4:2:2 packed). If the output
+    format is a RGB space, the data must be converted to an acceptable YUV
+    format before being dispatched to the video output unit. xine has a number
+    of support functions to facilitate converting RGB to YUV.
+   </para>
+  </sect2>
+  <sect2>
+   <title>Audio output formats</title>
+   <para>
+    Raw audio data equates to uncompressed PCM audio. xine's audio output
+    modules expect 8-bit PCM data to be unsigned and 16-bit PCM data to be
+    signed and in little endian format. When there is more than one channel,
+    the channel data is interleaved. For example, stereo data is interleaved
+    as left sample, right sample: LRLRLRLR. If there are 4 or 6 channels, the
+    same interleaving applies: 123456123456.
+   </para>
+  </sect2>
+  <sect2>
+   <title>Writing a xine decoder</title>
+   <para>
+    Writing a new xine decoder for an audio or video format entails
+    accumulating a buffer of encoded data, performing the necessary operations
+    for decoding and then passing it on the appropriate output module. The
+    best reference for understanding the decoder API is the various decoding
+    modules available. In particular, xine has example video and audio
+    decoders named <filename>src/libxinevdec/foovideo.c</filename> and
+    <filename>src/libxineadec/fooaudio.c</filename>, respectively.
+   </para>
+   <para>
+    This section will give a brief overview of each API function.
+    The decoder API is declared in <filename>src/xine-engine/video_decoder.h</filename>
+    and <filename>src/xine-engine/audio_decoder.h</filename>.
+   </para>
+   <para>
+    A decoder plugin must, like every plugin, export a public array of
+    plugin_info_t types. The array usually has 2 entries: The first contains
+    the plugin information regarding the decoder and the second entry is
+    a terminating NULL entry. However, there may be more entries.
+    Each entry contains 6 fields:
+    <itemizedlist>
+     <listitem>
+      <para>
+       <varname>plugin type</varname>: Either PLUGIN_VIDEO_DECODER or PLUGIN_AUDIO_DECODER.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       <varname>API</varname>: The plugin API revision that this plugin adheres to.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       <varname>name</varname>: A character string that identifies the plugin.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       <varname>version</varname>: #define'd as XINE_VERSION_CODE.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       <varname>supported types</varname>: A structure that defines the buffer types that this plugin can handle.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       <varname>init function</varname>: The function that the xine engine calls in order to initialize this decoder plugin.
+      </para>
+     </listitem>
+    </itemizedlist>
+    The supported types field is a decoder_info_t structure. This struct
+    combines a list of buffer types that the plugin can handle, along with
+    a relative default priority. The priority allows xine to have multiple
+    plugins that can handle one data type and the plugin with the highest
+    priority takes precedence. The code defines the default priority, which
+    can be overriden by the user.
+    The list of buffer types is an array of uint32_t types from the list of
+    buffer types defined in <filename>src/xine-engine/buffer.h</filename>.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;void *init_plugin(xine_t *xine, void *data);</programlisting>
+    This function allocates a plugin class and initializes a set of functions
+    for the xine engine to invoke. These functions include:
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;char *get_identifier(video_decoder_class_t *this);</programlisting>
+    <programlisting>&nbsp;&nbsp;&nbsp;char *get_identifier(audio_decoder_class_t *this);</programlisting>
+    This function returns a brief character string identifying the plugin.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;char *get_description(video_decoder_class_t *this);</programlisting>
+    <programlisting>&nbsp;&nbsp;&nbsp;char *get_description(audio_decoder_class_t *this);</programlisting>
+    This function returns a slightly longer description of the plugin.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;void dispose_class(video_decoder_class_t *this);</programlisting>
+    <programlisting>&nbsp;&nbsp;&nbsp;void dispose_class(audio_decoder_class_t *this);</programlisting>
+    This function frees the resources allocated by the plugin class.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;video_decoder_t *open_plugin(video_decoder_class_t *class_gen, xine_stream_t *stream);</programlisting>
+    <programlisting>&nbsp;&nbsp;&nbsp;audio_decoder_t *open_plugin(audio_decoder_class_t *class_gen, xine_stream_t *stream);</programlisting>
+    This function initializes the decoder plugin's private state. It also
+    initializes and returns either an audio_decoder_t or a video_decoder_t for
+    the engine. The decoder_t contains a number of functions that the plugin
+    invokes to handle data decoding. These functions include:
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;void decode_data(video_decoder_t *this_gen, buf_element_t *buf);</programlisting>
+    <programlisting>&nbsp;&nbsp;&nbsp;void decode_data(audio_decoder_t *this_gen, buf_element_t *buf);</programlisting>
+    This function performs the bulk of the decoding work. The xine engine
+    delivers buffers (xine_buffer_t data types) to this function and it is up
+    to this function to assemble the parts of the buffer, decode the data, and
+    send the decoded data to the proper output unit. The constraint is that
+    you must never call a port function of the output port when the port has
+    not been opened by you. (See the <function>open()</function> and
+    <function>close()</function> functions of <type>xine_video_port_t</type>
+    and <type>xine_audio_port_t</type>.)
+   </para>
+   <para>
+    A buffer has a <varname>decoder_flags</varname> field which can have
+    a number of flags set. The first buffer that a decoder receives ought
+    to have the BUF_FLAG_HEADER flag set. This indicates that the buffer
+    content contains the essential setup information for decoding
+    (width, height, etc. for video; sample rate, channels, etc. for audio).
+   </para>
+   <para>
+    If the BUF_FLAG_HEADER flag is not set, the content of the buffer should
+    be accumulated in a private buffer until a buffer with a
+    BUF_FLAG_FRAME_END flag is set. This indicates that the entire chunk has
+    been transmitted to the decoder and is ready to be decoded. Fetch either
+    an empty video frame or audio buffer from the appropriate output unit. Perform
+    the appropriate decoding operations and set the pts for the output buffer
+    (and the duration, a.k.a. video_step, for video). Dispatch the decoded
+    data to the output and reset the internal buffer accumulation accounting.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;void flush(video_decoder_t *this_gen);</programlisting>
+    <programlisting>&nbsp;&nbsp;&nbsp;void flush(audio_decoder_t *this_gen);</programlisting>
+    This function is called when either the xine engine flushes the stream, e.g.,
+    after a seek operation or when decoding runs too slow and frames arrive in
+    the output loops fast enough. Decoders should release everything they have
+    already decoded, drop the rest and wait for new input.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;void reset(video_decoder_t *this_gen);</programlisting>
+    <programlisting>&nbsp;&nbsp;&nbsp;void reset(audio_decoder_t *this_gen);</programlisting>
+    This function is called when the xine engine resets the stream.
+    Decoders should get ready to receive data that has nothing to do
+    with the one it worked on up to now.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;void discontinuity(video_decoder_t *this_gen);</programlisting>
+    <programlisting>&nbsp;&nbsp;&nbsp;void discontinuity(audio_decoder_t *this_gen);</programlisting>
+    This function is called when the xine engine encounters a pts
+    discontinuity. Decoders should forget all timestamping information
+    they might have accumulated from the stream to not confuse metronom.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;void dispose(video_decoder_t *this_gen);</programlisting>
+    <programlisting>&nbsp;&nbsp;&nbsp;void dispose(audio_decoder_t *this_gen);</programlisting>
+    This function frees the resources used by the decoder plugin.
+   </para>
+  </sect2>
+  <sect2>
+   <title>SPU decoder</title>
+   <para>
+    A lot written above also applies for subpicture unit (SPU) decoders. The
+    SPU decoder API is declared in <filename>src/xine-engine/spu_decoder.h</filename>.
+    Details on the data, SPU decoders are expected to output, see the section on
+    <link linkend="osd">overlays and OSD</link>.
+   </para>
+   <para>
+    However, there are some differences to consider. At first, unlike audio and
+    video, subtitles do not form a continuous stream. The decoder will therefore
+    only be called once in a while. The metronom call for timestamping,
+    which for audio and video is done by the engine, has to be done manually for SPU:
+    <programlisting>&nbsp;&nbsp;&nbsp;vpts = metronom-&gt;got_spu_packet(metronom, buf-&gt;pts);</programlisting>
+   </para>
+   <para>
+    Another difference is that while both audio and video decoders are automatically
+    blocked in their <function>get_buffer()</function>/<function>get_frame()</function>
+    methods when the output cannot take any more data, this does not work for SPU,
+    because it could take minutes before the next free slot becomes available and we must not
+    block the decoder thread for that long since it might be shared with a video decoder.
+    But when a SPU decoder does not share the thread and we let it run without any
+    blocking, it will overflow the available overlay slots very soon. Since SPU
+    decoders should not have to know, whether they share the thread or not, a helper
+    function <function>_x_spu_decoder_sleep()</function> is provided, which, when told
+    the timestamp of the next overlay, will wait long enough to not overflow the
+    overlay slots, but short enough to not hinder a video decoder in the same thread.
+   </para>
+   <para>
+    There are also two functions in the SPU decoder API, which have not been discussed above:
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;int get_interact_info(spu_decoder_t *this_gen, void *data);</programlisting>
+    Since SPUs are sometimes (on DVDs for example) used for user interaction like menu
+    highlights, this function can be called to get <varname>data</varname> filled with
+    the current interaction information. The caller and the decoder have to agree on
+    what this is exactly. With DVDs, you can get a copy of the current NAV packet here.
+   </para>
+   <para>
+    <programlisting>&nbsp;&nbsp;&nbsp;void set_button(spu_decoder_t *this_gen, int32_t button, int32_t mode);</programlisting>
+    Also for interaction, you can ask the decoder here to change the
+    current highlighting.
+   </para>
+  </sect2>
+ </sect1>
+
+</chapter>

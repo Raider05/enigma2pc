@@ -1,0 +1,31 @@
+building xine on IRIX
+---------------------
+
+* Choose gcc for compilation during configure,
+  e.g. 'env CC=gcc ./configure'
+
+* Compile xine with GNU make (gmake).
+
+
+Known Problems
+--------------
+
+* Cannot compile with IRIX cc
+
+  This is an unresolved issue with automake and dependencies.
+  Not likely to be fixed soon.
+
+* xine only opens a 16 bit visual and looks ugly
+
+  This is done intentionally (speedup on most architectures).
+  Choose an appropriate visual (with xdpyinfo) and select it
+  e.g. with 'xine --visual 0x33'.
+
+* Scaling is slow
+
+  Choose the opengl plugin instead of the xshm plugin.
+  However, this plugin is still highly experimental, expect
+  some crashes, and read README.opengl
+
+
+Matthias Hopf <mat@mshopf.de>

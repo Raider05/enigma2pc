@@ -1,0 +1,46 @@
+Reporting Bugs on libxine - general remarks
+===========================================
+
+As you can see on http://bugs.debian.org/src:xine-lib, the list of
+bugs against xine is rather long. Please help the maintainer by
+ensuring that your bugreport contains all pieces of infromation to
+reproduce and check if the bug has been fixed.
+
+Reporting bugs for unsupported file formats
+===========================================
+
+If you report a bug that a specific file cannot be played, please make
+sure that you include a link to the file so the maintainers can try
+them. If you cannot (easily) point to that file, please check
+http://samples.mplayerhq.hu/ if you find a similar file with the same
+problem. In any case, please start xine with the parameter
+--bug-report. (If you are using gxine, please install the package
+xine-ui instead. If you can only reproduce the bug with gxine but not
+with xine-ui, then file the bug against gxine)
+
+Report bugs for xine crashes
+============================
+
+If you report a bug that applications linked against libxine2
+(xine-ui, gxine, amarok, totem, etc) segfault, please install the
+packages 'xine-ui' and 'libxine2-dbg', and try to reproduce it with
+this command:
+
+> ulimit -c unlimited ; /usr/bin/xine --bug-report <mrl>
+
+If you can reproduce the bug, then run gdb to get a backtrace:
+
+> gdb /usr/bin/xine core.*
+
+At the gdb prompt, please issue these commands:
+
+# backtrace
+# thread apply all backtrace full
+# quit
+
+Make sure to attach both files BUG-REPORT.TXT and the resulting
+backtrace from gdb. Both are necessary to understand where and how the
+segfault occured.
+
+Thanks for your collaboration.
+

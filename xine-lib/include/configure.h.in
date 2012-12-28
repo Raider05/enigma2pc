@@ -1,0 +1,857 @@
+/* include/configure.h.in.  Generated from configure.ac by autoheader.  */
+
+#ifndef __XINE_LIB_CONFIG_H__
+#define __XINE_LIB_CONFIG_H__ 1
+
+
+#ifndef _XINE_CONFIGURE_H_
+#define _XINE_CONFIGURE_H_
+
+
+/* Define if building universal (internal helper macro) */
+#undef AC_APPLE_UNIVERSAL_BUILD
+
+/* Define this if you're running Alpha architecture */
+#undef ARCH_ALPHA
+
+/* Define this if you're running ARM architecture */
+#undef ARCH_ARM
+
+/* Define this if you're running PowerPC architecture */
+#undef ARCH_PPC
+
+/* Define this if you're running SPARC architecture */
+#undef ARCH_SPARC
+
+/* Define this if you're running x86 architecture */
+#undef ARCH_X86
+
+/* Define this if you're running x86 architecture 32 bits */
+#undef ARCH_X86_32
+
+/* Define this if you're running x86 architecture 64 bits */
+#undef ARCH_X86_64
+
+/* define if '.align n' means alignment to (1 << n) - byte boundaries */
+#undef ASMALIGN_1SLN
+
+/* Define the highest alignment supported */
+#undef ATTRIBUTE_ALIGNED_MAX
+
+/* Define this if built on Mac OS X/Darwin */
+#undef CONFIG_DARWIN
+
+/* what to put between the brackets for empty arrays */
+#undef EMPTY_ARRAY_SIZE
+
+/* Define this if you want to use altivec on PowerPC CPUs */
+#undef ENABLE_ALTIVEC
+
+/* Define this to 1 to enable font antialising. */
+#undef ENABLE_ANTIALIASING
+
+/* Enable this when IPv6 is requested */
+#undef ENABLE_IPV6
+
+/* Define to 1 if translation of program messages to the user's native
+   language is requested. */
+#undef ENABLE_NLS
+
+/* Define this if you have Sun UltraSPARC CPU */
+#undef ENABLE_VIS
+
+/* Mark a symbol as being exported if visibility is changed */
+#undef EXPORTED
+
+/* Get of rid system libcdio build configuration */
+#undef EXTERNAL_LIBCDIO_CONFIG_H
+
+/* Define to select libmad fixed point arithmetic implementation */
+#undef FPM_64BIT
+
+/* Define to select libmad fixed point arithmetic implementation */
+#undef FPM_ARM
+
+/* Define to select libmad fixed point arithmetic implementation */
+#undef FPM_DEFAULT
+
+/* Define to select libmad fixed point arithmetic implementation */
+#undef FPM_INTEL
+
+/* Define to select libmad fixed point arithmetic implementation */
+#undef FPM_MIPS
+
+/* Define to select libmad fixed point arithmetic implementation */
+#undef FPM_PPC
+
+/* Define to select libmad fixed point arithmetic implementation */
+#undef FPM_SPARC
+
+/* Define to 1 if you have the <a52dec/a52.h> header file. */
+#undef HAVE_A52DEC_A52_H
+
+/* Define to 1 if you have the <alloca.h> header file. */
+#undef HAVE_ALLOCA_H
+
+/* Define this if you have ALSA installed */
+#undef HAVE_ALSA
+
+/* Define to 1 if you have the <asm/types.h> header file. */
+#undef HAVE_ASM_TYPES_H
+
+/* Define to 1 if you have the `asprintf' function. */
+#undef HAVE_ASPRINTF
+
+/* Define to 1 if you have the <assert.h> header file. */
+#undef HAVE_ASSERT_H
+
+/* Define to 1 if `output_muted' is a member of `audio_info_t'. */
+#undef HAVE_AUDIO_INFO_T_OUTPUT_MUTED
+
+/* define if compiler supports avx inline assembler */
+#undef HAVE_AVX
+
+/* Define to 1 if you have the `basename' function. */
+#undef HAVE_BASENAME
+
+/* Define to 1 if you have the <byteswap.h> header file. */
+#undef HAVE_BYTESWAP_H
+
+/* Define to 1 if you have the `bzero' function. */
+#undef HAVE_BZERO
+
+/* Define to 1 if you have the MacOS X function CFLocaleCopyCurrent in the
+   CoreFoundation framework. */
+#undef HAVE_CFLOCALECOPYCURRENT
+
+/* Define to 1 if you have the MacOS X function CFPreferencesCopyAppValue in
+   the CoreFoundation framework. */
+#undef HAVE_CFPREFERENCESCOPYAPPVALUE
+
+/* Define if the GNU dcgettext() function is already present or preinstalled.
+   */
+#undef HAVE_DCGETTEXT
+
+/* Define this if you have DirectX */
+#undef HAVE_DIRECTX
+
+/* Define to 1 if you have the <dirent.h> header file. */
+#undef HAVE_DIRENT_H
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
+
+/* Define this if you have a suitable version of libdvdnav */
+#undef HAVE_DVDNAV
+
+/* Define to 1 if you have the environ symbol. */
+#undef HAVE_ENVIRON
+
+/* Define to 1 if you have the <errno.h> header file. */
+#undef HAVE_ERRNO_H
+
+/* Define to 1 if you have the <execinfo.h> header file. */
+#undef HAVE_EXECINFO_H
+
+/* Define to 1 if you have the <fame.h> header file. */
+#undef HAVE_FAME_H
+
+/* Define this if you have linux framebuffer support */
+#undef HAVE_FB
+
+/* Define to 1 if you have the <fcntl.h> header file. */
+#undef HAVE_FCNTL_H
+
+/* Define this if you have ffmpeg library */
+#undef HAVE_FFMPEG
+
+/* Define to 1 if you have the <ffmpeg/avutil.h> header file. */
+#undef HAVE_FFMPEG_AVUTIL_H
+
+/* Define to 1 if you have the <FLAC/stream_decoder.h> header file. */
+#undef HAVE_FLAC_STREAM_DECODER_H
+
+/* Define this if you have fontconfig library */
+#undef HAVE_FONTCONFIG
+
+/* Define to 1 if fseeko (and presumably ftello) exists and is declared. */
+#undef HAVE_FSEEKO
+
+/* Define this if you have freetype2 library */
+#undef HAVE_FT2
+
+/* Define this if you have GNU getopt_long() implemented */
+#undef HAVE_GETOPT_LONG
+
+/* Define to 1 if you have the `getpwuid_r' function. */
+#undef HAVE_GETPWUID_R
+
+/* Define if the GNU gettext() function is already present or preinstalled. */
+#undef HAVE_GETTEXT
+
+/* Define to 1 if you have the `gettimeofday' function. */
+#undef HAVE_GETTIMEOFDAY
+
+/* Define to 1 if you have the <glob.h> header file. */
+#undef HAVE_GLOB_H
+
+/* Define this if you have GLU support available */
+#undef HAVE_GLU
+
+/* Define to 1 if you have the <GL/glu.h> header file. */
+#undef HAVE_GL_GLU_H
+
+/* Define to 1 if you have the <GL/gl.h> header file. */
+#undef HAVE_GL_GL_H
+
+/* Define this if you have GraphicsMagick installed */
+#undef HAVE_GRAPHICSMAGICK
+
+/* Define to 1 if you have 'hstrerror' in <netdb.h> */
+#undef HAVE_HSTRERROR
+
+/* Define if you have the iconv() function and it works. */
+#undef HAVE_ICONV
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define this if you have a usable IRIX al interface available */
+#undef HAVE_IRIXAL
+
+/* Supports ISO _Pragma() macro */
+#undef HAVE_ISOC99_PRAGMA
+
+/* Define to 1 if you have the <jpeglib.h> header file. */
+#undef HAVE_JPEGLIB_H
+
+/* Define this if you have kernel statistics available via kstat interface */
+#undef HAVE_KSTAT
+
+/* Define to 1 if you have the <libavutil/avutil.h> header file. */
+#undef HAVE_LIBAVUTIL_AVUTIL_H
+
+/* Define to 1 if you have the <libavutil/sha1.h> header file. */
+#undef HAVE_LIBAVUTIL_SHA1_H
+
+/* Define to 1 if you have the <libavutil/sha.h> header file. */
+#undef HAVE_LIBAVUTIL_SHA_H
+
+/* Define this if you have libfame mpeg encoder installed (fame.sf.net) */
+#undef HAVE_LIBFAME
+
+/* Define to 1 if you have the <libgen.h> header file. */
+#undef HAVE_LIBGEN_H
+
+/* Define to 1 if you have the <libmng.h> header file. */
+#undef HAVE_LIBMNG_H
+
+/* Define to 1 if you have the `posix4' library (-lposix4). */
+#undef HAVE_LIBPOSIX4
+
+/* Define this if you have librte mpeg encoder installed (zapping.sf.net) */
+#undef HAVE_LIBRTE
+
+/* Define to 1 if you have the <libsmbclient.h> header file. */
+#undef HAVE_LIBSMBCLIENT_H
+
+/* Define this if you have libv4l installed */
+#undef HAVE_LIBV4L2_H
+
+/* Define to 1 if you have the `vdpau' library (-lvdpau). */
+#undef HAVE_LIBVDPAU
+
+/* Define 1 if you have Linux-type CD-ROM support */
+#undef HAVE_LINUX_CDROM
+
+/* Define to 1 if you have the <linux/cdrom.h> header file. */
+#undef HAVE_LINUX_CDROM_H
+
+/* Define 1 if timeout is in cdrom_generic_command struct */
+#undef HAVE_LINUX_CDROM_TIMEOUT
+
+/* Define to 1 if you have the <linux/fb.h> header file. */
+#undef HAVE_LINUX_FB_H
+
+/* Define to 1 if you have the <linux/videodev2.h> header file. */
+#undef HAVE_LINUX_VIDEODEV2_H
+
+/* Define to 1 if you have the <linux/videodev.h> header file. */
+#undef HAVE_LINUX_VIDEODEV_H
+
+/* Define this if the 'lrintf' function is declared in math.h */
+#undef HAVE_LRINTF
+
+/* Define to 1 if you have the `lstat' function. */
+#undef HAVE_LSTAT
+
+/* Define to 1 if you have the <machine/soundcard.h> header file. */
+#undef HAVE_MACHINE_SOUNDCARD_H
+
+/* Define to 1 if you have the <mad.h> header file. */
+#undef HAVE_MAD_H
+
+/* Define to 1 if you have the <malloc.h> header file. */
+#undef HAVE_MALLOC_H
+
+/* Define to 1 if you have 'MAX' macro in sys/param.h */
+#undef HAVE_MAX_MACRO
+
+/* Define to 1 if you have the `memalign' function. */
+#undef HAVE_MEMALIGN
+
+/* Define to 1 if you have the `memcpy' function. */
+#undef HAVE_MEMCPY
+
+/* Define to 1 if you have the `memmem' function. */
+#undef HAVE_MEMMEM
+
+/* Define to 1 if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* Define to 1 if you have the `memset' function. */
+#undef HAVE_MEMSET
+
+/* Define to 1 if you have 'MIN' macro in sys/param.h */
+#undef HAVE_MIN_MACRO
+
+/* Define this if you have mlib installed */
+#undef HAVE_MLIB
+
+/* Define to 1 if you have the <mlib_video.h> header file. */
+#undef HAVE_MLIB_VIDEO_H
+
+/* Define to 1 if you have the `mmap' function. */
+#undef HAVE_MMAP
+
+/* Define this if you can compile MMX asm instructions */
+#undef HAVE_MMX
+
+/* Define to 1 if you have the <mpcdec/mpcdec.h> header file. */
+#undef HAVE_MPCDEC_MPCDEC_H
+
+/* Define to 1 if you have the <mpc/mpcdec.h> header file. */
+#undef HAVE_MPC_MPCDEC_H
+
+/* Define to 1 if you have the `nanosleep' function. */
+#undef HAVE_NANOSLEEP
+
+/* Define to 1 if you have the <neaacdec.h> header file. */
+#undef HAVE_NEAACDEC_H
+
+/* Define to 1 if you have the <netdb.h> header file. */
+#undef HAVE_NETDB_H
+
+/* Define this if you have libfame 0.8.10 or above */
+#undef HAVE_NEW_LIBFAME
+
+/* Define to 1 if you have the `nl_langinfo' function. */
+#undef HAVE_NL_LANGINFO
+
+/* Define to 1 if you have 'opendir' function */
+#undef HAVE_OPENDIR
+
+/* Define this if you have POSIX timers. */
+#undef HAVE_POSIX_TIMERS
+
+/* Define to 1 if you have 'pthread_mutex_timedlock' in <pthread.h> */
+#undef HAVE_PTHREAD_MUTEX_TIMEDLOCK
+
+/* define this if you have pulseaudio >= 0.9.7 */
+#undef HAVE_PULSEAUDIO_0_9_7
+
+/* Define to 1 if you have the `readlink' function. */
+#undef HAVE_READLINK
+
+/* Define to 1 if you have the <rte.h> header file. */
+#undef HAVE_RTE_H
+
+/* Define to 1 if you have the `setenv' function. */
+#undef HAVE_SETENV
+
+/* Define to 1 if you have the `sigaction' function. */
+#undef HAVE_SIGACTION
+
+/* Define to 1 if you have the `sigset' function. */
+#undef HAVE_SIGSET
+
+/* Define to 1 if you have the `snprintf' function. */
+#undef HAVE_SNPRINTF
+
+/* Define to 1 if you have the <soundcard.h> header file. */
+#undef HAVE_SOUNDCARD_H
+
+/* Define this if you have speex */
+#undef HAVE_SPEEX
+
+/* Define to 1 if you have the <stdbool.h> header file. */
+#undef HAVE_STDBOOL_H
+
+/* Define to 1 if you have the stderr symbol. */
+#undef HAVE_STDERR
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdio.h> header file. */
+#undef HAVE_STDIO_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the `strcasecmp' function. */
+#undef HAVE_STRCASECMP
+
+/* Define to 1 if you have the `strcasestr' function. */
+#undef HAVE_STRCASESTR
+
+/* Define to 1 if you have the `strchr' function. */
+#undef HAVE_STRCHR
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if you have the `strncasecmp' function. */
+#undef HAVE_STRNCASECMP
+
+/* Define to 1 if you have the `strndup' function. */
+#undef HAVE_STRNDUP
+
+/* Define to 1 if you have the `strpbrk' function. */
+#undef HAVE_STRPBRK
+
+/* Define to 1 if you have the `strsep' function. */
+#undef HAVE_STRSEP
+
+/* Define to 1 if you have the `strtok_r' function. */
+#undef HAVE_STRTOK_R
+
+/* Define to 1 if you have the <sys/cdio.h> header file. */
+#undef HAVE_SYS_CDIO_H
+
+/* Define to 1 if you have the <sys/dvdio.h> header file. */
+#undef HAVE_SYS_DVDIO_H
+
+/* Define to 1 if you have the <sys/fbio.h> header file. */
+#undef HAVE_SYS_FBIO_H
+
+/* Define to 1 if you have the <sys/ioctl.h> header file. */
+#undef HAVE_SYS_IOCTL_H
+
+/* Define to 1 if you have the <sys/mixer.h> header file. */
+#undef HAVE_SYS_MIXER_H
+
+/* Define to 1 if you have the <sys/mman.h> header file. */
+#undef HAVE_SYS_MMAN_H
+
+/* Define to 1 if you have the <sys/param.h> header file. */
+#undef HAVE_SYS_PARAM_H
+
+/* Define to 1 if you have the <sys/scsiio.h> header file. */
+#undef HAVE_SYS_SCSIIO_H
+
+/* Define to 1 if you have the <sys/soundcard.h> header file. */
+#undef HAVE_SYS_SOUNDCARD_H
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/times.h> header file. */
+#undef HAVE_SYS_TIMES_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have the <sys/videodev2.h> header file. */
+#undef HAVE_SYS_VIDEODEV2_H
+
+/* Define to 1 if you have the <sys/videoio.h> header file. */
+#undef HAVE_SYS_VIDEOIO_H
+
+/* Define to 1 if you have the <sys/wait.h> header file. */
+#undef HAVE_SYS_WAIT_H
+
+/* Define this if you have theora */
+#undef HAVE_THEORA
+
+/* Define to 1 if you have the `timegm' function. */
+#undef HAVE_TIMEGM
+
+/* Define if struct tm has the tm_gmtoff member. */
+#undef HAVE_TM_GMTOFF
+
+/* Define to 1 if you have the <ucontext.h> header file. */
+#undef HAVE_UCONTEXT_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* Define to 1 if you have the `unsetenv' function. */
+#undef HAVE_UNSETENV
+
+/* Define to 1 if you have the `va_copy' function. */
+#undef HAVE_VA_COPY
+
+/* Define this if you use external libcdio/libvcdinfo */
+#undef HAVE_VCDNAV
+
+/* Define to 1 if you have the <vdpau/vdpau_x11.h> header file. */
+#undef HAVE_VDPAU_VDPAU_X11_H
+
+/* Define if you have vldXvMC.h */
+#undef HAVE_VLDXVMC
+
+/* Define this if you have vorbis */
+#undef HAVE_VORBIS
+
+/* Define to 1 if you have the `vsnprintf' function. */
+#undef HAVE_VSNPRINTF
+
+/* Define to 1 if you have the `vsscanf' function. */
+#undef HAVE_VSSCANF
+
+/* Define this if you have X11R6 installed */
+#undef HAVE_X11
+
+/* Define to 1 if you have the <X11/extensions/vldXvMC.h> header file. */
+#undef HAVE_X11_EXTENSIONS_VLDXVMC_H
+
+/* Define to 1 if you have the <X11/extensions/XShm.h> header file. */
+#undef HAVE_X11_EXTENSIONS_XSHM_H
+
+/* Define to 1 if you have the <X11/extensions/XvMC.h> header file. */
+#undef HAVE_X11_EXTENSIONS_XVMC_H
+
+/* Define this if you have libXinerama installed */
+#undef HAVE_XINERAMA
+
+/* Define this if you have libXv installed */
+#undef HAVE_XV
+
+/* Define this if you have an XvMC library and XvMC.h installed. */
+#undef HAVE_XVMC
+
+/* Define to 1 if you have the _environ symbol. */
+#undef HAVE__ENVIRON
+
+/* Define to 1 if you have the `_snprintf' function. */
+#undef HAVE__SNPRINTF
+
+/* Define to 1 if you have the `_stricmp' function. */
+#undef HAVE__STRICMP
+
+/* Define to 1 if you have the `_strnicmp' function. */
+#undef HAVE__STRNICMP
+
+/* Define to 1 if you have the `_vsnprintf' function. */
+#undef HAVE__VSNPRINTF
+
+/* Define to 1 if you have the __ctype_b symbol. */
+#undef HAVE___CTYPE_B
+
+/* Define to 1 if you have the __environ symbol. */
+#undef HAVE___ENVIRON
+
+/* Define to 1 if you have the __stderrp symbol. */
+#undef HAVE___STDERRP
+
+/* Define to 1 if you have the ___brk_addr symbol. */
+#undef HAVE____BRK_ADDR
+
+/* Define this if built on Mac OS X/Darwin */
+#undef HOST_OS_DARWIN
+
+/* Define as const if the declaration of iconv() needs const. */
+#undef ICONV_CONST
+
+/* Type of the request parameter for ioctl() */
+#undef IOCTL_REQUEST_TYPE
+
+/* Get of rid system libcdio build configuration */
+#undef LIBCDIO_CONFIG_H
+
+/* Define this if you have mlib installed */
+#undef LIBMPEG2_MLIB
+
+/* The soname of libX11, needed for dlopen() */
+#undef LIBX11_SO
+
+/* The soname of libXv, needed for dlopen() */
+#undef LIBXV_SO
+
+/* Define to the sub-directory in which libtool stores uninstalled libraries.
+   */
+#undef LT_OBJDIR
+
+/* Define this if you want to load mlib lazily */
+#undef MLIB_LAZYLOAD
+
+/* Define to 1 if your C compiler doesn't accept -c and -o together. */
+#undef NO_MINUS_C_MINUS_O
+
+/* Name of package */
+#undef PACKAGE
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* Default path in which to find Real binary codecs */
+#undef REAL_CODEC_PATH
+
+/* The size of `int', as computed by sizeof. */
+#undef SIZEOF_INT
+
+/* The size of `long', as computed by sizeof. */
+#undef SIZEOF_LONG
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* Define this if the compiler supports __attribute__(( ifelse([weak, alias],
+   , [alias], [weak, alias]) )) */
+#undef SUPPORT_ATTRIBUTE_ALIAS
+
+/* Define this if the compiler supports __attribute__(( ifelse([], , [const],
+   []) )) */
+#undef SUPPORT_ATTRIBUTE_CONST
+
+/* Define this if the compiler supports __attribute__(( ifelse([], ,
+   [deprecated], []) )) */
+#undef SUPPORT_ATTRIBUTE_DEPRECATED
+
+/* Define this if the compiler supports __attribute__(( ifelse([format(printf,
+   n, n)], , [format], [format(printf, n, n)]) )) */
+#undef SUPPORT_ATTRIBUTE_FORMAT
+
+/* Define this if the compiler supports __attribute__((
+   ifelse([format_arg(printf)], , [format_arg], [format_arg(printf)]) )) */
+#undef SUPPORT_ATTRIBUTE_FORMAT_ARG
+
+/* Define this if the compiler supports __attribute__(( ifelse([], , [malloc],
+   []) )) */
+#undef SUPPORT_ATTRIBUTE_MALLOC
+
+/* Define this if the compiler supports __attribute__(( ifelse([], , [packed],
+   []) )) */
+#undef SUPPORT_ATTRIBUTE_PACKED
+
+/* Define this if the compiler supports __attribute__(( ifelse([], ,
+   [sentinel], []) )) */
+#undef SUPPORT_ATTRIBUTE_SENTINEL
+
+/* Define this if the compiler supports __attribute__(( ifelse([], , [unused],
+   []) )) */
+#undef SUPPORT_ATTRIBUTE_UNUSED
+
+/* Define this if the compiler supports __attribute__((
+   ifelse([visibility("default")], , [visibility_default],
+   [visibility("default")]) )) */
+#undef SUPPORT_ATTRIBUTE_VISIBILITY_DEFAULT
+
+/* Define this if the compiler supports __attribute__((
+   ifelse([visibility("internal")], , [visibility_internal],
+   [visibility("internal")]) )) */
+#undef SUPPORT_ATTRIBUTE_VISIBILITY_INTERNAL
+
+/* Define this if the compiler supports __attribute__((
+   ifelse([visibility("protected")], , [visibility_protected],
+   [visibility("protected")]) )) */
+#undef SUPPORT_ATTRIBUTE_VISIBILITY_PROTECTED
+
+/* Define this if the compiler supports __attribute__(( ifelse([], , [weak],
+   []) )) */
+#undef SUPPORT_ATTRIBUTE_WEAK
+
+/* Define this if the compiler supports the -fvisibility flag */
+#undef SUPPORT_FLAG_VISIBILITY
+
+/* Enable extensions on AIX 3, Interix.  */
+#ifndef _ALL_SOURCE
+# undef _ALL_SOURCE
+#endif
+/* Enable GNU extensions on systems that have them.  */
+#ifndef _GNU_SOURCE
+# undef _GNU_SOURCE
+#endif
+/* Enable threading extensions on Solaris.  */
+#ifndef _POSIX_PTHREAD_SEMANTICS
+# undef _POSIX_PTHREAD_SEMANTICS
+#endif
+/* Enable extensions on HP NonStop.  */
+#ifndef _TANDEM_SOURCE
+# undef _TANDEM_SOURCE
+#endif
+/* Enable general extensions on Solaris.  */
+#ifndef __EXTENSIONS__
+# undef __EXTENSIONS__
+#endif
+
+
+/* Version number of package */
+#undef VERSION
+
+/* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
+   significant byte first (like Motorola and SPARC, unlike Intel). */
+#if defined AC_APPLE_UNIVERSAL_BUILD
+# if defined __BIG_ENDIAN__
+#  define WORDS_BIGENDIAN 1
+# endif
+#else
+# ifndef WORDS_BIGENDIAN
+#  undef WORDS_BIGENDIAN
+# endif
+#endif
+
+/* Path where aclocal m4 files will be. */
+#undef XINE_ACFLAGS
+
+/* Define this to osd fonts dir location */
+#undef XINE_FONTDIR
+
+/* Path where catalog files will be. */
+#undef XINE_LOCALEDIR
+
+/* xine interface version age */
+#undef XINE_LT_AGE
+
+/* xine interface version number */
+#undef XINE_LT_CURRENT
+
+/* Define this if a universal binary is being built for Mac OS X */
+#undef XINE_MACOSX_UNIVERSAL_BINARY
+
+/* xine major version number */
+#undef XINE_MAJOR
+
+/* xine minor version number */
+#undef XINE_MINOR
+
+/* xine patch version number */
+#undef XINE_PATCH
+
+/* Define this to soecific plugins directory location */
+#undef XINE_PLUGINDIR
+
+/* Define this to general plugins directory location */
+#undef XINE_PLUGINROOT
+
+/* Define this to font directory relative to prefix */
+#undef XINE_REL_FONTDIR
+
+/* Define this to font directory relative to prefix */
+#undef XINE_REL_LOCALEDIR
+
+/* Define this to specific plugin directory relative to execution prefix */
+#undef XINE_REL_PLUGINDIR
+
+/* Define this to general plugin directory relative to execution prefix */
+#undef XINE_REL_PLUGINROOT
+
+/* xine sub version number */
+#undef XINE_SUB
+
+/* catalog message text domain */
+#undef XINE_TEXTDOMAIN
+
+/* Define to 1 if the X Window System is missing or not being used. */
+#undef X_DISPLAY_MISSING
+
+/* Number of bits in a file offset, on hosts where this is settable. */
+#undef _FILE_OFFSET_BITS
+
+/* Define this if you are ISO C9X compliant */
+#undef _ISOC9X_SOURCE
+
+/* Define to 1 to make fseeko visible on some hosts (e.g. glibc 2.2). */
+#undef _LARGEFILE_SOURCE
+
+/* Define for large files, on AIX-style hosts. */
+#undef _LARGE_FILES
+
+/* Define to 1 if on MINIX. */
+#undef _MINIX
+
+/* Define to 2 if the system does not provide POSIX.1 features except with
+   this defined. */
+#undef _POSIX_1_SOURCE
+
+/* Define to 1 if you need to in order for `stat' and other things to work. */
+#undef _POSIX_SOURCE
+
+/* Define to empty if `const' does not conform to ANSI C. */
+#undef const
+
+/* Define to `__inline__' or `__inline' if that's what the C compiler
+   calls it, or to nothing if 'inline' is not supported under any name.  */
+#ifndef __cplusplus
+#undef inline
+#endif
+
+/* Define to `long int' if <sys/types.h> does not define. */
+#undef off_t
+
+/* Define to the equivalent of the C99 'restrict' keyword, or to
+   nothing if this is not supported.  Do not define if restrict is
+   supported directly.  */
+#undef restrict
+/* Work around a bug in Sun C++: it does not support _Restrict or
+   __restrict__, even though the corresponding Sun C compiler ends up with
+   "#define restrict _Restrict" or "#define restrict __restrict__" in the
+   previous line.  Perhaps some future version of Sun C++ will work with
+   restrict; if so, hopefully it defines __RESTRICT like Sun C does.  */
+#if defined __SUNPRO_CC && !defined __RESTRICT
+# define _Restrict
+# define __restrict__
+#endif
+
+/* Define to `unsigned int' if <sys/types.h> does not define. */
+#undef size_t
+
+/* Define the real type of socklen_t */
+#undef socklen_t
+
+/* define ssize_t to __int64 if it's missing in default includes */
+#undef ssize_t
+
+#ifdef ASMALIGN_1SLN
+# define ASMALIGN(ZEROBITS) ".align " #ZEROBITS "\n\t"
+#else
+# define ASMALIGN(ZEROBITS) ".align 1<<" #ZEROBITS "\n\t"
+#endif
+
+#endif  /* __XINE_LIB_CONFIG_H__ */
+
+
+
+#if defined (__FreeBSD__) && !defined (__FreeBSD_kernel__)
+#define __FreeBSD_kernel__ __FreeBSD__
+#endif
+
+#if defined (__FreeBSD_kernel__)
+#include <sys/param.h>
+# if defined (__FreeBSD_version) && !defined (__FreeBSD_kernel_version)
+# define __FreeBSD_kernel_version __FreeBSD_version
+# endif
+#endif
+
+
+#endif
+

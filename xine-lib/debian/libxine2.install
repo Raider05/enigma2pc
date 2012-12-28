@@ -1,0 +1,10 @@
+usr/bin/xine-list*
+usr/lib/libxine*.so.*
+usr/lib/xine/plugins/*/post/*.so
+usr/lib/xine/plugins/*/*.so
+usr/lib/xine/plugins/*/vidix/*.so
+usr/share/locale
+usr/share/xine-lib
+usr/share/doc/libxine2/hackersguide/*
+usr/share/bug/libxine2/presubj
+usr/share/man/man1/xine-list*.1

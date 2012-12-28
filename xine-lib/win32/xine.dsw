@@ -1,0 +1,644 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "libdvdnav"=".\libdvdnav.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxinesuppt
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "libxine"=".\libxine.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxinesuppt
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "libxinesuppt"=".\libxinesuppt.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "xineplug_ao_out_directx"=".\xineplug_ao_out_directx.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_ao_out_none"=".\xineplug_ao_out_none.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_decode_a52"=".\xineplug_decode_a52.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_ao_out_directx2"=".\xineplug_ao_out_directx2.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libxinesuppt
+    End Project Dependency
+}}}
+
+###############################################################################
+  
+Project: "xineplug_decode_dts"=".\xineplug_decode_dts.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_decode_ff"=".\xineplug_decode_ff.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libxinesuppt
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_decode_lpcm"=".\xineplug_decode_lpcm.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_decode_mad"=".\xineplug_decode_mad.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_decode_mpeg2"=".\xineplug_decode_mpeg2.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_decode_real"=".\xineplug_decode_real.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_decode_spu"=".\xineplug_decode_spu.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxinesuppt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_decode_spucc"=".\xineplug_decode_spucc.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxinesuppt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_decode_sputext"=".\xineplug_decode_sputext.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_dmx_asf"=".\xineplug_dmx_asf.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_dmx_audio"=".\xineplug_dmx_audio.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_dmx_avi"=".\xineplug_dmx_avi.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_dmx_lpcm"=".\xineplug_dmx_lpcm.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_dmx_mpeg"=".\xineplug_dmx_mpeg.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_dmx_mpeg_elem"=".\xineplug_dmx_mpeg_elem.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_dmx_mpeg_block"=".\xineplug_dmx_mpeg_block.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_dmx_mpeg_pes"=".\xineplug_dmx_mpeg_pes.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_dmx_mpeg_ts"=".\xineplug_dmx_mpeg_ts.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_dmx_nsv"=".\xineplug_dmx_nsv.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_dmx_pva"=".\xineplug_dmx_pva.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_dmx_real"=".\xineplug_dmx_real.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_dmx_slave"=".\xineplug_dmx_slave.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_dmx_sputext"=".\xineplug_dmx_sputext.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_dmx_yuv4mpeg2"=".\xineplug_dmx_yuv4mpeg2.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_dmx_yuv_frames"=".\xineplug_dmx_yuv_frames.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_inp_cdda"=".\xineplug_inp_cdda.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxinesuppt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_inp_dvd"=".\xineplug_inp_dvd.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libdvdnav
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_inp_file"=".\xineplug_inp_file.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxinesuppt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_inp_http"=".\xineplug_inp_http.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxinesuppt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_inp_net"=".\xineplug_inp_net.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxinesuppt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_vo_out_directx"=".\xineplug_vo_out_directx.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_vo_out_none"=".\xineplug_vo_out_none.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xineplug_vo_out_sdl"=".\xineplug_vo_out_sdl.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libxine
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libxinesuppt
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

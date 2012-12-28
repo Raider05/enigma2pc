@@ -1,0 +1,110 @@
+
+   ----------------------
+            xine
+   ----------------------
+
+     a free video player
+
+
+
+This document contains FreeBSD related information about xine
+
+
+xine fails when allocating images
+---------------------------------
+
+Make sure you have enough shared memory enabled. This is very
+limited by default.
+
+Edit your /etc/sysctl.conf:
+
+kern.ipc.shmmax=67108864
+kern.ipc.shmall=32768
+
+
+mtrr on freebsd
+---------------
+
+setting up the caching behaviour of the memory on the graphics board.
+
+what is being done with the mtrr support on linux is to set the caching
+type of the memory of the graphics board to 'write-combine' mode.
+that way the performance of big writes into this memory should be faster.
+
+it seems that the same can be achieved on freebsd by executing:
+
+  memcontrol set -b <base-address> -l <length> write-combine
+
+for example on my system i executed:
+
+  memcontrol set -n 0xd8000000 -l 0x02000000 write-combine
+
+i got the base-adress by executing 'startx' and looking at the output.
+
+it seems to be dangerous to change the cache setting of the graphics memory
+while xfree is running - at least i managed to have my system freeze that
+way. so better do it on the commandline.
+
+this tip is still subject of research, so it might be incorrect - please
+report any further information on this topic to the xine-user list.
+please also report success or non-success on xine-user if you have the time.
+
+
+playing video cd on freebsd
+---------------------------
+
+currently (because of issues with the freebsd kernel) xine can only
+play video cd from atapi cdrom drives. not for scsi drives!
+
+currently (Jan 2001), FreeBSD-stable (and thus the current releases also)
+needs a patch to the kernel sources to make video cd work (please check
+the freebsd documentation if you are unsure on how to build a custom
+kernel with this patch included).
+
+the file you have to patch is /sys/dev/ata/atapi-cd.c:
+
+*** atapi-cd.c.orig     Sun Jan 21 14:42:57 2001
+--- atapi-cd.c  Sun Jan 21 14:47:13 2001
+***************
+*** 1163,1174 ****
+                return;
+            }
+        }
+!       if (blocksize == 2048)
+!           ccb[0] = ATAPI_READ_BIG;
+!       else {
+!           ccb[0] = ATAPI_READ_CD;
+!           ccb[9] = 0x10;
+!       }
+      }
+      else
+        ccb[0] = ATAPI_WRITE_BIG;
+--- 1163,1182 ----
+                return;
+            }
+        }
+!         switch (blocksize) {
+!         case 2048:
+!             ccb[0] = ATAPI_READ_BIG;
+!             break;
+!
+!         case 2352:
+!             ccb[0] = ATAPI_READ_CD;
+!             ccb[9] = 0xf8;
+!             break;
+!
+!         default:
+!             ccb[0] = ATAPI_READ_CD;
+!             ccb[9] = 0x10;
+!         }
+      }
+      else
+        ccb[0] = ATAPI_WRITE_BIG;
+
+
+v4l on freebsd
+--------------
+
+For building v4l plugins you will need install v4l_compat package.
+
+------------------------------------------------------------------------

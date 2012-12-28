@@ -1,0 +1,247 @@
+		VIDIX - VIDeo Interface for *niX
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		
+This interface was designed and introduced as interface to userspace drivers
+to provide DGA everywhere where it's possible (unline X11).
+I hope that these drivers will be portable same as X11 (not only on *nix).
+
+What is it:
+- It's portable successor of mga_vid technology which is located in user-space.
+- Unlikely X11 it's provides DGA everywhere where it's possible.
+- Unlikely v4l it provides interface for video playback
+- Unlikely linux's drivers it uses mathematics library.
+
+Why it was developed:
+As said Vladimir Dergachev 
+(http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/gatos/km/km.rfc.txt):
+"0) Motivation
+    v4l, v4l2 and Xv are all suffering from the same problem: attempt to fit 
+    existing multimedia devices into a fixed scheme."
+Well - I tried to implement something similar by motivation.
+
+How it works:
+~~~~~~~~~~~~~
+
+This interface is almost finished. But I guess it can be expanded by developer's
+requests.
+So any suggestions, reports, criticism are gladly accepted.
+
+1) APP calls vixGetVersion to check age of driver ;)
+2) APP calls vixProbe. Driver should return 0 if it can handle something in PC.
+3) APP calls vixGetCapability. Driver should return filled
+    vidix_capability_t.type field at least.
+4) If above calls were succesful then APP calls vixInit function
+   (Driver can have not exported this function in this case call will be
+    skiped).
+5) After initializing of driver APP calls vixGetCapability again
+   (In this case driver must fill every field of struct)
+6) APP calls vixQueryFourcc. Driver should answer - can it configure
+   video memory for given fourcc or not.
+7) APP calls vixConfigPlayback. Driver should prepare BES on this call.
+   APP pass to driver following info:
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   vidix_playback_t.fourcc	- contains fourcc of movie
+   vidix_playback_t.capability	- currently contsinas copy of vidix_capability_t.flags
+   vidix_playback_t.blend_factor- currently unused   
+   vidix_playback_t.src		- x,y,w,h fields contain original movie size
+				  (in pixels) x and y often are nulls.
+   vidix_playback_t.src.pitch.y   These fields contain source pitches
+   vidix_playback_t.src.pitch.u - for each Y,U,V plane in bytes.
+   vidix_playback_t.src.pitch.v   (For packed fourcc only Y value is used)
+				  They are hints for driver to use same destinition
+				  pitches as in source memory (to speed up
+				  memcpy process).
+				  Note: when source pitches are unknown or
+				  variable these field will be filled into 0.
+   vidix_playback_t.dest	- x,y,w,h fields contains destinition rectange
+				  on the screen in pixels.
+   vidix_playback_t.num_frames  - maximal # of frames which can be used by APP.
+				  (Currently 10).
+   Driver should fill following fields:
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   vidix_playback_t.num_frames  - real # of frames which will be used by driver.
+				  (Should be less or equal to app's num_frames).
+				  
+   vidix_playback_t.dest.pitch.y   These fields should contain alignment
+   vidix_playback_t.dest.pitch.u - for each Y,U,V plane in bytes.
+   vidix_playback_t.dest.pitch.v   (For packed fourcc only Y value is used)
+   
+   vidix_playback_t.frame_size	- Driver should tell to app which size of
+				      source frame (src.w and src.h) should
+				      use APP (according to pitches and offsets)
+
+   vidix_playback_t.offsets	- offsets from begin of BES memory for each frame
+   
+   vidix_playback_t.offset.y	  These field should contain offset
+   vidix_playback_t.offset.u	- for each Y,U,V plane within frame.
+   vidix_playback_t.offset.v	  (For packed fourcc only Y value is used)
+
+   vidix_playback_t.dga_addr	- Address of BES memory.
+   
+Also see this picture:
+
+VIDEO MEMORY layout:
+ +-----------  It's begin of video memory     End of video memory--------------+
+ |                                                                             |
+ v                                                                             v
+ [      RGB memory                         |         YUV memory    |  UNDEF    ]
+					   ^
+					   |
+					   +---- begin of BES memory
+
+BES MEMORY layout:
+ +-------- begin of BES memory
+ |
+ v
+ [ | |                      |       |       |
+   ^ ^                      ^       ^       ^
+   | |                      |       |       + BEGIN of second frame
+   | |                      |       + BEGIN of V plane
+   | |                      + BEGIN of U plane
+   | +------- BEGIN of Y plane
+   |
+   +--------- BEGIN of first frame
+
+This means that in general case:
+offset of frame != offset of BES
+offset of Y plane != offset of first frame
+
+But often: vidix_playback_t.offsets[0] = vidix_playback_t.offset.y = 0;
+
+Formula: (For Y plane) copy source to:
+		  vidix_playback_t.dga_addr +
+		  vidix_playback_t.offsets[i] +
+		  vidix_playback_t.offset.y
+
+8) APP calls vixPlaybackOn. Driver should activate BES on this call.
+9) PLAYBACK. Driver should sleep here ;)
+   But during playback can be called:
+     vixFrameSelect (if this function is exported)
+	Driver should prepare and activate corresponded frame.
+	This function is used only for double and trilpe buffering and
+	never used for single buffering playback.
+     vixGet(Set)GrKeys (if this function is exported)
+	This interface should be tuned but intriduced for overlapped playback
+	and video effects (TYPE_FX)
+     vixPlaybackGet(Set)Eq (if this function is exported)
+	For color correction.
+10) APP calls vixPlaybackOff. Driver should deactivate BES on this call.
+11) If vixDestroy is defined APP calls this function before unloading driver
+    from memory.
+    
+    
+What functions are mandatory:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vixGetVersion
+vixProbe
+vixGetCapability
+vixQueryFourcc
+vixConfigPlayback
+vixPlaybackOn
+vixPlaybackOff
+
+All other functions are optionaly.
+
+BUSMASTERING
+************
+
+Busmastering is technique to implement data transfer through DMA.
+This technique is intended to free CPU for other useful work to
+speedup movie playback. The speedup will be different on different
+CPUs OSes and videocards. Only thing which SHOULD be implemented
+it's the fact that frame should be transfered faster than 1/fps.
+(I.e. faster than 33ms for 30 fps or faster than 40ms for 25 fps)
+VIDIX implementation of BM (busmastering) is slightly specific.
+During driver development you should keep in mind the next rules:
+1. BM is implemented as parallel process which should work
+   simultaneously with frame decoding.
+2. To have possibility to use busmastering by non-ROOT users
+   driver should rather call functions from libdha than from libc.
+   (Example: driver should call bm_lock_mem instead of mlock)
+3. To speedup data transfer player will pass pointer to the DMA buffer
+   which will have the same structure (planes and strides) as video memory
+   (In this connexion driver should allocate frames in video memory
+   same as if BM would not be implemented).
+
+Interface:
+~~~~~~~~~~
+
+The interface of BM is implemented through 2 functions:
+  vixPlaybackCopyFrame
+  vixQueryDMAStatus
+
+
+vixPlaybackCopyFrame 
+
+should prepare engine to copy frame from
+system memory into video framebuffer. After that driver should
+send command into engine to start data transfer and return
+control immediatedly.
+
+The structure vidix_dma_s in details:
+
+typedef struct vidix_dma_s
+{
+	/* 
+	app -> driver. 
+	Virtual address of source.
+	Note: source buffer is allocated by using malloc
+	or memalign();
+	*/
+	void *		src;
+	/* 
+	app -> driver. 
+	Destinition offset within of video memory.
+	It will point offset within of YUV memory where
+	destinition data should be stored.
+	*/
+	unsigned 	dest_offset;
+	/* app -> driver. Size of data to be transfered in bytes. */
+	unsigned 	size;
+	/*
+	can accept ORed values of BM_DMA* definitions
+	BM_DMA_ASYNC -	default value which indicates that transactiion
+			should work asynchronously.
+	BM_DMA_SYNC - 	may be ignored due speedup reasons
+	BM_DMA_FIXED_BUFFS - indicates that player was started by ROOT
+			and source DMA buffers were already locked in memory
+			through mlock().
+	/* app -> driver: idx of src buffer.
+		    if BM_DMA_FIXED_BUFFS flags is set then this field
+		    indicates which from buffers currently is passed
+		    into driver. This field maybe ignored by driver but
+		    it would be better to use that for minor speedup
+		    of engine preparing. */
+	unsigned 	idx;
+	/* for internal use by driver.
+	   Driver may use them on its opinion  */
+	void *		internal[VID_PLAY_MAXFRAMES];
+}vidix_dma_t;
+
+
+vixQueryDMAStatus
+
+should check out DMA status and return 1 if BM is busy
+and 0 otherwise. Note: this function shouldn't wait any
+changes in DMA state.
+
+A few words about of non-linux systems
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Well, there is only one problem which stops us to use BM on
+nono-linux systems: it's lacking of possibility to perform
+convertion from virtual to physical address in user-space.
+This problem is sloved by so-called dhahelper driver for
+linux. What about of other OSes then this driver requires
+to be ported first. (Of course, except of DOS and DOS32
+where these convertions are unnecessary).
+
+Useful links:
+~~~~~~~~~~~~~
+Guide to DTV		http://www.digitaltelevision.com/dtvbook/toc.shtml
+Fourcc			http://www.webartz.com/fourcc/
+MPEG			http://www.mpeg.org/MPEG/index.html
+Analog colors		http://www.miranda.com/en/app_notes/TN/TN-05/TN-05.htm
+
+Please send your suggestions, reports, feedback to mplayerxp-general@lists.sourceforge.net
+
+Best regards! Nick Kurshev.

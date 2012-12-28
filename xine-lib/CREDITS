@@ -1,0 +1,58 @@
+external projects used in libxine and its plugins
+=================================================
+
+This list is provided to give credit to the external project maintainers
+that their work is used in xine.
+
+It is also useful to track the versioning and see, which copy of an
+external lib needs updating and who (if anyone) is usually doing these
+updates (the word 'maintainer' is intentionally avoided here).
+
+
+project				version			mediator
+-----------------------------------------------------------------------
+
+goom				2k4-0
+gsm610				1.0.10			Mike Melanson
+liba52				0.7.4
+libca				0.0.5
+libdvdnav			0.1.10			Michael Roitzsch
+libfaad				2.6.1                   Miguel Freitas
+libmad				0.15.1b			Miguel Freitas
+libmpeg2			0.2.1 [*]
+libmpcdec			1.2.5
+libxdg-basedir			0.1.3			Diego Pettenò
+nosefart                        2.7-mls                 Mike Melanson
+tvtime				0.9.8.4			Miguel Freitas
+wine
+vidix				cvs 6/03/05		James Stembridge
+
+-----------------------------------------------------------------------
+
+[*] common question: lastest version of libmpeg2 is 0.3.1, why don't
+you update?
+
+  the answer is not so simple. 
+
+  quoting libmpeg2.sf.net: "The old API [0.2.x] was not flexible enough for
+  most users, as a result various projects (xine, mplayer etc...) ended up
+  rewriting their own versions of decode.c."
+
+  this is indeed true: in order to support a lot of dvd features, menus with
+  still frames, closed caption decoding and better buffer management for
+  xine it was needed to patch our libmpeg2 copy. of course we should always
+  try not to "fork" external projects, but in the libmpeg2/xine case it is
+  easy to see (from CVS logs) how long did it took to reach the stability
+  point we have now.
+
+  so, while targeting a stable libxine release, there is no hurry in
+  updating libmpeg2 and this is not the trivial task as it might sound.
+
+  note that we have also backported some fixes/improvements from libmpeg2
+  cvs (eg. motion vector clipping for broken streams). if you need any
+  specific change or fix feel free to send us a patch or discuss the issue
+  at xine-devel.
+
+  update plan for libmpeg2: we should leave our patched libmpeg2 for 
+  hardware accelerated decoding (xvmc) only and use "libmpeg2new" (containing 
+  updated libmpeg2) for software decoding.

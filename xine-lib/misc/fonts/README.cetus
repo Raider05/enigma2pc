@@ -1,0 +1,22 @@
+
+    --------------------------
+           README.cetus
+    --------------------------
+
+The cetus font contains a few special characters which
+hopefully are usefull in OSDs:
+
+original character    symbol in cetus
+-----------------------------------------------
+@                     | (use for progress bars)
+<                     PAUSE
+>                     PLAY
+[                     |<
+]                     >|
+{                     EJECT
+}                     STOP
+$                     >
+
+The original cetus font was downloaded from www.fontfreak.com
+and is marked there as "Freeware by Gregfonts!"
+

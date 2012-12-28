@@ -1,0 +1,193 @@
+#!/usr/bin/make -f
+# Sample debian/rules that uses debhelper.
+# GNU copyright 1997 to 1999 by Joey Hess.
+# adapted for xine-lib 2001 by Siggi Langauf
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# This file depends on debhelper compatibility level 4.
+# If a higher level is used, the dh_strip invocation will need to be fixed.
+
+# assuming created lib in src/xine-engine/.libs/libxine.so.<version>
+version=`ls src/xine-engine/.libs/libxine*.so.* | \
+ awk '{if (match($$0,/[0-9]+\.[0-9]+\.[0-9]+$$/)) print substr($$0,RSTART)}'`
+major=`ls src/xine-engine/.libs/libxine*.so.* | \
+ awk '{if (match($$0,/\.so\.[0-9]+$$/)) print substr($$0,RSTART+4)}'`
+
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+
+DEB_BUILD_CONFIG_OPTIONS :=
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	DEB_BUILD_CONFIG_OPTIONS += --disable-optimizations --enable-debug
+endif
+
+ifneq (,$(findstring mips,$(DEB_HOST_GNU_TYPE)))
+	DEB_BUILD_CONFIG_OPTIONS += PTHREAD_LIBS="-lpthread"
+endif
+
+# taken from the qemu package
+# Support multiple makes at once
+ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+NJOBS := $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+else
+NJOBS := 1
+endif
+
+# note also "noauto" to inhibit running of autogen.sh
+
+# the "optimize" flag disables compatibility hacks
+ifeq (,$(findstring optimize,$(DEB_BUILD_OPTIONS)))
+ $(warning trying to disable machine-specific optimizations)
+ $(warning add 'optimize' to DEB_BUILD_OPTIONS to enable them)
+ DEB_HOST_GNU_TYPE := \
+  $(shell echo $(DEB_HOST_GNU_TYPE)|sed -e 's/^alphaev56/alpha/')
+ DEB_BUILD_GNU_TYPE := \
+  $(shell echo $(DEB_BUILD_GNU_TYPE)|sed -e 's/^alphaev56/alpha/')
+ #on intel architectures, xine probes CPU specific optimizations on runtime
+ DEB_HOST_GNU_TYPE := \
+  $(shell echo $(DEB_HOST_GNU_TYPE)|sed -e 's/^i.86/i686/')
+ DEB_BUILD_GNU_TYPE := \
+  $(shell echo $(DEB_BUILD_GNU_TYPE)|sed -e 's/^i.86/i686/')
+ ifneq ($(DEB_HOST_GNU_TYPE),$(DEB_BUILD_GNU_TYPE))
+  $(warning WARNING: cross compiling is not supported by xine)
+  $(warning          using DEB_BUILD_GNU_TYPE = $(DEB_BUILD_GNU_TYPE))
+  $(warning          ignoring DEB_HOST_GNU_TYPE = $(DEB_HOST_GNU_TYPE))
+  DEB_HOST_GNU_TYPE := $(DEB_BUILD_GNU_TYPE)
+ endif
+ DEB_BUILD_CONFIG_OPTIONS += --build=$(DEB_BUILD_GNU_TYPE)
+endif
+
+# --mandir - remove after etch released (autoconf >= 2.59c gets it right)
+CONFIGURE_FLAGS := \
+	--build $(DEB_BUILD_GNU_TYPE) \
+	--host $(DEB_HOST_GNU_TYPE) \
+	--prefix=/usr \
+	--with-freetype \
+	--with-wavpack \
+	--enable-ipv6 \
+	--with-external-dvdnav \
+	$(DEB_BUILD_CONFIG_OPTIONS)
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+ifeq (,$(findstring noauto,$(DEB_BUILD_OPTIONS)))
+	# let's run autohell on the buildds!
+	-rm -f .noauto
+	chmod +x ./autogen.sh
+	./autogen.sh $(CONFIGURE_FLAGS)
+else
+	touch .noauto
+	./configure $(CONFIGURE_FLAGS)
+endif
+	touch configure-stamp
+
+build: configure-stamp build-stamp
+build-stamp: configure-stamp
+	dh_testdir
+	$(MAKE) -j$(NJOBS)
+	touch build-stamp
+
+update-config-sub-guess:
+	@echo updateing config.sub and config.guess
+	@echo package autotools-dev must be installed!
+	cp -f /usr/share/misc/config.sub config.sub
+	cp -f /usr/share/misc/config.guess config.guess
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp po/*.gmo po/stamp-po debian/dh_xine
+	if test -f .noauto; then \
+	    [ ! -f Makefile ] || $(MAKE) distclean; \
+	  else \
+	    [ ! -f Makefile ] || $(MAKE) maintainer-clean; \
+	  fi
+	dh_clean
+
+debian/dh_xine: debian/dh_xine.in
+	sed -e's/@VERSION@/'$(shell dpkg-parsechangelog -c1 | sed -e '/^Version:/! d; s/^.* //; s/-[^-]*$$//')'/' $< >$@
+
+install: build debian/dh_xine
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+	$(MAKE) install -j$(NJOBS) \
+			DESTDIR=$(CURDIR)/debian/tmp \
+			LIBRARY_PATH=$(CURDIR)/debian/tmp/usr/lib
+
+binary-indep: build install
+# We have nothing architecture-independant to do.
+
+
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	mkdir -p debian/tmp/usr/share/bug/libxine${major}/
+	cp debian/reportbug.presubj debian/tmp/usr/share/bug/libxine${major}/presubj
+#	ugly hack, documentation should never have been in /u/s/d/xine/...
+	mv debian/tmp/usr/share/doc/xine-lib debian/tmp/usr/share/doc/libxine${major}
+#	build libxine${major} package by moving files from libxine-dev
+	dh_install --sourcedir=debian/tmp --list-missing
+	dh_installman -plibxine-dev debian/dh_xine.1
+	dh_installdocs
+	dh_installchangelogs -k ChangeLog
+	dh_link
+	dh_strip --dbg-package=libxine2
+	dh_compress
+	dh_fixperms
+	dh_makeshlibs -V 'libxine2 (>= 1.1.90)'
+	dh_installdeb
+	chmod +x debian/shlibdeps.sh
+	debian/shlibdeps.sh libxine${major}
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install configure
+
+# this target is used to strip out libffmpeg, libfaad & libmad
+# Canonical has concerns distributing them on the live/desktop cd
+strip-non-main-stuff: clean
+	rm -rf src/libffmpeg
+	rm -rf src/libfaad
+	rm -rf src/libmad
+	cat configure.ac \
+		| grep -v "^src/libffmpeg" \
+		| grep -v "^src/libfaad" \
+		| grep -v "^src/libmad" \
+		> configure.ac.bak
+	mv configure.ac.bak configure.ac
+	cat src/Makefile.am \
+		| grep -v "ffmpeg" \
+		| grep -v "libmad" \
+		| grep -v "faad" \
+		> src/Makefile.am.bak
+	mv src/Makefile.am.bak src/Makefile.am
+	@echo stripped things unsuitable for ubuntu/main
+	@echo make sure that the tree still builds
+
+# use this target on an ``unstripped'' xine-lib tarball
+# to generate an orig.tar.gz suitable for ubuntu-main:
+
+# be sure to increase the 'repacked' level in debian/changelog
+
+UPSTREAM_VERSION=$(shell dpkg-parsechangelog | grep ^Version | sed "s/Version: //" | sed "s/-.$$//")
+get-orig-source:
+#	this monstrum works for me, please double check it before using!
+	current_dir=$(shell basename $(PWD)) ; cd .. ; \
+	tar cz --exclude .bzr --exclude debian \
+		-f xine-lib_$(UPSTREAM_VERSION).orig.tar.gz \
+		$$current_dir
+
+get-ubuntu-orig-source: strip-non-main-stuff get-orig-source
+get-cvs-orig-source: get-cvs-orig-source
+
+.PHONY: strip-non-main-stuff get-ubuntu-orig-source get-cvs-orig-source get-orig-source

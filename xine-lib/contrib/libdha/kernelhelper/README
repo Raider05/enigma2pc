@@ -1,0 +1,38 @@
+dhahelper is small driver to provide some kernel function into userspace.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The main reason you need to use dhahelper is for busmastering.
+(Btw, lacking of possibility to implement conversion of
+virtual addresses into physical in userspace caused
+implementing of so-called DRM drivers for Linux from
+XFree86 side).
+Second goal (still is unfinished) - provide possibility
+to control port and physical memory access through
+groups and access rights of this driver. (Unix way).
+
+Installation:
+~~~~~~~~~~~~~
+just type in this directory:
+make all install
+
+The device node /dev/dhahelper will be created.  The initial
+permissions of this node are restrictive.  See below for information
+on how to make it available to non-root users.
+
+Porting:
+~~~~~~~~
+This driver was developed only for Linux.
+So if someone will port that on other unices
+then any patches are gladly accepted.
+
+WARNING:
+~~~~~~~~
+
+This driver violates some kernel security rules.  To keep this driver
+from anonymous access I suggest you create a new group (e.g. dha) for
+/dev/dhahelper and set the permissions to 660 (or ug+rw,o-rw).  Then
+do one of the following:
+
+- add trusted users to group dha.
+- make trusted applications SGID to dha.
+
+Good luck!

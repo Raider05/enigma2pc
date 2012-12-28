@@ -1,0 +1,242 @@
+Introduction
+------------
+
+MinGW is short for the Minimalist GNU Windows. It's package which allows you
+to use GCC and other GNU tools to compile native windows programs.
+
+In this case "native" means programs which don't require extra DLLs like
+cygwin DLL. Mingw32 programs use DLLs supplied with all current Win32
+platforms. Thus the programs are light weight and easy to distribute.
+
+This document describes by shell commands how to compile and install MinGW
+cross development tools on Unix host and how to use it for building windows
+version of xine. See README.WIN32 how to use it to build xine.
+
+For creating 64bit version of Mingw32 toolchain, see
+mingw/mingw-w64-doc/howto-build/mingw-w64-howto-build.txt in mingw32-w64
+sources.
+
+
+Download
+--------
+
+  MinGW packages:
+
+    http://mingw.org, or
+    http://mingw-w64.sourceforge.net
+
+    1) binutils (sources), binutils-build.sh
+    2) gcc-core, gcc-c++ (sources), gcc-build.sh
+    3) w32api, mingw-runtime (binaries and sources)
+
+  DirectX headers (tested with version 7):
+
+    http://www.google.com/search?hl=cs&q=win32-dx7headers.tgz
+    http://www.google.com/search?q=dx7adxf.exe
+
+  Pthread Win32:
+
+    ftp://sources.redhat.com/pub/pthreads-win32/
+    (plus 64bit external patches for mingw32-w64)
+
+  zlib:
+
+    http://www.zlib.net
+
+
+Build
+-----
+
+In the following text are used symbols $PREFIX and $USER with this meaning:
+
+  $PREFIX .... directory of the mingw cross environtment
+  $USER ...... current user
+
+
+1. compile binutils
+
+  tar xzf binutils-2.13.90-20030111-1-src.tar.gz
+  mkdir bin
+  cd bin
+  ../binutils-2.13.90-20030111-1-src/configure \
+    --target=i686-pc-mingw32 \
+    --prefix=$PREFIX
+  make
+  su
+  make install
+  exit
+
+
+2. add $PREFIX/bin into PATH
+
+  ...
+
+
+3. compile compiler (gcc-core, gcc-c++)
+
+  #
+  # prepare runtime environment from binaries
+  #
+  mkdir runtime
+  cd runtime
+  tar xzf ../w32api-2.5.tar.gz
+  tar xzf ../mingw-runtime-3.3.tar.gz
+  cd ..
+
+  #
+  # compile and install the compiler
+  #
+  # if you'll want rerun this step, I recommend delete
+  # $PREFIX/i686-pc-mingw32/sys-include
+  #
+  tar xzf gcc-core-3.3.1-20030804-1-src.tar.gz
+  tar xzf gcc-g++-3.3.1-20030804-1-src.tar.gz
+  mkdir gcc-bin
+  cd gcc-bin
+  # needed for the copying header files
+  su
+  # more option may be needed for successfull compilation,
+  # see gcc-3.3.1-1-build.sh
+  ../gcc-3.3.1-20030804-1/configure \
+    --disable-shared \
+    --target=i686-pc-mingw32 \
+    --with-headers=../runtime/include \
+    --with-libs=../runtime/lib \
+    --prefix=$PREFIX
+  exit
+  make
+  #or recommended: make CFLAGS=-O2 LDFLAGS=-s
+  su
+  make install
+  exit
+
+
+4. recompile w32api and mingw-runtime from sources (optional)
+
+  #
+  # installing must be into $PREFIX/i686-pc-mingw32
+  #
+  tar xzf w32api-2.5-src.tar.gz
+  cd w32api-2.5
+  ./configure --prefix=$PREFIX/i686-pc-mingw32 --host=i686-pc-mingw32
+  make
+  su
+  make install
+  exit
+
+  #
+  # installing must be into $PREFIX/i686-pc-mingw32
+  #
+  tar xzf mingw-runtime-3.3-src.tar.gz
+  cd mingw-runtime-3.3
+  # copying w32api headers into ./include (because of a bug in runtime
+  # package)
+  ...
+  # compiling
+  CC=i686-pc-mingw32-gcc \
+  DLLTOOL=i686-pc-mingw32-dlltool \
+  AR=i686-pc-mingw32-ar \
+  AS=i686-pc-mingw32-as \
+  RANLIB=i686-pc-mingw32-ranlib \
+  ./configure --prefix=$PREFIX/i686-pc-mingw32 --target=i686-pc-mingw32
+  make
+  su
+  make install
+  exit
+
+
+5. install DirectX headers and other libraries
+
+  su
+  cd $PREFIX/include
+  # untar dx7headers.tar.gz (maybe to a subdirectory)
+  ...
+  exit
+
+
+6. compile and install pthreads-win32
+
+  tar xzf pthreads-w32-2-8-0-release.tar.gz
+  cd pthreads-w32-2-8-0-release/
+  make CROSS=i686-pc-mingw32- clean GC
+  #
+  # possibility to use pthread library in M$ Visual C (optional)
+  #
+  mv pthread.def pthreadGC2.def
+  wine LIB.EXE /machine:i686 /def:pthreadGC2.def
+  #
+  # installing
+  #
+  su
+  mkdir -p $PREFIX/pthreads-win32/bin
+  mkdir -p $PREFIX/pthreads-win32/include
+  mkdir -p $PREFIX/pthreads-win32/lib
+  cp pthreadGC2.dll $PREFIX/pthreads-win32/bin/
+  cp libpthreadGC2.a pthreadGC2.lib $PREFIX/pthreads-win32/lib/
+  ln -s libpthreadGC2.a $PREFIX/pthreads-win32/lib/libpthread.a
+  ln -s pthreadGC2.lib $PREFIX/pthreads-win32/lib/pthread.lib
+  cp pthread.h semaphore.h sched.h $PREFIX/pthreads-win32/include/
+  exit
+
+
+7. compile and install zlib
+
+  tar xzf zlib-1.2.5.tar.gz
+  cd zlib-1.2.5
+  make -f win32/Makefile.gcc PREFIX=i686-pc-mingw32- STATICLIB=libz-static.a IMPLIB=libz.a
+  #
+  # possibility to use zlib library in M$ Visual C (optional)
+  #
+  cp win32/zlib.def zlib1.def
+  wine LIB.EXE /machine:i386 /def:zlib1.def
+  #
+  # installing
+  #
+  su
+  mkdir -p $PREFIX/zlib/{include,lib,bin}
+  cp zconf.h zlib.h $PREFIX/zlib/include/
+  cp libz.a libz-static.a zlib1.lib $PREFIX/zlib/lib/
+  cp zlib1.dll $PREFIX/zlib/bin/
+  exit
+
+
+Using MinGW cross development tools
+-----------------------------------
+
+Now we can build xine library for Windows by this way:
+
+  #
+  # configure for mingw cross compiling
+  # (the build option is needed only for forcing cross compilation mode)
+  #
+  ./configure \
+    --host=i686-pc-mingw32 \
+    --build=i686-debian-linux \
+    --disable-freetype \
+    --disable-vcd \
+    --with-dxheaders=$PREFIX/include/dx7headers \
+    --with-zlib-prefix=$PREFIX/zlib \
+    --with-pthread-prefix=$PREFIX/pthreads-win32
+
+  #
+  # compile
+  #
+  make
+
+  #
+  # install
+  #
+  make install DESTDIR=/tmp/xine-lib-mingwcross
+  rm /tmp/xine-lib-mingwcross/lib/xine/plugins/1.1.0{/,/post}/*.a
+
+  #
+  # create libxine-1.lib file (optional, when we want to use xine library in
+  # M$ compilers)
+  #
+  # we will need wine and some tools from M$ Visual C: LIB.EXE, LINK.EXE,
+  # MSPDB60.DLL
+  #
+  cd <path_where_libxine_is_installed_>/lib
+  cp ../bin/libxine-1.dll .
+  wine LIB.EXE /machine:i386 /def:libxine-1.def
+  rm libxine-1.dll

@@ -1,0 +1,129 @@
+For 1.3 series
+==============
+- analyse impact of breaking xine.h down in multiple public headers, and
+  rename the xine/ directory for include files in xinecore/ (for plugins
+  only), while leaving xine/ for public include files;
+
+For 1.2 series
+==============
+- Security-Related: start using xine_xcalloc rather than xine_xmalloc when
+  the number of elements is not a build-time constant.
+- mimetype-based demuxer selection, solves the effects of shoutcast's bug;
+- Doxygen API documentation for both internal and public functions;
+- removal of (deprecated) software deinterlacers from video output plugins;
+- reduction of exported symbols by hiding (-fvisibility=hidden or attribute)
+  the internal libxine-only functions;
+- move the contributed code (not developed by xine project) in the contrib/
+  directory of the source tree;
+- reduce memory footprint (e.g. variable fifo buffer sizes...);
+- handle gracefully the runtime removal of the audio output device (being
+  it a physical removal for USB devices or a missing output on a client-server
+  design like PulseAudio, ESounD or Jack);
+- review media_eject_media, possibly rewrite to use libcdio;
+- improve error reporting (for when demuxer/decoder plugins aren't found);
+- HTTPS.
+- review translable strings, try to follow a defined schema for naming and
+  error reporting;
+
+known bugs
+==========
+
+- frame allocation problem with h264 streams using > 15 reference frames
+- dvdnav time search function does not use the time table, but interpolates
+  only cell times
+- apparently, dvb:// (but not dvb://CHANNEL) is broken for ATSC
+
+
+requested/planned features
+==========================
+
+- advanced audio processors
+- audio normalization
+- crossfading
+- high quality overlay blending / OSD
+  (eg. Jason Tackaberry's advanced BGRA blend plugin)
+- synchronized playback between multiple machines
+- high quality sound resampling (use libsamplerate / secret rabbit code)
+- "synchroneous post plugins" (post plugins behind the output fifo)
+- move pvr and v4l_adjust_realtime_speed routines to xine engine
+  so it can be used by any input plugin.
+
+
+the following text is kept from pre-1.0 times - we must check what is still relevant
+====================================================================================
+
+optional
+--------
+
+- properly localize all user-visible strings
+- sort out which messages should go to console and which to xine_log
+- look over global structures and do some cleanup
+- id3v2.3,v2.4 support
+- "metainfo change" event
+- double-check rate estimation in demux_mpeg/mpeg_block
+- fix cook audio streaming
+- better dvd error messages
+- fix streaming of small files (e.g. http) 
+
+- rtp / rtsp support:
+
+  - input_rtp
+  - rtsp support (currently only real's rtsp derivate is implemented)
+  - isma/apple streaming server support (mpeg4ip.sf.net)
+  - find out what all those people requesting rtp/multicast/... support
+    really want and how to implement it :)
+  - videolan streaming server support
+  - helix streaming server support
+
+- detect broken savage drivers in health check, disable Xv in that case
+
+beyond 1.0
+----------
+
+- use the safe string functions from xine_buffer.h in xine's own code
+- rework the clock system, introducing clock and metronom speed settings
+- allow more frame formats, automatic post plugin insertion for conversion
+- frame-level seeking
+- experiment with splint for code verification
+
+Open Tasks
+==========
+
+- port to other OS (Net/OpenBSD, hurd ...?)
+- MicroDVD input plugin
+- video output synced to vertical blank
+  preferably without requiring
+  root privileges (XSync extension? MAS?)
+- resolve issues with ffmpeg's live http streaming server
+- videolan streaming support
+- MAS support (http://www.mediaapplicationserver.net)
+- nonlinear video editing and compositing frontend (michael) => enix
+- stream format conversion frontend => enix
+- Multiple DVD Subtitles displayed at the same time 
+- Move read cache code from libdvdnav into input_dvd.c
+- Support DVD "Trick" modes. Super Fast forward/reverse
+- detect raw ac3/a52 in MPEG Program streams.
+- detect raw ac3/a52 in MPEG Transport streams that lack PAT/PMT tables.
+- handle MPEG PES/PS streams with PES_packet_length = 0
+
+xine's future
+=============
+
+- implement lots of audio and video processing filters as post plugins, e.g.
+  - scaling
+  - colorspace conversion
+  - deinterlacing (already done)
+  - audio resampling
+  - compressor
+  ...
+
+  extend public api so post plugins are instantiated automatically when
+  needed, but keep explicit post plugin rewiring functions for advanced
+  video processing frontends 
+
+- see what kind of cooperation can be set up with other media player projects
+  - mike will look into moving xine's decoder api closer to the one
+    ffmpeg uses
+  - check out other media players
+  - output, demuxer plugins
+

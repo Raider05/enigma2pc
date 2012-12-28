@@ -1,0 +1,12 @@
+usr/bin/xine-config
+usr/include
+usr/lib/libxine.la
+usr/lib/libxine*.so
+usr/lib/pkgconfig/libxine.pc
+usr/lib/xine/plugins/*/*.la
+usr/lib/xine/plugins/*/post/*.la
+usr/lib/xine/plugins/*/vidix/*.la
+usr/share/aclocal/xine.m4
+usr/share/man/man1/xine-config.1
+../dh_xine				usr/bin
+../xine.pm				usr/share/perl5/Debian/Debhelper/Sequence

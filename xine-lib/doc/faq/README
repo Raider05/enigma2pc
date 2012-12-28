@@ -1,0 +1,16 @@
+This directory contains the new sgml xine engine FAQ.
+
+use a command like
+
+sgmltools -b onehtml faq.sgml
+
+or
+
+sgmltools -b txt faq.sgml
+
+to transform it into html/txt (sgmltools-lite package in debian).
+
+Alternatively, you can simply run "make docs" here.
+
+guenter Sat Jan  4 22:59:33 CET 2003
+

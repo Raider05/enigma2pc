@@ -1,0 +1,51 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-02-28 19:54+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <Dima-73@inbox.lv>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "SimpleUmount"
+msgstr "Отмонтирование HDD/USB"
+
+msgid "Simple mass storage umounter extension"
+msgstr "Простое отмонтирование накопителей"
+
+msgid "Select device and press OK to umount or EXIT to quit"
+msgstr "Нажмите ОК для отмонтирования выбранного устройства"
+
+msgid "WARNING: cannot read any mount point"
+msgstr "ВНИМАНИЕ:не могу считать любую точку монтирования"
+
+msgid "probably no mass storage device inserted"
+msgstr "вероятно нет подключенных устройств..."
+
+msgid "DEVICE"
+msgstr "DEVICE"
+
+msgid "MOUNTED ON"
+msgstr "MOUNTED ON"
+
+msgid "TYPE"
+msgstr "TYPE"
+
+msgid "SIZE"
+msgstr "SIZE"
+
+msgid "umount return code"
+msgstr "код возврата отмонтирования"
+
+msgid "Cannot umount device"
+msgstr "Не может отмонтировать устройство"
+
+msgid "Really umount device"
+msgstr "Действительно отмонтировать устройство"
+
+msgid "Show only removable devices"
+msgstr "Показывать только съемные устройства"
+

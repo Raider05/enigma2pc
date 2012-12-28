@@ -1,0 +1,43 @@
+# oscam.user generated automatically by Streamboard OSCAM 0.99.4svn build #3146
+# Read more: http://streamboard.gmc.to/oscam/browser/trunk/Distribution/doc/txt/oscam.user.txt
+
+[account]
+user                          = tuner
+pwd                           = tuner
+disabled                      = 0
+expdate                       = 
+group                         = 1
+hostname                      = 
+uniq                          = 0
+sleep                         = 0
+monlevel                      = 2
+services                      = 
+#caid                          = 0500:4AE1
+betatunnel                    = 
+ident                         = 0500:040600,030600;4AE1:000000
+chid                          = 
+cccmaxhops                    = 10
+keepalive                     = 1
+numusers                      = 0
+penalty                       = 0
+
+[account]
+user                          = tuner2
+pwd                           = tuner2
+disabled                      = 0
+expdate                       = 
+group                         = 1
+hostname                      = 
+uniq                          = 0
+sleep                         = 0
+monlevel                      = 2
+services                      = 
+caid                          = 4AE1
+betatunnel                    = 
+ident                         = 4AE1:000000
+chid                          = 
+cccmaxhops                    = 10
+keepalive                     = 1
+numusers                      = 0
+penalty                       = 0
+

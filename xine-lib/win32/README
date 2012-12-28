@@ -1,0 +1,28 @@
+Checkout CVS source code:
+------------------------
+
+- Using Cygwin or another cvs tool checkout the xine-lib source code from CVS. (If you are using Cygwin make sure that the drive in which you are checking out
+to is mounted in textmode)
+
+Steps for building Xine using MSVC:
+----------------------------------
+
+- The autogen/make feature does not work for MSVC. You must generate the proper auto-generated using the autogen.sh script. This script can be run from a Cygwin/MinGW shell window. This script will generate the proper files including xine.h, config.h (a hand generated config.h file exists for MSVC in the win32 dir)
+
+- Open up the xine.dsw workspace/project in MSVC.
+
+- Unless you have a project file to build css you must select Cancel when prompted for the libdvdcss.dsp file.
+
+- Click on the FileView tab.
+
+- Build the following projects in this order:
+  libxinesuppt
+  libxine
+  libdvdnav
+
+- Next build any desired plugins (decoders/demuxers ...). The ao_out_directx and vo_out_directx are required for Win32. There is an option to use the vo_out_sdl but a sdl.dll must be present for that to take place. There have also been some issues observed with the directX video driver on some machines.
+NOTE: Project xineplug_dmx_asf currently does not build correctly.
+
+- Lastly build the xineui project.
+
+- You are now ready to run/debug Xine.

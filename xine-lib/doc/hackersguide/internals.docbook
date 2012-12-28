@@ -1,0 +1,762 @@
+<chapter id="internals">
+ <title>xine internals</title>
+
+ <sect1>
+  <title>Engine architecture and data flow</title>
+  <mediaobject>
+   <imageobject>
+    <imagedata fileref="architecture.png" format="PNG" />
+   </imageobject>
+   <imageobject>
+    <imagedata fileref="architecture.eps" format="EPS" />
+   </imageobject>
+   <caption>
+    <para>xine engine architecture</para>
+   </caption>
+  </mediaobject>
+  <para>
+   Media streams usually consist of audio and video data multiplexed
+   into one bitstream in the so-called system-layer (e.g. AVI, Quicktime or MPEG).
+   A demuxer plugin is used to parse the system layer and extract audio and video
+   packages. The demuxer uses an input plugin to read the data and stores it
+   in pre-allocated buffers from the global buffer pool.
+   The buffers are then added to the audio or video stream fifo.
+  </para>
+  <para>
+   From the other end of these fifos the audio and video decoder threads
+   consume the buffers and hand them over to the current audio or video
+   decoder plugin for decompression. These plugins then send the decoded
+   data to the output layer. The buffer holding the encoded
+   data is no longer needed and thus released to the global buffer pool.
+  </para>
+  <para>
+   In the output layer, the video frames and audio samples pass through a
+   post plugin tree, which can apply effects or other operations to the data.
+   When reaching the output loops, frames and samples are enqueued to be
+   displayed, when the presentation time has arrived.
+  </para>
+  <para>
+   A set of extra information travels with the data. Starting at the input and
+   demuxer level, where this information is generated, the data is attached to
+   the buffers as they wait in the fifo. The decoder loops copy the data to
+   a storage of their own. From there, every frame and audio buffer leaving
+   the stream layer is tagged with the data the decoder loop storage currently
+   holds.
+  </para>
+ </sect1>
+
+ <sect1>
+  <title>Plugin system</title>
+  <para>
+   The plugin system enables some of xine's most valuable features:
+   <itemizedlist>
+    <listitem>
+     <para>
+      drop-in extensiability
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      support parallel installation of multiple (incompatible) libxine versions
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      support for multiple plugin directories
+      (<filename>$prefix/lib/xine/plugins</filename>,
+      <filename>$HOME/.xine/plugins</filename>, &hellip;)
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      support for recursive plugin directories
+      (plugins are found even in subdirectories of the plugin directories)
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      version management
+      (On start, xine finds all plugins in its plugin (sub)directories and
+      chooses an appropriate version (usually the newest) for each plugin.)
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      simplification
+      (Plugins don't have to follow any special naming convention,
+      and any plugin may contain an arbitrary subset of input, demuxer,
+      decoder or output plugins.)
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+  <para>
+   Essentally, plugins are just shared objects, ie dynamic libraries. In
+   contrast to normal dynamic libraries, they are stored outside of the
+   system's library PATHs and libxine does its own bookkeeping, which
+   enables most advanced features mentioned above.
+  </para>
+  <sect2>
+   <title>Plugin location and filesystem layout</title>
+   <para>
+    The primary goal for this new plugin mechanism was the need to support
+    simultaneous installation of several (most likely incompatible)
+    libxine versions without them overwriting each other's
+    plugins. Therefore, we have this simple layout:
+   </para>
+   <para>
+    Plugins are installed below XINE_PLUGINDIR
+    (<filename>/usr/local/lib/xine/plugins</filename> by default).
+    Note that plugins are never directly installed into XINE_PLUGINDIR.
+    Instead, a separate subdirectory is created for each "plugin
+    provider". A plugin provider is equivalent with the exact version of
+    one source package. Typical examples include "xine-lib-0.9.11" or
+    "xine-vcdnav-1.0". Every source package is free to install an
+    arbitrary number of plugins in its own, private directory. If a
+    package installs several plugins, they may optionally be organized
+    further into subdirectories.
+   </para>
+   <para>
+    So you will finally end up with something like this:
+    <screen>
+&nbsp;&nbsp;&nbsp;/usr/local/lib/xine/plugins
+&nbsp;&nbsp;&nbsp;  xine-lib-0.9.11
+&nbsp;&nbsp;&nbsp;      demux_mpeg_block.so
+&nbsp;&nbsp;&nbsp;      decode_mpeg.so
+&nbsp;&nbsp;&nbsp;      video_out_xv.so
+&nbsp;&nbsp;&nbsp;      &hellip;
+&nbsp;&nbsp;&nbsp;  xine-vcdnav-0.9.11
+&nbsp;&nbsp;&nbsp;      input_vcdnav.so
+&nbsp;&nbsp;&nbsp;  xine-lib-1.2
+&nbsp;&nbsp;&nbsp;      input
+&nbsp;&nbsp;&nbsp;          file.so
+&nbsp;&nbsp;&nbsp;          stdin_fifo.so
+&nbsp;&nbsp;&nbsp;          vcd.so
+&nbsp;&nbsp;&nbsp;      demuxers
+&nbsp;&nbsp;&nbsp;          fli.so
+&nbsp;&nbsp;&nbsp;          avi.so
+&nbsp;&nbsp;&nbsp;          &hellip;
+&nbsp;&nbsp;&nbsp;      decoders
+&nbsp;&nbsp;&nbsp;          ffmpeg.so
+&nbsp;&nbsp;&nbsp;          mpeg.so (may contain mpeg 1/2 audio and video decoders)
+&nbsp;&nbsp;&nbsp;          pcm.so
+&nbsp;&nbsp;&nbsp;          &hellip;
+&nbsp;&nbsp;&nbsp;      output
+&nbsp;&nbsp;&nbsp;          video_xv.so
+&nbsp;&nbsp;&nbsp;          audio_oss.so
+&nbsp;&nbsp;&nbsp;          &hellip;
+&nbsp;&nbsp;&nbsp;  xine-lib-3.0
+&nbsp;&nbsp;&nbsp;          avi.so (avi demuxer)
+&nbsp;&nbsp;&nbsp;          mpeg.so (contains mpeg demuxers and audio/video decoders)
+&nbsp;&nbsp;&nbsp;          video_out_xv.so (Xv video out)
+&nbsp;&nbsp;&nbsp;          &hellip;</screen>
+   </para>
+   <para>
+    As you can see, every package is free to organize plugins at will
+    below its own plugin provider directory.
+    Additionally, administrators may choose to put plugins directly into
+    XINE_PLUGINDIR, or in a "local" subdirectory.
+    Users may wish to put additional plugins in ~/.xine/plugins/.
+    Again, there may be subdirectories to help organize the plugins.
+   </para>
+   <para>
+    The default value for XINE_PLUGINDIR can be obtained using the
+    <command>pkg-config --variable=plugindir libxine</command> command.
+   </para>
+  </sect2>
+  <sect2>
+   <title>Plugin Content: What's inside the .so?</title>
+   <para>
+    Each plugin library (.so file) contains an arbitrary number of (virtual)
+    plugins. Typically, it will contain exactly one plugin. However, it
+    may be useful to put a set of related plugins in one library, so they
+    can share common code.
+   </para>
+   <para>
+    First of all, what is a virtual plugin?
+    A virtual plugin is essentially a structure that is defined by the
+    xine engine. This structure typically contains lots of function
+    pointers to the actual API functions.
+    For each plugin API, there are several API versions, and each API
+    version may specify a new, incompatible structure. Therefore, it is
+    essential that only those plugins are loaded that support current
+    libxine's API, so the .so file needs a plugin list that
+    provides libxine with the version information, even before it tries to
+    load any of the plugins.
+   </para>
+   <para>
+    This plugin list is held in an array named <varname>xine_plugin_info</varname>":
+    <programlisting>
+&nbsp;&nbsp;&nbsp;plugin_info_t xine_plugin_info[] = {
+&nbsp;&nbsp;&nbsp;  /* type, API, "name", version, special_info, init_function */
+&nbsp;&nbsp;&nbsp;  { PLUGIN_DEMUX, 20, "flac", XINE_VERSION_CODE, NULL, demux_flac_init_class },
+&nbsp;&nbsp;&nbsp;  { PLUGIN_AUDIO_DECODER, 13, "flacdec", XINE_VERSION_CODE, &amp;dec_info_audio, init_plugin },
+&nbsp;&nbsp;&nbsp;  { PLUGIN_NONE, 0, "", 0, NULL, NULL }
+&nbsp;&nbsp;&nbsp;};</programlisting>
+   </para>
+   <para>
+    The structure of xine_plugin_info may <emphasis>never</emphasis> be changed.
+    If it ever needs to be changed, it must be renamed to avoid
+    erraneous loading of incompatible plugins.
+   </para>
+   <para>
+    <varname>xine_plugin_info</varname> can contain any number of plugins
+    and must be terminated with a <type>PLUGIN_NONE</type> entry. Available plugin
+    types are:
+    <programlisting>
+&nbsp;&nbsp;&nbsp;#define PLUGIN_NONE           0
+&nbsp;&nbsp;&nbsp;#define PLUGIN_INPUT          1
+&nbsp;&nbsp;&nbsp;#define PLUGIN_DEMUX          2
+&nbsp;&nbsp;&nbsp;#define PLUGIN_AUDIO_DECODER  3
+&nbsp;&nbsp;&nbsp;#define PLUGIN_VIDEO_DECODER  4
+&nbsp;&nbsp;&nbsp;#define PLUGIN_SPU_DECODER    5
+&nbsp;&nbsp;&nbsp;#define PLUGIN_AUDIO_OUT      6
+&nbsp;&nbsp;&nbsp;#define PLUGIN_VIDEO_OUT      7
+&nbsp;&nbsp;&nbsp;#define PLUGIN_POST           8</programlisting>
+   </para>
+   <para>
+    The plugin version number is generated from xine-lib's version number
+    like this: MAJOR * 10000 + MINOR * 100 + SUBMINOR.
+    This is not required, but it's an easy way to ensure that the version
+    increases for every release.
+   </para>
+   <para>
+    Every entry in <varname>xine_plugin_info</varname> has an initialization
+    function for the plugin class context.
+    This function returns a pointer to freshly allocated (typically
+    via <function>malloc()</function>) structure containing mainly function
+    pointers; these are the "methods" of the plugin class.
+   </para>
+   <para>
+    The "plugin class" is not what we call to do the job yet (like decoding
+    a video or something), it must be instantiated. One reason for having the
+    class is to hold any global settings that must be accessed by every
+    instance. Remember that xine library is multistream capable: multible
+    videos can be decoded at the same time, thus several instances of the
+    same plugin are possible.
+   </para>
+   <para>
+    If you think this is pretty much an object-oriented aproach,
+    then you're right.
+   </para>
+   <para>
+    A fictitious file input plugin that supports input plugin API 12 and
+    13, found in xine-lib 2.13.7 would then define this plugin list:
+    <programlisting>
+&nbsp;&nbsp;&nbsp;#include &lt;xine/plugin.h&gt;
+&nbsp;&nbsp;&nbsp;&hellip;
+&nbsp;&nbsp;&nbsp;plugin_t *init_api12(void) {
+&nbsp;&nbsp;&nbsp;  input_plugin_t *this;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;  this = malloc(sizeof(input_plugin_t));
+&nbsp;&nbsp;&nbsp;  &hellip;
+&nbsp;&nbsp;&nbsp;  return (plugin_t *)this;
+&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;/* same thing, with different initialization for API 13 */
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;const plugin_info_t xine_plugin_info[] = {
+&nbsp;&nbsp;&nbsp;  { PLUGIN_INPUT, 12, "file", 21307, init_api12 },
+&nbsp;&nbsp;&nbsp;  { PLUGIN_INPUT, 13, "file", 21307, init_api13 },
+&nbsp;&nbsp;&nbsp;  { PLUGIN_NONE, 0, "", 0, NULL }
+&nbsp;&nbsp;&nbsp;}</programlisting>
+    This input plugin supports two APIs, other plugins might provide a
+    mixture of demuxer and decoder plugins that belong together somehow
+    (ie. share common code).
+   </para>
+   <para>
+    You'll find exact definitions of public functions and plugin structs
+    in the appropriate header files for each plugin type:
+    <filename>input/input_plugin.h</filename> for input plugins,
+    <filename>demuxers/demux.h</filename> for demuxer plugins,
+    <filename>xine-engine/video_decoder.h</filename> for video decoder plugins,
+    <filename>xine-engine/audio_decoder.h</filename> for audio decoder plugins,
+    <filename>xine-engine/post.h</filename> for post plugins,
+    <filename>xine-engine/video_out.h</filename> for video out plugins,
+    <filename>xine-engine/audio_out.h</filename> for audio out plugins.
+    Additional information will also be given in the dedicated sections below.
+   </para>
+   <para>
+    Many plugins will need some additional "private" data fields.
+    These should be simply added at the end of the plugin structure.
+    For example a demuxer plugin called "foo" with two private
+    fields "xine" and "count" may have a plugin structure declared in
+    the following way:
+    <programlisting>
+&nbsp;&nbsp;&nbsp;typedef struct {
+&nbsp;&nbsp;&nbsp;  /* public fields "inherited" from demux.h */
+&nbsp;&nbsp;&nbsp;  demux_plugin_t    demux_plugin;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;  xine_t           *xine;
+&nbsp;&nbsp;&nbsp;  int               count;
+&nbsp;&nbsp;&nbsp;} demux_foo_t;</programlisting>
+   </para>
+   <para>
+    The plugin would then access public members via the
+    <varname>demux_plugin</varname> field and private fields directly.
+   </para>
+   <para>
+    Summary: Plugins consist of two C-style classes, each representing a different context.
+    <itemizedlist>
+     <listitem>
+      <para>
+       The first is the so called "plugin class" context. This is a singleton context,
+       which means it will exist either not at all or at most once per xine context.
+       This plugin class context is a C-style class which is subclassing the related
+       class from the xine plugin headers. This contains functions, which are
+       independent of the actual instance of the plugin. Most prominently, it contains
+       a factory method to instantiate the next context.
+      </para>
+     </listitem>
+     <listitem>
+      <para>
+       The second context is the instance context. This is another C-style class, which
+       is constructed and disposed withing the plugin class context. This one does
+       the actual work and subclasses the related plugin struct from the xine plugin
+       headers. It is instantiated for every separate running instance of the plugin
+      </para>
+     </listitem>
+    </itemizedlist>
+   </para>
+  </sect2>
+ </sect1>
+
+ <sect1>
+  <title>What is this metronom thingy?</title>
+  <para>
+   Metronom serves two purposes:
+   <itemizedlist>
+    <listitem>
+     <para>
+      Generate vpts (virtual presentation time stamps) from pts (presentation time stamps)
+      for a/v output and synchronization.
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      Provide a master clock (system clock reference, scr), possibly provided
+      by external scr plugins (this can be used if some hardware decoder or network
+      server dictates the time).
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+  <para>
+   pts/vpts values are given in 1/90000 sec units. pts values in mpeg streams
+   may wrap (that is, return to zero or any other value without further notice),
+   can be missing on some frames or (for broken streams) may "dance" around
+   the correct values. Metronom therefore has some heuristics built-in to generate
+   clean vpts values which can then be used in the output layers to schedule audio/video
+   output.
+  </para>
+  <para>
+   The heuristics used in metronom have always been a field of research. Current metronom's
+   implementation <emphasis>tries</emphasis> to stick to pts values as reported from demuxers,
+   that is, vpts may be obtained by a simple operation of vpts = pts + <varname>vpts_offset</varname>,
+   where <varname>vpts_offset</varname> takes into account any wraps. Whenever pts is zero,
+   metronom will estimate vpts based on previous values. If a difference is found between the
+   estimated and calculated vpts values by above formula, it will be smoothed by using a
+   "drift correction".
+  </para>
+ </sect1>
+
+ <sect1>
+  <title>How does xine synchronize audio and video?</title>
+  <para>
+   Every image frame or audio buffer leaving decoder is tagged by metronom with
+   a vpts information. This will tell video_out and audio_out threads when that
+   data should be presented. Usually there isn't a significative delay associated
+   with video driver, so we expect it to get on screen at the time it's
+   delivered for drawing. Unfortunately the same isn't true for audio: all sound
+   systems implement some amount of buffering (or fifo), any data being send to it
+   <emphasis>now</emphasis> will only get played some time in future. audio_out thread
+   must take this into account for making perfect A-V sync by asking the sound latency
+   to audio driver.
+  </para>
+  <para>
+   Some audio drivers can't tell the current delay introduced in playback. This is
+   especially true for most sound servers like ESD or aRts and explain why in such
+   cases the sync is far from perfect.
+  </para>
+  <para>
+   Another problem xine must handle is the sound card clock drift. vpts are
+   compared to the system clock (or even to a different clock provided by a scr plugin)
+   for presentation but sound card is sampling audio by its own clocking
+   mechanism, so a small drift may occur. As the playback goes on this
+   error will accumulate possibly resulting in audio gaps or audio drops. To avoid that
+   annoying effect, two countermeasures are available (switchable with xine config
+   option <parameter>audio.synchronization.av_sync_method</parameter>):
+   <itemizedlist>
+    <listitem>
+     <para>
+      The small sound card errors are feedbacked to metronom. The details
+      are given by <filename>audio_out.c</filename> comments:
+      <programlisting>
+&nbsp;&nbsp;&nbsp;/* By adding gap errors (difference between reported and expected
+&nbsp;&nbsp;&nbsp; * sound card clock) into metronom's vpts_offset we can use its
+&nbsp;&nbsp;&nbsp; * smoothing algorithms to correct sound card clock drifts.
+&nbsp;&nbsp;&nbsp; * obs: previously this error was added to xine scr.
+&nbsp;&nbsp;&nbsp; *
+&nbsp;&nbsp;&nbsp; * audio buf ---&gt; metronom --&gt; audio fifo --&gt; (buf-&gt;vpts - hw_vpts)
+&nbsp;&nbsp;&nbsp; *           (vpts_offset + error)                     gap
+&nbsp;&nbsp;&nbsp; *                    &lt;---------- control --------------|
+&nbsp;&nbsp;&nbsp; *
+&nbsp;&nbsp;&nbsp; * Unfortunately audio fifo adds a large delay to our closed loop.
+&nbsp;&nbsp;&nbsp; *
+&nbsp;&nbsp;&nbsp; * These are designed to avoid updating the metronom too fast.
+&nbsp;&nbsp;&nbsp; * - it will only be updated 1 time per second (so it has a chance of
+&nbsp;&nbsp;&nbsp; *   distributing the error for several frames).
+&nbsp;&nbsp;&nbsp; * - it will only be updated 2 times for the whole audio fifo size
+&nbsp;&nbsp;&nbsp; *   length (so the control will wait to see the feedback effect)
+&nbsp;&nbsp;&nbsp; * - each update will be of gap/SYNC_GAP_RATE.
+&nbsp;&nbsp;&nbsp; *
+&nbsp;&nbsp;&nbsp; * Sound card clock correction can only provide smooth playback for
+&nbsp;&nbsp;&nbsp; * errors &lt; 1% nominal rate. For bigger errors (bad streams) audio
+&nbsp;&nbsp;&nbsp; * buffers may be dropped or gaps filled with silence.
+&nbsp;&nbsp;&nbsp; */</programlisting>
+     </para>
+    </listitem>
+    <listitem>
+     <para>
+      The audio is stretched or squeezed a slight bit by resampling, thus compensating
+      the drift: The next comment in <filename>audio_out.c</filename> explains:
+      <programlisting>
+&nbsp;&nbsp;&nbsp;/* Alternative for metronom feedback: fix sound card clock drift
+&nbsp;&nbsp;&nbsp; * by resampling all audio data, so that the sound card keeps in
+&nbsp;&nbsp;&nbsp; * sync with the system clock. This may help, if one uses a DXR3/H+
+&nbsp;&nbsp;&nbsp; * decoder board. Those have their own clock (which serves as xine's
+&nbsp;&nbsp;&nbsp; * master clock) and can only operate at fixed frame rates (if you
+&nbsp;&nbsp;&nbsp; * want smooth playback). Resampling then avoids A/V sync problems,
+&nbsp;&nbsp;&nbsp; * gaps filled with 0-frames and jerky video playback due to different
+&nbsp;&nbsp;&nbsp; * clock speeds of the sound card and DXR3/H+.
+&nbsp;&nbsp;&nbsp; */</programlisting>
+     </para>
+    </listitem>
+   </itemizedlist>
+  </para>
+ </sect1>
+
+ <sect1 id="osd">
+  <title>Overlays and OSD</title>
+  <para>
+   The roots of xine overlay capabilities are DVD subpictures and subtitles support
+   (also known as 'spu'). The DVD subtitles are encoded in a RLE (Run Length Encoding - the
+   most simple compressing technique) format, with a palette of colors and transparency
+   levels. You probably thought that subtitles were just simple text saved into DVDs, right?
+   Wrong, they are bitmaps.
+  </para>
+  <para>
+   In order to optimize to the most common case, xine's internal format for screen overlays
+   is a similar representation to the 'spu' data. This brings not only performance
+   benefit (since blending functions may skip large image areas due to RLE) but also
+   compatibility: it's possible to re-encode any xine overlay to the original spu format
+   for displaying with mpeg hardware decoders like DXR3.
+  </para>
+  <para>
+   Displaying subtitles requires the ability to sync them to the video stream. This
+   is done using the same kind of pts/vpts stuff of a-v sync code. DVD subtitles,
+   for example, may request: show this spu at pts1 and hide it at pts2. This brings the
+   concept of the 'video overlay manager', that is a event-driven module for managing
+   overlay's showing and hiding.
+  </para>
+  <para>
+   The drawback of using internal RLE format is the difficulty in manipulating it
+   as graphic. To overcome that we created the 'OSD renderer', where OSD stands
+   for On Screen Display just like in TV sets. The osd renderer is a module
+   providing simple graphic primitives (lines, rectagles, draw text etc) over
+   a "virtual" bitmap area. Everytime we want to show that bitmap it will
+   be RLE encoded and sent to the overlay manager for displaying.
+  </para>
+  <mediaobject>
+   <imageobject>
+    <imagedata fileref="overlays.png" format="PNG" />
+   </imageobject>
+   <imageobject>
+    <imagedata fileref="overlays.eps" format="EPS" />
+   </imageobject>
+   <caption>
+    <para>overlays architecture</para>
+   </caption>
+  </mediaobject>
+  <sect2>
+   <title>Overlay Manager</title>
+   <para>
+    The overlay manager interface is available to any xine plugin. It's a bit unlikely
+    to be used directly, anyway here's a code snippet for enqueueing an overlay for
+    displaying:
+    <programlisting>
+&nbsp;&nbsp;&nbsp;video_overlay_event_t       event;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;event.object.handle = this-&gt;video_overlay-&gt;get_handle(this-&gt;video_overlay,0);
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;memset(this-&gt;event.object.overlay, 0, sizeof(*this-&gt;event.object.overlay));
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;/* set position and size for this overlay */
+&nbsp;&nbsp;&nbsp;event.object.overlay-&gt;x = 0;
+&nbsp;&nbsp;&nbsp;event.object.overlay-&gt;y = 0;
+&nbsp;&nbsp;&nbsp;event.object.overlay-&gt;width = 100;
+&nbsp;&nbsp;&nbsp;event.object.overlay-&gt;height = 100;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;/* clipping region is mostly used by dvd menus for highlighting buttons */
+&nbsp;&nbsp;&nbsp;event.object.overlay-&gt;clip_top    = 0;
+&nbsp;&nbsp;&nbsp;event.object.overlay-&gt;clip_bottom = image_height;
+&nbsp;&nbsp;&nbsp;event.object.overlay-&gt;clip_left   = 0;
+&nbsp;&nbsp;&nbsp;event.object.overlay-&gt;clip_right  = image_width;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;/* the hard part: provide a RLE image */
+&nbsp;&nbsp;&nbsp;event.object.overlay-&gt;rle = your_rle;
+&nbsp;&nbsp;&nbsp;event.object.overlay-&gt;data_size = your_size;
+&nbsp;&nbsp;&nbsp;event.object.overlay-&gt;num_rle = your_rle_count;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;/* palette must contain YUV values for each color index */
+&nbsp;&nbsp;&nbsp;memcpy(event.object.overlay-&gt;clip_color, color, sizeof(color));
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;/* this table contains transparency levels for each color index.
+&nbsp;&nbsp;&nbsp;   0 = completely transparent, 15 - completely opaque */
+&nbsp;&nbsp;&nbsp;memcpy(event.object.overlay-&gt;clip_trans, trans, sizeof(trans));
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;/* set the event type and time for displaying */
+&nbsp;&nbsp;&nbsp;event.event_type = EVENT_SHOW_SPU;
+&nbsp;&nbsp;&nbsp;event.vpts = 0; /* zero is a special vpts value, it means 'now' */
+&nbsp;&nbsp;&nbsp;video_overlay-&gt;add_event(video_overlay, &amp;event);</programlisting>
+   </para>
+  </sect2>
+  <sect2>
+   <title>OSD Renderer</title>
+   <para>
+    OSD is a general API for rendering stuff over playing video. It's available both
+    to xine plugins and to frontends.
+   </para>
+   <para>
+    The first thing you need is to allocate a OSD object for drawing from the
+    renderer. The code below allocates a 300x200 area. This size can't be changed
+    during the lifetime of a OSD object, but it's possible to place it anywhere
+    over the image.
+   </para>
+   <programlisting>
+&nbsp;&nbsp;&nbsp;osd_object_t osd;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;osd = this-&gt;osd_renderer-&gt;new_object(osd_renderer, 300, 200);</programlisting>
+   <para>
+    Now we may want to set font and color for text rendering. Although we will
+    refer to fonts over this document, in fact the OSD can be any kind of bitmap. Font
+    files are searched and loaded during initialization from
+    <filename>$prefix/share/xine/fonts/</filename> and <filename>~/.xine/fonts</filename>.
+    There's a sample utility to convert truetype fonts at
+    <filename>xine-lib/misc/xine-fontconv.c</filename>. Palette may be manipulated directly,
+    however most of the time it's convenient to use pre-defined text palettes.
+   </para>
+   <programlisting>
+&nbsp;&nbsp;&nbsp;/* set sans serif 24 font */
+&nbsp;&nbsp;&nbsp;osd_renderer-&gt;set_font(osd, "sans", 24);
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;/* copy pre-defined colors for white, black border, transparent background to
+&nbsp;&nbsp;&nbsp;   starting at the index used by the first text palette */
+&nbsp;&nbsp;&nbsp;osd_renderer-&gt;set_text_palette(osd, TEXTPALETTE_WHITE_BLACK_TRANSPARENT, OSD_TEXT1);
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;/* copy pre-defined colors for white, no border, translucid background to
+&nbsp;&nbsp;&nbsp;   starting at the index used by the second text palette */
+&nbsp;&nbsp;&nbsp;osd_renderer-&gt;set_text_palette(osd, TEXTPALETTE_WHITE_NONE_TRANSLUCID, OSD_TEXT2);</programlisting>
+   <para>
+    Now render the text and show it:
+    <programlisting>
+&nbsp;&nbsp;&nbsp;osd_renderer-&gt;render_text(osd, 0, 0, "white text, black border", OSD_TEXT1);
+&nbsp;&nbsp;&nbsp;osd_renderer-&gt;render_text(osd, 0, 30, "white text, no border", OSD_TEXT2);
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;osd_renderer-&gt;show(osd, 0); /* 0 stands for 'now' */</programlisting>
+   </para>
+   <para>
+    There's a 1:1 mapping between OSD objects and overlays, therefore the
+    second time you send an OSD object for displaying it will actually substitute
+    the first image. By using set_position() function we can move overlay
+    over the video.
+   </para>
+   <programlisting>
+&nbsp;&nbsp;&nbsp;for( i=0; i &lt; 100; i+=10 ) {
+&nbsp;&nbsp;&nbsp;  osd_renderer-&gt;set_position(osd, i, i );
+&nbsp;&nbsp;&nbsp;  osd_renderer-&gt;show(osd, 0);
+&nbsp;&nbsp;&nbsp;  sleep(1);
+&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;osd_renderer-&gt;hide(osd, 0);</programlisting>
+   <para>
+    For additional functions please check osd.h or the public header.
+   </para>
+   <sect3>
+    <title>OSD palette notes</title>
+    <para>
+     The palette functions demand some additional explanation, skip this if you
+     just want to write text fast without worring with details! :)
+    </para>
+    <para>
+     We have a 256-entry palette, each one defining yuv and transparency levels.
+     Although xine fonts are bitmaps and may use any index they want, we have
+     defined a small convention:
+    </para>
+    <programlisting>
+&nbsp;&nbsp;&nbsp;/*
+&nbsp;&nbsp;&nbsp; Palette entries as used by osd fonts:
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; 0: not used by font, always transparent
+&nbsp;&nbsp;&nbsp; 1: font background, usually transparent, may be used to implement
+&nbsp;&nbsp;&nbsp;    translucid boxes where the font will be printed.
+&nbsp;&nbsp;&nbsp; 2-5: transition between background and border (usually only alpha
+&nbsp;&nbsp;&nbsp;      value changes).
+&nbsp;&nbsp;&nbsp; 6: font border. if the font is to be displayed without border this
+&nbsp;&nbsp;&nbsp;    will probably be adjusted to font background or near.
+&nbsp;&nbsp;&nbsp; 7-9: transition between border and foreground
+&nbsp;&nbsp;&nbsp; 10: font color (foreground)
+&nbsp;&nbsp;&nbsp;*/</programlisting>
+    <para>
+     The so called 'transitions' are used to implement font anti-aliasing. That
+     convention requires that any font file must use only the colors from 1 to 10.
+     When we use the set_text_palette() function we are just copying 11 palette
+     entries to the specified base index.
+    </para>
+    <para>
+     That base index is the same we pass to render_text() function to use the
+     text palette. With this scheme is possible to have several diferent text
+     colors at the same time and also draw fonts over custom background.
+    </para>
+    <programlisting>
+&nbsp;&nbsp;&nbsp;/* obtains size the text will occupy */
+&nbsp;&nbsp;&nbsp;renderer-&gt;get_text_size(osd, text, &amp;width, &amp;height);
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;/* draws a box using font background color (translucid) */
+&nbsp;&nbsp;&nbsp;renderer-&gt;filled_rect(osd, x1, y1, x1+width, y1+height, OSD_TEXT2 + 1);
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;/* render text */
+&nbsp;&nbsp;&nbsp;renderer-&gt;render_text(osd, x1, y1, text, OSD_TEXT2);</programlisting>
+   </sect3>
+   <sect3>
+    <title>OSD text and palette FAQ</title>
+    <para>
+     Q: What is the format of the color palette entries?
+    </para>
+    <para>
+     A: It's the same as used by overlay blending code (YUV).
+    </para>
+    <para>
+     Q: What is the relation between a text palette and a palette
+        I set with xine_osd_set_palette?
+    </para>
+    <para>
+     A: xine_osd_set_palette will set the entire 256 color palette
+        to be used when we blend the osd image.
+        "text palette" is a sequence of 11 colors from palette to be
+        used to render text. that is, by calling osd_render_text()
+        with color_base=100 will render text using colors 100-110.
+    </para>
+    <para>
+     Q: Can I render text with colors in my own palette?
+    </para>
+    <para>
+     A: Sure. Just pass the color_base to osd_render_text()
+    </para>
+    <para>
+     Q: Has a text palette change effects on already drawed text?
+    </para>
+    <para>
+     A: osd_set_text_palette() will overwrite some colors on palette
+        with pre-defined ones. So yes, it will change the color
+        on already drawed text (if you do it before calling osd_show,
+        of course).
+        If you don't want to change the colors of drawed text just
+        use different color_base values.
+    </para>
+    <para>
+     Q: What about the shadows of osd-objects? Can I turn them off
+        or are they hardcoded?
+    </para>
+    <para>
+     A: osd objects have no shadows by itself, but fonts use 11
+        colors to produce an anti-aliased effect.
+        if you set a "text palette" with entries 0-9 being transparent
+        and 10 being foreground you will get rid of any borders or
+        anti-aliasing.
+    </para>
+   </sect3>
+  </sect2>
+ </sect1>
+
+ <sect1>
+  <title>MRLs</title>
+  <para>
+   This section defines a draft for a syntactic specification of MRLs as
+   used by xine-lib. The language of MRLs is designed to be a true subset
+   of the language of URIs as given in RFC2396. A type 2 grammar for the
+   language of MRLs is given in EBNF below.
+  </para>
+  <para>
+   Semantically, MRLs consist of two distinct parts that are evaluated by
+   different components of the xine architecture. The first part,
+   derivable from the symbol &lt;input_source&gt; in the given grammar, is
+   completely handed to the input plugins, with input plugins signaling
+   if they can handle the MRL.
+  </para>
+  <para>
+   The second part, derivable from &lt;stream_setup&gt; and delimited from the
+   first by a crosshatch ('#') contains parameters that modify the
+   initialization and playback behaviour of the stream to which the MRL
+   is passed. The possible parameters are mentioned in the manpage to
+   xine-ui.
+  </para>
+  <para>
+   The following definition should be regarded as a guideline only.
+   Of course any given input plugin only understands a subset of all
+   possible MRLs. On the other hand, invalid MRLs according to this
+   definition might be understood for convenience reasons.
+   Some user awareness is required at this point.
+  </para>
+  <para>
+   EBNF grammar for MRLs:
+   <programlisting>
+&nbsp;&nbsp;&nbsp;&lt;mrl&gt;           ::= &lt;input_source&gt;[#&lt;stream_setup&gt;]
+&nbsp;&nbsp;&nbsp;&lt;input_source&gt;  ::= (&lt;absolute_mrl&gt;|&lt;relative_mrl&gt;)
+&nbsp;&nbsp;&nbsp;&lt;absolute_mrl&gt;  ::= &lt;input&gt;:(&lt;hierarch_part&gt;|&lt;opaque_part&gt;)
+&nbsp;&nbsp;&nbsp;&lt;hierarch_part&gt; ::= (&lt;net_path&gt;|&lt;abs_path&gt;)[?&lt;query&gt;]
+&nbsp;&nbsp;&nbsp;&lt;opaque_part&gt;   ::= (&lt;unreserved&gt;|&lt;escaped&gt;|;|?|:|@|&amp;|=|+|$|,){&lt;mrl_char&gt;}
+&nbsp;&nbsp;&nbsp;&lt;relative_mrl&gt;  ::= (&lt;abs_path&gt;|&lt;rel_path&gt;)
+&nbsp;&nbsp;&nbsp;&lt;net_path&gt;      ::= //&lt;authority&gt;[&lt;abs_path&gt;]
+&nbsp;&nbsp;&nbsp;&lt;abs_path&gt;      ::= /&lt;path_segments&gt;
+&nbsp;&nbsp;&nbsp;&lt;rel_path&gt;      ::= &lt;rel_segment&gt;[&lt;abs_path&gt;]
+&nbsp;&nbsp;&nbsp;&lt;rel_segment&gt;   ::= &lt;rel_char&gt;{&lt;rel_char&gt;}
+&nbsp;&nbsp;&nbsp;&lt;rel_char&gt;      ::= (&lt;unreserved&gt;|&lt;escaped&gt;|;|@|&amp;|=|+|$|,)
+&nbsp;&nbsp;&nbsp;&lt;input&gt;         ::= &lt;alpha&gt;{(&lt;alpha&gt;|&lt;digit&gt;|+|-|.)}
+&nbsp;&nbsp;&nbsp;&lt;authority&gt;     ::= (&lt;server&gt;|&lt;reg_name&gt;)
+&nbsp;&nbsp;&nbsp;&lt;server&gt;        ::= [[&lt;userinfo&gt;@]&lt;host&gt;[:&lt;port&gt;]]
+&nbsp;&nbsp;&nbsp;&lt;userinfo&gt;      ::= {(&lt;unreserved&gt;|&lt;escaped&gt;|;|:|&amp;|=|+|$|,)}
+&nbsp;&nbsp;&nbsp;&lt;host&gt;          ::= (&lt;hostname&gt;|&lt;ipv4_address&gt;|&lt;ipv6_reference&gt;)
+&nbsp;&nbsp;&nbsp;&lt;hostname&gt;      ::= {&lt;domainlabel&gt;.}&lt;toplabel&gt;[.]
+&nbsp;&nbsp;&nbsp;&lt;domainlabel&gt;   ::= (&lt;alphanum&gt;|&lt;alphanum&gt;{(&lt;alphanum&gt;|-)}&lt;alphanum&gt;)
+&nbsp;&nbsp;&nbsp;&lt;toplabel&gt;      ::= (&lt;alpha&gt;|&lt;alpha&gt;{(&lt;alphanum&gt;|-)}&lt;alphanum&gt;)
+&nbsp;&nbsp;&nbsp;&lt;ipv4_address&gt;  ::= &lt;digit&gt;{&lt;digit&gt;}.&lt;digit&gt;{&lt;digit&gt;}.&lt;digit&gt;{&lt;digit&gt;}.&lt;digit&gt;{&lt;digit&gt;}
+&nbsp;&nbsp;&nbsp;&lt;port&gt;          ::= {&lt;digit&gt;}
+&nbsp;&nbsp;&nbsp;&lt;reg_name&gt;      ::= &lt;reg_char&gt;{&lt;reg_char&gt;}
+&nbsp;&nbsp;&nbsp;&lt;reg_char&gt;      ::= (&lt;unreserved&gt;|&lt;escaped&gt;|;|:|@|&amp;|=|+|$|,)
+&nbsp;&nbsp;&nbsp;&lt;path_segments&gt; ::= &lt;segment&gt;{/&lt;segment&gt;}
+&nbsp;&nbsp;&nbsp;&lt;segment&gt;       ::= {&lt;path_char&gt;}{;&lt;param&gt;}
+&nbsp;&nbsp;&nbsp;&lt;param&gt;         ::= {&lt;path_char&gt;}
+&nbsp;&nbsp;&nbsp;&lt;path_char&gt;     ::= (&lt;unreserved&gt;|&lt;escaped&gt;|:|@|&amp;|=|+|$|,)
+&nbsp;&nbsp;&nbsp;&lt;query&gt;         ::= {&lt;mrl_char&gt;}
+&nbsp;&nbsp;&nbsp;&lt;stream_setup&gt;  ::= &lt;stream_option&gt;;{&lt;stream_option&gt;}
+&nbsp;&nbsp;&nbsp;&lt;stream_option&gt; ::= (&lt;configoption&gt;|&lt;engine_option&gt;|novideo|noaudio|nospu)
+&nbsp;&nbsp;&nbsp;&lt;configoption&gt;  ::= &lt;configentry&gt;:&lt;configvalue&gt;
+&nbsp;&nbsp;&nbsp;&lt;configentry&gt;   ::= &lt;unreserved&gt;{&lt;unreserved&gt;}
+&nbsp;&nbsp;&nbsp;&lt;configvalue&gt;   ::= &lt;stream_char&gt;{&lt;stream_char&gt;}
+&nbsp;&nbsp;&nbsp;&lt;engine_option&gt; ::= &lt;unreserved&gt;{&lt;unreserved&gt;}:&lt;stream_char&gt;{&lt;stream_char&gt;}
+&nbsp;&nbsp;&nbsp;&lt;stream_char&gt;   ::= (&lt;unreserved&gt;|&lt;escaped&gt;|:|@|&amp;|=|+|$|,)
+&nbsp;&nbsp;&nbsp;&lt;mrl_char&gt;      ::= (&lt;reserved&gt;|&lt;unreserved&gt;|&lt;escaped&gt;)
+&nbsp;&nbsp;&nbsp;&lt;reserved&gt;      ::= (;|/|?|:|@|&amp;|=|+|$|,|[|])
+&nbsp;&nbsp;&nbsp;&lt;unreserved&gt;    ::= (&lt;alphanum&gt;|&lt;mark&gt;)
+&nbsp;&nbsp;&nbsp;&lt;mark&gt;          ::= (-|_|.|!|~|*|'|(|))
+&nbsp;&nbsp;&nbsp;&lt;escaped&gt;       ::= %&lt;hex&gt;&lt;hex&gt;
+&nbsp;&nbsp;&nbsp;&lt;hex&gt;           ::= (&lt;digit&gt;|A|B|C|D|E|F|a|b|c|d|e|f)
+&nbsp;&nbsp;&nbsp;&lt;alphanum&gt;      ::= (&lt;alpha&gt;|&lt;digit&gt;)
+&nbsp;&nbsp;&nbsp;&lt;alpha&gt;         ::= (&lt;lowalpha&gt;|&lt;upalpha&gt;)
+&nbsp;&nbsp;&nbsp;&lt;lowalpha&gt;      ::= (a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)
+&nbsp;&nbsp;&nbsp;&lt;upalpha&gt;       ::= (A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z)
+&nbsp;&nbsp;&nbsp;&lt;digit&gt;         ::= (0|1|2|3|4|5|6|7|8|9)</programlisting>
+   With &lt;ipv6_reference&gt; being an IPv6 address enclosed in [ and ] as defined in RFC2732.
+  </para>
+ </sect1>
+
+</chapter>

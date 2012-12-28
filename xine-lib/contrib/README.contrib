@@ -1,0 +1,22 @@
+The contrib/ subdirectory for xine-lib contains the code for libraries
+that are not developed by the xine project, but are rather imported
+from other projects.
+
+These libraries are imported either because they need to be patched to
+fix bugs not yet fixed in any released version, to make it simpler for
+the users to have the library installed, or because there's no proper
+release done by that project.
+
+This README file should explain how to upgrade the code present in the
+contrib/ directory with new sources from the development project.
+
+libxdg-basedir
+--------------
+
+The libxdg-basedir project is a (really) small library used to provide
+the proper access to XDG directories as described by the XDG Base
+Directory Specification (0.6 version).
+
+The library can be found at
+https://n.ethz.ch/student/nevillm/download/libxdg-basedir/ , and it's
+imported in xine-lib as it's far from commonly found on distributions.

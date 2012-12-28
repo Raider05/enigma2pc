@@ -1,0 +1,42 @@
+xine-lib/doc/README
+
+This directory contains documentation for xine-lib (the xine engine).
+Parts of this documentation are targeted towards end-users, other parts
+toward developers.
+
+Some frontends (e.g. xine-ui) may come with additional, frontend-specific
+documentation. The documents in this directory try to talk about xine
+engine features common to all frontends.
+
+faq/
+  contains the xine engine FAQ
+
+hackersguide/
+  contains the xine hacker's guide for developers
+
+man/
+  contains some general manpages about xine-lib
+
+README.dvb
+  instructions on how to get DVB (DigitalTV) working in xine
+
+README.dxr3
+  instructions on how to get use the DXR3 (hollywood+) in xine
+
+README.freebsd
+  hints on running xine on FreeBSD
+
+README.irix
+  hints on running xine on IRIX
+
+README.macosx
+  hints on building xine on Mac OS X
+
+README.network_dvd
+  how to play DVDs / Audio CDs over the network
+
+README.opengl
+  how to use xine's OpenGL video output
+
+README.solaris
+  hints on running xine on Solaris

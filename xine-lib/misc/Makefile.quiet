@@ -1,0 +1,2 @@
+GNU_VERBOSITY := $(if $(findstring GNU,$(shell $(MAKE) -v)),0,1)
+V ?= $(GNU_VERBOSITY)

@@ -1,0 +1,131 @@
+
+   ----------------------
+            xine
+   ----------------------
+
+     a free video player
+
+
+building xine on solaris
+------------------------
+
+* The preferred make command to compile xine is GNU make (gmake,
+  /opt/sfw/bin/gmake).
+
+  Sun's make (/usr/ccs/bin/make, or dmake) may work, too.
+
+
+* On Solaris x86: When xine-lib code is build using GCC as the compiler,
+  xine-lib tries to use MMX/SSE/3DNOW! instructions of x86 CPUs, which
+  may not assemble using Solaris' /usr/ccs/bin/as.
+
+  Make sure to use the GNU assembler as the assembler backend for the
+  GNU C compiler and as a standalone assembler command.
+
+  A quick workaround when using the GCC from Sun's
+  "Software Companion" CD is to replace /usr/ccs/bin/as with a
+  link to GNU as,  for example like this:
+
+    cd /usr/ccs/bin
+    ln -s /opt/sfw/bin/gas gnu-as
+    mv as sun-as
+    ln -s gnu-as as
+
+  (Use "ln -s gnu-as as" or "ln -s sun-as as" to switch between the
+  two assemblers)
+
+
+* To get VIS accelerated video decoding and colour space conversion
+  on Solaris SPARC with an UltraSPARC cpu, download and install Sun's
+  mediaLib 2.0 before compiling xine. mediaLib is available here:
+
+    http://www.sun.com/sparc/vis/mediaLib.html
+
+
+Known Problems
+--------------
+
+* Can't use MIT shared memory for local video display
+
+  The default value for the maximum allowed shared memory segment size
+  (1MByte) and the number of allowed shared memory segments (6)
+  is very small on solaris.  You may want to increase both parameters.
+  Add the following lines to /etc/system to increase the shmmax parameter
+  to 8MBytes and the shmseg parameter to at least 32 [*]:
+
+	set shmsys:shminfo_shmmax=8388608
+	set shmsys:shminfo_shmseg=32
+
+  Reboot the machine after modifying /etc/system to activate the new
+  shared memory defaults.
+
+  [*] Note: 15 shared memory segments is the minimum requirement for
+      xine's "XShm" video output plugin; 32 gives a bit of extra room
+      for other applications.  The GUI frontend might need more
+      shared memory segments, see below.
+
+
+* Warnings from xine-ui, when playlist / control / mrl browser panel
+  is opened (and broken skin image elements in these panels):
+
+	xiTK WARNING: X error received: 'BadShmSeg (invalid shared
+		segment parameter)'
+	xiTK WARNING: X error received: 'BadAccess (attempt to access
+		private resource denied)'
+	xiTK WARNING: XShmAttach() failed.
+
+  xine-ui tries to use even more shared memory segments for skin
+  images.
+
+
+  Workaround:  The problem can be avoided with one of
+
+  - create a text file $HOME/.xitkrc (or /etc/xitkrc) and add the
+    following line into it
+
+      feature.shm = 0
+
+  - configure and build xine-ui with option "--disable-shm" or
+    "--disable-shm-default"
+
+  - increase shmsys:shminfo_shmseg to at least 768
+
+
+* When using an 8-bit display, xine aborts with the error message:
+
+	IMLIB ERROR: Cannot Find Palette. A Palette is required for this mode
+	Unable to initialize Imlib
+
+  xine expects an installed Imlib package, installed using the "prefix" /
+  xine is looking for the global Imlib config file in /etc/imrc.
+
+  If you have the solaris 8 companion CD installed, an Imlib package is
+  already installed on your system, but it uses the "prefix" /opt/sfw.
+
+  To work around the problem:
+
+  - install a symbolic link /etc/imrc, pointing to /opt/sfw/etc/imrc
+    (needs root permission)
+
+	# ln -s /opt/sfw/etc/imrc /etc
+
+  or
+
+  - install an ".imrc" file in your home directory,
+    with the following contents:
+
+	PaletteFile     /opt/sfw/etc/im_palette.pal
+
+
+* On Solaris x86, you cannot reliably play DVDs using a capacity >4GB:
+
+  The sd(7D) driver on solaris x86 has a bug when accessing a disk
+  block >4GB on a device using a logical blocksize != DEV_BSIZE (i.e.
+  CDROM and DVD media).  Due to a 32bit int overflow, a disk address
+  modulo 4GB is accessed.
+
+  There's no workaround available.
+
+  See the following message for more details about this bug:
+
+	http://groups.yahoo.com/group/solarisonintel/message/22516

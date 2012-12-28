@@ -1,0 +1,41 @@
+
+   ----------------------
+            xine
+   ----------------------
+
+     a free video player
+
+
+This directory contains the xine hacker's guide.
+
+
+The xine hacker's guide is written in docbook/sgml 4.1.
+You can learn more about docbook at
+
+http://www.oasis-open.org/docbook/documentation/reference/html/docbook.html
+
+
+To use docbook - for example to compile the sgml files into html - you
+will need the DocBook DTD itself as well as the following tools: dsssl
+(Modular DocBook Stylesheets), jade (SGML parser toolkit and dsssl
+engine) and sp (toolkit for sgml parsing), or replacements for those.
+
+If you want to generate TeX output (needed for postscript or pdf
+generation) you will also need jadetex (backend for TeX) and an
+installed TeX system (for example teTeX).
+
+sgmltools-lite examples:
+------------------------
+
+to generate html
+
+$ sgmltools -b onehtml hackersguide.sgml
+
+to generate pdf
+
+$ sgmltools -b pdf hackersguide.sgml
+
+building the hackersguide.html
+------------------------------
+
+The easy way to build everything is to issue a "make docs" here.

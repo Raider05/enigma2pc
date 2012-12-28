@@ -1,0 +1,79 @@
+#! /bin/sh
+
+#
+# Fix cross build with SDL.
+# Install also dvdata.h.
+# Patching script for M$VC clients.
+#
+
+patch -p0 < $0
+cp libavcodec/avcodec.h libavcodec/avcodec.h.dllimports; sed libavcodec/avcodec.h.dllimports -e 's/extern AVCodec/_DL_IMPORT extern AVCodec/' > libavcodec/avcodec.h
+
+exit 0
+Index: configure
+===================================================================
+RCS file: /cvsroot/ffmpeg/ffmpeg/configure,v
+retrieving revision 1.159
+diff -u -p -u -p -r1.159 configure
+--- configure	21 Jan 2005 22:16:04 -0000	1.159
++++ configure	19 Feb 2005 16:15:29 -0000
+@@ -942,9 +942,10 @@ EOF
+ 
+ sdl_too_old=no
+ sdl=no
+-if (sdl-config --version) >/dev/null 2>&1 ; then
+-if $cc -o $TMPE `sdl-config --cflags` $TMPC `sdl-config --libs`  > /dev/null 2>&1  ; then
+-_sdlversion=`sdl-config --version | sed 's/[^0-9]//g'`
++SDL_CONFIG="${cross_prefix}sdl-config"
++if ("${SDL_CONFIG}" --version) >/dev/null 2>&1 ; then
++if $cc -o $TMPE `"${SDL_CONFIG}" --cflags` $TMPC `"${SDL_CONFIG}" --libs`  > /dev/null 2>&1  ; then
++_sdlversion=`"${SDL_CONFIG}" --version | sed 's/[^0-9]//g'`
+ if test "$_sdlversion" -lt 121 ; then
+ sdl_too_old=yes
+ else
+@@ -1225,8 +1226,8 @@ if test "$pthreads" = "yes" ; then
+ fi
+ if test "$sdl" = "yes" ; then
+   echo "CONFIG_SDL=yes" >> config.mak
+-  echo "SDL_LIBS=`sdl-config --libs`" >> config.mak
+-  echo "SDL_CFLAGS=`sdl-config --cflags`" >> config.mak
++  echo "SDL_LIBS=`"${SDL_CONFIG}" --libs`" >> config.mak
++  echo "SDL_CFLAGS=`"${SDL_CONFIG}" --cflags`" >> config.mak
+ fi
+ if test "$texi2html" = "yes"; then
+   echo "BUILD_DOC=yes" >> config.mak
+Index: libavcodec/Makefile
+===================================================================
+RCS file: /cvsroot/ffmpeg/ffmpeg/libavcodec/Makefile,v
+retrieving revision 1.167
+--- libavcodec/Makefile.orig	2005-10-29 15:07:40.000000000 +0200
++++ libavcodec/Makefile	2005-10-29 15:22:47.000000000 +0200
+@@ -487,6 +487,7 @@ installlib: all install-headers
+ install-headers:
+ 	mkdir -p "$(prefix)/include/ffmpeg"
+ 	install -m 644 $(SRC_PATH)/libavcodec/avcodec.h \
++	               $(SRC_PATH)/libavcodec/dvdata.h \
+                 "$(prefix)/include/ffmpeg"
+ 	install -d $(libdir)/pkgconfig
+ 	install -m 644 ../libavcodec.pc $(libdir)/pkgconfig
+Index: libavutil/common.h
+===================================================================
+RCS file: /cvsroot/ffmpeg/ffmpeg/libavcodec/common.h,v
+retrieving revision 1.145
+diff -u -p -u -p -r1.145 common.h
+--- libavutil/common.h	12 Jan 2005 01:44:01 -0000	1.145
++++ libavutil/common.h	19 Feb 2005 16:15:29 -0000
+@@ -64,6 +64,13 @@ extern const struct AVOption avoptions_w
+ 
+ #endif /* HAVE_AV_CONFIG_H */
+ 
++/* for MSVC clients */
++#if !defined(HAVE_AV_CONFIG_H) && defined(_MSC_VER)
++#  define _DL_IMPORT __declspec(dllimport)
++#else
++#  define _DL_IMPORT
++#endif
++
+ /* Suppress restrict if it was not defined in config.h.  */
+ #ifndef restrict
+ #    define restrict

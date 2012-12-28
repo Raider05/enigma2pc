@@ -1,0 +1,210 @@
+#!/bin/sh
+#
+# This script generate some valid Slackware packages
+#
+#
+# Some variables.
+#
+CWD=`pwd`
+PACKAGE=@PACKAGE@.tgz
+SLCK=$CWD/slack
+PREFIX=${PREFIX:-"@prefix@"}
+PKG=$CWD/slktmp
+TMPBUILD=$CWD/tmpbuild
+#DOINSTDIR=/install
+
+#
+# Create the post-install script
+#
+do_install_sh() {
+cat > doinst.sh <<EOF
+/sbin/ldconfig
+EOF
+}
+
+#
+# Create package description for pkgtool.
+#
+do_descr() {
+cat > package_descriptions << EOF
+@PACKAGE@: @PACKAGE@ @PACKAGE_VERSION@.
+@PACKAGE@:
+@PACKAGE@: xine-lib is the beating heart of xine (a free gpl-licensed 
+@PACKAGE@: video player for unix-like systems) which among others provides 
+@PACKAGE@: support for decoding (and playing back) of many today available
+@PACKAGE@: audio/video codecs, like mpeg-4 (DivX), mpeg-2 (DVD, SVCD), 
+@PACKAGE@: mpeg-1 (VCD), Quicktime and RealMedia just to name a few.
+@PACKAGE@: This library contains (and uses) numerous processor specific 
+@PACKAGE@: optimizations to provide a smooth playback and to minimize the 
+@PACKAGE@: overall demand of CPU power.
+@PACKAGE@:
+@PACKAGE@: Don't hesitate to use %{name} in your own projects as long as 
+@PACKAGE@: your usage complies to the GPL. More information about 
+@PACKAGE@: GPL-license can be found at http://www.gnu.org/licenses/gpl.html
+@PACKAGE@:
+@PACKAGE@:
+EOF
+}
+
+#
+# Building binaries process, then install and move package in right place
+#
+do_build() {
+  cd $CWD
+  rm -rf $TMPBUILD
+  mkdir -p $TMPBUILD
+  cd $TMPBUILD && tar -xzf $CWD/@PACKAGE_TARNAME@.tar.gz
+  do_install_sh;
+  cd @PACKAGE_TARNAME@
+  DIE=1
+  echo "./configure --prefix=$PREFIX $CONFIG_OPT && make && make install-strip DESTDIR=$PKG LIBRARY_PATH=$TMPBUILD/@PACKAGE_TARNAME@/src/xine-engine/.libs" && \
+  ./configure --prefix=$PREFIX $CONFIG_OPT && make && make install-strip DESTDIR=$PKG LIBRARY_PATH=$TMPBUILD/@PACKAGE_TARNAME@/src/xine-engine/.libs && \
+  mkdir -p $PKG/install && cp $TMPBUILD/doinst.sh $PKG/install && \
+  cd $PKG && \
+  echo "n" | /sbin/makepkg $PACKAGE && \
+  mv $PACKAGE $SLCK && \
+  cd $SLCK && DIE=0
+  do_descr
+}
+
+#
+# Cleaning building directory
+#
+do_clean() {
+  rm -rf $TMPBUILD
+  rm -f $PACKAGE package_descriptions
+  rm -rf $PKG
+  cd $CWD
+}
+
+#
+# Build for PPro
+# 
+build_pentiumpro() {
+  echo "*****************************************************"
+  echo
+  echo "building slack for @PACKAGE@ @VERSION@"
+  echo 
+  echo "current architecture:pentiumpro"
+  echo "slackware package will be copied to ./slack directory"
+  echo
+  echo "*****************************************************"
+  rm -rf $PKG
+  export XINE_BUILD=i686-pc-linux-gnu
+  do_build
+  if test "$DIE" -eq 0; then 
+    tar -czvf @PACKAGE@-@VERSION@-i686.tar.gz $PACKAGE package_descriptions
+  fi
+  do_clean
+}
+
+#
+# Build for Pentium
+#
+build_pentium() {
+  echo "*****************************************************"
+  echo
+  echo "building slack for @PACKAGE@ @VERSION@"
+  echo 
+  echo "current architecture:pentium"
+  echo "slackware package will be copied to ./slack directory"
+  echo
+  echo "*****************************************************"
+  rm -rf $PKG
+  export XINE_BUILD=i586-pc-linux-gnu
+  do_build
+  if test "$DIE" -eq 0; then 
+    tar -czvf @PACKAGE@-@VERSION@-i586.tar.gz $PACKAGE package_descriptions
+  fi
+  do_clean
+}
+
+#
+# Build for K6
+#
+build_k6() {
+  echo "*****************************************************"
+  echo
+  echo "building slack for @PACKAGE@ @VERSION@"
+  echo 
+  echo "current architecture:k6"
+  echo "slackware package will be copied to ./slack directory"
+  echo
+  echo "*****************************************************"
+  rm -rf $PKG
+  export XINE_BUILD=k6-pc-linux-gnu
+  do_build
+  if test "$DIE" -eq 0; then 
+    tar -czvf @PACKAGE@-@VERSION@-k6.tar.gz $PACKAGE package_descriptions
+  fi
+  do_clean
+}
+
+#
+# Build for K7
+#
+build_k7() {
+  echo "*****************************************************"
+  echo
+  echo "building slack for @PACKAGE@ @VERSION@"
+  echo 
+  echo "current architecture:k7"
+  echo "slackware package will be copied to ./slack directory"
+  echo
+  echo "*****************************************************"
+  rm -rf $PKG
+  export XINE_BUILD=athlon-pc-linux-gnu
+  do_build
+  if test "$DIE" -eq 0; then 
+    tar -czvf @PACKAGE@-@VERSION@-k7.tar.gz $PACKAGE package_descriptions
+  fi
+  do_clean
+}
+
+#
+# Main function
+#
+main() {
+  rm -rf $SLCK
+  mkdir -p $SLCK
+  rm -f config.cache && ./autogen.sh && make dist
+  build_pentiumpro
+  build_pentium
+  build_k6
+  build_k7
+  mv -f $CWD/@PACKAGE_TARNAME@.tar.gz $SLCK
+}
+
+
+#
+# Handle arguments if available.
+#
+build_arch() {
+      rm -rf $SLCK
+      mkdir -p $SLCK
+      rm -f config.cache && ./autogen.sh && make dist
+      $barch
+      mv -f $CWD/@PACKAGE_TARNAME@.tar.gz $SLCK
+}
+
+case "$1" in
+    pentiumpro | ppro | i686 | 686)
+      barch=build_pentiumpro
+      build_arch
+    ;;
+    pentium | i586 | 586)
+      barch=build_pentium
+      build_arch
+    ;;
+    k6)
+      barch=build_k6
+      build_arch
+    ;;
+    k7 | athlon)
+      barch=build_k7
+      build_arch
+    ;;
+    *)
+      main
+    ;;
+esac

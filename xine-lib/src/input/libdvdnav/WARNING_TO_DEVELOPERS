@@ -1,0 +1,13 @@
+./xine-lib/src/input/libdvdnav.
+This part of the tree should never be modified directly.
+The entire libdvdnav directory is periodically updated from dvd.sf.net libdvdnav cvs.
+If any developers notice a bug in this code, please report it to the dvd-devel@lists.sourceforge.net mailing list.
+If any developers have any patches for this code, please report it to the dvd-devel@lists.sourceforge.net mailing list.
+The dvd.sf.net libdvdnav cvs will then be updated, and xine-lib will receive the update when the next periodic update from dvd.sf.net libdvdnav cvs happens.
+
+If one uses the following command in ./xine-lib directory, One can bypass this code, and force xine-lib to use the dvd.sf.net libdvdnav cvs code directly, thus simplifying the developers testing of bug fixes/new features in libdvdnav.
+
+./configure --with-external-dvdnav
+
+Thank you for your understanding.
+

@@ -1,0 +1,76 @@
+--- src/liba52/a52_internal.h	Sun Jul 28 03:52:06 2002
++++ src/liba52/a52_internal.h	Wed Aug 28 19:01:05 2002
+@@ -84,6 +84,7 @@
+     expbap_t lfe_expbap;
+ 
+     sample_t * samples;
++    void * samples_base;
+     int downmixed;
+ };
+ 
+--- src/liba52/imdct.c	Sun Jul 28 03:52:07 2002
++++ src/liba52/imdct.c	Wed Aug 28 18:55:38 2002
+@@ -38,7 +38,7 @@
+ 
+ #include "a52.h"
+ #include "a52_internal.h"
+-#include "mm_accel.h"
++#include "xineutils.h"
+ 
+ typedef struct complex_s {
+     sample_t real;
+@@ -425,7 +425,6 @@
+     } else
+ #endif
+     {
+-	fprintf (stderr, "liba52:No accelerated IMDCT transform found\n");
+ 	ifft128 = ifft128_c;
+ 	ifft64 = ifft64_c;
+     }
+--- src/liba52/parse.c	Sun Jul 28 03:52:07 2002
++++ src/liba52/parse.c	Wed Aug 28 19:02:21 2002
+@@ -31,14 +31,7 @@
+ #include "a52_internal.h"
+ #include "bitstream.h"
+ #include "tables.h"
+-
+-#ifdef HAVE_MEMALIGN
+-/* some systems have memalign() but no declaration for it */
+-void * memalign (size_t align, size_t size);
+-#else
+-/* assume malloc alignment is sufficient */
+-#define memalign(align,size) malloc (size)
+-#endif
++#include "xineutils.h"
+ 
+ typedef struct {
+     sample_t q1[2];
+@@ -60,7 +53,7 @@
+     if (state == NULL)
+ 	return NULL;
+ 
+-    state->samples = memalign (16, 256 * 12 * sizeof (sample_t));
++    state->samples = xine_xmalloc_aligned (16, 256 * 12 * sizeof (sample_t), &state->samples_base);
+     if (state->samples == NULL) {
+ 	free (state);
+ 	return NULL;
+@@ -896,6 +889,6 @@
+ 
+ void a52_free (a52_state_t * state)
+ {
+-    free (state->samples);
++    free (state->samples_base);
+     free (state);
+ }
+--- src/liba52/bitstream.h
++++ src/liba52/bitstream.h
+@@ -21,6 +21,10 @@
+  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  */
+ 
++#ifdef WIN32
++#include <unistd.h>
++#endif
++
+ /* (stolen from the kernel) */
+ #ifdef WORDS_BIGENDIAN

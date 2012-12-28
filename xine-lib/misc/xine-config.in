@@ -1,0 +1,84 @@
+#!/bin/sh
+#
+#
+
+unset prefix
+unset exec_prefix
+unset args
+
+PKG_CONFIG_PATH="`cat <<'EOF'
+@XINE_PKGCONFIG_DIR@
+EOF
+`${PKG_CONFIG_PATH:+:}$PKG_CONFIG_PATH"
+export PKG_CONFIG_PATH
+
+usage()
+{
+	cat <<EOF
+Usage: xine-config [OPTIONS] [LIBRARIES]
+       DEPRECATED. Use pkg-config instead.
+Options:
+	[--prefix[=DIR]]
+	[--exec-prefix[=DIR]]
+	[--version]
+        [--libs]
+	[--acflags]
+	[--cflags]
+	[--bindir]
+	[--plugindir]
+	[--datadir]
+	[--scriptdir]
+	[--localedir]
+	[--xine-list]
+	[--objcflags]
+EOF
+	exit $1
+}
+
+if test $# -eq 0; then
+	usage 1 1>&2
+fi
+
+while test $# -gt 0; do
+  case "$1" in
+  -*=*) optarg="${1#--*=}" ;;
+  *) optarg= ;;
+  esac
+
+  case "$1" in
+    --prefix=*)
+      prefix="$optarg"
+      if [ "$exec_prefix" = '' ]; then
+        exec_prefix="$optarg"
+      fi
+      ;;
+    --exec-prefix=*)
+      exec_prefix="$optarg"
+      ;;
+    --version)
+      args="$args${args+ }--modversion"
+      ;;
+    --cflags|--libs)
+      args="$args${args+ }$1"
+      ;;
+    --prefix|--acflags|--bindir|--plugindir|--datadir|--scriptdir|--localedir|--objcflags)
+      args="$args${args+ }--variable=${1#--}"
+      ;;
+    --xine-list)
+      args="$args${args+ }--variable=xine_list"
+      ;;
+    --exec-prefix)
+      args="$args${args+ }--variable=exec_prefix"
+      ;;
+    *)
+      usage 1 1>&2
+      ;;
+  esac
+  shift
+done
+
+echo 'xine-config is DEPRECATED. Use pkg-config instead.' >&2
+
+exec pkg-config "${prefix+--define-variable=prefix=}$prefix" \
+		"${exec_prefix+--define-variable=exec_prefix=}$exec_prefix" \
+		$args libxine

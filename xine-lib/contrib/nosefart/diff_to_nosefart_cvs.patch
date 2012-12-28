@@ -1,0 +1,117 @@
+diff -u -p -r1.1.1.1 types.h
+--- types.h	26 Jul 2004 15:27:59 -0000	1.1.1.1
++++ types.h	26 Aug 2004 16:00:07 -0000
+@@ -23,8 +23,8 @@
+ ** $Id: diff_to_nosefart_cvs.patch,v 1.2 2005/05/07 09:11:39 valtri Exp $
+ */
+ 
+-#ifndef _TYPES_H_
+-#define _TYPES_H_
++#ifndef _NOSEFART_TYPES_H_
++#define _NOSEFART_TYPES_H_
+ 
+ #ifdef HAVE_CONFIG_H
+ #include "config.h"
+@@ -88,7 +88,7 @@ typedef  uint8    boolean;
+ #define  ASSERT_MSG(msg)
+ #endif
+ 
+-#endif /* _TYPES_H_ */
++#endif /* _NOSEFART_TYPES_H_ */
+ 
+ /*
+ ** $Log: diff_to_nosefart_cvs.patch,v $
+ ** Revision 1.2  2005/05/07 09:11:39  valtri
+ ** *BUGFIX*
+ ** gcc4 patches from Dams Nadé (livna.org) and Keenan Pepper.
+ **
+ ** Revision 1.1  2004/08/27 19:33:37  valtri
+ ** MINGW32 port. Engine library and most of plugins compiles now.
+ **
+ ** List of some changes:
+ **  - replaced some _MSC_VER by more common WIN32
+ **  - define INTLDIR, remove -static flag for included intl
+ **  - shared more common CFLAGS with DEBUG_CFLAGS
+ **  - use WIN32_CFLAGS for all building
+ **  - separate some flags into THREAD_CFLAGS_CONFIG,
+ **    THREAD_CFLAGS_CONFIG and ZLIB_LIB_CONFIG for public xine-config,
+ **    automatically use internal libs if necessary
+ **  - don't warn about missing X for mingw and cygwin
+ **  - libw32dll disabled for WIN32 (making native loader would be
+ **    interesting, or porting wine code to Windows? :->)
+ **  - DVB and RTP disabled for WIN32, not ported yet
+ **  - fix build and fix a warning in cdda
+ **  - fix build for nosefart and libfaad
+ **  - implement configure option --disable-freetype
+ **  - sync libxine.pc and xine-config.in
+ **  - add -liberty to goom under WIN32
+ **  - move original build files from included phread and zlib into archives
+ **    and replace them by autotools
+ **
+Index: nes_apu.c
+===================================================================
+RCS file: /home/valtri/CVS/xine-lib/src/libxineadec/nosefart/nes_apu.c,v
+retrieving revision 1.1.1.1
+diff -u -p -r1.1.1.1 nes_apu.c
+--- nes_apu.c	12 Dec 2004 13:57:16 -0000	1.1.1.1
++++ nes_apu.c	7 May 2005 08:23:36 -0000
+@@ -1011,10 +1011,13 @@ void apu_process(void *buffer, int num_s
+          accum = -0x8000;
+ 
+       /* signed 16-bit output, unsigned 8-bit */
+-      if (16 == apu->sample_bits)
+-         *((int16 *) buffer)++ = (int16) accum;
+-      else
+-         *((uint8 *) buffer)++ = (accum >> 8) ^ 0x80;
++      if (16 == apu->sample_bits) {
++         *((int16 *) buffer) = (int16) accum; 
++         buffer = (int16 *) buffer + 1;
++      } else {
++         *((uint8 *) buffer) = (accum >> 8) ^ 0x80; 
++         buffer = (int8 *) buffer + 1;
++      }
+    }
+ 
+    /* resync cycle counter */
+--- a/src/libxineadec/nosefart/nsf.h	Tue Apr 10 13:42:00 2007 +0200
++++ b/src/libxineadec/nosefart/nsf.h	Tue Apr 10 13:48:50 2007 +0200
+@@ -29,6 +29,8 @@
+ #include "osd.h"
+ #include "nes6502.h"
+ #include "nes_apu.h"
++
++#include "config.h"
+ 
+ #define  NSF_MAGIC   "NESM\x1A"
+ 
+@@ -96,7 +98,7 @@ typedef struct nsf_s
+ 
+    /* our main processing routine, calls all external mixing routines */
+    void (*process)(void *buffer, int num_samples);
+-} __PACKED__ nsf_t;
++} XINE_PACKED nsf_t;
+ 
+ /* Function prototypes */
+ extern void nsf_init(void);
+--- a/src/libxineadec/nosefart/osd.h	Tue Apr 10 13:42:00 2007 +0200
++++ b/src/libxineadec/nosefart/osd.h	Tue Apr 10 13:19:34 2007 +0200
+@@ -26,19 +26,15 @@
+ #ifndef _OSD_H_
+ #define _OSD_H_
+ 
+-
+ #if defined(__GNUC__) || defined(__ICC)
+-#define  __PACKED__  __attribute__ ((packed))
+ #define  PATH_SEP    '/'
+ #ifdef __DJGPP__
+ #include <dpmi.h>
+ #include "dos_ints.h"
+ #endif
+ #elif defined(WIN32)
+-#define  __PACKED__
+ #define  PATH_SEP    '\\'
+ #else /* crapintosh? */
+-#define  __PACKED__
+ #define  PATH_SEP    ':'
+ #endif
+ 

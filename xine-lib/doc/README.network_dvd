@@ -1,0 +1,137 @@
+
+Playing DVDs / Audio CDs over the network
+=========================================
+
+xine can be used to play DVDs and Audio CDs over the network.
+
+ok, but.... why?
+
+there are some reasons people want to do that:
+
+- because you may have a 200 discs DVD changer on your garage and you
+  want to watch them on your room.
+
+- because you don't want to have a lousy cdrom driver around when
+  listening to your favorite music.
+
+- because the computer that is hooked to the TV doesn't have a dvdrom.
+
+- because you can :)
+
+
+network block devices
+---------------------
+
+yes, network block device (nbd) could be an option for that. however:
+
+- they don't support ioctls which are needed for cd audio playback and
+dvd key exchange. (obs: one may write a custom ioctl code for enbd)
+
+- a completely user space solution is more portable.
+
+- the user space solution can handle failures more gratefuly and gives
+better control of closing/opening the device.
+
+
+installation for audio cds
+--------------------------
+
+- you must compile the cdda_server.c that comes with xine-lib sources:
+
+  xine-lib$ cd misc
+  xine-lib/misc$ make cdda_server
+  gcc -W -Wall -g -o cdda_server cdda_server.c -ldl
+
+  Your xine-lib source tree needs to be configured for that, so please
+  run ./configure in the toplevel sourcedir on a fresh tree.
+
+- start cdda_server at the machine that has the cdrom drive:
+
+  xine-lib/misc$ ./cdda_server /dev/cdrom 3000
+
+  note: 3000 is the port number to listen.
+
+- start xine on the client machine with:
+
+  $ xine cdda://server_address:3000/1
+
+  that will play the first track of the CD. in order to use the
+  GUI button for "CD" you have to change the setting media.audio_cd.device
+  to point to the server.
+
+
+installation for dvds
+---------------------
+
+- compile and run cdda_server (see above).
+
+  note: you may also need to install libdvdcss or some equivalent
+  library on your server.
+
+- patch libdvdcss on the client.
+
+  note: no CSS code is needed at all, so it would be possible to use a
+  kind of "dummy" dvd library that is API compatible with libdvdcss.
+
+  a sample patch is provided for libdvdcss-1.2.6, install it as follow:
+
+  libdvdcss-1.2.6$ patch -p1 < ../xine-lib/misc/libdvdcss-1.2.6-network.patch
+  libdvdcss-1.2.6$ ./bootstrap
+  libdvdcss-1.2.6$ make
+  libdvdcss-1.2.6$ make install
+
+- start xine on the client machine with:
+
+  $ xine dvd://server_address:3000/
+
+  (don't forget the trailing slash)
+
+
+protocol details
+----------------
+
+the network protocol is pretty simple. it consists of text-based commands
+and replies over a TCP stream.
+
+command format:
+
+  <command> <arg0> <arg1> <arg2> ... \n
+
+reply format:
+
+  <error code> <n> <value0> <value1> ... \n
+  followed by n bytes of binary data (like cd or dvd sectors)
+
+cdda commands:
+
+  cdda_open
+  <error code> 0
+
+  cdda_read <start_frame> <num_frames>
+  <error code> <n>
+  <n bytes (frames)>
+
+  cdda_tochdr
+  <error code> 0 <first_track> <last_track>
+
+  cdda_tocentry
+  <error code> 0 <track_mode> <first_frame_min> <first_frame_sec> <first_frame_frame>
+
+dvd commands:
+
+  dvd_open
+  <error code> 0
+
+  dvd_error
+  <error code> <n>
+  <n bytes (error string)>
+
+  dvd_read <blocks> <flags>
+  <error code> <n>
+  <n bytes (blocks)>
+
+  dvd_seek <block> <flags>
+  <error code> 0
+
+  dvd_title <block>
+  <error code> 0

@@ -1,0 +1,65 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SimpleUmount\n"
+"Report-Msgid-Bugs-To: http://openpli.org/forums/forum/55-en-enduser-support/\n"
+"POT-Creation-Date: 2011-11-12 15:57+0100\n"
+"PO-Revision-Date: 2011-11-14 17:51+0100\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE\n"
+"Language: PL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: plugin.py:65
+msgid "Select device and press OK to umount or EXIT to quit"
+msgstr "Wybierz i naciśnij OK aby odmontować lub EXIT aby wyjść"
+
+#: plugin.py:66
+msgid "DEVICE"
+msgstr "URZĄDZENIE"
+
+#: plugin.py:67
+msgid "MOUNTED ON"
+msgstr "ZAMONTOWANE"
+
+#: plugin.py:68
+msgid "TYPE"
+msgstr "TYP"
+
+#: plugin.py:69
+msgid "SIZE"
+msgstr "ROZMIAR"
+
+#: plugin.py:90
+msgid "umount return code"
+msgstr "umount zwróciło kod"
+
+#: plugin.py:93
+msgid "Cannot umount device"
+msgstr "Nie można odmontować urządzenia"
+
+#: plugin.py:101
+msgid "Really umount device"
+msgstr "Na pewno odmontować urządzenie"
+
+#: plugin.py:111
+msgid "WARNING: cannot read any mount point"
+msgstr "UWAGA: nie można odczytać żadnego punktu montowania"
+
+#: plugin.py:112
+msgid "probably no mass storage device inserted"
+msgstr "prawdopodobnie nie podłączono żadnego urządzenia pamięci masowej "
+
+#: plugin.py:145
+msgid "Simple mass storage umounter extension"
+msgstr "Proste rozszerzenie do odmontowywania urządzeń przenośnych"
+
+msgid "Show only removable devices"
+msgstr "Pokazuj tylko urządzenia przenośne"
+

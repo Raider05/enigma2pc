@@ -1,0 +1,20 @@
+#
+# reader configuration
+#
+
+# serial reader
+
+[reader]
+label    = newcamd
+protocol = newcamd
+key      = 0102030405060708091011121314
+device   = 83.166.48.33,4000
+account  = Raider05,ghjcnjserg05
+#group    = 1
+#fallback = 1
+CAID = 0500
+IDENT = 023700,030600
+Fallback = 0
+Group = 1
+ReconnectTimeout = 20
+InactivityTimeOut = 30

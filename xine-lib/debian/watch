@@ -1,0 +1,4 @@
+version=3
+http://www.xine-project.org/releases \
+	(?:.*/)?xine/xine-lib-([\d\.]*).tar.gz \
+	debian uupdate

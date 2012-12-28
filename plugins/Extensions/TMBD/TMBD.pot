@@ -1,0 +1,427 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#: plugin.py:706
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-08-01 21:32+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: plugin.py:896
+#, python-format
+msgid " (%s times)\n"
+msgstr ""
+
+#: plugin.py:896
+msgid " User Rating: "
+msgstr ""
+
+#: plugin.py:1234
+msgid " min."
+msgstr ""
+
+#: plugin.py:1214
+msgid " times"
+msgstr ""
+
+#: plugin.py:915
+#, python-format
+msgid "%d bytes"
+msgstr ""
+
+#: plugin.py:962 plugin.py:986
+#, python-format
+msgid "%s eit-file removed!"
+msgstr ""
+
+#: plugin.py:969 plugin.py:1013
+#, python-format
+msgid "%s meta-file removed!"
+msgstr ""
+
+#: plugin.py:949 plugin.py:1006
+#, python-format
+msgid "%s poster removed!"
+msgstr ""
+
+#: plugin.py:885 plugin.py:1232
+msgid "0 min."
+msgstr ""
+
+#: plugin.py:132
+msgid "< empty >"
+msgstr ""
+
+#: plugin.py:132
+msgid "< text >"
+msgstr ""
+
+#: plugin.py:1536
+msgid "Activate Poster Preview"
+msgstr ""
+
+#: plugin.py:703
+msgid "Actors"
+msgstr ""
+
+#: plugin.py:899
+msgid "Actors:"
+msgstr ""
+
+#: plugin.py:1287
+msgid "Add \"Lookup in TMBD\" Info Button to GraphMultiEpg"
+msgstr ""
+
+#: plugin.py:1286
+msgid "Add \"Lookup in TMBD\" Info Button to multi-EPG"
+msgstr ""
+
+#: plugin.py:1285
+msgid "Add \"Lookup in TMBD\" Red Button to single-EPG"
+msgstr ""
+
+#: plugin.py:718
+msgid "All posters for movie"
+msgstr ""
+
+#: plugin.py:1032
+msgid "All posters removed!"
+msgstr ""
+
+#: plugin.py:1195
+msgid "Appeared: "
+msgstr ""
+
+#: plugin.py:1274
+msgid "Cancel"
+msgstr ""
+
+#: plugin.py:1537
+msgid "Change Poster Preview position"
+msgstr ""
+
+#: plugin.py:301
+msgid "Channel Selection"
+msgstr ""
+
+#: plugin.py:1291
+msgid "Check status Internet"
+msgstr ""
+
+#: plugin.py:1293
+msgid "Close plugin EXIT Button"
+msgstr ""
+
+#: plugin.py:585
+msgid "Close plugin?"
+msgstr ""
+
+#: plugin.py:707
+msgid "Country"
+msgstr ""
+
+#: plugin.py:876
+msgid "Country:"
+msgstr ""
+
+#: plugin.py:715
+msgid "Current poster and info"
+msgstr ""
+
+#: plugin.py:1534
+msgid "Deactivate Poster Preview"
+msgstr ""
+
+#: plugin.py:688
+#, python-format
+msgid "Details for: %s"
+msgstr ""
+
+#: plugin.py:697
+msgid "Director"
+msgstr ""
+
+#: plugin.py:1195
+msgid "Duration: "
+msgstr ""
+
+#: plugin.py:1092 plugin.py:1107
+msgid "Edit text to search for"
+msgstr ""
+
+#: plugin.py:1100
+msgid "Enter text to search for"
+msgstr ""
+
+#: plugin.py:495
+msgid "Exit"
+msgstr ""
+
+#: plugin.py:694
+msgid "Genre"
+msgstr ""
+
+#: plugin.py:878
+msgid "Genre:"
+msgstr ""
+
+#: plugin.py:1067
+msgid "Install YTTrailer..."
+msgstr ""
+
+#: plugin.py:129
+msgid "Large poster"
+msgstr ""
+
+#: plugin.py:180 plugin.py:240 plugin.py:330
+msgid "Lookup in TMBD"
+msgstr ""
+
+#: plugin.py:498 plugin.py:646
+msgid "Manual input"
+msgstr ""
+
+#: plugin.py:757
+msgid "No"
+msgstr ""
+
+#: plugin.py:567 plugin.py:576
+msgid "No connect to www.themoviedb.org"
+msgstr ""
+
+#: plugin.py:683 plugin.py:693 plugin.py:696 plugin.py:699 plugin.py:702
+#: plugin.py:709 tmdb.py:150
+msgid "Not available"
+msgstr ""
+
+#: plugin.py:882
+msgid "Not available...\n"
+msgstr ""
+
+#: plugin.py:1162
+#, python-format
+msgid "Nothing found for: %s"
+msgstr ""
+
+#: plugin.py:1393
+msgid "OK"
+msgstr ""
+
+#: plugin.py:717
+msgid "Only current info"
+msgstr ""
+
+#: plugin.py:716
+msgid "Only current poster"
+msgstr ""
+
+#: plugin.py:1288
+msgid "Open VirtualKeyBoard"
+msgstr ""
+
+#: plugin.py:644
+msgid "Please select the matching entry:"
+msgstr ""
+
+#: plugin.py:784
+#, python-format
+msgid "Poster %s saved!"
+msgstr ""
+
+#: plugin.py:1388 plugin.py:1521 plugin.py:1693 plugin.py:1694 plugin.py:1733
+#: plugin.py:1734
+msgid "Poster Preview"
+msgstr ""
+
+#: plugin.py:700
+msgid "Producers"
+msgstr ""
+
+#: plugin.py:1672 plugin.py:1699 plugin.py:1712
+msgid "Query details from the Internet Movie Database"
+msgstr ""
+
+#: plugin.py:1021
+msgid "Remove all posters?"
+msgstr ""
+
+#: plugin.py:925
+#, python-format
+msgid ""
+"Remove current poster and info for:\n"
+"%s ?"
+msgstr ""
+
+#: plugin.py:733
+msgid "Remove poster / info"
+msgstr ""
+
+#: plugin.py:1275
+msgid "Save"
+msgstr ""
+
+#: plugin.py:648
+msgid "Save info / poster"
+msgstr ""
+
+#: plugin.py:762
+#, python-format
+msgid ""
+"Save poster and info for:\n"
+" %s ?"
+msgstr ""
+
+#: plugin.py:650 plugin.py:732
+msgid "Search Trailer"
+msgstr ""
+
+#: plugin.py:642
+#, python-format
+msgid "Search results for: %s"
+msgstr ""
+
+#: plugin.py:746
+msgid "Select action:"
+msgstr ""
+
+#: plugin.py:731 plugin.py:739
+msgid "Select from Favourites"
+msgstr ""
+
+#: plugin.py:1283
+msgid "Select the search language"
+msgstr ""
+
+#: plugin.py:1284
+msgid "Select your skins"
+msgstr ""
+
+#: plugin.py:734 plugin.py:740
+msgid "Settings"
+msgstr ""
+
+#: plugin.py:1272
+msgid "Settings TMBD Details Plugin..."
+msgstr ""
+
+#: plugin.py:1666 plugin.py:1706
+msgid "Setup menu"
+msgstr ""
+
+#: plugin.py:1292
+msgid "Show info for all types of movies"
+msgstr ""
+
+#: plugin.py:651
+msgid "Show movie details"
+msgstr ""
+
+#: plugin.py:1289
+msgid "Show plugin in channel selection menu"
+msgstr ""
+
+#: plugin.py:1290
+msgid "Show plugin in extensions menu"
+msgstr ""
+
+#: plugin.py:686
+msgid "Show search results"
+msgstr ""
+
+#: plugin.py:129
+msgid "Small poster"
+msgstr ""
+
+#: plugin.py:710
+msgid "Studios"
+msgstr ""
+
+#: plugin.py:280 plugin.py:1665 plugin.py:1671 plugin.py:1677 plugin.py:1698
+#: plugin.py:1705 plugin.py:1711 plugin.py:1717
+msgid "TMBD Details"
+msgstr ""
+
+#: plugin.py:594
+msgid ""
+"TMBD Details Plugin\n"
+"Developer: Nikolasi,vlamo,Dima73\n"
+"(c)2012"
+msgstr ""
+
+#: plugin.py:523
+msgid "TMBD Details Plugin..."
+msgstr ""
+
+#: plugin.py:1257
+msgid "TMBD Plugin"
+msgstr ""
+
+#: plugin.py:730 plugin.py:738
+msgid "Text editing"
+msgstr ""
+
+#: plugin.py:478 plugin.py:603
+msgid "The Internet Movie Database"
+msgstr ""
+
+#: plugin.py:1177
+#, python-format
+msgid "Total results: %s"
+msgstr ""
+
+#: plugin.py:1206
+msgid "User Rating"
+msgstr ""
+
+#: plugin.py:1214
+msgid "Votes"
+msgstr ""
+
+#: plugin.py:724
+msgid "What exactly do you want to delete?"
+msgstr ""
+
+#: plugin.py:915
+msgid "Write event to new eit-file:\n"
+msgstr ""
+
+#: plugin.py:845
+msgid "Write to new meta-file for:\n"
+msgstr ""
+
+#: plugin.py:1044 plugin.py:1056
+msgid ""
+"YTTrailer is not installed.\n"
+"Install YTTrailer now?"
+msgstr ""
+
+#: plugin.py:755
+msgid "Yes"
+msgstr ""
+
+#: plugin.py:756
+msgid "Yes,but write new meta-file"
+msgstr ""
+
+#: plugin.py:140
+msgid "ask user"
+msgstr ""
+
+#: plugin.py:140
+msgid "close"
+msgstr ""
+
+#: plugin.py:1204
+msgid "no user rating yet"
+msgstr ""

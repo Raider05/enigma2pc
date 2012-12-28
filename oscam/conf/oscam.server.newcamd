@@ -1,0 +1,64 @@
+# oscam.server generated automatically by Streamboard OSCAM 0.99.4svn build #3146
+# Read more: http://streamboard.gmc.to/oscam/browser/trunk/Distribution/doc/txt/oscam.server.txt
+
+[reader]
+label                         = NTV
+enable                        = 1
+protocol                      = newcamd
+device                        = IP_SERVER,PORT
+key                           = 0102030405060708091011121314
+account                       = Username,Password
+services                      = 
+reconnecttimeout 	      = 1
+inactivitytimeout             = 2
+caid                          = 0500
+ident                         = 0500:030600,040600
+group                         = 1
+lb_weight                     = 100
+
+[reader]
+label                         = NTV_fallback
+enable                        = 0
+protocol                      = newcamd
+device                       = IP_SERVER_FALLBACK,PORT
+key                           = 0102030405060708091011121314
+account                       = Username,Password
+services                      =
+reconnecttimeout              = 1
+inactivitytimeout             = 2
+caid                          = 0500
+ident                         = 0500:030600,040600
+group                         = 1
+#ecmcache                      = 1
+lb_weight                     = 100
+fallback		      = 1
+
+[reader]
+label                         = TRICOLOR
+enable                        = 1
+protocol                      = newcamd
+device			       = IP_SERVER,PORT
+key                           = 0102030405060708091011121314
+account                       = Username,Password
+services                      = 
+reconnecttimeout 	      = 1
+inactivitytimeout             = 2
+caid                          = 4AE1
+ident                         = 4AE1:000000
+group                         = 1
+
+[reader]
+label                         = TRICOLOR_Fallback
+enable                        = 0
+protocol                      = newcamd
+device                       = IP_SERVER,PORT
+key                           = 0102030405060708091011121314
+account                       = Username,Password
+services                      =
+reconnecttimeout              = 1
+inactivitytimeout             = 2
+caid                          = 4AE1
+ident                         = 4AE1:000000
+group                         = 1
+fallback                      = 1
+

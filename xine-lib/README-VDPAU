@@ -1,0 +1,40 @@
+FAQ:
+
+Q:
+  Why my file plays fine with mplayer-vdpau and not with xine-vdpau?
+A:
+  We are not using the nvidia's libavcodec patch.
+  We are writing decoders from scratch.
+  So don't expect them to be as mature as ffmpeg ones. Not yet.
+
+Q:
+  Why mpeg2 doesn't use less cpu than software decoder?
+A:
+  Because at that moment it does a lot of memcpy. This will be fixed soon, but that's not
+  a priority. Stability is our focus.
+
+Q:
+  Is deinterlacing working?
+A:
+  Yes. It's already quite good (doing 50i->50p), but could even be better in the future.
+
+Q:
+  How do i get it working with VDR, Kaffeine, whatever.
+A:
+  Ask VDR, Kaffeine, whatever developers.
+    (Note: for kaffeine you are lucky, i'm going to tell you the tip.
+     Build kaffeine like that: ./configure --without-xcb && make && make install)
+
+Q:
+  How can i contact you?
+A:
+  IRC: #xine-vdpau on freenode
+  MAIL: http://lists.kafic.ba/mailman/listinfo/xine-vdpau
+  Eventually, nvnews.
+
+Q:
+  What information do I need if there's a problem?
+A:
+  Run 'xine --verbose /path/to/a/working/sample' (or equivalent for your
+  chosen front end). You will probably be asked for this anyway, so it
+  helps to have it handy.

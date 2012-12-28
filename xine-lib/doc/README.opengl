@@ -1,0 +1,96 @@
+Startup
+-------
+
+Start xine with '-V opengl'.
+
+You can choose the render technique in xine's configuration menu
+(video.output.opengl_renderer). The following renderer are available:
+
+* 2D_Tex_Fragprog
+  This module downloads the images as YUV 2D textures and renders a textured
+  slice using fragment programs for reconstructing RGB.
+  This is the best and fastest method on modern graphics cards.
+  Performance similar to XVideo or even better. Good for 1080p HDTV.
+* 2D_Tex
+  This module downloads the images as 2D textures and renders a textured
+  slice.
+* 2D_Tex_Tiled
+  This module downloads the images as multiple 2D textures and renders a
+  textured slice. Thus this works with smaller maximum texture sizes as well.
+* Image_Pipeline
+  This module uses glDraw() to render the images.
+  Only accelerated on few drivers.
+  Does not interpolate on scaling.
+* Cylinder
+  Shows images on a rotating cylinder. Nice effect :)
+* Environment_Mapped_Torus
+  Show images reflected in a spinning torus. Way cool =)
+
+
+
+Problems you might encounter (FAQ)
+----------------------------------
+
+* Output is *extremely* slow
+
+  Run 'glxinfo' and check the third output line saying 'direct rendering:'
+  If it doesn't say 'Yes', you are not running an accelerated OpenGL setup.
+  Check your installation.
+  Image_Pipeline based rendering is typically slower than 2D_Textures.
+  Note that OpenGL output is always slower than XVideo, and often faster
+  than X shared memory.
+
+* Output is still slower than xshm, even though I do have direct rendering
+
+  The Mesa hardware accelerated drivers do not seem to be optimized WRT
+  texture transfer, at least for the older radeon chips.
+  If it does not work well with other drivers please drop me a line.
+
+* xine crashes when switching to fullscreen ('f') and back
+
+  This only happens with accelerated Mesa drivers (reproducable), not with
+  the binary only NVIDIA and ATI drivers.
+  So either I uncovered a seldomly triggered bug in Mesa, or (more likely)
+  there is still an undiscovered race or bug in the output plugin. I have
+  debugged it a lot, but I cannot find anything wrong in my code.  Can
+  someone verify this behavior?
+
+* I've chosing a more complex rendering option, but suddenly xine switched
+  back to '2D_Tex' or '2D_Tex_Tiled'
+
+  If the current video cannot be displayed with the render settings, xine
+  falls back to a render technique that is capable of displaying the video.
+  Unfortunately, this can happen e.g. for large video frames, while smaller
+  video frames could be rendered differently, but xine does not switch back
+  to complex rendering techniques for them.
+  This also can happen for decoders using the WinAPI for loading windows
+  codecs from /usr/lib/codecs. They often decode into interleaved YUY2 video
+  instead of planar YUV, which is not yet implemented.
+  You have to switch back to more complex rendering techniques like
+  '2D_Tex_Fragprog' manually.
+
+* Low color quality / quantization artifacts
+
+  xine might choose a visual with a different color depth than you would
+  prefer.  Choose an appropriate visual with 'glxinfo' and select it with '-V
+  opengl --visual xyz' in this case.
+
+
+Known minor issues
+------------------
+
+* GL_BGRA (used on little endian machines, i.e. ix86) needs an extension
+  check. This is implemented, but not used yet...
+* Big endian machines have not been checked yet.
+* VO_CAP_UNSCALED_OVERLAY reduces performance a lot during the first few
+  frames. Thus disabled.
+* Cropping is not yet implemented - this is done by video_out.c
+* XINE_GUI_SEND_WILL_DESTROY_DRAWABLE only sent by few UIs
+* On startup or when switching to fullscreen, the screen may remain black
+  on rare occasions. On the next switch, however, everything looks normal.
+  Seems like a race, again. I've given up finding it. Feel free to look at
+  the code. Hasn't happened for a while for me, maybe it is gone now.
+
+
+
+Matthias Hopf <mat@mshopf.de>
