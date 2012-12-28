@@ -5,7 +5,7 @@ from Tools.CList import CList
 from Tools.HardwareInfo import HardwareInfo
 from Components.AVSwitch import AVSwitch
 
-# The "VideoHardware" is the interface to /proc/stb/video.
+# The "VideoHardware" is the interface to /usr/local/e2/etc/stb/video.
 # It generates hotplug events, and gives you the list of 
 # available and preferred modes, as well as handling the currently
 # selected mode. No other strict checking is done.
@@ -92,12 +92,12 @@ class VideoHardware:
 			mode_60 = mode_50
 
 		#try:
-		#	open("/proc/stb/video/videomode_50hz", "w").write(mode_50)
-		#	open("/proc/stb/video/videomode_60hz", "w").write(mode_60)
+		#	open("/usr/local/e2/etc/stb/video/videomode_50hz", "w").write(mode_50)
+		#	open("/usr/local/e2/etc/stb/video/videomode_60hz", "w").write(mode_60)
 		#except IOError:
 		#	try:
 		#		# fallback if no possibility to setup 50/60 hz mode
-		#		open("/proc/stb/video/videomode", "w").write(mode_50)
+		#		open("/usr/local/e2/etc/stb/video/videomode", "w").write(mode_50)
 		#	except IOError:
 		#		print "setting videomode failed."
 

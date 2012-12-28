@@ -17,10 +17,10 @@ SystemInfo["CanMeasureFrontendInputPower"] = eDVBResourceManager.getInstance().c
 
 def countFrontpanelLEDs():
 	leds = 0
-	if fileExists("/proc/stb/fp/led_set_pattern"):
+	if fileExists("/usr/local/e2/etc/stb/fp/led_set_pattern"):
 		leds += 1
 
-	while fileExists("/proc/stb/fp/led%d_pattern" % leds):
+	while fileExists("/usr/local/e2/etc/stb/fp/led%d_pattern" % leds):
 		leds += 1
 
 	return leds

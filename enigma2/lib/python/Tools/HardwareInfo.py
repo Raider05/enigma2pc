@@ -15,7 +15,7 @@ class HardwareInfo:
 			HardwareInfo.device_name = file.readline().strip()
 			file.close()
 			try:
-				file = open("/proc/stb/info/version", "r")
+				file = open("/usr/local/e2/etc/stb/info/version", "r")
 				HardwareInfo.device_version = file.readline().strip()
 				file.close()
 			except:

@@ -74,10 +74,10 @@ class OSD3DSetupScreen(Screen, ConfigListScreen):
 
 def applySettings(mode, znorm):
 	try:
-		file = open("/proc/stb/fb/3dmode", "w")
+		file = open("/usr/local/e2/etc/stb/fb/3dmode", "w")
 		file.write(mode)
 		file.close()
-		file = open("/proc/stb/fb/znorm", "w")
+		file = open("/usr/local/e2/etc/stb/fb/znorm", "w")
 		file.write('%d' % znorm)
 		file.close()
 	except:
@@ -94,7 +94,7 @@ def startup(reason, **kwargs):
 
 def Plugins(**kwargs):
 	from os import path
-	if path.exists("/proc/stb/fb/3dmode"):
+	if path.exists("/usr/local/e2/etc/stb/fb/3dmode"):
 		from Plugins.Plugin import PluginDescriptor
 		return [PluginDescriptor(name = "OSD 3D setup", description = _("Adjust 3D settings"), where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main),
 					PluginDescriptor(name = "OSD 3D setup", description = "", where = PluginDescriptor.WHERE_SESSIONSTART, fnc = startup)]

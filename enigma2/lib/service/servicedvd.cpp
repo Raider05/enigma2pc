@@ -107,7 +107,7 @@ eServiceDVD::eServiceDVD(eServiceReference ref):
 	if (!ePythonConfigQuery::getConfigValue("config.osd.language", ddvd_language))
 		ddvd_set_language(m_ddvdconfig, (ddvd_language.substr(0,2)).c_str());
 
-	int fd = open("/proc/stb/video/aspect", O_RDONLY);
+	int fd = open("/usr/local/e2/etc/stb/video/aspect", O_RDONLY);
 	if (fd > -1)
 	{
 		rd = read(fd, tmp, 255);
@@ -118,7 +118,7 @@ eServiceDVD::eServiceDVD(eServiceReference ref):
 		close(fd);
 	}
 
- 	fd = open("/proc/stb/video/policy", O_RDONLY);
+ 	fd = open("/usr/local/e2/etc/stb/video/policy", O_RDONLY);
 	if (fd > -1)
 	{
 		rd = read(fd, tmp, 255);
@@ -130,7 +130,7 @@ eServiceDVD::eServiceDVD(eServiceReference ref):
 	}
 
 #ifdef DDVD_SUPPORTS_16_10_SCALING
- 	fd = open("/proc/stb/video/policy2", O_RDONLY);
+ 	fd = open("/usr/local/e2/etc/stb/video/policy2", O_RDONLY);
 	if (fd > -1)
 	{
 		rd = read(fd, tmp, 255);

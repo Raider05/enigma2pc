@@ -9,7 +9,7 @@ from enigma import iRecordableService
 class FanControl:
 	# ATM there's only support for one fan
 	def __init__(self):
-		if os.path.exists("/proc/stb/fp/fan_vlt") or os.path.exists("/proc/stb/fp/fan_pwm") or os.path.exists("/proc/stb/fp/fan_speed"):
+		if os.path.exists("/usr/local/e2/etc/stb/fp/fan_vlt") or os.path.exists("/usr/local/e2/etc/stb/fp/fan_pwm") or os.path.exists("/usr/local/e2/etc/stb/fp/fan_speed"):
 			self.fancount = 1
 		else:
 			self.fancount = 0
@@ -77,19 +77,19 @@ class FanControl:
 		return self.fancount
 	
 	def hasRPMSensor(self, fanid):
-		return os.path.exists("/proc/stb/fp/fan_speed")
+		return os.path.exists("/usr/local/e2/etc/stb/fp/fan_speed")
 	
 	def hasFanControl(self, fanid):
-		return os.path.exists("/proc/stb/fp/fan_vlt") or os.path.exists("/proc/stb/fp/fan_pwm")
+		return os.path.exists("/usr/local/e2/etc/stb/fp/fan_vlt") or os.path.exists("/usr/local/e2/etc/stb/fp/fan_pwm")
 	
 	def getFanSpeed(self, fanid):
-		f = open("/proc/stb/fp/fan_speed", "r")
+		f = open("/usr/local/e2/etc/stb/fp/fan_speed", "r")
 		value = int(f.readline().strip()[:-4])
 		f.close()
 		return value
 	
 	def getVoltage(self, fanid):
-		f = open("/proc/stb/fp/fan_vlt", "r")
+		f = open("/usr/local/e2/etc/stb/fp/fan_vlt", "r")
 		value = int(f.readline().strip(), 16)
 		f.close()
 		return value
@@ -97,12 +97,12 @@ class FanControl:
 	def setVoltage(self, fanid, value):
 		if value > 255:
 			return
-		f = open("/proc/stb/fp/fan_vlt", "w")
+		f = open("/usr/local/e2/etc/stb/fp/fan_vlt", "w")
 		f.write("%x" % value)
 		f.close()
 		
 	def getPWM(self, fanid):
-		f = open("/proc/stb/fp/fan_pwm", "r")
+		f = open("/usr/local/e2/etc/stb/fp/fan_pwm", "r")
 		value = int(f.readline().strip(), 16)
 		f.close()
 		return value
@@ -110,7 +110,7 @@ class FanControl:
 	def setPWM(self, fanid, value):
 		if value > 255:
 			return
-		f = open("/proc/stb/fp/fan_pwm", "w")
+		f = open("/usr/local/e2/etc/stb/fp/fan_pwm", "w")
 		f.write("%x" % value)
 		f.close()
 	

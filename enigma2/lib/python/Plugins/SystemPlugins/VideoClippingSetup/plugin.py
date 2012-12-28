@@ -96,16 +96,16 @@ def setPosition(clip_left, clip_width, clip_top, clip_height):
 	if clip_top + clip_height > 576:
 		clip_height = 576 - clip_top
 	try:
-		file = open("/proc/stb/vmpeg/0/clip_left", "w")
+		file = open("/usr/local/e2/etc/stb/vmpeg/0/clip_left", "w")
 		file.write('%X' % clip_left)
 		file.close()
-		file = open("/proc/stb/vmpeg/0/clip_width", "w")
+		file = open("/usr/local/e2/etc/stb/vmpeg/0/clip_width", "w")
 		file.write('%X' % clip_width)
 		file.close()
-		file = open("/proc/stb/vmpeg/0/clip_top", "w")
+		file = open("/usr/local/e2/etc/stb/vmpeg/0/clip_top", "w")
 		file.write('%X' % clip_top)
 		file.close()
-		file = open("/proc/stb/vmpeg/0/clip_height", "w")
+		file = open("/usr/local/e2/etc/stb/vmpeg/0/clip_height", "w")
 		file.write('%X' % clip_height)
 		file.close()
 	except:
@@ -122,7 +122,7 @@ def startup(reason, **kwargs):
 
 def Plugins(**kwargs):
 	from os import path
-	if path.exists("/proc/stb/vmpeg/0/clip_left"):
+	if path.exists("/usr/local/e2/etc/stb/vmpeg/0/clip_left"):
 		from Plugins.Plugin import PluginDescriptor
 		return [PluginDescriptor(name = "Video clipping setup", description = "clip overscan / letterbox borders", where = PluginDescriptor.WHERE_PLUGINMENU, fnc = main),
 					PluginDescriptor(name = "Video clipping  setup", description = "", where = PluginDescriptor.WHERE_SESSIONSTART, fnc = startup)]

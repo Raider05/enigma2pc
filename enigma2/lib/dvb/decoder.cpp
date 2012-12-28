@@ -523,7 +523,7 @@ int eDVBVideo::getProgressive()
 		m_progressive = readMpegProc("progressive", m_dev);
 /*	{
 		char tmp[64];
-		sprintf(tmp, "/proc/stb/vmpeg/%d/progressive", m_dev);
+		sprintf(tmp, "/usr/local/e2/etc/stb/vmpeg/%d/progressive", m_dev);
 		FILE *f = fopen(tmp, "r");
 		if (f)
 		{

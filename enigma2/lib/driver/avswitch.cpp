@@ -53,7 +53,7 @@ int eAVSwitch::getVCRSlowBlanking()
 		if (f)
 		{
 			if (fscanf(f, "%d", &val) != 1)
-				eDebug("read /proc/stb/fp/vcr_fns failed!! (%m)");
+				eDebug("read /usr/local/e2/etc/stb/fp/vcr_fns failed!! (%m)");
 			fclose(f);
 		}
 		else if (ioctl(m_fp_fd, FP_IOCTL_GET_VCR, &val) < 0)
@@ -76,7 +76,7 @@ void eAVSwitch::fp_event(int what)
 		{
 			int events;
 			if (fscanf(f, "%d", &events) != 1)
-				eDebug("read /proc/stb/fp/events failed!! (%m)");
+				eDebug("read /usr/local/e2/etc/stb/fp/events failed!! (%m)");
 			else if (events & FP_EVENT_VCR_SB_CHANGED)
 				/* emit */ vcr_sb_notifier(getVCRSlowBlanking());
 			fclose(f);
@@ -108,7 +108,7 @@ bool eAVSwitch::haveScartSwitch()
 	char tmp[255];
 	int fd = open(eEnv::resolve("${sysconfdir}/stb/avs/0/input_choices").c_str(), O_RDONLY);
 	if(fd < 0) {
-		eDebug("cannot open /proc/stb/avs/0/input_choices");
+		eDebug("cannot open /usr/local/e2/etc/stb/avs/0/input_choices");
 		return false;
 	}
 	read(fd, tmp, 255);
@@ -131,7 +131,7 @@ void eAVSwitch::setInput(int val)
 	m_active = val == 0;
 
 	if((fd = open(eEnv::resolve("${sysconfdir}/stb/avs/0/input").c_str(), O_WRONLY)) < 0) {
-		eDebug("cannot open /proc/stb/avs/0/input");
+		eDebug("cannot open /usr/local/e2/etc/stb/avs/0/input");
 		return;
 	}
 
@@ -158,7 +158,7 @@ void eAVSwitch::setColorFormat(int format)
 	int fd;
 	
 	if((fd = open(eEnv::resolve("${sysconfdir}/stb/avs/0/colorformat").c_str(), O_WRONLY)) < 0) {
-		printf("cannot open /proc/stb/avs/0/colorformat\n");
+		printf("cannot open /usr/local/e2/etc/stb/avs/0/colorformat\n");
 		return;
 	}
 	switch(format) {
@@ -197,7 +197,7 @@ void eAVSwitch::setAspectRatio(int ratio)
 
 	int fd;
 	if((fd = open(eEnv::resolve("${sysconfdir}/stb/video/aspect").c_str(), O_WRONLY)) < 0) {
-		eDebug("cannot open /proc/stb/video/aspect");
+		eDebug("cannot open /usr/local/e2/etc/stb/video/aspect");
 		return;
 	}
 //	eDebug("set aspect to %s", aspect[ratio]);
@@ -205,7 +205,7 @@ void eAVSwitch::setAspectRatio(int ratio)
 	close(fd);
 
 	if((fd = open(eEnv::resolve("${sysconfdir}/stb/video/policy").c_str(), O_WRONLY)) < 0) {
-		eDebug("cannot open /proc/stb/video/policy");
+		eDebug("cannot open /usr/local/e2/etc/stb/video/policy");
 		return;
 	}
 //	eDebug("set ratio to %s", policy[ratio]);
@@ -226,12 +226,12 @@ void eAVSwitch::setVideomode(int mode)
 	{
 		int fd1 = open(eEnv::resolve("${sysconfdir}/stb/video/videomode_50hz").c_str(), O_WRONLY);
 		if(fd1 < 0) {
-			eDebug("cannot open /proc/stb/video/videomode_50hz");
+			eDebug("cannot open /usr/local/e2/etc/stb/video/videomode_50hz");
 			return;
 		}
 		int fd2 = open(eEnv::resolve("${sysconfdir}/stb/video/videomode_60hz").c_str(), O_WRONLY);
 		if(fd2 < 0) {
-			eDebug("cannot open /proc/stb/video/videomode_60hz");
+			eDebug("cannot open /usr/local/e2/etc/stb/video/videomode_60hz");
 			close(fd1);
 			return;
 		}
@@ -244,7 +244,7 @@ void eAVSwitch::setVideomode(int mode)
 	{
 		int fd = open(eEnv::resolve("${sysconfdir}/stb/video/videomode").c_str(), O_WRONLY);
 		if(fd < 0) {
-			eDebug("cannot open /proc/stb/video/videomode");
+			eDebug("cannot open /usr/local/e2/etc/stb/video/videomode");
 			return;
 		}
 		switch(mode) {
@@ -267,7 +267,7 @@ void eAVSwitch::setWSS(int val) // 0 = auto, 1 = auto(4:3_off)
 {
 	int fd;
 	if((fd = open(eEnv::resolve("${sysconfdir}/stb/denc/0/wss").c_str(), O_WRONLY)) < 0) {
-		eDebug("cannot open /proc/stb/denc/0/wss");
+		eDebug("cannot open /usr/local/e2/etc/stb/denc/0/wss");
 		return;
 	}
 	const char *wss[] = {

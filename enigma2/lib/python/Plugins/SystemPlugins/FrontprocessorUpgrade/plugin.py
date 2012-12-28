@@ -79,7 +79,7 @@ def Plugins(**kwargs):
 		list.append(PluginDescriptor(name="FP Upgrade", where = PluginDescriptor.WHERE_WIZARD, needsRestart = True, fnc=(8, FPUpgrade)))
 
 	try:
-		msg = open("/proc/stb/message").read()
+		msg = open("/usr/local/e2/etc/stb/message").read()
 		list.append(PluginDescriptor(name="System Message Check", where = PluginDescriptor.WHERE_WIZARD, needsRestart = True, fnc=(9, SystemMessage, msg)))
 	except:
 		pass

@@ -17,16 +17,16 @@ class FrontpanelLed(Element):
 		(speed, pattern, pattern_4bit) = self.patterns[val]
 
 		try:
-			open("/proc/stb/fp/led%d_pattern" % self.which, "w").write("%08x" % pattern)
+			open("/usr/local/e2/etc/stb/fp/led%d_pattern" % self.which, "w").write("%08x" % pattern)
 		except IOError:
 			pass
 		if self.which == 0:
 			try:
-				open("/proc/stb/fp/led_set_pattern", "w").write("%08x" % pattern_4bit)
-				open("/proc/stb/fp/led_set_speed", "w").write("%d" % speed)
+				open("/usr/local/e2/etc/stb/fp/led_set_pattern", "w").write("%08x" % pattern_4bit)
+				open("/usr/local/e2/etc/stb/fp/led_set_speed", "w").write("%d" % speed)
 			except IOError:
 				pass
 			try:
-				open("/proc/stb/fp/led_pattern_speed", "w").write("%d" % speed)
+				open("/usr/local/e2/etc/stb/fp/led_pattern_speed", "w").write("%d" % speed)
 			except IOError:
 				pass

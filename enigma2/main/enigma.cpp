@@ -265,7 +265,7 @@ eApplication *getApplication()
 
 void quitMainloop(int exitCode)
 {
-	FILE *f = fopen("/proc/stb/fp/was_timer_wakeup", "w");
+	FILE *f = fopen("/usr/local/e2/etc/stb/fp/was_timer_wakeup", "w");
 	if (f)
 	{
 		fprintf(f, "%d", 0);

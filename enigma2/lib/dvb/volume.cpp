@@ -158,7 +158,7 @@ void eDVBVolumecontrol::setVolume(int left, int right)
 	//HACK?
 	FILE *f;
 	if((f = fopen(eEnv::resolve("${sysconfdir}/stb/avs/0/volume").c_str(), "wb")) == NULL) {
-		eDebug("cannot open /proc/stb/avs/0/volume(%m)");
+		eDebug("cannot open /usr/local/e2/etc/stb/avs/0/volume(%m)");
 		return;
 	}
 
@@ -198,7 +198,7 @@ void eDVBVolumecontrol::volumeMute()
 	//HACK?
 	FILE *f;
 	if((f = fopen(eEnv::resolve("${sysconfdir}/stb/audio/j1_mute").c_str(), "wb")) == NULL) {
-		eDebug("cannot open /proc/stb/audio/j1_mute(%m)");
+		eDebug("cannot open /usr/local/e2/etc/stb/audio/j1_mute(%m)");
 		return;
 	}
 	
@@ -229,7 +229,7 @@ void eDVBVolumecontrol::volumeUnMute()
 	//HACK?
 	FILE *f;
 	if((f = fopen(eEnv::resolve("${sysconfdir}/stb/audio/j1_mute").c_str(), "wb")) == NULL) {
-		eDebug("cannot open /proc/stb/audio/j1_mute(%m)");
+		eDebug("cannot open /usr/local/e2/etc/stb/audio/j1_mute(%m)");
 		return;
 	}
 	

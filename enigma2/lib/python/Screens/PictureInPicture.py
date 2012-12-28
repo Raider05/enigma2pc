@@ -18,7 +18,7 @@ class PictureInPicture(Screen):
 		self["video"] = VideoWindow()
 		self.pipActive = session.instantiateDialog(PictureInPictureZapping)
 		self.currentService = None
-		self.has_external_pip = access("/proc/stb/vmpeg/1/external", W_OK)
+		self.has_external_pip = access("/usr/local/e2/etc/stb/vmpeg/1/external", W_OK)
 		if not pip_config_initialized:
 			config.av.pip = ConfigPosition(default=[-1, -1, -1, -1], args = (719, 567, 720, 568))
 			config.av.external_pip = ConfigYesNo(default = False)
@@ -55,7 +55,7 @@ class PictureInPicture(Screen):
 
 	def setExternalPiP(self, onoff):
 		if self.has_external_pip:
-			procentry = open("/proc/stb/vmpeg/1/external", "w")
+			procentry = open("/usr/local/e2/etc/stb/vmpeg/1/external", "w")
 			if onoff:
 				procentry.write("on")
 			else:

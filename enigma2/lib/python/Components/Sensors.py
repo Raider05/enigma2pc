@@ -53,18 +53,18 @@ class Sensors:
 
 	def addSensors(self):
 		import os
-		if os.path.exists("/proc/stb/sensors"):
-			for dirname in os.listdir("/proc/stb/sensors"):
+		if os.path.exists("/usr/local/e2/etc/stb/sensors"):
+			for dirname in os.listdir("/usr/local/e2/etc/stb/sensors"):
 				if dirname.find("temp", 0, 4) == 0:
-					f = open("/proc/stb/sensors/%s/name" % dirname, "r")
+					f = open("/usr/local/e2/etc/stb/sensors/%s/name" % dirname, "r")
 					name = f.readline().strip()
 					f.close()
 					
-					f = open("/proc/stb/sensors/%s/unit" % dirname, "r")
+					f = open("/usr/local/e2/etc/stb/sensors/%s/unit" % dirname, "r")
 					unit = f.readline().strip()
 					f.close()
 					
-					self.sensors_list.append((self.TYPE_TEMPERATURE, name, unit, "/proc/stb/sensors/%s" % dirname))
+					self.sensors_list.append((self.TYPE_TEMPERATURE, name, unit, "/usr/local/e2/etc/stb/sensors/%s" % dirname))
 		for fanid in range(fancontrol.getFanCount()):
 			if fancontrol.hasRPMSensor(fanid):
 				self.sensors_list.append((self.TYPE_FAN_RPM, _("Fan %d") % (fanid + 1), "rpm", fanid))

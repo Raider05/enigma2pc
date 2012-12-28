@@ -241,11 +241,11 @@ def InitUsageConfig():
 		("3", _("Everywhere"))])
 	config.misc.erase_flags.addNotifier(updateEraseFlags, immediate_feedback = False)
 
-	SystemInfo["ZapMode"] = os.path.exists("/proc/stb/video/zapmode")
+	SystemInfo["ZapMode"] = os.path.exists("/usr/local/e2/etc/stb/video/zapmode")
 	if SystemInfo["ZapMode"]:
 		def setZapmode(el):
 			try:
-				file = open("/proc/stb/video/zapmode", "w")
+				file = open("/usr/local/e2/etc/stb/video/zapmode", "w")
 				file.write(el.value)
 				file.close()
 			except:

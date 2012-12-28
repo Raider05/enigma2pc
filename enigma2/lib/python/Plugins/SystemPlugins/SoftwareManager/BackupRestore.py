@@ -311,8 +311,8 @@ class RestoreScreen(Screen, ConfigListScreen):
 		self.setTitle(_("Restore is running..."))
 
 	def doRestore(self):
-		if path.exists("/proc/stb/vmpeg/0/dst_width"):
-			restorecmdlist = ["tar -xzvf " + self.fullbackupfilename + " -C /", "echo 0 > /proc/stb/vmpeg/0/dst_height", "echo 0 > /proc/stb/vmpeg/0/dst_left", "echo 0 > /proc/stb/vmpeg/0/dst_top", "echo 0 > /proc/stb/vmpeg/0/dst_width", "killall -9 enigma2"]
+		if path.exists("/usr/local/e2/etc/stb/vmpeg/0/dst_width"):
+			restorecmdlist = ["tar -xzvf " + self.fullbackupfilename + " -C /", "echo 0 > /usr/local/e2/etc/stb/vmpeg/0/dst_height", "echo 0 > /usr/local/e2/etc/stb/vmpeg/0/dst_left", "echo 0 > /usr/local/e2/etc/stb/vmpeg/0/dst_top", "echo 0 > /usr/local/e2/etc/stb/vmpeg/0/dst_width", "killall -9 enigma2"]
 		else:
 			restorecmdlist = ["tar -xzvf " + self.fullbackupfilename + " -C /", "killall -9 enigma2"]
 		if self.finished_cb:

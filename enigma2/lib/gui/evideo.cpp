@@ -74,7 +74,7 @@ void eVideoWidget::writeProc(const std::string &filename, int value)
 void eVideoWidget::setPosition(int index, int left, int top, int width, int height)
 {
 	char filenamebase[128];
-	snprintf(filenamebase, sizeof(filenamebase), "/proc/stb/vmpeg/%d/dst_", index);
+	snprintf(filenamebase, sizeof(filenamebase), "/usr/local/e2/etc/stb/vmpeg/%d/dst_", index);
 	std::string filename = filenamebase;
 	writeProc(filename + "left", left);
 	writeProc(filename + "top", top);

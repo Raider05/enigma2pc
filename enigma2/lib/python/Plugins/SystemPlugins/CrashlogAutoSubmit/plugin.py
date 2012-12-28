@@ -378,7 +378,7 @@ def callCrashMailer(result,session):
 def autostart(reason, **kwargs):
 	print "[CrashlogAutoSubmit] - autostart"
 	try:
-		device = open("/proc/stb/info/model", "r").readline().strip()
+		device = open("/usr/local/e2/etc/stb/info/model", "r").readline().strip()
 	except:
 		device = ""	
 	if "session" in kwargs:

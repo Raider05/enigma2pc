@@ -99,7 +99,7 @@ def InitAVSwitch():
 	"scale": _("Just Scale"),
   
   "zoom": _("Zoom")}
-	if os.path.exists("/proc/stb/video/policy2_choices") and "auto" in open("/proc/stb/video/policy2_choices").readline():
+	if os.path.exists("/usr/local/e2/etc/stb/video/policy2_choices") and "auto" in open("/usr/local/e2/etc/stb/video/policy2_choices").readline():
 		# TRANSLATORS: (aspect ratio policy: always try to display as fullscreen, when there is no content (black bars) on left/right, even if this breaks the aspect.
 		policy2_choices.update({"auto": _("Auto")})
 	config.av.policy_169 = ConfigSelection(choices=policy2_choices, default = "letterbox")

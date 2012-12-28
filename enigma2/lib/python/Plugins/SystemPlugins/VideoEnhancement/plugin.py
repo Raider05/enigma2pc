@@ -394,6 +394,6 @@ def startSetup(menuid):
 
 def Plugins(**kwargs):
 	list = []
-	if config.usage.setup_level.index >= 2 and os_path.exists("/proc/stb/vmpeg/0/pep_apply"):
+	if config.usage.setup_level.index >= 2 and os_path.exists("/usr/local/e2/etc/stb/vmpeg/0/pep_apply"):
 		list.append(PluginDescriptor(name=_("Videoenhancement Setup"), description=_("Advanced Video Enhancement Setup"), where = PluginDescriptor.WHERE_MENU, needsRestart = False, fnc=startSetup))
 	return list

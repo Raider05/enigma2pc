@@ -44,7 +44,7 @@ def read_random():
 
 def main(session, **kwargs):
 	try:
-		device = open("/proc/stb/info/model", "r").readline().strip()
+		device = open("/usr/local/e2/etc/stb/info/model", "r").readline().strip()
 	except:
 		device = ""	
 	if device != "dm7025":
