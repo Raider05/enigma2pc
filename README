@@ -1,0 +1,254 @@
+******************************
+This fork openpliPC project by nobody9
+
+******************************
+December, 2012
+
+nobody9 thread discussion:
+http://openpli.org/forums/topic/20871-build-script-for-openpli-enigma2-on-ubuntu-104-32-bit/
+
+------------------------------
+Tested on
+------------------------------
+Ubuntu 12.04 32 bit, Nvidia cards with VDPAU support
+
+------------------------------
+BUILDING openpliPC
+------------------------------
+
+1a) download openpliPC git repo as local user (not root):
+git clone https://github.com/Raider05/enigma2.git
+cd enigma2/
+
+ - OR -
+
+1b) Keep in sync previously cloned git repo:
+cd enigma2/
+git pull https://github.com/Raider05/enigma2.git
+
+
+2) Building needed openpliPC enigma2 libraries:
+It download, build and install all needed libraries
+Some tasks require root access (sudo). You will be asked for your password.
+This task must be run ONCE at the first time. These libs are compiled from
+its original sources and aren't patched anyway.
+
+./build_libs.sh
+If you are interested to have a logfile , simply do:
+./build_libs.sh 2>&1 | tee build_libs.log
+
+
+3) Build Xine-lib and openpliPC Enigma2:
+It compile and install xine-lib and the openpliPC Enigma2.
+xine-lib and enigma2 are included in openpliPC main repo and code
+is already patched ready to compile.
+Some tasks require root access (sudo). You will be asked for your password.
+
+./build_openpliPC.sh 
+If you are interested to have a logfile , simply do:
+./build_openpliPC.sh.sh 2>&1 | tee build_log.log
+
+./build_openpliPC.sh has some command-line options
+./build_openpliPC.sh -h  to see them
+
+4) Build oscam: (only for testing and learning)
+Some tasks require root access (sudo). You will be asked for your password.
+
+./build_oscam.sh
+If you are interested to have a logfile , simply do:
+./build_oscam.sh 2>&1 | tee build_oscam.log
+
+Config files location in the directory  - /etc/vdr/oscam
+
+5) Build plugins and skins for Enigma2:
+
+./build_plugins.sh
+
+------------------------------
+Where is Enigma2 ?
+------------------------------
+
+Enigma2 will be installed in /usr/local/e2/ (see build_openpliPC.sh $INSTALL_E2DIR )
+Example configs in /usr/local/e2/etc/enigma2/
+The hole /proc/stb directory are located at /usr/local/e2/etc/stb/
+
+
+------------------------------
+Run enigma2
+------------------------------
+
+Enigma2 requires to be launched as root user:
+sudo /usr/local/e2/bin/enigma2
+
+If you are inside openpliPC/ simply do:
+sudo ./e2bin
+
+If you are concerned about security, build and run Enigma2 in a Virtual Machine
+
+
+------------------------------
+Informations
+------------------------------
+
+1)
+with xine_vdpau I get osd, video (SD and HD) and sound,
+with xine_xshm I get video (SD and HD) and sound ,
+with xine_sdl I get only video (SD and HD) in size 720x576 they don´t scale and sound.
+
+VDPAU has the best results but it's only available with Nvidia graphics cards
+VDPAU library use Nvidia GPU as MPEG2/4 hardware coprocessor speeding up decode process
+http://en.wikipedia.org/wiki/VDPAU
+http://en.wikipedia.org/wiki/Nvidia_PureVideo
+
+Here you can find a message about VDPAU benchmark and performance:
+http://openpli.org/forums/topic/20871-build-script-for-openpli-enigma2-on-ubuntu-104-32-bit/page__view__findpost__p__239696
+not all Nvidia cards are able to play HD video using VDPAU
+
+
+2)
+Some remote control keys are remapped to local PC keyboard
+
+RED     ->  F1
+GREEN   ->  F2
+YELLOW  ->  F3
+BLUE    ->  F4
+
+VOL UP    ->  +  (numeric pad) or +
+VOL DOWN  ->  -  (numeric pad) or -
+
+NEXT CHANN. -> ARROW DOWN
+PREV CHANN. -> ARROW UP
+NEXT BOUQUET -> PAGE DOWN
+PREV BOUQUET -> PAGE UP
+
+EXIT    ->  ESC
+MENU    ->  SPACE
+INFO    ->  I or F5
+OK      ->  ENTER
+
+EPG     ->  E or F6
+POWER   ->  F10
+RECORD  ->  R
+TV      ->  T
+VIDEO   ->  V
+AUDIO   ->  A
+RADIO   ->  D
+MUTE    ->  M
+TIMESHIFT ->  P
+
+QUIT ENIGMA2      ->  X
+FULL SCREEN MODE  ->  F11
+
+For native lirc support edit 
+the file $INSTALL_E2DIR/etc/enigma2/remote.conf (see build_openpliPC.sh $INSTALL_E2DIR )
+Right format file:
+Lirc_key=Enigma2_key
+
+Example remote.conf for Remote MCE (mceusb):
+
+Up=KEY_UP
+Down=KEY_DOWN
+Right=KEY_RIGHT
+Left=KEY_LEFT
+OK=KEY_OK
+Back=KEY_ESC
+Guide=KEY_MENU
+Pause=KEY_AUDIO
+Mute=KEY_MUTE
+RecTV=KEY_VIDEO
+LiveTV=KEY_TV
+Star=KEY_RED
+Clear=KEY_GREEN
+Enter=KEY_YELLOW
+Hash=KEY_BLUE
+Play=KEY_PLAYPAUSE
+CTRL_KEY_S=KEY_STOP
+Replay=KEY_PREVIOUS
+Skip=KEY_NEXT
+Record=KEY_RECORD
+Rewind=KEY_PREVIOUSSONG
+Forward=KEY_NEXTSONG
+ChanDown=KEY_CHANNELDOWN
+ChanUp=KEY_CHANNELUP
+More=KEY_INFO
+One=KEY_1
+Two=KEY_2
+Three=KEY_3
+Four=KEY_4
+Five=KEY_5
+Six=KEY_6
+Seven=KEY_7
+Eight=KEY_8
+Nine=KEY_9
+Zero=KEY_0
+DVD=KEY_EXIT
+VolUp=KEY_VOLUMEUP
+VolDown=KEY_VOLUMEDOWN
+ 
+3)
+Default NIM is configured in /usr/local/e2/etc/tuxbox/nim_sockets
+NIM Socket 0:
+            Type: DVB-S2
+            Name: VTUNER
+            Has_Outputs: no
+            Frontend_Device: 0
+
+If you want to change or add NIM, you must edit nim_sockets file.
+Example: to change from DVB-S2 to DVB-T NIM, change "Type" as below
+NIM Socket 0:
+            Type: DVB-T
+            Name: VTUNER
+            Has_Outputs: no
+            Frontend_Device: 0
+
+Example two DVB-S(S2,T) cards with one frontend:
+NIM Socket 0:
+            Type: DVB-S2
+            Name: VTUNER
+            Has_Outputs: no
+            Frontend_Device: 0
+NIM Socket 1:
+            Type: DVB-S2
+            Name: VTUNER
+            Has_Outputs: no
+            Frontend_Device: 1
+
+4)
+Adding systemplugins, extensions or skins 
+put systemplugins in /usr/local/e2/lib/enigma2/python/Plugins/SystemPlugins
+put extensions in /usr/local/e2/lib/enigma2/python/Plugins/Extensions
+put skin in /usr/local/e2/share/enigma2
+
+
+5)
+In order to record a movie you must create the /hdd/movies directory or use a symbolic link
+i.e. 
+sudo ln -s /my/movie/archive /hdd
+sudo mkdir /hdd/movies
+
+
+6)
+/usr/local/e2/share/enigma2/xine.conf has many options about video and audio control
+take a look into it
+
+
+7)
+Using vtuner http://code.google.com/p/vtuner/ user can share his tuner over network connection.
+It's a client/server software. Server must be installed where you have a tuner (i.e. your STB like CT9x00 , DM800 ..) 
+and client must be installed where you have not the physical tuner (i.e. PC)
+Some external ref:
+Guide for vtunerc client http://wiki.nessiedvb.org/wiki/doku.php?id=install_vtunerc
+http://openpli.org/forums/topic/20871-build-script-for-openpli-enigma2-on-ubuntu-104-32-bit/page__view__findpost__p__238841 )
+http://openpli.org/forums/topic/20871-build-script-for-openpli-enigma2-on-ubuntu-104-32-bit/page__view__findpost__p__239211
+
+
+
+------------------------------
+Thanks to
+------------------------------
+
+Cougar for porting Enigma2 to Enigma2PC.
+nobody9 and betacentauri the further progress of the project.
+kanber_kav  implement a Mediaplayer in Enigma2PC over xinelib without gstreamer and implement subtitles.
+buyukbang  for testing.
+ambrosa  for testing, cosmethic changes of the scripts, docs.
