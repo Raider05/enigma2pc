@@ -14,7 +14,7 @@ password                      = Password
 inactivitytimeout             = 2
 reconnecttimeout              = 1
 caid                          = 0500,4AE1
-ident                         = 0500:030600,040600;4AE1:000000
+ident                         = 0500:050B00,040600;4AE1:000000
 group                         = 1
 
 
@@ -30,5 +30,5 @@ inactivitytimeout             = 2
 reconnecttimeout              = 1
 fallback                      = 1
 caid                          = 0500,4AE1
-ident                         = 0500:030600,040600;4AE1:000000
+ident                         = 0500:050B00,040600;4AE1:000000
 group                         = 1
