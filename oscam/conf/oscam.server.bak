@@ -8,8 +8,8 @@
 label    = newcamd
 protocol = newcamd
 key      = 0102030405060708091011121314
-device   = 83.166.48.33,4000
-account  = Raider05,ghjcnjserg05
+device   = Ip,port
+account  = Username,pass
 #group    = 1
 #fallback = 1
 CAID = 0500
