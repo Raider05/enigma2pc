@@ -1,0 +1,24 @@
+--- xine-lib_orig/src/audio_dec/xine_a52_decoder.c	2012-12-28 12:19:56.000000000 +0400
++++ xine-lib/src/audio_dec/xine_a52_decoder.c	2011-05-25 21:23:55.000000000 +0400
+@@ -53,6 +53,12 @@
+ # include "a52.h"
+ #endif
+ 
++#ifdef HAVE_A52DEC_A52_INTERNAL_H
++# include <a52dec/a52_internal.h>
++#else
++# include "a52_internal.h"
++#endif
++
+ #include <xine/buffer.h>
+ #include <xine/xineutils.h>
+ 
+@@ -777,7 +783,7 @@
+     this->a52_flags_map[i] |= A52_ADJUST_LEVEL;
+   */
+ #ifdef DEBUG_A52
+-  a52file = xine_create_cloexec("test.a52", O_WRONLY|O_TRUNC, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
++  a52file = open ("test.a52", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+ #endif
+   return &this->audio_decoder;
+ }
