@@ -362,6 +362,10 @@ static int ao_pulse_open(ao_driver_t *this_gen,
   pa_sample_spec ss;
   pa_channel_map cm;
 
+#if PA_CHECK_VERSION(1,0,0)
+  pa_encoding_t encoding = PA_ENCODING_INVALID;
+#endif
+
   xprintf (this->xine, XINE_VERBOSITY_DEBUG,
            "audio_pulse_out: ao_open bits=%d rate=%d, mode=%d\n", bits, rate, mode);
 
@@ -408,6 +412,15 @@ static int ao_pulse_open(ao_driver_t *this_gen,
       _x_assert(!"Should not be reached");
   }
 
+#if PA_CHECK_VERSION(1,0,0)
+  if (mode == AO_CAP_MODE_A52 || mode == AO_CAP_MODE_AC5) {
+    this->num_channels = 2;
+    this->bytes_per_frame = (this->bits_per_sample*this->num_channels)/8;
+    ss.channels = 2;
+    encoding = PA_ENCODING_AC3_IEC61937;
+  }
+#endif
+
   if (!pa_sample_spec_valid(&ss)) {
     xprintf (this->xine, XINE_VERBOSITY_DEBUG, "audio_pulse_out: Invalid sample spec\n");
     goto fail;
@@ -422,6 +435,8 @@ static int ao_pulse_open(ao_driver_t *this_gen,
       break;
 
     case AO_CAP_MODE_STEREO:
+    case AO_CAP_MODE_A52:
+    case AO_CAP_MODE_AC5:
       cm.map[0] = PA_CHANNEL_POSITION_FRONT_LEFT;
       cm.map[1] = PA_CHANNEL_POSITION_FRONT_RIGHT;
       _x_assert(cm.channels == 2);
@@ -458,9 +473,48 @@ static int ao_pulse_open(ao_driver_t *this_gen,
   if (connect_context(this) < 0)
     goto fail;
 
+#if PA_CHECK_VERSION(1,0,0)
+  pa_format_info *formatv[2];
+  unsigned formatc = 0;
+
+  /* Use digital pass-through if enabled */
+  if (encoding != PA_ENCODING_INVALID) {
+    formatv[formatc] = pa_format_info_new();
+    formatv[formatc]->encoding = encoding;
+    pa_format_info_set_rate(formatv[formatc], ss.rate);
+    pa_format_info_set_channels(formatv[formatc], ss.channels);
+    pa_format_info_set_channel_map(formatv[formatc], &cm);
+    formatc++;
+  }
+
+  /* Fallback to PCM */
+  formatv[formatc] = pa_format_info_new();
+  formatv[formatc]->encoding = PA_ENCODING_PCM;
+  pa_format_info_set_sample_format(formatv[formatc], ss.format);
+  pa_format_info_set_rate(formatv[formatc], ss.rate);
+  pa_format_info_set_channels(formatv[formatc], ss.channels);
+  pa_format_info_set_channel_map(formatv[formatc], &cm);
+  formatc++;
+
+  pa_proplist *proplist = pa_proplist_new();
+  if (proplist != NULL)
+    pa_proplist_sets(proplist, PA_PROP_MEDIA_ROLE, "video");
+
+  _x_assert(!this->stream);
+  this->stream = pa_stream_new_extended(this->context, "Audio Stream", formatv, formatc, proplist);
+  _x_assert(this->stream);
+
+  if (proplist != NULL)
+    pa_proplist_free(proplist);
+
+  unsigned i = 0;
+  for (i = 0; i < formatc; i++)
+    pa_format_info_free(formatv[i]);
+#else
   _x_assert(!this->stream);
   this->stream = pa_stream_new(this->context, "Audio Stream", &ss, &cm);
   _x_assert(this->stream);
+#endif
 
   pa_stream_set_state_callback(this->stream, __xine_pa_stream_state_callback, this);
   pa_stream_set_write_callback(this->stream, __xine_pa_stream_request_callback, this);
@@ -485,6 +539,19 @@ static int ao_pulse_open(ao_driver_t *this_gen,
 
     pa_threaded_mainloop_wait(this->mainloop);
   }
+
+#if PA_CHECK_VERSION(1,0,0)
+  if (encoding != PA_ENCODING_INVALID) {
+    const pa_format_info *info = pa_stream_get_format_info(this->stream);
+
+    _x_assert(info);
+    if (pa_format_info_is_pcm (info)) {
+      xprintf (this->xine, XINE_VERBOSITY_DEBUG, "digital pass-through not available\n");
+    } else {
+      xprintf (this->xine, XINE_VERBOSITY_DEBUG, "digital pass-through enabled\n");
+    }
+  }
+#endif
 
   pa_threaded_mainloop_unlock(this->mainloop);
 
@@ -860,6 +927,9 @@ static ao_driver_t *open_plugin (audio_driver_class_t *class_gen, const void *da
   pulse_driver_t  *this;
   const char* device;
   int r;
+#if PA_CHECK_VERSION(1,0,0)
+  int a52_passthru;
+#endif
 
   lprintf ("audio_pulse_out: open_plugin called\n");
 
@@ -881,6 +951,19 @@ static ao_driver_t *open_plugin (audio_driver_class_t *class_gen, const void *da
                                            "pulseaudio sink device."),
                                          10, NULL,
                                          NULL);
+
+#if PA_CHECK_VERSION(1,0,0)
+  a52_passthru = class->xine->config->register_bool(class->xine->config,
+                               "audio.device.pulseaudio_a52_pass_through",
+                               0,
+                               _("use A/52 pass through"),
+                               _("Enable this, if your want to use digital audio "
+                                 "pass through with pulseaudio.\nYou need to connect a digital "
+                                 "surround decoder capable of decoding the formats you want "
+                                 "to play to your sound card's digital output."),
+                               10, NULL,
+                               NULL);
+#endif
 
   if (device && *device) {
     char *sep = strrchr(device, ':');
@@ -916,6 +999,13 @@ static ao_driver_t *open_plugin (audio_driver_class_t *class_gen, const void *da
     AO_CAP_MODE_4_1CHANNEL | AO_CAP_MODE_5CHANNEL | AO_CAP_MODE_5_1CHANNEL |
     AO_CAP_MIXER_VOL | AO_CAP_PCM_VOL | AO_CAP_MUTE_VOL |
     AO_CAP_8BITS | AO_CAP_16BITS | AO_CAP_FLOAT32;
+
+#if PA_CHECK_VERSION(1,0,0)
+  if (a52_passthru) {
+    this->capabilities |= AO_CAP_MODE_A52;
+    this->capabilities |= AO_CAP_MODE_AC5;
+  }
+#endif
 
   this->sample_rate  = 0;
 

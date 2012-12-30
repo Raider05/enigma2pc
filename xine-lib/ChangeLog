@@ -6,9 +6,9 @@ xine-lib (1.2.3) ????-??-??
   * Add fast libjpeg based JPEG decoder
   * Add max. Xv image size detection to Xv video output plugin
   * Fix crash when trying to display too large jpeg image with Xv output plugin
-
-xine-lib (1.1.22) ????-??-??
-  * Fix segfault when trying to display large images with Xv output plugins
+  * Fix possible crash when stopping playback with deinterlacing enabled
+  * Support large PAT in MPEG TS
+  * Handle EAC3 audio (via ffmpeg)
 
 xine-lib (1.2.2) 2012-06-09
   * Fix musepack decoder compilation if libmpcdec headers aren't available.
@@ -98,6 +98,9 @@ xine-lib (1.2.0) 2012-01-01
     XvMC does not support port selection at present.
   * Report more video output capabilities via (port)->get_capabilities():
     colour controls, zooming, colour keying.
+
+xine-lib (1.1.22) ????-??-??
+  * Fix segfault when trying to display large images with Xv output plugins
 
 xine-lib (1.1.22) ????-??-??
   * Fix segfault when trying to display large images with Xv output plugins

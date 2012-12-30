@@ -1,4 +1,4 @@
-xine-lib-1.2 (1.2.1~hg-0) experimental; urgency=low
+xine-lib-1.2 (1.2.2+hg-0) experimental; urgency=low
 
   * Hg snapshot.
   * Adjust for libxine2.

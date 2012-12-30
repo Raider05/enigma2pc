@@ -1734,3 +1734,200 @@ void init_yuv_conversion(void) {
   yuv411_to_yv12 = yuv411_to_yv12_c;
 
 }
+
+/* TJ. direct sliced rgb -> yuy2 conversion */
+typedef struct {
+  uint64_t r[256], g[256], b[256];
+  int cm, fmt;
+} rgb2yuy2_t;
+
+void *rgb2yuy2_alloc (int color_matrix, const char *format) {
+  rgb2yuy2_t *b;
+  float kb, kr;
+  float _ry, _gy, _by, _yoffs;
+  float _bv, _bvoffset, _ru, _ruoffset, _gu, _guoffset, _gv, _gvoffset, _burv;
+  int i = -1;
+  const char *fmts[] = {"bgr", "rgb", "bgra", "argb", "rgba"};
+
+  if (format) for (i = 4; i >= 0; i--) if (!strcmp (format, fmts[i])) break;
+  if (i < 0) return NULL;
+
+  b = malloc (sizeof (*b));
+  if (!b) return b;
+
+  b->fmt = i;
+  b->cm = color_matrix;
+  switch ((b->cm) >> 1) {
+    case 1:  kb = 0.0722; kr = 0.2126; break; /* ITU-R 709 */
+    case 4:  kb = 0.1100; kr = 0.3000; break; /* FCC */
+    case 7:  kb = 0.0870; kr = 0.2120; break; /* SMPTE 240 */
+    default: kb = 0.1140; kr = 0.2990;        /* ITU-R 601 */
+  }
+  if (b->cm & 1) {
+    /* fullrange */
+    _ry = 8192.0 * kr;
+    _gy = 8192.0 * (1.0 - kb - kr);
+    _by = 8192.0 * kb;
+    _yoffs = 8192.0 * 0.5;
+    _burv = 4096.0 * (127.0 / 255.0);
+  } else {
+    /* mpeg range */
+    _ry = 8192.0 * (219.0 / 255.0) * kr;
+    _gy = 8192.0 * (219.0 / 255.0) * (1.0 - kb - kr);
+    _by = 8192.0 * (219.0 / 255.0) * kb;
+    _yoffs = 8192.0 * 16.5;
+    _burv = 4096.0 * (112.0 / 255.0);
+  }
+  /* Split uv offsets to make all values non negative.
+     This prevents carry between components. */
+  _ru = _burv * (kr / (kb - 1.0));
+  _gu = _burv * ((1.0 - kb - kr) / (kb - 1.0));
+  _ruoffset = -255.0 * _ru;
+  _guoffset = 4096.0 * 128.5 - _ruoffset;
+  _bv = _burv * (kb / (kr - 1.0));
+  _gv = _burv * ((1.0 - kb - kr) / (kr - 1.0));
+  _bvoffset = -255.0 * _bv;
+  _gvoffset = 4096.0 * 128.5 - _bvoffset;
+
+  for (i = 0; i < 256; i++) {
+    b->r[i] = ((uint64_t)(_ru * i + _ruoffset + 0.5) << 42)
+            | ((uint64_t)(_burv * i + 0.5) << 21)
+            |  (uint64_t)(_ry * i + 0.5);
+    b->g[i] = ((uint64_t)(_gu * i + _guoffset + 0.5) << 42)
+            | ((uint64_t)(_gv * i + _gvoffset + 0.5) << 21)
+            |  (uint64_t)(_gy * i + _yoffs + 0.5);
+    b->b[i] = ((uint64_t)(_burv * i + 0.5) << 42)
+            | ((uint64_t)(_bv * i + _bvoffset + 0.5) << 21)
+            |  (uint64_t)(_by * i + 0.5);
+  }
+
+  return b;
+}
+
+
+void rgb2yuy2_free (void *rgb2yuy2) {
+  free (rgb2yuy2);
+}
+
+void rgb2yuy2_slice (void *rgb2yuy2, const uint8_t *in, int ipitch, uint8_t *out, int opitch,
+  int width, int height) {
+  rgb2yuy2_t *b = rgb2yuy2;
+  uint64_t v;
+  int ipad, opad;
+  int x, y;
+
+  if (!b) return;
+
+  width &= ~1;
+  opad = opitch - 2 * width;
+
+  switch (b->fmt) {
+    case 0: /* BGR */
+      ipad = ipitch - 3 * width;
+      for (y = height; y; y--) {
+        for (x = width / 2; x; x--) {
+          v  = b->b[*in++];
+          v += b->g[*in++];
+          v += b->r[*in++];
+          *out++  = v >> 13; /* y1 */
+          v &= ~0x1fffffLL;
+          v += b->b[*in++];
+          v += b->g[*in++];
+          v += b->r[*in++];
+          *out++  = v >> 55; /* u */
+          *out++  = v >> 13; /* y2 */
+          *out++  = v >> 34; /* v */
+        }
+        in  += ipad;
+        out += opad;
+      }
+    break;
+    case 1: /* RGB */
+      ipad = ipitch - 3 * width;
+      for (y = height; y; y--) {
+        for (x = width / 2; x; x--) {
+          v  = b->r[*in++];
+          v += b->g[*in++];
+          v += b->b[*in++];
+          *out++  = v >> 13; /* y1 */
+          v &= ~0x1fffffLL;
+          v += b->r[*in++];
+          v += b->g[*in++];
+          v += b->b[*in++];
+          *out++  = v >> 55; /* u */
+          *out++  = v >> 13; /* y2 */
+          *out++  = v >> 34; /* v */
+        }
+        in  += ipad;
+        out += opad;
+      }
+    break;
+    case 2: /* BGRA */
+      ipad = ipitch - 4 * width;
+      for (y = height; y; y--) {
+        for (x = width / 2; x; x--) {
+          v  = b->b[*in++];
+          v += b->g[*in++];
+          v += b->r[*in];
+          in += 2;
+          *out++  = v >> 13; /* y1 */
+          v &= ~0x1fffffLL;
+          v += b->b[*in++];
+          v += b->g[*in++];
+          v += b->r[*in];
+          in += 2;
+          *out++  = v >> 55; /* u */
+          *out++  = v >> 13; /* y2 */
+          *out++  = v >> 34; /* v */
+        }
+        in  += ipad;
+        out += opad;
+      }
+    break;
+    case 3: /* ARGB */
+      ipad = ipitch - 4 * width;
+      for (y = height; y; y--) {
+        for (x = width / 2; x; x--) {
+          in++;
+          v  = b->r[*in++];
+          v += b->g[*in++];
+          v += b->b[*in];
+          in += 2;
+          *out++  = v >> 13; /* y1 */
+          v &= ~0x1fffffLL;
+          v += b->r[*in++];
+          v += b->g[*in++];
+          v += b->b[*in++];
+          *out++  = v >> 55; /* u */
+          *out++  = v >> 13; /* y2 */
+          *out++  = v >> 34; /* v */
+        }
+        in  += ipad;
+        out += opad;
+      }
+    break;
+    case 4: /* RGBA */
+      ipad = ipitch - 4 * width;
+      for (y = height; y; y--) {
+        for (x = width / 2; x; x--) {
+          v  = b->r[*in++];
+          v += b->g[*in++];
+          v += b->b[*in];
+          in += 2;
+          *out++  = v >> 13; /* y1 */
+          v &= ~0x1fffffLL;
+          v += b->r[*in++];
+          v += b->g[*in++];
+          v += b->b[*in];
+          in += 2;
+          *out++  = v >> 55; /* u */
+          *out++  = v >> 13; /* y2 */
+          *out++  = v >> 34; /* v */
+        }
+        in  += ipad;
+        out += opad;
+      }
+    break;
+  }
+}
+

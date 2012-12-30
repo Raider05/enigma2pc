@@ -113,7 +113,7 @@ void dvbspeed_init (nbc_t *this, int force) {
             &entry) && (entry.num_value < 1800)) {
             config->update_num (config, "engine.buffers.video_num_buffers", 1800);
 #ifdef LOG_DVBSPEED
-            printf ("net_buf_ctrl: enlarged video fifo to 1800 buffers\n");
+            printf ("net_buf_ctrl: enlarged video fifo to 800 buffers\n");
 #endif
           }
         }

@@ -34,6 +34,15 @@
 #define LOG
 */
 
+/* TJ. this is what my 32bit Linux running on a AMD Athlon II X2 240e (2 * 2800Mhz)
+  performed @ 1024x576, 19 fps:
+  goom: csc_method 0 min 5355 us avg 5398 us
+  goom: csc_method 1 min 12718 us avg 12855 us
+  goom: csc_method 2 min 4199 us avg 4289 us
+  Seems gcc 4.5 has a very nice 64bit math emulation :-)
+*/
+//#define BENCHMARK 1
+
 #include "config.h"
 #include <xine/xine_internal.h>
 #include <xine/xineutils.h>
@@ -51,6 +60,7 @@
 static const char* goom_csc_methods[]={
   "Fast but not photorealistic",
   "Slow but looks better",
+  "Mostly fast and good quality",
   NULL
 };
 
@@ -99,9 +109,14 @@ struct post_plugin_goom_s {
 
 
   yuv_planes_t yuv;
+  void *rgb2yuy2;
 
   /* frame skipping */
   int skip_frame;
+
+#ifdef BENCHMARK
+  int benchmark_frames, benchmark_min, benchmark_time;
+#endif
 };
 
 
@@ -302,6 +317,17 @@ static post_plugin_t *goom_open_plugin(post_class_t *class_gen, int inputs,
 
   this->post.dispose = goom_dispose;
 
+#ifdef __BIG_ENDIAN__
+  this->rgb2yuy2 = rgb2yuy2_alloc (10, "argb");
+#else
+  this->rgb2yuy2 = rgb2yuy2_alloc (10, "bgra");
+#endif
+#ifdef BENCHMARK
+  this->benchmark_frames = 0;
+  this->benchmark_min = 10000000;
+  this->benchmark_time = 0;
+#endif
+
   return &this->post;
 }
 
@@ -325,6 +351,8 @@ static void goom_class_dispose(post_class_t *class_gen)
 static void goom_dispose(post_plugin_t *this_gen)
 {
   post_plugin_goom_t *this   = (post_plugin_goom_t *)this_gen;
+
+  rgb2yuy2_free (this->rgb2yuy2);
 
   if (_x_post_dispose(this_gen)) {
     this->class->ip = NULL;
@@ -403,6 +431,14 @@ static void goom_port_close(xine_audio_port_t *port_gen, xine_stream_t *stream )
 
   _x_post_dec_usage(port);
 }
+
+#ifdef BENCHMARK
+static int now (void) {
+  struct timeval tv;
+  gettimeofday (&tv, NULL);
+  return tv.tv_sec * 1000000 + tv.tv_usec;
+}
+#endif
 
 static void goom_port_put_buffer (xine_audio_port_t *port_gen,
                              audio_buffer_t *buf, xine_stream_t *stream) {
@@ -503,13 +539,42 @@ static void goom_port_put_buffer (xine_audio_port_t *port_gen,
       this->metronom->got_video_frame(this->metronom, frame);
 
       if (!this->skip_frame) {
+#ifdef BENCHMARK
+        int elapsed;
+#endif
         /* Try to be fast */
         goom_frame = (uint8_t *)goom_update (this->goom, this->data, 0, 0, NULL, NULL);
 
         dest_ptr = frame -> base[0];
         goom_frame_end = goom_frame + 4 * (this->width_back * this->height_back);
 
-        if ((this->csc_method == 1) &&
+#ifdef BENCHMARK
+        elapsed = -now ();
+#endif
+
+        if (this->csc_method == 2) {
+
+          if (!frame->proc_slice || (frame->height & 15)) {
+            /* do all at once */
+            rgb2yuy2_slice (this->rgb2yuy2, goom_frame, 4 * this->width_back,
+              frame->base[0], frame->pitches[0], this->width_back, this->height_back);
+          } else {
+            /* sliced. This is a double edged sword.
+               On one hand, it is faster by using cache more effective.
+               On the flipside, when vo loop drops this frame, all this goes in vain */
+            uint8_t *sptr[1];
+            int     y, h = 16, p = 4 * this->width_back;
+            for (y = 0; y < this->height_back; y += 16) {
+              if (y + 16 > this->height_back)
+                h = this->height_back & 15;
+              sptr[0] = frame->base[0] + y * frame->pitches[0];
+              rgb2yuy2_slice (this->rgb2yuy2, goom_frame + y * p, p,
+                sptr[0], frame->pitches[0], this->width_back, h);
+              frame->proc_slice (frame, sptr);
+            }
+          }
+
+        } else if ((this->csc_method == 1) &&
             (xine_mm_accel() & MM_ACCEL_X86_MMX)) {
           int plane_ptr = 0;
 
@@ -562,6 +627,17 @@ static void goom_port_put_buffer (xine_audio_port_t *port_gen,
             dest_ptr++;
           }
         }
+
+#ifdef BENCHMARK
+        elapsed += now ();
+        if (this->benchmark_frames < 200) {
+          this->benchmark_time += elapsed;
+          if (elapsed < this->benchmark_min) this->benchmark_min = elapsed;
+          this->benchmark_frames++;
+          if (this->benchmark_frames == 200) printf ("goom: csc_method %d min %d us avg %d us\n",
+            this->csc_method, this->benchmark_min, this->benchmark_time / 200);
+        }
+#endif
 
         this->skip_frame = frame->draw(frame, XINE_ANON_STREAM);
       } else {

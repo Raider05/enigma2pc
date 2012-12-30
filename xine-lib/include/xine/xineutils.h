@@ -307,6 +307,13 @@ extern int v_r_table[256] XINE_PROTECTED;
 extern int v_g_table[256] XINE_PROTECTED;
 extern int v_b_table[256] XINE_PROTECTED;
 
+/* TJ. direct sliced rgb -> yuy2 conversion */
+extern void *rgb2yuy2_alloc (int color_matrix, const char *format) XINE_PROTECTED;
+extern void  rgb2yuy2_free (void *rgb2yuy2) XINE_PROTECTED;
+extern void  rgb2yuy2_slice (void *rgb2yuy2, const uint8_t *in, int ipitch, uint8_t *out, int opitch,
+  int width, int height) XINE_PROTECTED;
+
+
 /* frame copying functions */
 extern void yv12_to_yv12
   (const unsigned char *y_src, int y_src_pitch, unsigned char *y_dst, int y_dst_pitch,

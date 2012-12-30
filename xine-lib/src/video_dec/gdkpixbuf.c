@@ -96,10 +96,11 @@ static void image_decode_data (video_decoder_t *this_gen, buf_element_t *buf) {
 
   if (buf->decoder_flags & BUF_FLAG_FRAME_END) {
     GdkPixbuf         *pixbuf;
-    int                width, height, x, y, rowstride, n_channels, i;
+    int                width, height, rowstride, n_channels;
     guchar            *img_buf;
-    yuv_planes_t       yuv_planes;
     vo_frame_t        *img;
+    int                color_matrix, flags;
+    void              *rgb2yuy2;
 
     /*
      * this->image -> rgb data
@@ -132,13 +133,18 @@ static void image_decode_data (video_decoder_t *this_gen, buf_element_t *buf) {
 
     lprintf("image loaded successfully\n");
 
+    flags = VO_BOTH_FIELDS;
+    color_matrix =
+      this->stream->video_out->get_capabilities (this->stream->video_out) & VO_CAP_FULLRANGE ? 11 : 10;
+    VO_SET_FLAGS_CM (color_matrix, flags);
+    
     /*
      * alloc video frame
      */
     img = this->stream->video_out->get_frame (this->stream->video_out, width, height,
 					      (double)width / (double)height,
 					      XINE_IMGFMT_YUY2,
-					      VO_BOTH_FIELDS);
+					      flags);
 
     /* crop if allocated frame is smaller than requested */
     if (width > img->width)
@@ -147,27 +153,28 @@ static void image_decode_data (video_decoder_t *this_gen, buf_element_t *buf) {
       height = img->height;
     img->ratio = (double)width / (double)height;
 
-    /*
-     * rgb data -> yuv_planes
-     */
-    width &= ~1; /* must be even for init_yuv_planes */
-    init_yuv_planes(&yuv_planes, width, height);
-
+    /* rgb data -> yuv */
     n_channels = gdk_pixbuf_get_n_channels (pixbuf);
     rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-    i = 0;
-    for (y = 0; y < height; y++) {
-      for (x = 0; x < width; x++) {
-        guchar *p;
-        p = img_buf + y * rowstride + x * n_channels;
 
-	yuv_planes.y[i] = COMPUTE_Y (p[0], p[1], p[2]);
-	yuv_planes.u[i] = COMPUTE_U (p[0], p[1], p[2]);
-	yuv_planes.v[i] = COMPUTE_V (p[0], p[1], p[2]);
-
-	i++;
+    rgb2yuy2 = rgb2yuy2_alloc (color_matrix, n_channels > 3 ? "rgba" : "rgb");
+    if (!img->proc_slice || (img->height & 15)) {
+      /* do all at once */
+      rgb2yuy2_slice (rgb2yuy2, img_buf, rowstride, img->base[0], img->pitches[0], width, height);
+    } else {
+      /* sliced */
+      uint8_t *sptr[1];
+      int     y, h = 16;
+      for (y = 0; y < height; y += 16) {
+        if (y + 16 > height)
+          h = height & 15;
+        sptr[0] = img->base[0] + y * img->pitches[0];
+        rgb2yuy2_slice (rgb2yuy2, img_buf + y * rowstride, rowstride, sptr[0], img->pitches[0],
+          width, h);
+        img->proc_slice (img, sptr);
       }
     }
+    rgb2yuy2_free (rgb2yuy2);
     gdk_pixbuf_unref (pixbuf);
 
     /*
@@ -176,9 +183,6 @@ static void image_decode_data (video_decoder_t *this_gen, buf_element_t *buf) {
     img->pts = buf->pts;
     img->duration = 3600;
     img->bad_frame = 0;
-
-    yuv444_to_yuy2(&yuv_planes, img->base[0], img->pitches[0]);
-    free_yuv_planes(&yuv_planes);
 
     _x_stream_info_set(this->stream, XINE_STREAM_INFO_FRAME_DURATION, img->duration);
 

@@ -558,7 +558,7 @@ static void xv_flush_recent_frames (xv_driver_t *this) {
 
 static int xv_redraw_needed (vo_driver_t *this_gen) {
   xv_driver_t  *this = (xv_driver_t *) this_gen;
-  int           ret  = 0;
+  int           ret  = !this->cm_active;
 
   if( this->cur_frame ) {
 
