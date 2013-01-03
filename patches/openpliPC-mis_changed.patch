@@ -1,0 +1,712 @@
+--- enigma2_orig/lib/dvb/db.cpp	2012-12-28 12:19:55.000000000 +0400
++++ enigma2/lib/dvb/db.cpp	2012-12-27 12:13:56.000000000 +0400
+@@ -389,11 +389,11 @@
+ 					system=eDVBFrontendParametersSatellite::System_DVB_S,
+ 					modulation=eDVBFrontendParametersSatellite::Modulation_QPSK,
+ 					rolloff=eDVBFrontendParametersSatellite::RollOff_alpha_0_35,
+-					pilot=eDVBFrontendParametersSatellite::Pilot_Unknown;
++					pilot=eDVBFrontendParametersSatellite::Pilot_Unknown, mis = -1;
+ 				if (version == 3)
+ 					sscanf(line+3, "%d:%d:%d:%d:%d:%d:%d:%d:%d:%d", &frequency, &symbol_rate, &polarisation, &fec, &orbital_position, &inversion, &system, &modulation, &rolloff, &pilot);
+ 				else
+-					sscanf(line+3, "%d:%d:%d:%d:%d:%d:%d:%d:%d:%d:%d", &frequency, &symbol_rate, &polarisation, &fec, &orbital_position, &inversion, &flags, &system, &modulation, &rolloff, &pilot);
++					sscanf(line+3, "%d:%d:%d:%d:%d:%d:%d:%d:%d:%d:%d:%d", &frequency, &symbol_rate, &polarisation, &fec, &orbital_position, &inversion, &flags, &system, &modulation, &rolloff, &pilot, &mis);
+ 				sat.frequency = frequency;
+ 				sat.symbol_rate = symbol_rate;
+ 				sat.polarisation = polarisation;
+@@ -405,6 +405,7 @@
+ 				sat.modulation = modulation;
+ 				sat.rolloff = rolloff;
+ 				sat.pilot = pilot;
++				sat.mis = mis;
+ 				feparm->setDVBS(sat);
+ 				feparm->setFlags(flags);
+ 			} else if (line[1]=='t')
+@@ -542,7 +543,7 @@
+ 		{
+ 			if (sat.system == eDVBFrontendParametersSatellite::System_DVB_S2)
+ 			{
+-				fprintf(f, "\ts %d:%d:%d:%d:%d:%d:%d:%d:%d:%d:%d\n",
++				fprintf(f, "\ts %d:%d:%d:%d:%d:%d:%d:%d:%d:%d:%d:%d\n",
+ 					sat.frequency, sat.symbol_rate,
+ 					sat.polarisation, sat.fec,
+ 					sat.orbital_position > 1800 ? sat.orbital_position - 3600 : sat.orbital_position,
+@@ -551,7 +552,8 @@
+ 					sat.system,
+ 					sat.modulation,
+ 					sat.rolloff,
+-					sat.pilot);
++					sat.pilot,
++					sat.mis);
+ 			}
+ 			else
+ 			{
+@@ -840,7 +842,7 @@
+ 		return Py_False;
+ 	}
+ 	int tmp, *dest = NULL,
+-		modulation, system, freq, sr, pol, fec, inv, pilot, rolloff, tsid, onid;
++		modulation, system, freq, sr, pol, fec, inv, pilot, rolloff, mis, tsid, onid;
+ 	char *end_ptr;
+ 	const Attribute *at;
+ 	std::string name;
+@@ -905,6 +907,7 @@
+ 				inv = eDVBFrontendParametersSatellite::Inversion_Unknown;
+ 				pilot = eDVBFrontendParametersSatellite::Pilot_Unknown;
+ 				rolloff = eDVBFrontendParametersSatellite::RollOff_alpha_0_35;
++				mis = -1;
+ 				tsid = -1;
+ 				onid = -1;
+ 
+@@ -922,6 +925,7 @@
+ 					else if (name == "inversion") dest = &inv;
+ 					else if (name == "rolloff") dest = &rolloff;
+ 					else if (name == "pilot") dest = &pilot;
++					else if (name == "mis") dest = &mis;
+ 					else if (name == "tsid") dest = &tsid;
+ 					else if (name == "onid") dest = &onid;
+ 					else continue;
+@@ -935,7 +939,7 @@
+ 				}
+ 				if (freq && sr && pol != -1)
+ 				{
+-					tuple = PyTuple_New(12);
++					tuple = PyTuple_New(13);
+ 					PyTuple_SET_ITEM(tuple, 0, PyInt_FromLong(0));
+ 					PyTuple_SET_ITEM(tuple, 1, PyInt_FromLong(freq));
+ 					PyTuple_SET_ITEM(tuple, 2, PyInt_FromLong(sr));
+@@ -946,8 +950,9 @@
+ 					PyTuple_SET_ITEM(tuple, 7, PyInt_FromLong(inv));
+ 					PyTuple_SET_ITEM(tuple, 8, PyInt_FromLong(rolloff));
+ 					PyTuple_SET_ITEM(tuple, 9, PyInt_FromLong(pilot));
+-					PyTuple_SET_ITEM(tuple, 10, PyInt_FromLong(tsid));
+-					PyTuple_SET_ITEM(tuple, 11, PyInt_FromLong(onid));
++					PyTuple_SET_ITEM(tuple, 10, PyInt_FromLong(mis));
++					PyTuple_SET_ITEM(tuple, 11, PyInt_FromLong(tsid));
++					PyTuple_SET_ITEM(tuple, 12, PyInt_FromLong(onid));
+ 					PyList_Append(tplist, tuple);
+ 					Py_DECREF(tuple);
+ 				}
+--- enigma2_orig/lib/dvb/frontend.cpp	2012-12-28 12:19:55.000000000 +0400
++++ enigma2/lib/dvb/frontend.cpp	2013-01-03 16:24:37.000000000 +0400
+@@ -14,6 +14,8 @@
+ 
+ #include <linux/dvb/frontend.h>
+ 
++#define DTV_DVBS2_MIS_ID DTV_DVBT2_PLP_ID
++
+ #include <dvbsi++/satellite_delivery_system_descriptor.h>
+ #include <dvbsi++/cable_delivery_system_descriptor.h>
+ #include <dvbsi++/terrestrial_delivery_system_descriptor.h>
+@@ -102,21 +104,23 @@
+ 		orbital_position = 3600 - orbital_position;
+ 	system = descriptor.getModulationSystem();
+ 	modulation = descriptor.getModulation();
+-	if (system == System_DVB_S && modulation == Modulation_8PSK)
++	if (system == System_DVB_S && modulation != Modulation_QPSK)
+ 	{
+ 		eDebug("satellite_delivery_descriptor invalid modulation type.. force QPSK");
+ 		modulation = Modulation_QPSK;
+ 	}
+ 	rolloff = descriptor.getRollOff();
++	mis = -1;
+ 	if (system == System_DVB_S2)
+ 	{
+-		eDebug("SAT DVB-S2 freq %d, %s, pos %d, sr %d, fec %d, modulation %d, rolloff %d",
++		eDebug("SAT DVB-S2 freq %d, %s, pos %d, sr %d, fec %d, modulation %d, rolloff %d, mis %d",
+ 			frequency,
+ 			polarisation ? "hor" : "vert",
+ 			orbital_position,
+ 			symbol_rate, fec,
+ 			modulation,
+-			rolloff);
++			rolloff,
++			mis);
+ 	}
+ 	else
+ 	{
+@@ -297,6 +301,8 @@
+ 			diff = 1<<29;
+ 		else if (sat.polarisation != osat.polarisation)
+ 			diff = 1<<28;
++		else if (sat.mis != osat.mis)
++			diff = 1<<27;
+ 		else if (exact && sat.fec != osat.fec && sat.fec != eDVBFrontendParametersSatellite::FEC_Auto && osat.fec != eDVBFrontendParametersSatellite::FEC_Auto)
+ 			diff = 1<<27;
+ 		else if (exact && sat.modulation != osat.modulation && sat.modulation != eDVBFrontendParametersSatellite::Modulation_Auto && osat.modulation != eDVBFrontendParametersSatellite::Modulation_Auto)
+@@ -992,6 +998,7 @@
+ 	{
+ 		PutToDict(dict, "rolloff", feparm.rolloff);
+ 		PutToDict(dict, "pilot", feparm.pilot);
++		PutToDict(dict, "mis", feparm.mis);
+ 	}
+ 	PutToDict(dict, "system", feparm.system);
+ }
+@@ -1094,6 +1101,8 @@
+ 			default: eDebug("got unsupported modulation from frontend! report as QPSK!");
+ 			case QPSK: tmp = eDVBFrontendParametersSatellite::Modulation_QPSK; break;
+ 			case PSK_8: tmp = eDVBFrontendParametersSatellite::Modulation_8PSK; break;
++			case APSK_16: tmp = eDVBFrontendParametersSatellite::Modulation_16APSK; break;
++			case APSK_32: tmp = eDVBFrontendParametersSatellite::Modulation_32APSK; break;
+ 			}
+ 			PutToDict(dict, "modulation", tmp);
+ 			break;
+@@ -1122,6 +1131,13 @@
+ 				case PILOT_AUTO: tmp = eDVBFrontendParametersSatellite::Pilot_Unknown; break;
+ 				}
+ 				PutToDict(dict, "pilot", tmp);
++//				PutToDict(dict, "mis", p[4].u.data);
++			}
++			break;
++		case DTV_DVBS2_MIS_ID:
++			if (system == eDVBFrontendParametersSatellite::System_DVB_S2)
++			{
++				 PutToDict(dict, "mis", p[i].u.data);
+ 			}
+ 			break;
+ 		}
+@@ -1397,7 +1413,7 @@
+ {
+ 	if (dest && PyDict_Check(dest))
+ 	{
+-		struct dtv_property p[16];
++		struct dtv_property p[17];
+ 		struct dtv_properties cmdseq;
+ 		cmdseq.props = p;
+ 		cmdseq.num = 0;
+@@ -1417,6 +1433,7 @@
+ 				p[cmdseq.num++].cmd = DTV_INNER_FEC;
+ 				p[cmdseq.num++].cmd = DTV_ROLLOFF;
+ 				p[cmdseq.num++].cmd = DTV_PILOT;
++				p[cmdseq.num++].cmd = DTV_DVBS2_MIS_ID;
+ 			}
+ 			else if (m_type == feCable)
+ 			{
+@@ -1966,7 +1983,7 @@
+ 		if (recvEvents)
+ 			m_sn->start();
+ 		feEvent(-1); // flush events
+-		struct dtv_property p[16];
++		struct dtv_property p[17];
+ 		struct dtv_properties cmdseq;
+ 		cmdseq.props = p;
+ 		cmdseq.num = 0;
+@@ -1998,7 +2015,8 @@
+ 			{
+ 			case eDVBFrontendParametersSatellite::Modulation_QPSK: modulation = QPSK; break;
+ 			case eDVBFrontendParametersSatellite::Modulation_8PSK: modulation = PSK_8; break;
+-			case eDVBFrontendParametersSatellite::Modulation_QAM16: modulation = QAM_16; break;
++			case eDVBFrontendParametersSatellite::Modulation_16APSK: modulation = APSK_16; break;
++			case eDVBFrontendParametersSatellite::Modulation_32APSK: modulation = APSK_32; break;
+ 			}
+ 			switch (oparm.sat.pilot)
+ 			{
+@@ -2042,6 +2060,7 @@
+ 			{
+ 				p[cmdseq.num].cmd = DTV_ROLLOFF, p[cmdseq.num].u.data = rolloff, cmdseq.num++;
+ 				p[cmdseq.num].cmd = DTV_PILOT, p[cmdseq.num].u.data = pilot, cmdseq.num++;
++				p[cmdseq.num].cmd = DTV_DVBS2_MIS_ID, p[cmdseq.num].u.data = oparm.sat.mis, cmdseq.num++;
+ 			}
+ 		}
+ 		else if (m_type == iDVBFrontend::feCable)
+@@ -2269,7 +2288,7 @@
+ 	res = m_sec->prepare(*this, feparm, satfrequency, 1 << m_slotid, tunetimeout);
+ 	if (!res)
+ 	{
+-		eDebugNoSimulate("prepare_sat System %d Freq %d Pol %d SR %d INV %d FEC %d orbpos %d system %d modulation %d pilot %d, rolloff %d",
++		eDebugNoSimulate("prepare_sat System %d Freq %d Pol %d SR %d INV %d FEC %d orbpos %d system %d modulation %d pilot %d, rolloff %d, mis %d",
+ 			feparm.system,
+ 			feparm.frequency,
+ 			feparm.polarisation,
+@@ -2280,7 +2299,8 @@
+ 			feparm.system,
+ 			feparm.modulation,
+ 			feparm.pilot,
+-			feparm.rolloff);
++			feparm.rolloff,
++			feparm.mis);
+ 		if (satfrequency < fe_info.frequency_min || satfrequency > fe_info.frequency_max)
+ 		{
+ 			eDebugNoSimulate("%d mhz out of tuner range.. dont tune", satfrequency / 1000);
+--- enigma2_orig/lib/dvb/frontendparms.h	2012-12-28 12:19:55.000000000 +0400
++++ enigma2/lib/dvb/frontendparms.h	2013-01-03 15:51:14.000000000 +0400
+@@ -29,7 +29,7 @@
+ 	};
+ 
+ 	enum {
+-		Modulation_Auto, Modulation_QPSK, Modulation_8PSK, Modulation_QAM16
++		Modulation_Auto, Modulation_QPSK, Modulation_8PSK, Modulation_16APSK, Modulation_32APSK
+ 	};
+ 
+ 	// dvb-s2
+@@ -43,7 +43,7 @@
+ 
+ 	bool no_rotor_command_on_tune;
+ 	unsigned int frequency, symbol_rate;
+-	int polarisation, fec, inversion, orbital_position, system, modulation, rolloff, pilot;
++	int polarisation, fec, inversion, orbital_position, system, modulation, rolloff, pilot, mis;
+ };
+ SWIG_ALLOW_OUTPUT_SIMPLE(eDVBFrontendParametersSatellite);
+ 
+--- enigma2_orig/lib/python/Components/ServiceScan.py	2012-12-28 12:19:55.000000000 +0400
++++ enigma2/lib/python/Components/ServiceScan.py	2012-12-27 16:30:38.000000000 +0400
+@@ -53,18 +53,34 @@
+ 							network = sat_name
+ 						else:
+ 							network = ("%s %d.%d %s") % (sat_name, orb_pos / 10, orb_pos % 10, h)
+-						tp_text = ("%s %s %d%c / %d / %s") %( { tp.System_DVB_S : "DVB-S",
+-							tp.System_DVB_S2 : "DVB-S2" }.get(tp.system, tp.System_DVB_S),
+-							{ tp.Modulation_Auto : "Auto", tp.Modulation_QPSK : "QPSK",
+-								tp.Modulation_8PSK : "8PSK", tp.Modulation_QAM16 : "QAM16" }.get(tp.modulation, tp.Modulation_QPSK),
+-							tp.frequency/1000,
+-							{ tp.Polarisation_Horizontal : 'H', tp.Polarisation_Vertical : 'V', tp.Polarisation_CircularLeft : 'L',
+-								tp.Polarisation_CircularRight : 'R' }.get(tp.polarisation, tp.Polarisation_Horizontal),
+-							tp.symbol_rate/1000,
+-							{ tp.FEC_Auto : "AUTO", tp.FEC_1_2 : "1/2", tp.FEC_2_3 : "2/3",
+-								tp.FEC_3_4 : "3/4", tp.FEC_5_6 : "5/6", tp.FEC_7_8 : "7/8",
+-								tp.FEC_8_9 : "8/9", tp.FEC_3_5 : "3/5", tp.FEC_4_5 : "4/5",
+-								tp.FEC_9_10 : "9/10", tp.FEC_None : "NONE" }.get(tp.fec, tp.FEC_Auto))
++						if tp.mis > -1 and tp.system == tp.System_DVB_S2:
++							tp_text = ("%s %s %d%c / %d / %s / %d") %( { tp.System_DVB_S : "DVB-S",
++								tp.System_DVB_S2 : "DVB-S2" }.get(tp.system, tp.System_DVB_S),
++								{ tp.Modulation_Auto : "Auto", tp.Modulation_QPSK : "QPSK",
++									tp.Modulation_8PSK : "8PSK", tp.Modulation_16APSK : "16APSK", tp.Modulation_32APSK : "32APSK" }.get(tp.modulation, tp.Modulation_QPSK),
++									tp.frequency/1000,
++								{ tp.Polarisation_Horizontal : 'H', tp.Polarisation_Vertical : 'V', tp.Polarisation_CircularLeft : 'L',
++									tp.Polarisation_CircularRight : 'R' }.get(tp.polarisation, tp.Polarisation_Horizontal),
++									tp.symbol_rate/1000,
++								{ tp.FEC_Auto : "AUTO", tp.FEC_1_2 : "1/2", tp.FEC_2_3 : "2/3",
++									tp.FEC_3_4 : "3/4", tp.FEC_5_6 : "5/6", tp.FEC_7_8 : "7/8",
++									tp.FEC_8_9 : "8/9", tp.FEC_3_5 : "3/5", tp.FEC_4_5 : "4/5",
++									tp.FEC_9_10 : "9/10", tp.FEC_None : "NONE" }.get(tp.fec, tp.FEC_Auto),
++								tp.mis)
++						else:
++							tp_text = ("%s %s %d%c / %d / %s") %( { tp.System_DVB_S : "DVB-S",
++								tp.System_DVB_S2 : "DVB-S2" }.get(tp.system, tp.System_DVB_S),
++								{ tp.Modulation_Auto : "Auto", tp.Modulation_QPSK : "QPSK",
++									tp.Modulation_8PSK : "8PSK", tp.Modulation_16APSK : "16APSK", tp.Modulation_32APSK : "32APSK" }.get(tp.modulation, tp.Modulation_QPSK),
++									tp.frequency/1000,
++								{ tp.Polarisation_Horizontal : 'H', tp.Polarisation_Vertical : 'V', tp.Polarisation_CircularLeft : 'L',
++									tp.Polarisation_CircularRight : 'R' }.get(tp.polarisation, tp.Polarisation_Horizontal),
++									tp.symbol_rate/1000,
++								{ tp.FEC_Auto : "AUTO", tp.FEC_1_2 : "1/2", tp.FEC_2_3 : "2/3",
++									tp.FEC_3_4 : "3/4", tp.FEC_5_6 : "5/6", tp.FEC_7_8 : "7/8",
++									tp.FEC_8_9 : "8/9", tp.FEC_3_5 : "3/5", tp.FEC_4_5 : "4/5",
++									tp.FEC_9_10 : "9/10", tp.FEC_None : "NONE" }.get(tp.fec, tp.FEC_Auto))
++					
+ 					elif tp_type == iDVBFrontend.feCable:
+ 						network = _("Cable")
+ 						tp = transponder.getDVBC()
+--- enigma2_orig/lib/python/Components/TuneTest.py	2012-12-28 12:19:55.000000000 +0400
++++ enigma2/lib/python/Components/TuneTest.py	2012-12-27 16:30:38.000000000 +0400
+@@ -5,8 +5,8 @@
+ 		self.frontend = frontend
+ 		self.ignore_rotor = ignore_rotor
+ 
+-	# transponder = (frequency, symbolrate, polarisation, fec, inversion, orbpos, system, modulation, rolloff, pilot, tsid, onid)
+-	#                    0         1             2         3       4         5       6        7          8       9      10    11
++	# transponder = (frequency, symbolrate, polarisation, fec, inversion, orbpos, system, modulation, rolloff, pilot, mis, tsid, onid)
++	#                    0         1             2         3       4         5       6        7          8       9      10    11   12
+ 	def tune(self, transponder):
+ 		if self.frontend:
+ 			print "tuning to transponder with data", transponder
+@@ -21,6 +21,7 @@
+ 			parm.modulation = transponder[7]
+ 			parm.rolloff = transponder[8]
+ 			parm.pilot = transponder[9]
++			parm.mis = transponder[10]
+ 			feparm = eDVBFrontendParameters()
+ 			feparm.setDVBS(parm, self.ignore_rotor)
+ 			self.lastparm = feparm
+@@ -103,8 +104,8 @@
+ 				pidsFailed = False
+ 				if self.checkPIDs:
+ 					if self.currTuned is not None:
+-						if self.tsid != self.currTuned[10] or self.onid != self.currTuned[11]:
+-							self.failedTune.append([self.currTuned, self.oldTuned, "pids_failed", {"real": (self.tsid, self.onid), "expected": (self.currTuned[10], self.currTuned[11])}, dict])  # last parameter is the frontend status
++						if self.tsid != self.currTuned[11] or self.onid != self.currTuned[12]:
++							self.failedTune.append([self.currTuned, self.oldTuned, "pids_failed", {"real": (self.tsid, self.onid), "expected": (self.currTuned[11], self.currTuned[12])}, dict])  # last parameter is the frontend status
+ 							pidsFailed = True
+ 						else:
+ 							self.successfullyTune.append([self.currTuned, self.oldTuned, dict])  # 3rd parameter is the frontend status
+@@ -141,7 +142,7 @@
+ 			# check for tsid != -1 and onid != -1 
+ 			print "index:", index
+ 			print "len(self.transponderlist):", len(self.transponderlist)
+-			while (index < len(self.transponderlist) and (self.transponderlist[index][10] == -1 or self.transponderlist[index][11] == -1)):
++			while (index < len(self.transponderlist) and (self.transponderlist[index][11] == -1 or self.transponderlist[index][12] == -1)):
+ 			 	index += 1
+ 		print "FirstTransponder final index:", index
+ 		return index
+@@ -154,7 +155,7 @@
+ 			# check for tsid != -1 and onid != -1 
+ 			print "index:", index
+ 			print "len(self.transponderlist):", len(self.transponderlist)
+-			while (index < len(self.transponderlist) and (self.transponderlist[index][10] == -1 or self.transponderlist[index][11] == -1)):
++			while (index < len(self.transponderlist) and (self.transponderlist[index][11] == -1 or self.transponderlist[index][12] == -1)):
+ 			 	index += 1
+ 
+ 		print "next transponder index:", index
+@@ -204,8 +205,8 @@
+ 		self.progressCallback((self.getProgressLength(), self.tuningtransponder, self.STATUS_START, self.currTuned))
+ 		self.timer.start(100, True)
+ 	
+-	# transponder = (frequency, symbolrate, polarisation, fec, inversion, orbpos, <system>, <modulation>, <rolloff>, <pilot>, <tsid>, <onid>)
+-	#                    0         1             2         3       4         5       6        7              8         9        10       11
++	# transponder = (frequency, symbolrate, polarisation, fec, inversion, orbpos, <system>, <modulation>, <rolloff>, <pilot>, <mis>, <tsid>, <onid>)
++	#                    0         1             2         3       4         5       6        7              8         9        10       11      12
+ 	def addTransponder(self, transponder):
+ 		self.transponderlist.append(transponder)
+ 		
+--- enigma2_orig/lib/python/Plugins/SystemPlugins/DiseqcTester/plugin.py	2012-12-28 12:19:55.000000000 +0400
++++ enigma2/lib/python/Plugins/SystemPlugins/DiseqcTester/plugin.py	2012-12-27 16:30:38.000000000 +0400
+@@ -281,7 +281,7 @@
+ 		for sat in nimmanager.getSatListForNim(self.feid):
+ 			for transponder in nimmanager.getTransponders(sat[0]):
+ 				#print transponder
+-				mytransponder = (transponder[1] / 1000, transponder[2] / 1000, transponder[3], transponder[4], transponder[7], sat[0], transponder[5], transponder[6], transponder[8], transponder[9], transponder[10], transponder[11])
++				mytransponder = (transponder[1] / 1000, transponder[2] / 1000, transponder[3], transponder[4], transponder[7], sat[0], transponder[5], transponder[6], transponder[8], transponder[9], transponder[10], transponder[11], transponder[12])
+ 				self.analyseTransponder(mytransponder)
+ 
+ 	def getIndexForTransponder(self, transponder):
+--- enigma2_orig/lib/python/Plugins/SystemPlugins/PositionerSetup/plugin.py	2012-12-28 12:19:55.000000000 +0400
++++ enigma2/lib/python/Plugins/SystemPlugins/PositionerSetup/plugin.py	2013-01-03 16:21:50.000000000 +0400
+@@ -152,7 +152,8 @@
+ 			cur.get("system", eDVBFrontendParametersSatellite.System_DVB_S),
+ 			cur.get("modulation", eDVBFrontendParametersSatellite.Modulation_QPSK),
+ 			cur.get("rolloff", eDVBFrontendParametersSatellite.RollOff_alpha_0_35),
+-			cur.get("pilot", eDVBFrontendParametersSatellite.Pilot_Unknown))
++			cur.get("pilot", eDVBFrontendParametersSatellite.Pilot_Unknown),
++			cur.get("mis", 0))
+ 
+ 		self.tuner.tune(tp)
+ 		self.createConfig()
+@@ -1167,6 +1168,7 @@
+ 				self.list.append(self.modulationEntry)
+ 				self.list.append(getConfigListEntry(_('Roll-off'), self.scan_sat.rolloff))
+ 				self.list.append(getConfigListEntry(_('Pilot'), self.scan_sat.pilot))
++				self.list.append(getConfigListEntry(_('Input Stream ID'), self.scan_sat.mis))
+ 		else: # "predefined_transponder"
+ 			self.list.append(getConfigListEntry(_("Transponder"), self.tuning.transponder))
+ 			currtp = self.transponderToString([None, self.scan_sat.frequency.value, self.scan_sat.symbolrate.value, self.scan_sat.polarization.value])
+@@ -1195,6 +1197,50 @@
+ 			pol = "CR"
+ 		else:
+ 			pol = "??"
++#		if tr[4] == 0:
++#			fec = "Auto"
++#		elif tr[4] == 1:
++#			fec = "1/2"
++#		elif tr[4] == 2:
++#			fec = "2/3"
++#		elif tr[4] == 3:
++#			fec = "3/4"
++#		elif tr[4] == 4:
++#			fec = "5/6"
++#		elif tr[4] == 5:
++#			fec = "7/8"
++#		elif tr[4] == 6:
++#			fec = "8/9"
++#		elif tr[4] == 7:
++#			fec = "3/5"
++#		elif tr[4] == 8:
++#			fec = "4/5"
++#		elif tr[4] == 9:
++#			fec = "9/10"
++#		else:
++#			fec = "??"
++#		if tr[5] == 1:
++#			std = "S2"
++#		else:
++#			std = "S";
++#		if tr[6] == 0:
++#			mod = "Auto"
++#		elif tr[6] == 1:
++#			mod = "QPSK"
++#		elif tr[6] == 2:
++#			mod = "8PSK"
++#		elif tr[6] == 3:
++#			mod = "16APSK"
++#		elif tr[6] == 4:
++#			mod = "32APSK"
++#		else:
++#			mod = "Auto"
++#				
++#		if tr[10] < 0 or tr[10] > 255:
++#			return str(tr[1] / scale) + "," + pol + "," + str(tr[2] / scale + "," + std + "," + mod + "," + fec)
++#		else:
++#			return str(tr[1] / scale) + "," + pol + "," + str(tr[2] / scale + "," + std + "," + mod + "," + fec + "," + tr[10])
++
+ 		return str(tr[1] / scale) + "," + pol + "," + str(tr[2] / scale)
+ 
+ 	def updateTransponders(self):
+@@ -1203,6 +1249,48 @@
+ 			tps = []
+ 			for transponder in transponderlist:
+ 				tps.append(self.transponderToString(transponder, scale = 1000))
++		                if transponder[4] == 0:
++					fec = "Auto"
++				elif transponder[4] == 1:
++					fec = "1/2"
++				elif transponder[4] == 2:
++					fec = "2/3"
++				elif transponder[4] == 3:
++					fec = "3/4"
++				elif transponder[4] == 4:
++					fec = "5/6"
++				elif transponder[4] == 5:
++					fec = "7/8"
++				elif transponder[4] == 6:
++					fec = "8/9"
++				elif transponder[4] == 7:
++					fec = "3/5"
++				elif transponder[4] == 8:
++					fec = "4/5"
++				elif transponder[4] == 9:
++					fec = "9/10"
++				else:
++					fec = "??"
++				if transponder[5] == 1:
++					std = "S2"
++				else:
++					std = "S"
++				if transponder[6] == 0:
++					mod = "Auto"
++				elif transponder[6] == 1:
++					mod = "QPSK"
++				elif transponder[6] == 2:
++					mod = "8PSK"
++				elif transponder[6] == 3:
++					mod = "16APSK"
++				elif transponder[6] == 4:
++					mod = "32APSK"
++				else:
++					mod = "Auto"
++				if transponder[10] < 1 or transponder[10] > 255:
++					tps.append("," + std + "," + mod + "," + fec)
++				else:
++					tps.append("," + std + "," + mod + "," + fec + "," + str(transponder[10]))
+ 			self.tuning.transponder = ConfigSelection(choices = tps)
+ 
+ 	def keyLeft(self):
+@@ -1229,11 +1317,12 @@
+ 				self.scan_sat.system.value,
+ 				self.scan_sat.modulation.value,
+ 				self.scan_sat.rolloff.value,
+-				self.scan_sat.pilot.value)
++				self.scan_sat.pilot.value,
++				self.scan_sat.mis.value)
+ 		elif self.tuning.type.value == "predefined_transponder":
+ 			transponder = nimmanager.getTransponders(satpos)[self.tuning.transponder.index]
+ 			returnvalue = (transponder[1] / 1000, transponder[2] / 1000,
+-				transponder[3], transponder[4], 2, satpos, transponder[5], transponder[6], transponder[8], transponder[9])
++				transponder[3], transponder[4], 2, satpos, transponder[5], transponder[6], transponder[8], transponder[9], transponder[10])
+ 		self.close(returnvalue)
+ 
+ 	def keyCancel(self):
+--- enigma2_orig/lib/python/Plugins/SystemPlugins/Satfinder/plugin.py	2012-12-28 12:19:55.000000000 +0400
++++ enigma2/lib/python/Plugins/SystemPlugins/Satfinder/plugin.py	2012-12-27 16:30:38.000000000 +0400
+@@ -89,6 +89,7 @@
+ 				self.list.append(self.modulationEntry)
+ 				self.list.append(getConfigListEntry(_('Roll-off'), self.scan_sat.rolloff))
+ 				self.list.append(getConfigListEntry(_('Pilot'), self.scan_sat.pilot))
++				self.list.append(getConfigListEntry(_('Input Stream ID'), self.scan_sat.mis))
+ 		elif self.tuning_transponder and self.tuning_type.value == "predefined_transponder":
+ 			self.list.append(getConfigListEntry(_("Transponder"), self.tuning_transponder))
+ 		self["config"].list = self.list
+@@ -124,7 +125,8 @@
+ 				self.scan_sat.system.value,
+ 				self.scan_sat.modulation.value,
+ 				self.scan_sat.rolloff.value,
+-				self.scan_sat.pilot.value)
++				self.scan_sat.pilot.value,
++				self.scan_sat.mis.value)
+ 			self.tune(returnvalue)
+ 		elif self.tuning_type.value == "predefined_transponder":
+ 			tps = nimmanager.getTransponders(satpos)
+@@ -132,7 +134,7 @@
+ 			if l > self.tuning_transponder.index:
+ 				transponder = tps[self.tuning_transponder.index]
+ 				returnvalue = (transponder[1] / 1000, transponder[2] / 1000,
+-					transponder[3], transponder[4], 2, satpos, transponder[5], transponder[6], transponder[8], transponder[9])
++					transponder[3], transponder[4], 2, satpos, transponder[5], transponder[6], transponder[8], transponder[9], transponder[10])
+ 				self.tune(returnvalue)
+ 
+ 	def createConfig(self, foo):
+@@ -147,7 +149,7 @@
+ 			self.scan_sat.inversion, self.scan_sat.symbolrate,
+ 			self.scan_sat.polarization, self.scan_sat.fec, self.scan_sat.pilot,
+ 			self.scan_sat.fec_s2, self.scan_sat.fec, self.scan_sat.modulation,
+-			self.scan_sat.rolloff, self.scan_sat.system):
++			self.scan_sat.rolloff, self.scan_sat.system, self.scan_sat.mis):
+ 			x.addNotifier(self.retune, initial_call = False)
+ 
+ 	def updateSats(self):
+@@ -169,30 +171,47 @@
+ 				else:
+ 					pol = "??"
+ 				if x[4] == 0:
+-					fec = "FEC Auto"
++					fec = "Auto"
+ 				elif x[4] == 1:
+-					fec = "FEC 1/2"
++					fec = "1/2"
+ 				elif x[4] == 2:
+-					fec = "FEC 2/3"
++					fec = "2/3"
+ 				elif x[4] == 3:
+-					fec = "FEC 3/4"
++					fec = "3/4"
+ 				elif x[4] == 4:
+-					fec = "FEC 5/6"
++					fec = "5/6"
+ 				elif x[4] == 5:
+-					fec = "FEC 7/8"
++					fec = "7/8"
+ 				elif x[4] == 6:
+-					fec = "FEC 8/9"
++					fec = "8/9"
+ 				elif x[4] == 7:
+-					fec = "FEC 3/5"
++					fec = "3/5"
+ 				elif x[4] == 8:
+-					fec = "FEC 4/5"
++					fec = "4/5"
+ 				elif x[4] == 9:
+-					fec = "FEC 9/10"
+-				elif x[4] == 15:
+-					fec = "FEC None"
++					fec = "9/10"
+ 				else:
+-					fec = "FEC Unknown"
+-				e = str(x[1]) + "," + str(x[2]) + "," + pol + "," + fec
++					fec = "??"
++				if x[5] == 1:
++					std = "S2"
++				else:
++					std = "S";
++				if x[6] == 0:
++					mod = "Auto"
++				elif x[6] == 1:
++					mod = "QPSK"
++				elif x[6] == 2:
++					mod = "8PSK"
++				elif x[6] == 3:
++					mod = "16APSK"
++				elif x[6] == 4:
++					mod = "32APSK"
++				else:
++					mod = "Auto"
++				if x[10] < 0 or x[10] > 255:
++					e = str(x[1]) + "," + str(x[2]) + "," + pol + "," + std + "," + mod + "," + fec
++				else:
++					e = str(x[1]) + "," + str(x[2]) + "," + pol + "," + std + "," + mod + "," + fec + "," + str(x[10])
+ 				if default is None:
+ 					default = str(index)
+ 				list.append((str(index), e))
+--- enigma2_orig/lib/python/Screens/ScanSetup.py	2012-12-28 12:19:55.000000000 +0400
++++ enigma2/lib/python/Screens/ScanSetup.py	2012-12-27 16:31:26.000000000 +0400
+@@ -48,6 +48,7 @@
+ 			parm.rolloff = x[8]
+ 			parm.pilot = x[9]
+ 			parm.system = x[10]
++			parm.mis = x[11]
+ 			tlist.append(parm)
+ 
+ def getInitialCableTransponderList(tlist, nim):
+@@ -398,6 +399,7 @@
+ 					self.list.append(self.modulationEntry)
+ 					self.list.append(getConfigListEntry(_('Roll-off'), self.scan_sat.rolloff))
+ 					self.list.append(getConfigListEntry(_('Pilot'), self.scan_sat.pilot))
++					self.list.append(getConfigListEntry(_('Input Stream ID'), self.scan_sat.mis))
+ 			elif self.scan_type.value == "single_satellite":
+ 				self.updateSatList()
+ 				print self.scan_satselection[index_to_scan]
+@@ -528,6 +530,7 @@
+ 						defaultSat["fec_s2"] = frontendData.get("fec_inner", eDVBFrontendParametersSatellite.FEC_Auto)
+ 						defaultSat["rolloff"] = frontendData.get("rolloff", eDVBFrontendParametersSatellite.RollOff_alpha_0_35)
+ 						defaultSat["pilot"] = frontendData.get("pilot", eDVBFrontendParametersSatellite.Pilot_Unknown)
++						defaultSat["mis"] = frontendData.get("mis", 0)
+ 					else:
+ 						defaultSat["fec"] = frontendData.get("fec_inner", eDVBFrontendParametersSatellite.FEC_Auto)
+ 					defaultSat["modulation"] = frontendData.get("modulation", eDVBFrontendParametersSatellite.Modulation_QPSK)
+@@ -620,7 +623,9 @@
+ 				(eDVBFrontendParametersSatellite.FEC_9_10, "9/10")])
+ 			self.scan_sat.modulation = ConfigSelection(default = defaultSat["modulation"], choices = [
+ 				(eDVBFrontendParametersSatellite.Modulation_QPSK, "QPSK"),
+-				(eDVBFrontendParametersSatellite.Modulation_8PSK, "8PSK")])
++				(eDVBFrontendParametersSatellite.Modulation_8PSK, "8PSK"),
++				(eDVBFrontendParametersSatellite.Modulation_16APSK, "16APSK"),
++				(eDVBFrontendParametersSatellite.Modulation_32APSK, "32APSK")])
+ 			self.scan_sat.rolloff = ConfigSelection(default = defaultSat.get("rolloff", eDVBFrontendParametersSatellite.RollOff_alpha_0_35), choices = [
+ 				(eDVBFrontendParametersSatellite.RollOff_alpha_0_35, "0.35"),
+ 				(eDVBFrontendParametersSatellite.RollOff_alpha_0_25, "0.25"),
+@@ -630,6 +635,7 @@
+ 				(eDVBFrontendParametersSatellite.Pilot_Off, _("Off")),
+ 				(eDVBFrontendParametersSatellite.Pilot_On, _("On")),
+ 				(eDVBFrontendParametersSatellite.Pilot_Unknown, _("Auto"))])
++			self.scan_sat.mis = ConfigInteger(default = defaultSat.get("mis",0), limits = (0, 255))
+ 
+ 			# cable
+ 			self.scan_cab.frequency = ConfigInteger(default = defaultCab["frequency"], limits = (50, 999))
+@@ -743,8 +749,8 @@
+ 	def updateStatus(self):
+ 		print "updatestatus"
+ 
+-	def addSatTransponder(self, tlist, frequency, symbol_rate, polarisation, fec, inversion, orbital_position, system, modulation, rolloff, pilot):
+-		print "Add Sat: frequ: " + str(frequency) + " symbol: " + str(symbol_rate) + " pol: " + str(polarisation) + " fec: " + str(fec) + " inversion: " + str(inversion) + " modulation: " + str(modulation) + " system: " + str(system) + " rolloff" + str(rolloff) + " pilot" + str(pilot)
++	def addSatTransponder(self, tlist, frequency, symbol_rate, polarisation, fec, inversion, orbital_position, system, modulation, rolloff, pilot, mis):
++		print "Add Sat: frequ: " + str(frequency) + " symbol: " + str(symbol_rate) + " pol: " + str(polarisation) + " fec: " + str(fec) + " inversion: " + str(inversion) + " modulation: " + str(modulation) + " system: " + str(system) + " rolloff" + str(rolloff) + " pilot" + str(pilot) + " mis" + str(mis)
+ 		print "orbpos: " + str(orbital_position)
+ 		parm = eDVBFrontendParametersSatellite()
+ 		parm.modulation = modulation
+@@ -757,6 +763,7 @@
+ 		parm.orbital_position = orbital_position
+ 		parm.rolloff = rolloff
+ 		parm.pilot = pilot
++		parm.mis = mis
+ 		tlist.append(parm)
+ 
+ 	def addCabTransponder(self, tlist, frequency, symbol_rate, modulation, fec, inversion):
+@@ -814,7 +821,8 @@
+ 								self.scan_sat.system.value,
+ 								self.scan_sat.modulation.value,
+ 								self.scan_sat.rolloff.value,
+-								self.scan_sat.pilot.value)
++								self.scan_sat.pilot.value,
++								self.scan_sat.mis.value)
+ 				removeAll = False
+ 			elif self.scan_type.value == "single_satellite":
+ 				sat = self.satList[index_to_scan][self.scan_satselection[index_to_scan].index]
+--- enigma2_orig/lib/python/Screens/ServiceInfo.py	2012-12-28 12:19:55.000000000 +0400
++++ enigma2/lib/python/Screens/ServiceInfo.py	2012-12-27 16:30:38.000000000 +0400
+@@ -155,6 +155,7 @@
+ 						 "inversion"		: _("Inversion"),
+ 						 "pilot"			: _("Pilot"),
+ 						 "rolloff"			: _("Rolloff"),
++						 "mis"			: _("Input Stream ID"),
+ 						 "fec_inner"		: _("FEC"),
+ 						 "code_rate_lp"		: _("Coderate LP"),
+ 						 "code_rate_hp"		: _("Coderate HP"),
+@@ -206,7 +207,8 @@
+ 						(_("Inversion"), frontendData["inversion"], TYPE_TEXT),
+ 						(_("FEC"), frontendData["fec_inner"], TYPE_TEXT),
+ 						(_("Pilot"), frontendData.get("pilot", None), TYPE_TEXT),
+-						(_("Roll-off"), frontendData.get("rolloff", None), TYPE_TEXT))
++						(_("Roll-off"), frontendData.get("rolloff", None), TYPE_TEXT),
++						(_("Input Stream ID"), frontendData.get("mis", 0), TYPE_VALUE_DEC))
+ 			elif frontendDataOrg["tuner_type"] == "DVB-C":
+ 				return ((_("NIM"), ('A', 'B', 'C', 'D')[frontendData["tuner_number"]], TYPE_TEXT),
+ 						(_("Type"), frontendData["tuner_type"], TYPE_TEXT),
+--- enigma2_orig/lib/python/Tools/Transponder.py	2012-12-28 12:19:55.000000000 +0400
++++ enigma2/lib/python/Tools/Transponder.py	2012-12-27 16:30:38.000000000 +0400
+@@ -27,7 +27,8 @@
+ 		ret["modulation"] = {
+ 			eDVBFrontendParametersSatellite.Modulation_Auto : _("Auto"),
+ 			eDVBFrontendParametersSatellite.Modulation_QPSK : "QPSK",
+-			eDVBFrontendParametersSatellite.Modulation_QAM16 : "QAM16",
++			eDVBFrontendParametersSatellite.Modulation_16APSK : "16APSK",
++			eDVBFrontendParametersSatellite.Modulation_32APSK : "32APSK",
+ 			eDVBFrontendParametersSatellite.Modulation_8PSK : "8PSK"}[tp["modulation"]]
+ 		ret["orbital_position"] = nimmanager.getSatName(int(tp["orbital_position"]))
+ 		ret["polarization"] = {
