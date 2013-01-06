@@ -17,14 +17,14 @@ BUILDING openpliPC
 ------------------------------
 
 1a) download openpliPC git repo as local user (not root):
-git clone https://github.com/Raider05/enigma2.git
-cd enigma2/
+git clone https://github.com/Raider05/enigma2pc.git
+cd enigma2pc/
 
  - OR -
 
 1b) Keep in sync previously cloned git repo:
-cd enigma2/
-git pull https://github.com/Raider05/enigma2.git
+cd enigma2pc/
+git pull https://github.com/Raider05/enigma2pc.git
 
 
 2) Building needed openpliPC enigma2 libraries:
