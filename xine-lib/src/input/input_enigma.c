@@ -42,8 +42,8 @@
 #include "combined_enigma.h"
 
 #define ENIGMA_ABS_FIFO_DIR     "/tmp"
-#define DEFAULT_PTS_START       1500
-#define BUFSIZE                 1024
+#define DEFAULT_PTS_START       150000
+#define BUFSIZE                 768
 #define FILE_FLAGS O_RDONLY
 #define FIFO_PUT                0
 
