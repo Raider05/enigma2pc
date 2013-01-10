@@ -40,7 +40,7 @@ function e2_restore {
         echo "-----------------------------"
         echo "RESTORE OLD E2 CONFIG"
         echo "-----------------------------"
-        
+
 	if [ -f e2backup.tgz ]; then
 		sudo tar -C $INSTALL_E2DIR -v -x -z -f e2backup.tgz
 	fi
@@ -85,7 +85,7 @@ while [ "$1" != "" ]; do
                  exit
               else
                  DO_PARALLEL=`expr substr "$1" 3 3`
-              fi     
+              fi
               shift
 		          ;;
 	      -h )  usage
@@ -166,7 +166,7 @@ if [ "$DO_CONFIGURE" -eq "1" ]; then
   echo "--------------------------------------"
 
 #Create symlinks in /usr diectory before compile enigma2
-  ln -s /usr/share/swig2.0 /usr/share/swig1.3
+  sudo ln -sd /usr/share/swig2.0 /usr/share/swig1.3
 
   autoreconf -i
   ./configure --prefix=$INSTALL_E2DIR --with-xlib --with-debug
@@ -210,9 +210,9 @@ else
 
 #Insert module dvbsoftwareca and create symlink
   if [ $(lsmod | grep -c dvbsoftwareca) -eq 0 ]; then
-        modprobe dvbsoftwareca
-        ln -s /dev/dvb/adapter0/dvr0 /dev/dvb/adapter0/dvr1
-        ln -s /dev/dvb/adapter0/demux0 /dev/dvb/adapter0/demux1
+        sudo modprobe dvbsoftwareca
+        sudo ln -s /dev/dvb/adapter0/dvr0 /dev/dvb/adapter0/dvr1
+        sudo ln -s /dev/dvb/adapter0/demux0 /dev/dvb/adapter0/demux1
   fi
 
 fi  
@@ -223,19 +223,19 @@ echo "final step: installing E2 conf files"
 echo "--------------------------------------"
 
 #Create symlinks in /lib diectory post install enigma2
-sudo ln -s /lib/i386-linux-gnu/libc-2.15.so  /lib/libc.so.6
+sudo ln -sf /lib/i386-linux-gnu/libc-2.15.so  /lib/libc.so.6
 
 #Create symlinks in /usr diectory post install enigma2
-ln -s $INSTALL_E2DIR/lib/enigma2 /usr/lib/enigma2
-ln -s $INSTALL_E2DIR/lib/enigma2 /usr/local/lib/enigma2
-ln -s $INSTALL_E2DIR/share/enigma2 /usr/local/share/enigma2
-ln -s $INSTALL_E2DIR/share/enigma2 /usr/share/enigma2
-ln -s $INSTALL_E2DIR/include/enigma2 /usr/include/enigma2
-ln -s $INSTALL_E2DIR/etc/stb /usr/local/etc/stb
+sudo ln -sd $INSTALL_E2DIR/lib/enigma2 /usr/lib/enigma2
+sudo ln -sd $INSTALL_E2DIR/lib/enigma2 /usr/local/lib/enigma2
+sudo ln -sd $INSTALL_E2DIR/share/enigma2 /usr/local/share/enigma2
+sudo ln -sd $INSTALL_E2DIR/share/enigma2 /usr/share/enigma2
+sudo ln -sd $INSTALL_E2DIR/include/enigma2 /usr/include/enigma2
+sudo ln -sd $INSTALL_E2DIR/etc/stb /usr/local/etc/stb
 
 #Create symlinks in /etc diectory post install enigma2
-ln -s $INSTALL_E2DIR/etc/enigma2 /etc/enigma2
-ln -s $INSTALL_E2DIR/etc/tuxbox /etc/tuxbox
+sudo ln -s -d $INSTALL_E2DIR/etc/enigma2 /etc/enigma2
+sudo ln -s -d $INSTALL_E2DIR/etc/tuxbox /etc/tuxbox
 
 # strip binary
 sudo strip $INSTALL_E2DIR/bin/enigma2
@@ -249,7 +249,7 @@ sudo mkdir -p $INSTALL_E2DIR/etc/tuxbox
 sudo cp share/fonts/* $INSTALL_E2DIR/share/fonts
 sudo cp -rf etc/* $INSTALL_E2DIR/etc
 sudo cp enigma2/data/black.mvi $INSTALL_E2DIR/etc/tuxbox/logo.mvi
-cp -fR scripts/* $INSTALL_E2DIR/bin/
+sudo cp -fR scripts/* $INSTALL_E2DIR/bin/
 
 ln -sf $INSTALL_E2DIR/bin/enigma2 ./e2bin
 ln -sf $INSTALL_E2DIR/bin/enigma2.sh /usr/local/bin/enigma2.sh
