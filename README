@@ -64,6 +64,11 @@ Config files location in the directory  - /etc/vdr/oscam
 
 ./build_plugins.sh
 
+6) See additional scripts in the directory enigma2pc/scripts/
+
+   First start the script dvb_my.sh - loading module dvbsoftwareca.ko, create symlinks for dvb adapters, start oscam
+   Two start the script autostart.sh - launch enigma2
+
 ------------------------------
 Where is Enigma2 ?
 ------------------------------

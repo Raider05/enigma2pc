@@ -1,16 +1,23 @@
 #!/bin/sh
 
 if [ $(lsmod | grep -c dvbsoftwareca) -eq 0 ]; then
-	modprobe dvbsoftwareca
-	ln -s /dev/dvb/adapter0/dvr0 /dev/dvb/adapter0/dvr1
-	ln -s /dev/dvb/adapter0/demux0 /dev/dvb/adapter0/demux1
-	sleep 1
+	sudo modprobe dvbsoftwareca
 fi
 
+for i in $(find /dev/dvb -name demux0 | sed 's/.\{6\}$//')
+do
+        echo "For $i"demux0" create symlink $i"demux1" "
+        sudo ln -s $i"demux0" $i"demux1"
+        echo "For $i"dvr0" create symlink $i"dvr1" "
+        sudo ln -s $i"dvr0" $i"dvr1"
+done
+
+sleep 1
+
 if [ $(ps -A | grep -c oscam) -ne 0 ]; then
-	/etc/init.d/softcam.oscam restart &
+	sudo /etc/init.d/softcam.oscam restart &
 else
-	/etc/init.d/softcam.oscam start &
+	sudo /etc/init.d/softcam.oscam start &
 fi
 
 exit 0

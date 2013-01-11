@@ -184,7 +184,7 @@ int main(int argc, char **argv) {
 		if (OutfileOK) { 
 			fprintf(outfile,"      Name: %s\n", fe_info.name);
 			fprintf(outfile,"      Has_Outputs: no\n");
-			fprintf(outfile,"      Frontend_Device: %d\n", j);
+			fprintf(outfile,"      Frontend_Device: %d\n", i);
 			fprintf(outfile,"\n");}
 /* Nim socket output end */
 
