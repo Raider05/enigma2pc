@@ -442,12 +442,12 @@
 		<device name="Xlib">
 			<key id="KEY_YELLOW" mapto="timeshiftStart" flags="b" />
 			<key id="KEY_TV" mapto="timeshiftStop" flags="m" />
-			<!--key id="KEY_PLAYPAUSE" mapto="timeshiftStart" flags="b" /-->
+			<key id="KEY_PLAYPAUSE" mapto="timeshiftStart" flags="b" />
 		</device>
 		<device name="Lirc">
 			<key id="KEY_YELLOW" mapto="timeshiftStart" flags="b" />
 			<key id="KEY_TV" mapto="timeshiftStop" flags="m" />
-			<!--key id="KEY_PLAYPAUSE" mapto="timeshiftStart" flags="b" /-->
+			<key id="KEY_PLAYPAUSE" mapto="timeshiftStart" flags="b" />
 		</device>
 	</map>
 
