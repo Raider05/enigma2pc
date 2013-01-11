@@ -198,8 +198,8 @@ class InfoBarShowHide:
 		self.onLayoutFinish.append(self.__layoutFinished)
 
 	def __layoutFinished(self):
-		self.secondInfoBarScreen.hide()
-
+		if self.secondInfoBarScreen:
+			self.secondInfoBarScreen.hide()
 	def connectShowHideNotifier(self, fnc):
 		if not fnc in self.onShowHideNotifiers:
 			self.onShowHideNotifiers.append(fnc)
