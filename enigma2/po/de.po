@@ -160,55 +160,35 @@ msgstr " Updates verfügbar "
 msgid " wireless networks found!"
 msgstr " Funk Netzwerke gefunden!"
 
-#
-msgid "#000000"
-msgstr "#000000"
+#. TRANSLATORS: short time representation hour:minute
+#, python-format
+msgid "%2d:%02d"
+msgstr ""
 
-#
-msgid "#0064c7"
-msgstr "#0064c7"
+#. TRANSLATORS: full time representation hour:minute:seconds
+#, python-format
+msgid "%2d:%02d:%02d"
+msgstr ""
 
-#
-msgid "#25062748"
-msgstr "#25062748"
+#. TRANSLATORS: long date representations dayname daynum monthname in strftime() format! See 'man strftime'
+msgid "%A %e %B"
+msgstr ""
 
-#
-msgid "#389416"
-msgstr "#389416"
-
-#
-msgid "#80000000"
-msgstr "#80000000"
-
-#
-msgid "#80ffffff"
-msgstr "#80ffffff"
-
-#
-msgid "#bab329"
-msgstr "#bab329"
-
-#
-msgid "#f23d21"
-msgstr "#f23d21"
-
-msgid "#ff0000"
-msgstr "?"
-
-msgid "#ffff7f"
-msgstr "?"
-
-#
-msgid "#ffffff"
-msgstr "#ffffff"
-
-#
-msgid "#ffffffff"
-msgstr "#ffffffff"
+#. TRANSLATORS: full date representation dayname daynum monthname year in strftime() format! See 'man strftime'
+msgid "%A %e %B %Y"
+msgstr ""
 
 #
 msgid "%H:%M"
 msgstr "%H:%M"
+
+#. TRANSLATORS: short date representation short dayname daynum short monthname in strftime() format! See 'man strftime'
+msgid "%a %e/%m"
+msgstr ""
+
+#. TRANSLATORS: long date representation short dayname daynum short monthname hour:minute in strftime() format! See 'man strftime'
+msgid "%a %e/%m  %-H:%M"
+msgstr ""
 
 #, python-format
 msgid "%d hour"
@@ -250,6 +230,10 @@ msgstr "%d Kanäle gefunden!"
 #
 msgid "%d.%B %Y"
 msgstr "%d.%B %Y"
+
+#. TRANSLATORS: VFD hour:minute daynum short monthname in strftime() format! See 'man strftime'
+msgid "%k:%M %e/%m"
+msgstr ""
 
 #
 #, python-format
@@ -757,9 +741,6 @@ msgstr "Crashlogs anonymisieren?"
 msgid "Any activity"
 msgstr "Irgendeine Aktivität"
 
-msgid "April"
-msgstr "April"
-
 msgid "Arabic"
 msgstr "Arabisch"
 
@@ -849,9 +830,6 @@ msgstr "Audio Sprachwahl 3"
 #
 msgid "Audio language selection 4"
 msgstr "Audio Sprachwahl 4"
-
-msgid "August"
-msgstr "August"
 
 #
 msgid "Author: "
@@ -1080,6 +1058,9 @@ msgstr "Kabel Suche"
 #
 msgid "Cache Thumbnails"
 msgstr "Vorschaubilder zwischenspeichern"
+
+msgid "Calculate"
+msgstr ""
 
 msgid "Calculate all positions"
 msgstr ""
@@ -1324,6 +1305,9 @@ msgstr "Kommunikation"
 msgid "Compact Flash"
 msgstr "Compact Flash"
 
+msgid "Compatibilty Mode"
+msgstr ""
+
 #
 msgid "Complete"
 msgstr "Komplett"
@@ -1338,6 +1322,9 @@ msgstr "Zusammensetzung des Aufnahme-Dateinamens"
 #
 msgid "Configuration Mode"
 msgstr "Konfiguration"
+
+msgid "Configuration mode: "
+msgstr ""
 
 #
 msgid "Configure interface"
@@ -1571,6 +1558,12 @@ msgstr "DUAL LAYER DVD"
 msgid "DVB subtitle black transparency"
 msgstr "Schwarztransparenz DVB-Untertitel"
 
+msgid "DVB-C"
+msgstr ""
+
+msgid "DVB-C ANNEX C"
+msgstr ""
+
 #
 msgid "DVB-S"
 msgstr "DVB-S"
@@ -1578,6 +1571,12 @@ msgstr "DVB-S"
 #
 msgid "DVB-S2"
 msgstr "DVB-S2"
+
+msgid "DVB-T"
+msgstr ""
+
+msgid "DVB-T2"
+msgstr ""
 
 #
 msgid "DVD File Browser"
@@ -1757,6 +1756,9 @@ msgstr "Aus"
 #
 msgid "Disable Picture in Picture"
 msgstr "Bild in Bild ausschalten"
+
+msgid "Disable Selecting Expired Events"
+msgstr ""
 
 #
 msgid "Disable background scanning"
@@ -2050,6 +2052,9 @@ msgstr "Bearbeiten"
 msgid "Edit DNS"
 msgstr "Bearbeite DNS"
 
+msgid "Edit Search Title"
+msgstr ""
+
 #
 msgid "Edit Title"
 msgstr "Titel schneiden"
@@ -2113,6 +2118,9 @@ msgstr "Aktiviere MHW EPG"
 #
 msgid "Enable Netmed EPG"
 msgstr "Aktiviere Netmed EPG"
+
+msgid "Enable Picon"
+msgstr ""
 
 #
 msgid "Enable ViaSat EPG"
@@ -2247,6 +2255,9 @@ msgstr "Event Menü"
 msgid "Everywhere"
 msgstr "überall"
 
+msgid "Exact Search"
+msgstr ""
+
 #
 msgid "Exceeds dual layer medium!"
 msgstr "Übersteigt die Größe eines Dual-Layer-Mediums!"
@@ -2336,8 +2347,8 @@ msgstr "Werkseinstellungen"
 msgid "Failed"
 msgstr "Fehlgeschlagen"
 
-msgid "Failed to write /tmp/positionersetup.log:str"
-msgstr "Fehler beim Schreiben: /tmp/positionersetup.log"
+msgid "Failed to write /tmp/positionersetup.log: "
+msgstr ""
 
 #
 #, python-format
@@ -2376,9 +2387,6 @@ msgstr "Schnell Zeitraum"
 #
 msgid "Favourites"
 msgstr "Favoriten"
-
-msgid "February"
-msgstr "Februar"
 
 msgid "File appears to be busy.\n"
 msgstr "Die Datei ist gerade in Verwendung.\n"
@@ -2638,6 +2646,9 @@ msgstr "Verstecktes Netzwerk"
 msgid "Hide CI messages"
 msgstr "Verberge CI Nachrichten"
 
+msgid "Hide Expired Title"
+msgstr ""
+
 #
 msgid "Hide zap errors"
 msgstr "Verberge Zap-Fehler"
@@ -2683,6 +2694,9 @@ msgstr "Farbton"
 
 msgid "Hungarian"
 msgstr "Ungarisch"
+
+msgid "IMDB"
+msgstr ""
 
 #
 msgid "IP Address"
@@ -2935,18 +2949,15 @@ msgstr "Italienisch"
 msgid "Items per Page "
 msgstr "Objekte per Seite"
 
-msgid "January"
-msgstr "Januar"
-
 #
 msgid "Job View"
 msgstr "Jobansicht"
 
-msgid "July"
-msgstr "July"
+msgid "Jump to First Service"
+msgstr ""
 
-msgid "June"
-msgstr "Juni"
+msgid "Jump to Last Service"
+msgstr ""
 
 #. TRANSLATORS: (aspect ratio policy: display as fullscreen, even if this breaks the aspect)
 msgid "Just Scale"
@@ -3203,9 +3214,6 @@ msgstr "Vorlauf bei Aufnahme (in Minuten)"
 msgid "Max. Bitrate: "
 msgstr "Max. Bitrate: "
 
-msgid "May"
-msgstr "Mai"
-
 #
 msgid "Media player"
 msgstr "Media Player"
@@ -3231,6 +3239,9 @@ msgstr "Index speichern"
 #
 msgid "Menu"
 msgstr "Menu"
+
+msgid "Merge Short/Long Descriptions"
+msgstr ""
 
 #
 msgid "Message"
@@ -3483,6 +3494,9 @@ msgstr "Neue Version:"
 #
 msgid "Next"
 msgstr "Vor"
+
+msgid "Next Bouquet"
+msgstr ""
 
 #
 msgid "No"
@@ -3767,9 +3781,6 @@ msgstr "Benutzeroberflächen Anfrage"
 msgid "OSD visibility"
 msgstr "GUI-Deckkraft"
 
-msgid "October"
-msgstr "Oktober"
-
 #
 msgid "Off"
 msgstr "Aus"
@@ -3783,6 +3794,9 @@ msgstr "OK"
 #
 msgid "On"
 msgstr "An"
+
+msgid "On Bouquet Switch goto first service"
+msgstr ""
 
 #
 msgid "One"
@@ -3858,6 +3872,18 @@ msgstr "Paketverwaltung"
 msgid "Packet manager"
 msgstr "Paketmanager"
 
+msgid "Page Down"
+msgstr ""
+
+msgid "Page Left"
+msgstr ""
+
+msgid "Page Right"
+msgstr ""
+
+msgid "Page Up"
+msgstr ""
+
 #
 #. TRANSLATORS: (aspect ratio policy: cropped content on left/right) in doubt, keep english term
 msgid "Pan&Scan"
@@ -3882,6 +3908,9 @@ msgstr "Jugendschutz-Einstellungen"
 #
 msgid "Parental control type"
 msgstr "Jugendschutz-Typ"
+
+msgid "Partial Search"
+msgstr ""
 
 #
 msgid "Password"
@@ -4346,6 +4375,9 @@ msgstr "Zum Starten der Suche OK drücken."
 msgid "Press OK to toggle the selection."
 msgstr "Drücken Sie OK um die Auswahl umzuschalten."
 
+msgid "Previous Bouquet"
+msgstr ""
+
 #
 msgid "Press yellow to set this interface as default interface."
 msgstr "Drücken Sie Gelb um diese Schnittstelle als Standard zu setzen."
@@ -4772,6 +4804,9 @@ msgstr "Rotor Schrittposition:"
 msgid "Rotor turning speed"
 msgstr "Rotor Drehgeschwindigkeit"
 
+msgid "Round Start Time To"
+msgstr ""
+
 msgid "Round start time on"
 msgstr "Runde Startzeit auf"
 
@@ -4850,6 +4885,9 @@ msgstr "Speichern"
 #
 msgid "Save Playlist"
 msgstr "Wiedergabeliste speichern"
+
+msgid "Scale Picon"
+msgstr ""
 
 #
 msgid "Scaler sharpness"
@@ -5117,9 +5155,6 @@ msgstr "DiSEqC nur bei Sat-Wechsel senden"
 msgid "Seperate titles with a main menu"
 msgstr "Separate Titel mit Hauptmenü"
 
-msgid "September"
-msgstr "September"
-
 #
 msgid "Sequence repeat"
 msgstr "Sequenz-Wiederholung"
@@ -5274,6 +5309,9 @@ msgstr "Zeige Senderlogos"
 msgid "Show Service Names "
 msgstr "Zeige Sendernamen"
 
+msgid "Show Service Title"
+msgstr ""
+
 #
 msgid "Show WLAN Status"
 msgstr "Zeige WLAN-Status"
@@ -5376,6 +5414,9 @@ msgstr "Signal: "
 msgid "Similar"
 msgstr "Ähnlich"
 
+msgid "Similar Broadcast Search"
+msgstr ""
+
 #
 msgid "Similar broadcasts:"
 msgstr "Ähnliche Sendungen:"
@@ -5424,6 +5465,9 @@ msgstr "Skins"
 
 msgid "Skip Empty Services"
 msgstr "Überspringe leere Sender"
+
+msgid "Skip Empty Services (may need restart)"
+msgstr ""
 
 #
 msgid "Sleep Timer"
@@ -5832,6 +5876,9 @@ msgstr "Test-Messagebox?"
 msgid "Text border width"
 msgstr "Text Randbreite"
 
+msgid "Thai"
+msgstr ""
+
 #
 msgid "Text font size"
 msgstr "Text Schriftgröße"
@@ -6227,6 +6274,21 @@ msgstr "Zeit Skala"
 msgid "Time/Date Input"
 msgstr "Zeit/Datum-Eingabe"
 
+msgid "Timeline 120 minutes"
+msgstr ""
+
+msgid "Timeline 180 minutes"
+msgstr ""
+
+msgid "Timeline 240 minutes"
+msgstr ""
+
+msgid "Timeline 300 minutes"
+msgstr ""
+
+msgid "Timeline 60 minutes"
+msgstr ""
+
 #
 msgid "Timer"
 msgstr "Timer"
@@ -6590,6 +6652,9 @@ msgstr "Nutze DVB-Untertitel Position"
 msgid "Use Interface"
 msgstr "Netzwerkadapter aktivieren"
 
+msgid "Use Long Title"
+msgstr ""
+
 #
 msgid "Use Power Measurement"
 msgstr "Verwende Stromaufnahmen-Messung"
@@ -6684,6 +6749,12 @@ msgstr "Benutzerdefiniert"
 #
 msgid "Username"
 msgstr "Benutzername"
+
+msgid "Using LNB"
+msgstr ""
+
+msgid "Using Tuner "
+msgstr ""
 
 msgid "Using fixed address"
 msgstr "Benutze feste Adresse"
@@ -6908,6 +6979,9 @@ msgstr "A/V-Receiver aus Standby anschalten"
 
 msgid "Wakeup signal from TV"
 msgstr "Anschaltsignal vom Fernseher"
+
+msgid "Warning: no LNB; using factory defaults."
+msgstr ""
 
 #
 msgid "Warn if free space drops below (kB):"
@@ -7319,6 +7393,12 @@ msgstr ""
 #
 msgid "Your current collection will get lost!"
 msgstr "Ihre aktuelle Zusammenstellung geht dabei verloren!"
+
+msgid "Zap"
+msgstr ""
+
+msgid "Zap PIG"
+msgstr ""
 
 #
 msgid "Your dreambox is shutting down. Please stand by..."

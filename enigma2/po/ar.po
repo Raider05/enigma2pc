@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enigma2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-08 20:34+0100\n"
+"POT-Creation-Date: 2012-05-28 23:25+0200\n"
 "PO-Revision-Date: 2010-08-20 00:08+0200\n"
 "Last-Translator: Hazem <moustafagamal@hotmail.com>\n"
 "Language-Team: Arabic <moustafagamal@hotmail.com>\n"
@@ -155,46 +155,34 @@ msgstr "التحديثات المتاحه"
 msgid " wireless networks found!"
 msgstr "الشبكات اللاسلكيه التى تم العثور عليها"
 
-#
-msgid "#000000"
-msgstr "#000000"
-
-#
-msgid "#0064c7"
-msgstr "0064c7"
-
-msgid "#25062748"
-msgstr "#25062748"
-
-msgid "#389416"
-msgstr "#389416"
-
-msgid "#80000000"
-msgstr "#80000000"
-
-msgid "#80ffffff"
-msgstr "#80ffffff"
-
-msgid "#bab329"
-msgstr "#bab329"
-
-msgid "#f23d21"
-msgstr "#f23d21"
-
-msgid "#ff0000"
+#. TRANSLATORS: short time representation hour:minute
+#, python-format
+msgid "%2d:%02d"
 msgstr ""
 
-msgid "#ffff7f"
+#. TRANSLATORS: full time representation hour:minute:seconds
+#, python-format
+msgid "%2d:%02d:%02d"
 msgstr ""
 
-msgid "#ffffff"
-msgstr "#ffffff"
+#. TRANSLATORS: long date representations dayname daynum monthname in strftime() format! See 'man strftime'
+msgid "%A %e %B"
+msgstr ""
 
-msgid "#ffffffff"
-msgstr "#ffffffff"
+#. TRANSLATORS: full date representation dayname daynum monthname year in strftime() format! See 'man strftime'
+msgid "%A %e %B %Y"
+msgstr ""
 
 msgid "%H:%M"
 msgstr "%H:%M"
+
+#. TRANSLATORS: short date representation short dayname daynum short monthname in strftime() format! See 'man strftime'
+msgid "%a %e/%m"
+msgstr ""
+
+#. TRANSLATORS: long date representation short dayname daynum short monthname hour:minute in strftime() format! See 'man strftime'
+msgid "%a %e/%m  %-H:%M"
+msgstr ""
 
 #, python-format
 msgid "%d hour"
@@ -247,6 +235,10 @@ msgstr "%d تم العثور على"
 
 msgid "%d.%B %Y"
 msgstr "%d.%B %Y"
+
+#. TRANSLATORS: VFD hour:minute daynum short monthname in strftime() format! See 'man strftime'
+msgid "%k:%M %e/%m"
+msgstr ""
 
 #, python-format
 msgid "%s (%s)\n"
@@ -666,6 +658,12 @@ msgstr "الكل"
 msgid "All Satellites"
 msgstr "كل الاقمار"
 
+msgid "Allocate"
+msgstr ""
+
+msgid "Allocate unused memory index"
+msgstr ""
+
 msgid "Allow Subtitle equals Audio mask"
 msgstr ""
 
@@ -702,9 +700,6 @@ msgid "Anonymize crashlog?"
 msgstr ""
 
 msgid "Any activity"
-msgstr ""
-
-msgid "April"
 msgstr ""
 
 msgid "Arabic"
@@ -780,9 +775,6 @@ msgid "Audio language selection 3"
 msgstr ""
 
 msgid "Audio language selection 4"
-msgstr ""
-
-msgid "August"
 msgstr ""
 
 msgid "Author: "
@@ -989,6 +981,9 @@ msgstr ""
 
 #
 msgid "Cache Thumbnails"
+msgstr ""
+
+msgid "Calculate"
 msgstr ""
 
 msgid "Calculate all positions"
@@ -1204,6 +1199,9 @@ msgstr "اتصال"
 msgid "Compact Flash"
 msgstr "كومباكت فلاش"
 
+msgid "Compatibilty Mode"
+msgstr ""
+
 msgid "Complete"
 msgstr "مكتمل"
 
@@ -1215,6 +1213,9 @@ msgstr ""
 
 msgid "Configuration Mode"
 msgstr "نسق التكوين"
+
+msgid "Configuration mode: "
+msgstr ""
 
 msgid "Configure interface"
 msgstr "تكوين الواجهه"
@@ -1414,11 +1415,23 @@ msgstr "دى فى بى ثنائى الطبقه"
 msgid "DVB subtitle black transparency"
 msgstr ""
 
+msgid "DVB-C"
+msgstr ""
+
+msgid "DVB-C ANNEX C"
+msgstr ""
+
 msgid "DVB-S"
 msgstr "DVB-S"
 
 msgid "DVB-S2"
 msgstr "DVB-S2"
+
+msgid "DVB-T"
+msgstr ""
+
+msgid "DVB-T2"
+msgstr ""
 
 msgid "DVD File Browser"
 msgstr "متصفح ملفات دى فى دى"
@@ -1442,7 +1455,7 @@ msgstr "دنماركى"
 msgid "Date"
 msgstr "تاريخ"
 
-msgid "December"
+msgid "Date/Time"
 msgstr ""
 
 msgid "Decide if you want to enable or disable the Cleanup Wizard."
@@ -1576,6 +1589,9 @@ msgstr "تعطيل"
 #
 msgid "Disable Picture in Picture"
 msgstr "تعطيل صوره داخل صوره"
+
+msgid "Disable Selecting Expired Events"
+msgstr ""
 
 msgid "Disable background scanning"
 msgstr ""
@@ -1827,6 +1843,9 @@ msgstr "تحرير"
 msgid "Edit DNS"
 msgstr ""
 
+msgid "Edit Search Title"
+msgstr ""
+
 #
 msgid "Edit Title"
 msgstr "تحرير العنوان"
@@ -1879,6 +1898,9 @@ msgid "Enable MHW EPG"
 msgstr ""
 
 msgid "Enable Netmed EPG"
+msgstr ""
+
+msgid "Enable Picon"
 msgstr ""
 
 msgid "Enable ViaSat EPG"
@@ -1983,7 +2005,16 @@ msgstr "أستونى"
 msgid "Ethernet network interface"
 msgstr ""
 
+msgid "Event"
+msgstr ""
+
+msgid "Event Fontsize"
+msgstr ""
+
 msgid "Event Fontsize (relative to skin size)"
+msgstr ""
+
+msgid "Event Info"
 msgstr ""
 
 #
@@ -1994,6 +2025,9 @@ msgid "Eventview menu"
 msgstr ""
 
 msgid "Everywhere"
+msgstr ""
+
+msgid "Exact Search"
 msgstr ""
 
 #
@@ -2066,7 +2100,7 @@ msgstr "العوده الى إعدادات المصنع"
 msgid "Failed"
 msgstr "فشل"
 
-msgid "Failed to write /tmp/positionersetup.log:str"
+msgid "Failed to write /tmp/positionersetup.log: "
 msgstr ""
 
 #
@@ -2105,9 +2139,6 @@ msgstr ""
 #
 msgid "Favourites"
 msgstr "المفضله"
-
-msgid "February"
-msgstr ""
 
 msgid "File appears to be busy.\n"
 msgstr ""
@@ -2354,6 +2385,9 @@ msgstr ""
 msgid "Hide CI messages"
 msgstr ""
 
+msgid "Hide Expired Title"
+msgstr ""
+
 msgid "Hide zap errors"
 msgstr ""
 
@@ -2393,6 +2427,9 @@ msgstr "درجة لون"
 #
 msgid "Hungarian"
 msgstr "مجرى"
+
+msgid "IMDB"
+msgstr ""
 
 #
 msgid "IP Address"
@@ -2464,6 +2501,9 @@ msgstr "فولت زائد"
 
 msgid "Index"
 msgstr "فهرس"
+
+msgid "Index allocated:"
+msgstr ""
 
 #
 msgid "Info"
@@ -2617,17 +2657,14 @@ msgstr "إيطالى"
 msgid "Items per Page "
 msgstr ""
 
-msgid "January"
-msgstr ""
-
 #
 msgid "Job View"
 msgstr ""
 
-msgid "July"
+msgid "Jump to First Service"
 msgstr ""
 
-msgid "June"
+msgid "Jump to Last Service"
 msgstr ""
 
 #
@@ -2866,9 +2903,6 @@ msgstr "تردد يدوى"
 msgid "Manufacturer"
 msgstr "الصانع"
 
-msgid "March"
-msgstr ""
-
 msgid "Margin after record"
 msgstr "الهامش بعد التسجيل"
 
@@ -2877,9 +2911,6 @@ msgstr "الهامش قبل التسجيل (بالدقائق)"
 
 #
 msgid "Max. Bitrate: "
-msgstr ""
-
-msgid "May"
 msgstr ""
 
 #
@@ -2905,6 +2936,9 @@ msgstr ""
 #
 msgid "Menu"
 msgstr "قائمه"
+
+msgid "Merge Short/Long Descriptions"
+msgstr ""
 
 #
 msgid "Message"
@@ -3135,6 +3169,9 @@ msgstr "إصدار جديد:"
 msgid "Next"
 msgstr "التالى"
 
+msgid "Next Bouquet"
+msgstr ""
+
 #
 msgid "No"
 msgstr "لا"
@@ -3188,6 +3225,9 @@ msgstr ""
 msgid ""
 "No fast winding possible yet.. but you can use the number buttons to skip "
 "forward/backward!"
+msgstr ""
+
+msgid "No free index available"
 msgstr ""
 
 msgid "No free tuner!"
@@ -3341,9 +3381,6 @@ msgstr ""
 msgid "Nothing to upgrade"
 msgstr ""
 
-msgid "November"
-msgstr ""
-
 #
 msgid "Now Playing"
 msgstr "الان يعرض"
@@ -3384,9 +3421,6 @@ msgstr ""
 msgid "OSD visibility"
 msgstr ""
 
-msgid "October"
-msgstr ""
-
 #
 msgid "Off"
 msgstr "لا يعمل"
@@ -3400,6 +3434,9 @@ msgstr ""
 #
 msgid "On"
 msgstr "يعمل"
+
+msgid "On Bouquet Switch goto first service"
+msgstr ""
 
 #
 msgid "One"
@@ -3469,6 +3506,18 @@ msgstr "التحكم فى الحزم"
 msgid "Packet manager"
 msgstr "المتحكم فى الحزم"
 
+msgid "Page Down"
+msgstr ""
+
+msgid "Page Left"
+msgstr ""
+
+msgid "Page Right"
+msgstr ""
+
+msgid "Page Up"
+msgstr ""
+
 #
 #. TRANSLATORS: (aspect ratio policy: cropped content on left/right) in doubt, keep english term
 msgid "Pan&Scan"
@@ -3492,6 +3541,9 @@ msgstr "اعداد التحكم الابوى"
 #
 msgid "Parental control type"
 msgstr "نوع التحكم الابوى"
+
+msgid "Partial Search"
+msgstr ""
 
 #
 msgid "Password"
@@ -3902,6 +3954,9 @@ msgstr "معاينه"
 msgid "Preview menu"
 msgstr "معاينة القائمه"
 
+msgid "Previous Bouquet"
+msgstr ""
+
 msgid "Primary DNS"
 msgstr "دى إن اس أبتدائى"
 
@@ -3987,6 +4042,12 @@ msgstr "هل تريد فعلا إعـادة التشغـيل الان ؟"
 msgid "Really shutdown now?"
 msgstr "هل تريد فعلا الاغلاق الان ؟"
 
+msgid "Really upgrade the frontprocessor and reboot now?"
+msgstr ""
+
+msgid "Really upgrade your settop box and reboot now?"
+msgstr ""
+
 msgid "Reboot"
 msgstr "إعادة التشغيل"
 
@@ -4060,9 +4121,6 @@ msgid "Reloading bouquets and services..."
 msgstr ""
 
 msgid "Remember service PIN"
-msgstr ""
-
-msgid "Remember service PIN cancel"
 msgstr ""
 
 msgid "Remember these settings for each folder"
@@ -4241,6 +4299,9 @@ msgstr ""
 msgid "Rotor turning speed"
 msgstr "سرعة توليف الموتور"
 
+msgid "Round Start Time To"
+msgstr ""
+
 msgid "Round start time on"
 msgstr ""
 
@@ -4315,6 +4376,9 @@ msgstr "حفظ"
 
 msgid "Save Playlist"
 msgstr "حفظ قائمة العرض"
+
+msgid "Scale Picon"
+msgstr ""
 
 #
 msgid "Scaler sharpness"
@@ -4432,6 +4496,9 @@ msgid ""
 "Scans default lamedbs sorted by satellite with a connected dish positioner"
 msgstr ""
 
+msgid "Search"
+msgstr ""
+
 msgid "Search east"
 msgstr "البحث شرقا"
 
@@ -4544,9 +4611,6 @@ msgstr "ارسل دايزك عند تغيير القمر فقط"
 
 msgid "Seperate titles with a main menu"
 msgstr "عناوين منفصله مع قائمة رئيسيه"
-
-msgid "September"
-msgstr ""
 
 msgid "Sequence repeat"
 msgstr "تكرار التسلسل"
@@ -4691,6 +4755,9 @@ msgstr ""
 msgid "Show Service Names "
 msgstr ""
 
+msgid "Show Service Title"
+msgstr ""
+
 #
 msgid "Show WLAN Status"
 msgstr "أظهر حالة الشبكه الواسعه"
@@ -4783,6 +4850,9 @@ msgstr "الاشاره"
 msgid "Similar"
 msgstr "شبيهه"
 
+msgid "Similar Broadcast Search"
+msgstr ""
+
 msgid "Similar broadcasts:"
 msgstr "إذاعات مماثله :"
 
@@ -4828,6 +4898,9 @@ msgid "Skins"
 msgstr "الجلود"
 
 msgid "Skip Empty Services"
+msgstr ""
+
+msgid "Skip Empty Services (may need restart)"
 msgstr ""
 
 #
@@ -5205,6 +5278,9 @@ msgstr ""
 msgid "Text font size"
 msgstr ""
 
+msgid "Thai"
+msgstr ""
+
 msgid ""
 "Thank you for using the wizard.\n"
 "Please press OK to continue."
@@ -5250,6 +5326,14 @@ msgstr ""
 msgid ""
 "The USB stick was prepared to be bootable.\n"
 "Now you can download an NFI image file!"
+msgstr ""
+
+msgid "The User Interface of your receiver is restarting"
+msgstr ""
+
+msgid ""
+"The User Interface of your receiver is restarting\n"
+"due to an error in mytest.py"
 msgstr ""
 
 msgid "The backup failed. Please choose a different backup location."
@@ -5530,6 +5614,21 @@ msgstr ""
 
 #
 msgid "Time/Date Input"
+msgstr ""
+
+msgid "Timeline 120 minutes"
+msgstr ""
+
+msgid "Timeline 180 minutes"
+msgstr ""
+
+msgid "Timeline 240 minutes"
+msgstr ""
+
+msgid "Timeline 300 minutes"
+msgstr ""
+
+msgid "Timeline 60 minutes"
 msgstr ""
 
 #
@@ -5867,6 +5966,9 @@ msgstr ""
 msgid "Use Interface"
 msgstr "استخدم الواجهه"
 
+msgid "Use Long Title"
+msgstr ""
+
 msgid "Use Power Measurement"
 msgstr "استخدم قياس الطاقه"
 
@@ -5949,6 +6051,12 @@ msgstr "يحددها المستخدم"
 #
 msgid "Username"
 msgstr "اسم المستخدم"
+
+msgid "Using LNB"
+msgstr ""
+
+msgid "Using Tuner "
+msgstr ""
 
 msgid "Using fixed address"
 msgstr ""
@@ -6153,6 +6261,9 @@ msgstr ""
 #
 msgid "Warn if free space drops below (kB):"
 msgstr "حذرنى إذا قلت المساحه عن (kB) :"
+
+msgid "Warning: no LNB; using factory defaults."
+msgstr ""
 
 #
 msgid "Wed"
@@ -6501,6 +6612,12 @@ msgid ""
 msgstr ""
 
 msgid ""
+"Your frontprocessor will be upgraded\n"
+"Please wait until your receiver reboots\n"
+"This may take a few minutes"
+msgstr ""
+
+msgid ""
 "Your internet connection is not working!\n"
 "Please choose what you want to do next."
 msgstr ""
@@ -6513,12 +6630,24 @@ msgstr "إسمك (إختيارى):"
 msgid "Your network configuration has been activated."
 msgstr "تم تنشيط تكوين الشبكه"
 
+msgid "Your receiver is rebooting"
+msgstr ""
+
+msgid "Your receiver is shutting down"
+msgstr ""
+
 #
 msgid ""
 "Your wireless LAN internet connection could not be started!\n"
 "Have you attached your USB WLAN Stick?\n"
 "\n"
 "Please choose what you want to do next."
+msgstr ""
+
+msgid "Zap"
+msgstr ""
+
+msgid "Zap PIG"
 msgstr ""
 
 #
@@ -7633,6 +7762,38 @@ msgstr "تم الانتقال"
 #
 #~ msgid " Results"
 #~ msgstr "النتائج"
+
+#
+#~ msgid "#000000"
+#~ msgstr "#000000"
+
+#
+#~ msgid "#0064c7"
+#~ msgstr "0064c7"
+
+#~ msgid "#25062748"
+#~ msgstr "#25062748"
+
+#~ msgid "#389416"
+#~ msgstr "#389416"
+
+#~ msgid "#80000000"
+#~ msgstr "#80000000"
+
+#~ msgid "#80ffffff"
+#~ msgstr "#80ffffff"
+
+#~ msgid "#bab329"
+#~ msgstr "#bab329"
+
+#~ msgid "#f23d21"
+#~ msgstr "#f23d21"
+
+#~ msgid "#ffffff"
+#~ msgstr "#ffffff"
+
+#~ msgid "#ffffffff"
+#~ msgstr "#ffffffff"
 
 #~ msgid "%i ms"
 #~ msgstr "%i مللى ثانيه"

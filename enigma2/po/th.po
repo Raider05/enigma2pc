@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxbox-enigma 0.0.1-En-Th\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-08 20:34+0100\n"
+"POT-Creation-Date: 2012-05-28 23:25+0200\n"
 "PO-Revision-Date: 2010-04-08 18:13+0700\n"
 "Last-Translator: Tony - Thaidreambox\n"
 "Language-Team: Tony @ Thai Dreambox <tonyboyth@gmail.com>\n"
@@ -139,44 +139,34 @@ msgstr " มีรายการปรับปรุง"
 msgid " wireless networks found!"
 msgstr " ไม่พบเครือข่ายไร้สาย"
 
-msgid "#000000"
-msgstr "#000000"
-
-msgid "#0064c7"
-msgstr "#0064c7"
-
-msgid "#25062748"
-msgstr "#25062748"
-
-msgid "#389416"
-msgstr "#389416"
-
-msgid "#80000000"
-msgstr "#80000000"
-
-msgid "#80ffffff"
-msgstr "#80ffffff"
-
-msgid "#bab329"
-msgstr "#bab329"
-
-msgid "#f23d21"
-msgstr "#f23d21"
-
-msgid "#ff0000"
+#. TRANSLATORS: short time representation hour:minute
+#, python-format
+msgid "%2d:%02d"
 msgstr ""
 
-msgid "#ffff7f"
+#. TRANSLATORS: full time representation hour:minute:seconds
+#, python-format
+msgid "%2d:%02d:%02d"
 msgstr ""
 
-msgid "#ffffff"
-msgstr "#ffffff"
+#. TRANSLATORS: long date representations dayname daynum monthname in strftime() format! See 'man strftime'
+msgid "%A %e %B"
+msgstr ""
 
-msgid "#ffffffff"
-msgstr "#ffffffff"
+#. TRANSLATORS: full date representation dayname daynum monthname year in strftime() format! See 'man strftime'
+msgid "%A %e %B %Y"
+msgstr ""
 
 msgid "%H:%M"
 msgstr "%H:%M"
+
+#. TRANSLATORS: short date representation short dayname daynum short monthname in strftime() format! See 'man strftime'
+msgid "%a %e/%m"
+msgstr ""
+
+#. TRANSLATORS: long date representation short dayname daynum short monthname hour:minute in strftime() format! See 'man strftime'
+msgid "%a %e/%m  %-H:%M"
+msgstr ""
 
 #, python-format
 msgid "%d hour"
@@ -214,6 +204,10 @@ msgstr "บริการนี้ %d ไม่มี!"
 
 msgid "%d.%B %Y"
 msgstr "%d.%B %Y"
+
+#. TRANSLATORS: VFD hour:minute daynum short monthname in strftime() format! See 'man strftime'
+msgid "%k:%M %e/%m"
+msgstr ""
 
 #, python-format
 msgid "%s (%s)\n"
@@ -573,6 +567,12 @@ msgstr "ทั้งหมด"
 msgid "All Satellites"
 msgstr "ดาวเทียมทั้งหมด"
 
+msgid "Allocate"
+msgstr ""
+
+msgid "Allocate unused memory index"
+msgstr ""
+
 msgid "Allow Subtitle equals Audio mask"
 msgstr ""
 
@@ -604,9 +604,6 @@ msgid "Anonymize crashlog?"
 msgstr "รายงานปัญหาเครื่องแบบไม่ระบุตัวตน?"
 
 msgid "Any activity"
-msgstr ""
-
-msgid "April"
 msgstr ""
 
 msgid "Arabic"
@@ -681,9 +678,6 @@ msgid "Audio language selection 3"
 msgstr ""
 
 msgid "Audio language selection 4"
-msgstr ""
-
-msgid "August"
 msgstr ""
 
 msgid "Author: "
@@ -865,6 +859,9 @@ msgstr ""
 
 msgid "Cache Thumbnails"
 msgstr "เก็บภาพเล็กแคช"
+
+msgid "Calculate"
+msgstr ""
 
 msgid "Calculate all positions"
 msgstr ""
@@ -1061,6 +1058,9 @@ msgstr "ติดต่อสื่อสาร"
 msgid "Compact Flash"
 msgstr "Compact Flash"
 
+msgid "Compatibilty Mode"
+msgstr ""
+
 msgid "Complete"
 msgstr "สำเร็จ"
 
@@ -1072,6 +1072,9 @@ msgstr ""
 
 msgid "Configuration Mode"
 msgstr "โหมดการตั้งค่า"
+
+msgid "Configuration mode: "
+msgstr ""
 
 msgid "Configure interface"
 msgstr "ตั้งค่าอินเตอร์เฟซ"
@@ -1260,11 +1263,23 @@ msgstr ""
 msgid "DVB subtitle black transparency"
 msgstr ""
 
+msgid "DVB-C"
+msgstr ""
+
+msgid "DVB-C ANNEX C"
+msgstr ""
+
 msgid "DVB-S"
 msgstr "DVB-S"
 
 msgid "DVB-S2"
 msgstr "DVB-S2"
+
+msgid "DVB-T"
+msgstr ""
+
+msgid "DVB-T2"
+msgstr ""
 
 msgid "DVD File Browser"
 msgstr "ดูแฟ้มในดีวีดี"
@@ -1287,7 +1302,7 @@ msgstr "ภาษาเดนมาร์ก"
 msgid "Date"
 msgstr "วันที่"
 
-msgid "December"
+msgid "Date/Time"
 msgstr ""
 
 msgid "Decide if you want to enable or disable the Cleanup Wizard."
@@ -1410,6 +1425,9 @@ msgstr "ไม่ใช้งาน"
 
 msgid "Disable Picture in Picture"
 msgstr "ไม่ใช้งานภาพซ้อนภาพ"
+
+msgid "Disable Selecting Expired Events"
+msgstr ""
 
 msgid "Disable background scanning"
 msgstr ""
@@ -1642,6 +1660,9 @@ msgstr "แก้ไข"
 msgid "Edit DNS"
 msgstr "แก้ไข DNS"
 
+msgid "Edit Search Title"
+msgstr ""
+
 msgid "Edit Title"
 msgstr "แก้ไขชื่อเรื่อง"
 
@@ -1688,6 +1709,9 @@ msgid "Enable MHW EPG"
 msgstr ""
 
 msgid "Enable Netmed EPG"
+msgstr ""
+
+msgid "Enable Picon"
 msgstr ""
 
 msgid "Enable ViaSat EPG"
@@ -1785,7 +1809,16 @@ msgstr "ภาษาเอสโตเนี่ยน"
 msgid "Ethernet network interface"
 msgstr ""
 
+msgid "Event"
+msgstr ""
+
+msgid "Event Fontsize"
+msgstr ""
+
 msgid "Event Fontsize (relative to skin size)"
+msgstr ""
+
+msgid "Event Info"
 msgstr ""
 
 msgid "Eventview"
@@ -1795,6 +1828,9 @@ msgid "Eventview menu"
 msgstr ""
 
 msgid "Everywhere"
+msgstr ""
+
+msgid "Exact Search"
 msgstr ""
 
 msgid "Exceeds dual layer medium!"
@@ -1866,7 +1902,7 @@ msgstr "ตั้งค่าจากโรงงาน"
 msgid "Failed"
 msgstr "ล้มเหลว"
 
-msgid "Failed to write /tmp/positionersetup.log:str"
+msgid "Failed to write /tmp/positionersetup.log: "
 msgstr ""
 
 #, python-format
@@ -1898,9 +1934,6 @@ msgstr "Fast epoch"
 
 msgid "Favourites"
 msgstr "รายการโปรด"
-
-msgid "February"
-msgstr ""
 
 msgid "File appears to be busy.\n"
 msgstr ""
@@ -2126,6 +2159,9 @@ msgstr ""
 msgid "Hide CI messages"
 msgstr ""
 
+msgid "Hide Expired Title"
+msgstr ""
+
 msgid "Hide zap errors"
 msgstr ""
 
@@ -2164,6 +2200,9 @@ msgstr "Hue"
 
 msgid "Hungarian"
 msgstr "ภาษาฮังการี่"
+
+msgid "IMDB"
+msgstr ""
 
 msgid "IP Address"
 msgstr "IP Address"
@@ -2229,6 +2268,9 @@ msgstr "เพิ่ม Voltage"
 
 msgid "Index"
 msgstr "อินเด็กซ์"
+
+msgid "Index allocated:"
+msgstr ""
 
 msgid "Info"
 msgstr "ข้อมูล"
@@ -2379,6 +2421,12 @@ msgid "July"
 msgstr ""
 
 msgid "June"
+msgstr ""
+
+msgid "Jump to First Service"
+msgstr ""
+
+msgid "Jump to Last Service"
 msgstr ""
 
 #. TRANSLATORS: (aspect ratio policy: display as fullscreen, even if this breaks the aspect)
@@ -2576,9 +2624,6 @@ msgstr "ป้อนทรานสปอนเดอร์เอง"
 msgid "Manufacturer"
 msgstr "ผู้ผลิต"
 
-msgid "March"
-msgstr ""
-
 msgid "Margin after record"
 msgstr "บันทึกต่อไปอีก"
 
@@ -2586,9 +2631,6 @@ msgid "Margin before record (minutes)"
 msgstr "บันทึกก่อนเวลาจริง (นาที)"
 
 msgid "Max. Bitrate: "
-msgstr ""
-
-msgid "May"
 msgstr ""
 
 msgid "Media player"
@@ -2611,6 +2653,9 @@ msgstr ""
 
 msgid "Menu"
 msgstr "เมนู"
+
+msgid "Merge Short/Long Descriptions"
+msgstr ""
 
 msgid "Message"
 msgstr "ข้อความ"
@@ -2817,6 +2862,9 @@ msgstr "เวอร์ชั่นใหม่:"
 msgid "Next"
 msgstr "ต่อไป"
 
+msgid "Next Bouquet"
+msgstr ""
+
 msgid "No"
 msgstr "ไม่"
 
@@ -2860,6 +2908,9 @@ msgstr "ไม่พบข้อมูลเวลากำกับ บัน�
 msgid ""
 "No fast winding possible yet.. but you can use the number buttons to skip "
 "forward/backward!"
+msgstr ""
+
+msgid "No free index available"
 msgstr ""
 
 msgid "No free tuner!"
@@ -3001,9 +3052,6 @@ msgstr ""
 msgid "Nothing to upgrade"
 msgstr ""
 
-msgid "November"
-msgstr ""
-
 msgid "Now Playing"
 msgstr "กำลังเล่น"
 
@@ -3039,9 +3087,6 @@ msgstr ""
 msgid "OSD visibility"
 msgstr "ความชัดของ OSD"
 
-msgid "October"
-msgstr ""
-
 msgid "Off"
 msgstr "ปิด"
 
@@ -3053,6 +3098,9 @@ msgstr ""
 
 msgid "On"
 msgstr "เปิด"
+
+msgid "On Bouquet Switch goto first service"
+msgstr ""
 
 msgid "One"
 msgstr "หนึ่ง"
@@ -3117,6 +3165,18 @@ msgstr "จัดการส่วนประกอบ"
 msgid "Packet manager"
 msgstr "ตัวจัดการส่วนประกอบ"
 
+msgid "Page Down"
+msgstr ""
+
+msgid "Page Left"
+msgstr ""
+
+msgid "Page Right"
+msgstr ""
+
+msgid "Page Up"
+msgstr ""
+
 #. TRANSLATORS: (aspect ratio policy: cropped content on left/right) in doubt, keep english term
 msgid "Pan&Scan"
 msgstr "Pan&Scan"
@@ -3135,6 +3195,9 @@ msgstr "ตั้งค่าการควบคุมอายุ"
 
 msgid "Parental control type"
 msgstr "ชนิดการควบคุมอายุ"
+
+msgid "Partial Search"
+msgstr ""
 
 msgid "Password"
 msgstr "รหัสผ่าน"
@@ -3512,6 +3575,9 @@ msgstr ""
 msgid "Preview menu"
 msgstr "เมนูดูตัวอย่าง"
 
+msgid "Previous Bouquet"
+msgstr ""
+
 msgid "Primary DNS"
 msgstr "DNS หลัก"
 
@@ -3593,6 +3659,12 @@ msgstr "ต้องการเริ่มระบบใหม่หรือ
 msgid "Really shutdown now?"
 msgstr "ต้องการปิดเครื่องตอนนี้หรือไม่ (Shutdown)?"
 
+msgid "Really upgrade the frontprocessor and reboot now?"
+msgstr ""
+
+msgid "Really upgrade your settop box and reboot now?"
+msgstr ""
+
 msgid "Reboot"
 msgstr "เริ่มระบบใหม่ (Reboot)"
 
@@ -3661,9 +3733,6 @@ msgid "Reloading bouquets and services..."
 msgstr ""
 
 msgid "Remember service PIN"
-msgstr ""
-
-msgid "Remember service PIN cancel"
 msgstr ""
 
 msgid "Remember these settings for each folder"
@@ -3834,6 +3903,9 @@ msgstr ""
 msgid "Rotor turning speed"
 msgstr "ความเร็วในการหมุนของ Rotor"
 
+msgid "Round Start Time To"
+msgstr ""
+
 msgid "Round start time on"
 msgstr ""
 
@@ -3896,6 +3968,9 @@ msgstr "บันทึก"
 
 msgid "Save Playlist"
 msgstr "บันทึกสารบัญ"
+
+msgid "Scale Picon"
+msgstr ""
 
 msgid "Scaler sharpness"
 msgstr "Scaler sharpness"
@@ -3994,6 +4069,9 @@ msgstr ""
 msgid ""
 "Scans default lamedbs sorted by satellite with a connected dish positioner"
 msgstr "ค้นหาจาก Lamedbs และโดยเรียงดาวเทียมตามที่ต่อไว้กับตัวขับจาน"
+
+msgid "Search"
+msgstr ""
 
 msgid "Search east"
 msgstr "ค้นหาทางทิศตะวันออก"
@@ -4102,9 +4180,6 @@ msgstr "ส่งคำสั่ง DiSEqC เฉพาะตอนเปลี�
 
 msgid "Seperate titles with a main menu"
 msgstr "แยกเรื่องนี้ออกจากเมนูหลัก"
-
-msgid "September"
-msgstr ""
 
 msgid "Sequence repeat"
 msgstr "Sequence repeat"
@@ -4235,6 +4310,9 @@ msgstr ""
 msgid "Show Service Names "
 msgstr ""
 
+msgid "Show Service Title"
+msgstr ""
+
 msgid "Show WLAN Status"
 msgstr "แสดงสถานะของ WLAN"
 
@@ -4316,6 +4394,9 @@ msgstr "สัญญาณ:"
 msgid "Similar"
 msgstr "เหมือน"
 
+msgid "Similar Broadcast Search"
+msgstr ""
+
 msgid "Similar broadcasts:"
 msgstr "ออกอากาศซ้ำ:"
 
@@ -4353,6 +4434,9 @@ msgid "Skins"
 msgstr "สกิน"
 
 msgid "Skip Empty Services"
+msgstr ""
+
+msgid "Skip Empty Services (may need restart)"
 msgstr ""
 
 msgid "Sleep Timer"
@@ -4689,6 +4773,9 @@ msgstr ""
 msgid "Text font size"
 msgstr ""
 
+msgid "Thai"
+msgstr ""
+
 msgid ""
 "Thank you for using the wizard.\n"
 "Please press OK to continue."
@@ -4730,6 +4817,14 @@ msgstr ""
 msgid ""
 "The USB stick was prepared to be bootable.\n"
 "Now you can download an NFI image file!"
+msgstr ""
+
+msgid "The User Interface of your receiver is restarting"
+msgstr ""
+
+msgid ""
+"The User Interface of your receiver is restarting\n"
+"due to an error in mytest.py"
 msgstr ""
 
 msgid "The backup failed. Please choose a different backup location."
@@ -4989,6 +5084,21 @@ msgstr ""
 
 msgid "Time/Date Input"
 msgstr "ป้อนวัน/เวลา"
+
+msgid "Timeline 120 minutes"
+msgstr ""
+
+msgid "Timeline 180 minutes"
+msgstr ""
+
+msgid "Timeline 240 minutes"
+msgstr ""
+
+msgid "Timeline 300 minutes"
+msgstr ""
+
+msgid "Timeline 60 minutes"
+msgstr ""
 
 msgid "Timer"
 msgstr "ตั้งเวลา"
@@ -5273,6 +5383,9 @@ msgstr ""
 msgid "Use Interface"
 msgstr "เลือกใช้อินเตอร์เฟซนี้"
 
+msgid "Use Long Title"
+msgstr ""
+
 msgid "Use Power Measurement"
 msgstr "ใช้ Power Measurement"
 
@@ -5349,6 +5462,12 @@ msgstr "ผู้ใช้กำหนด"
 
 msgid "Username"
 msgstr "ชื่อผู้ใช้"
+
+msgid "Using LNB"
+msgstr ""
+
+msgid "Using Tuner "
+msgstr ""
 
 msgid "Using fixed address"
 msgstr ""
@@ -5531,6 +5650,9 @@ msgstr ""
 
 msgid "Warn if free space drops below (kB):"
 msgstr "เตือนทันที่ที่เนื้อที่ต่ำกว่า (kB)"
+
+msgid "Warning: no LNB; using factory defaults."
+msgstr ""
 
 msgid "Wed"
 msgstr "พุธ"
@@ -5861,6 +5983,12 @@ msgstr ""
 "กดปุ่ม OK เพิ่มเริ่มการปรับปรุง"
 
 msgid ""
+"Your frontprocessor will be upgraded\n"
+"Please wait until your receiver reboots\n"
+"This may take a few minutes"
+msgstr ""
+
+msgid ""
 "Your internet connection is not working!\n"
 "Please choose what you want to do next."
 msgstr ""
@@ -5873,6 +6001,12 @@ msgstr "ชื่อ (ทางเลือก) :"
 msgid "Your network configuration has been activated."
 msgstr "เครือข่ายของท่านสามารถใช้งานได้แล้ว"
 
+msgid "Your receiver is rebooting"
+msgstr ""
+
+msgid "Your receiver is shutting down"
+msgstr ""
+
 msgid ""
 "Your wireless LAN internet connection could not be started!\n"
 "Have you attached your USB WLAN Stick?\n"
@@ -5883,6 +6017,12 @@ msgstr ""
 "ตรวจสอบก่อนว่า ท่านได้เสียบ USB WLAN แล้วหรือยัง?\n"
 "\n"
 "โปรดเลือกว่าท่านจะทำอะไรต่อไป"
+
+msgid "Zap"
+msgstr ""
+
+msgid "Zap PIG"
+msgstr ""
 
 msgid "Zap back to previously tuned service?"
 msgstr ""
@@ -6894,6 +7034,36 @@ msgstr "เปลี่ยนช่องแล้ว"
 
 #~ msgid " "
 #~ msgstr " "
+
+#~ msgid "#000000"
+#~ msgstr "#000000"
+
+#~ msgid "#0064c7"
+#~ msgstr "#0064c7"
+
+#~ msgid "#25062748"
+#~ msgstr "#25062748"
+
+#~ msgid "#389416"
+#~ msgstr "#389416"
+
+#~ msgid "#80000000"
+#~ msgstr "#80000000"
+
+#~ msgid "#80ffffff"
+#~ msgstr "#80ffffff"
+
+#~ msgid "#bab329"
+#~ msgstr "#bab329"
+
+#~ msgid "#f23d21"
+#~ msgstr "#f23d21"
+
+#~ msgid "#ffffff"
+#~ msgstr "#ffffff"
+
+#~ msgid "#ffffffff"
+#~ msgstr "#ffffffff"
 
 #~ msgid ""
 #~ "%s\n"

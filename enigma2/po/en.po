@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enigma2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-08 20:34+0100\n"
+"POT-Creation-Date: 2012-05-28 23:25+0200\n"
 "PO-Revision-Date: 2005-11-17 20:53+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -156,55 +156,35 @@ msgstr " updates available."
 msgid " wireless networks found!"
 msgstr " wireless networks found!"
 
-#
-msgid "#000000"
-msgstr "#000000"
-
-#
-msgid "#0064c7"
-msgstr "#0064c7"
-
-#
-msgid "#25062748"
-msgstr "#25062748"
-
-#
-msgid "#389416"
-msgstr "#389416"
-
-#
-msgid "#80000000"
-msgstr "#80000000"
-
-#
-msgid "#80ffffff"
-msgstr "#80ffffff"
-
-#
-msgid "#bab329"
-msgstr "#bab329"
-
-#
-msgid "#f23d21"
-msgstr "#f23d21"
-
-msgid "#ff0000"
+#. TRANSLATORS: short time representation hour:minute
+#, python-format
+msgid "%2d:%02d"
 msgstr ""
 
-msgid "#ffff7f"
+#. TRANSLATORS: full time representation hour:minute:seconds
+#, python-format
+msgid "%2d:%02d:%02d"
 msgstr ""
 
-#
-msgid "#ffffff"
-msgstr "#ffffff"
+#. TRANSLATORS: long date representations dayname daynum monthname in strftime() format! See 'man strftime'
+msgid "%A %e %B"
+msgstr ""
 
-#
-msgid "#ffffffff"
-msgstr "#ffffffff"
+#. TRANSLATORS: full date representation dayname daynum monthname year in strftime() format! See 'man strftime'
+msgid "%A %e %B %Y"
+msgstr ""
 
 #
 msgid "%H:%M"
 msgstr "%H:%M"
+
+#. TRANSLATORS: short date representation short dayname daynum short monthname in strftime() format! See 'man strftime'
+msgid "%a %e/%m"
+msgstr ""
+
+#. TRANSLATORS: long date representation short dayname daynum short monthname hour:minute in strftime() format! See 'man strftime'
+msgid "%a %e/%m  %-H:%M"
+msgstr ""
 
 #, python-format
 msgid "%d hour"
@@ -246,6 +226,10 @@ msgstr "%d services found!"
 #
 msgid "%d.%B %Y"
 msgstr "%d.%B %Y"
+
+#. TRANSLATORS: VFD hour:minute daynum short monthname in strftime() format! See 'man strftime'
+msgid "%k:%M %e/%m"
+msgstr ""
 
 #
 #, python-format
@@ -711,6 +695,12 @@ msgstr "All"
 msgid "All Satellites"
 msgstr "All Satellites"
 
+msgid "Allocate"
+msgstr ""
+
+msgid "Allocate unused memory index"
+msgstr ""
+
 msgid "Allow Subtitle equals Audio mask"
 msgstr ""
 
@@ -749,9 +739,6 @@ msgid "Anonymize crashlog?"
 msgstr "Anonymize crashlog?"
 
 msgid "Any activity"
-msgstr ""
-
-msgid "April"
 msgstr ""
 
 #
@@ -839,9 +826,6 @@ msgid "Audio language selection 3"
 msgstr ""
 
 msgid "Audio language selection 4"
-msgstr ""
-
-msgid "August"
 msgstr ""
 
 #
@@ -1074,6 +1058,9 @@ msgstr ""
 #
 msgid "Cache Thumbnails"
 msgstr "Cache Thumbnails"
+
+msgid "Calculate"
+msgstr ""
 
 msgid "Calculate all positions"
 msgstr ""
@@ -1317,6 +1304,9 @@ msgstr "Communication"
 msgid "Compact Flash"
 msgstr "Compact Flash"
 
+msgid "Compatibilty Mode"
+msgstr ""
+
 #
 msgid "Complete"
 msgstr "Complete"
@@ -1331,6 +1321,9 @@ msgstr ""
 #
 msgid "Configuration Mode"
 msgstr "Configuration Mode"
+
+msgid "Configuration mode: "
+msgstr ""
 
 #
 msgid "Configure interface"
@@ -1562,6 +1555,12 @@ msgstr "DUAL LAYER DVD"
 msgid "DVB subtitle black transparency"
 msgstr ""
 
+msgid "DVB-C"
+msgstr ""
+
+msgid "DVB-C ANNEX C"
+msgstr ""
+
 #
 msgid "DVB-S"
 msgstr "DVB-S"
@@ -1569,6 +1568,12 @@ msgstr "DVB-S"
 #
 msgid "DVB-S2"
 msgstr "DVB-S2"
+
+msgid "DVB-T"
+msgstr ""
+
+msgid "DVB-T2"
+msgstr ""
 
 #
 msgid "DVD File Browser"
@@ -1597,7 +1602,7 @@ msgstr "Danish"
 msgid "Date"
 msgstr "Date"
 
-msgid "December"
+msgid "Date/Time"
 msgstr ""
 
 #
@@ -1749,6 +1754,9 @@ msgstr "Disable"
 #
 msgid "Disable Picture in Picture"
 msgstr "Disable Picture in Picture"
+
+msgid "Disable Selecting Expired Events"
+msgstr ""
 
 msgid "Disable background scanning"
 msgstr ""
@@ -2038,6 +2046,9 @@ msgstr "Edit"
 msgid "Edit DNS"
 msgstr "Edit DNS"
 
+msgid "Edit Search Title"
+msgstr ""
+
 #
 msgid "Edit Title"
 msgstr "Edit Title"
@@ -2097,6 +2108,9 @@ msgid "Enable MHW EPG"
 msgstr ""
 
 msgid "Enable Netmed EPG"
+msgstr ""
+
+msgid "Enable Picon"
 msgstr ""
 
 msgid "Enable ViaSat EPG"
@@ -2215,7 +2229,16 @@ msgstr "Estonian"
 msgid "Ethernet network interface"
 msgstr ""
 
+msgid "Event"
+msgstr ""
+
+msgid "Event Fontsize"
+msgstr ""
+
 msgid "Event Fontsize (relative to skin size)"
+msgstr ""
+
+msgid "Event Info"
 msgstr ""
 
 #
@@ -2226,6 +2249,9 @@ msgid "Eventview menu"
 msgstr ""
 
 msgid "Everywhere"
+msgstr ""
+
+msgid "Exact Search"
 msgstr ""
 
 #
@@ -2318,7 +2344,7 @@ msgstr "Factory reset"
 msgid "Failed"
 msgstr "Failed"
 
-msgid "Failed to write /tmp/positionersetup.log:str"
+msgid "Failed to write /tmp/positionersetup.log: "
 msgstr ""
 
 #
@@ -2358,9 +2384,6 @@ msgstr "Fast epoch"
 #
 msgid "Favourites"
 msgstr "Favourites"
-
-msgid "February"
-msgstr ""
 
 msgid "File appears to be busy.\n"
 msgstr ""
@@ -2623,6 +2646,9 @@ msgstr ""
 msgid "Hide CI messages"
 msgstr ""
 
+msgid "Hide Expired Title"
+msgstr ""
+
 msgid "Hide zap errors"
 msgstr ""
 
@@ -2668,6 +2694,9 @@ msgstr "Hue"
 #
 msgid "Hungarian"
 msgstr "Hungarian"
+
+msgid "IMDB"
+msgstr ""
 
 #
 msgid "IP Address"
@@ -2747,6 +2776,9 @@ msgstr "Increased voltage"
 #
 msgid "Index"
 msgstr "Index"
+
+msgid "Index allocated:"
+msgstr ""
 
 #
 msgid "Info"
@@ -2920,17 +2952,14 @@ msgstr "Italian"
 msgid "Items per Page "
 msgstr ""
 
-msgid "January"
-msgstr ""
-
 #
 msgid "Job View"
 msgstr "Job View"
 
-msgid "July"
+msgid "Jump to First Service"
 msgstr ""
 
-msgid "June"
+msgid "Jump to Last Service"
 msgstr ""
 
 #
@@ -3177,9 +3206,6 @@ msgstr "Manual transponder"
 msgid "Manufacturer"
 msgstr "Manufacturer"
 
-msgid "March"
-msgstr ""
-
 #
 msgid "Margin after record"
 msgstr "Margin after record"
@@ -3191,9 +3217,6 @@ msgstr "Margin before record (minutes)"
 #
 msgid "Max. Bitrate: "
 msgstr "Max. Bitrate: "
-
-msgid "May"
-msgstr ""
 
 #
 msgid "Media player"
@@ -3220,6 +3243,9 @@ msgstr ""
 #
 msgid "Menu"
 msgstr "Menu"
+
+msgid "Merge Short/Long Descriptions"
+msgstr ""
 
 #
 msgid "Message"
@@ -3472,6 +3498,9 @@ msgstr "New version:"
 msgid "Next"
 msgstr "Next"
 
+msgid "Next Bouquet"
+msgstr ""
+
 #
 msgid "No"
 msgstr "No"
@@ -3529,6 +3558,9 @@ msgid ""
 msgstr ""
 "No fast winding possible yet.. but you can use the number buttons to skip "
 "forward/backward!"
+
+msgid "No free index available"
+msgstr ""
 
 #
 msgid "No free tuner!"
@@ -3703,9 +3735,6 @@ msgstr ""
 msgid "Nothing to upgrade"
 msgstr ""
 
-msgid "November"
-msgstr ""
-
 #
 msgid "Now Playing"
 msgstr "Now Playing"
@@ -3750,9 +3779,6 @@ msgstr ""
 msgid "OSD visibility"
 msgstr "OSD visibility"
 
-msgid "October"
-msgstr ""
-
 #
 msgid "Off"
 msgstr "Off"
@@ -3766,6 +3792,9 @@ msgstr ""
 #
 msgid "On"
 msgstr "On"
+
+msgid "On Bouquet Switch goto first service"
+msgstr ""
 
 #
 msgid "One"
@@ -3842,6 +3871,18 @@ msgstr "Packet management"
 msgid "Packet manager"
 msgstr "Packet manager"
 
+msgid "Page Down"
+msgstr ""
+
+msgid "Page Left"
+msgstr ""
+
+msgid "Page Right"
+msgstr ""
+
+msgid "Page Up"
+msgstr ""
+
 #
 #. TRANSLATORS: (aspect ratio policy: cropped content on left/right) in doubt, keep english term
 msgid "Pan&Scan"
@@ -3866,6 +3907,9 @@ msgstr "Parental control setup"
 #
 msgid "Parental control type"
 msgstr "Parental control type"
+
+msgid "Partial Search"
+msgstr ""
 
 #
 msgid "Password"
@@ -4342,6 +4386,9 @@ msgstr "Preview"
 msgid "Preview menu"
 msgstr "Preview menu"
 
+msgid "Previous Bouquet"
+msgstr ""
+
 #
 msgid "Primary DNS"
 msgstr "Primary DNS"
@@ -4446,6 +4493,12 @@ msgstr "Really restart now?"
 msgid "Really shutdown now?"
 msgstr "Really shutdown now?"
 
+msgid "Really upgrade the frontprocessor and reboot now?"
+msgstr ""
+
+msgid "Really upgrade your settop box and reboot now?"
+msgstr ""
+
 #
 msgid "Reboot"
 msgstr "Reboot"
@@ -4528,9 +4581,6 @@ msgid "Reloading bouquets and services..."
 msgstr ""
 
 msgid "Remember service PIN"
-msgstr ""
-
-msgid "Remember service PIN cancel"
 msgstr ""
 
 msgid "Remember these settings for each folder"
@@ -4745,6 +4795,9 @@ msgstr ""
 msgid "Rotor turning speed"
 msgstr "Rotor turning speed"
 
+msgid "Round Start Time To"
+msgstr ""
+
 msgid "Round start time on"
 msgstr ""
 
@@ -4825,6 +4878,9 @@ msgstr "Save"
 #
 msgid "Save Playlist"
 msgstr "Save Playlist"
+
+msgid "Scale Picon"
+msgstr ""
 
 #
 msgid "Scaler sharpness"
@@ -4950,6 +5006,9 @@ msgid ""
 "Scans default lamedbs sorted by satellite with a connected dish positioner"
 msgstr ""
 "Scans default lamedbs sorted by satellite with a connected dish positioner"
+
+msgid "Search"
+msgstr ""
 
 #
 msgid "Search east"
@@ -5084,9 +5143,6 @@ msgstr "Send DiSEqC only on satellite change"
 #
 msgid "Seperate titles with a main menu"
 msgstr "Seperate titles with a main menu"
-
-msgid "September"
-msgstr ""
 
 #
 msgid "Sequence repeat"
@@ -5241,6 +5297,9 @@ msgstr ""
 msgid "Show Service Names "
 msgstr ""
 
+msgid "Show Service Title"
+msgstr ""
+
 #
 msgid "Show WLAN Status"
 msgstr "Show WLAN Status"
@@ -5337,6 +5396,9 @@ msgstr "Signal: "
 msgid "Similar"
 msgstr "Similar"
 
+msgid "Similar Broadcast Search"
+msgstr ""
+
 #
 msgid "Similar broadcasts:"
 msgstr "Similar broadcasts:"
@@ -5384,6 +5446,9 @@ msgid "Skins"
 msgstr "Skins"
 
 msgid "Skip Empty Services"
+msgstr ""
+
+msgid "Skip Empty Services (may need restart)"
 msgstr ""
 
 #
@@ -5793,6 +5858,9 @@ msgstr ""
 msgid "Text font size"
 msgstr ""
 
+msgid "Thai"
+msgstr ""
+
 #
 msgid ""
 "Thank you for using the wizard.\n"
@@ -5844,6 +5912,14 @@ msgstr ""
 msgid ""
 "The USB stick was prepared to be bootable.\n"
 "Now you can download an NFI image file!"
+msgstr ""
+
+msgid "The User Interface of your receiver is restarting"
+msgstr ""
+
+msgid ""
+"The User Interface of your receiver is restarting\n"
+"due to an error in mytest.py"
 msgstr ""
 
 #
@@ -6161,6 +6237,21 @@ msgstr ""
 #
 msgid "Time/Date Input"
 msgstr "Time/Date Input"
+
+msgid "Timeline 120 minutes"
+msgstr ""
+
+msgid "Timeline 180 minutes"
+msgstr ""
+
+msgid "Timeline 240 minutes"
+msgstr ""
+
+msgid "Timeline 300 minutes"
+msgstr ""
+
+msgid "Timeline 60 minutes"
+msgstr ""
 
 #
 msgid "Timer"
@@ -6520,6 +6611,9 @@ msgstr ""
 msgid "Use Interface"
 msgstr "Use Interface"
 
+msgid "Use Long Title"
+msgstr ""
+
 #
 msgid "Use Power Measurement"
 msgstr "Use Power Measurement"
@@ -6612,6 +6706,12 @@ msgstr "User defined"
 #
 msgid "Username"
 msgstr "Username"
+
+msgid "Using LNB"
+msgstr ""
+
+msgid "Using Tuner "
+msgstr ""
 
 msgid "Using fixed address"
 msgstr ""
@@ -6839,6 +6939,9 @@ msgstr ""
 #
 msgid "Warn if free space drops below (kB):"
 msgstr "Warn if free space drops below (kB):"
+
+msgid "Warning: no LNB; using factory defaults."
+msgstr ""
 
 #
 msgid "Wed"
@@ -7254,6 +7357,12 @@ msgstr ""
 "Your frontprocessor firmware must be upgraded.\n"
 "Press OK to start upgrade."
 
+msgid ""
+"Your frontprocessor will be upgraded\n"
+"Please wait until your receiver reboots\n"
+"This may take a few minutes"
+msgstr ""
+
 #
 msgid ""
 "Your internet connection is not working!\n"
@@ -7270,12 +7379,24 @@ msgstr "Your name (optional):"
 msgid "Your network configuration has been activated."
 msgstr "Your network configuration has been activated."
 
+msgid "Your receiver is rebooting"
+msgstr ""
+
+msgid "Your receiver is shutting down"
+msgstr ""
+
 #
 msgid ""
 "Your wireless LAN internet connection could not be started!\n"
 "Have you attached your USB WLAN Stick?\n"
 "\n"
 "Please choose what you want to do next."
+msgstr ""
+
+msgid "Zap"
+msgstr ""
+
+msgid "Zap PIG"
 msgstr ""
 
 #
@@ -8462,8 +8583,15 @@ msgid "tuner is not supported"
 msgstr ""
 
 #
+msgid "unavailable"
+msgstr "unavailable"
+
+#
 msgid "unconfirmed"
 msgstr "unconfirmed"
+
+msgid "undefined"
+msgstr ""
 
 #
 msgid "unknown"
@@ -8576,6 +8704,46 @@ msgstr "zapped"
 #
 #~ msgid " Results"
 #~ msgstr " Results"
+
+#
+#~ msgid "#000000"
+#~ msgstr "#000000"
+
+#
+#~ msgid "#0064c7"
+#~ msgstr "#0064c7"
+
+#
+#~ msgid "#25062748"
+#~ msgstr "#25062748"
+
+#
+#~ msgid "#389416"
+#~ msgstr "#389416"
+
+#
+#~ msgid "#80000000"
+#~ msgstr "#80000000"
+
+#
+#~ msgid "#80ffffff"
+#~ msgstr "#80ffffff"
+
+#
+#~ msgid "#bab329"
+#~ msgstr "#bab329"
+
+#
+#~ msgid "#f23d21"
+#~ msgstr "#f23d21"
+
+#
+#~ msgid "#ffffff"
+#~ msgstr "#ffffff"
+
+#
+#~ msgid "#ffffffff"
+#~ msgstr "#ffffffff"
 
 #
 #~ msgid "%i ms"
@@ -11466,10 +11634,6 @@ msgstr "zapped"
 #
 #~ msgid "show second selected tag"
 #~ msgstr "show second selected tag"
-
-#
-#~ msgid "unavailable"
-#~ msgstr "unavailable"
 
 #
 #~ msgid "until restart"

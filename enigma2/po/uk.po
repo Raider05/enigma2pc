@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enigma2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-08 20:34+0100\n"
+"POT-Creation-Date: 2012-05-28 23:25+0200\n"
 "PO-Revision-Date: 2008-09-28 14:03+0200\n"
 "Last-Translator: stepan_kv <stepan_kv@mail.ru>\n"
 "Language-Team: http://sat-ukraine.info/\n"
@@ -243,6 +243,10 @@ msgstr "%d каналів знайдено!"
 #
 msgid "%d.%B %Y"
 msgstr "%d.%B %Y"
+
+#. TRANSLATORS: VFD hour:minute daynum short monthname in strftime() format! See 'man strftime'
+msgid "%k:%M %e/%m"
+msgstr ""
 
 #
 #, python-format
@@ -701,6 +705,12 @@ msgstr "Всі"
 msgid "All Satellites"
 msgstr "Всі супутники"
 
+msgid "Allocate"
+msgstr ""
+
+msgid "Allocate unused memory index"
+msgstr ""
+
 msgid "Allow Subtitle equals Audio mask"
 msgstr ""
 
@@ -739,9 +749,6 @@ msgid "Anonymize crashlog?"
 msgstr "Анонімний крешлог?"
 
 msgid "Any activity"
-msgstr ""
-
-msgid "April"
 msgstr ""
 
 #
@@ -829,9 +836,6 @@ msgid "Audio language selection 3"
 msgstr ""
 
 msgid "Audio language selection 4"
-msgstr ""
-
-msgid "August"
 msgstr ""
 
 #
@@ -1062,6 +1066,9 @@ msgstr ""
 #
 msgid "Cache Thumbnails"
 msgstr "Кешувати ескізи"
+
+msgid "Calculate"
+msgstr ""
 
 msgid "Calculate all positions"
 msgstr ""
@@ -1305,6 +1312,9 @@ msgstr "З'єднання"
 msgid "Compact Flash"
 msgstr "Compact Flash"
 
+msgid "Compatibilty Mode"
+msgstr ""
+
 #
 msgid "Complete"
 msgstr "Виконано"
@@ -1319,6 +1329,9 @@ msgstr ""
 #
 msgid "Configuration Mode"
 msgstr "Режим конфігурації"
+
+msgid "Configuration mode: "
+msgstr ""
 
 #
 msgid "Configure interface"
@@ -1548,6 +1561,12 @@ msgstr ""
 msgid "DVB subtitle black transparency"
 msgstr ""
 
+msgid "DVB-C"
+msgstr ""
+
+msgid "DVB-C ANNEX C"
+msgstr ""
+
 #
 msgid "DVB-S"
 msgstr "DVB-S"
@@ -1555,6 +1574,12 @@ msgstr "DVB-S"
 #
 msgid "DVB-S2"
 msgstr "DVB-S2"
+
+msgid "DVB-T"
+msgstr ""
+
+msgid "DVB-T2"
+msgstr ""
 
 #
 msgid "DVD File Browser"
@@ -1583,7 +1608,7 @@ msgstr "Данська"
 msgid "Date"
 msgstr "Дата"
 
-msgid "December"
+msgid "Date/Time"
 msgstr ""
 
 #
@@ -1735,6 +1760,9 @@ msgstr "Вимкнуто"
 #
 msgid "Disable Picture in Picture"
 msgstr "Вимкнути PiP"
+
+msgid "Disable Selecting Expired Events"
+msgstr ""
 
 msgid "Disable background scanning"
 msgstr ""
@@ -2024,6 +2052,9 @@ msgstr "Редагувати"
 msgid "Edit DNS"
 msgstr "Змінити DNS"
 
+msgid "Edit Search Title"
+msgstr ""
+
 #
 msgid "Edit Title"
 msgstr "Редагувати"
@@ -2083,6 +2114,9 @@ msgid "Enable MHW EPG"
 msgstr ""
 
 msgid "Enable Netmed EPG"
+msgstr ""
+
+msgid "Enable Picon"
 msgstr ""
 
 msgid "Enable ViaSat EPG"
@@ -2197,7 +2231,16 @@ msgstr ""
 msgid "Ethernet network interface"
 msgstr ""
 
+msgid "Event"
+msgstr ""
+
+msgid "Event Fontsize"
+msgstr ""
+
 msgid "Event Fontsize (relative to skin size)"
+msgstr ""
+
+msgid "Event Info"
 msgstr ""
 
 #
@@ -2208,6 +2251,9 @@ msgid "Eventview menu"
 msgstr ""
 
 msgid "Everywhere"
+msgstr ""
+
+msgid "Exact Search"
 msgstr ""
 
 #
@@ -2300,7 +2346,7 @@ msgstr "Заводські налаштування"
 msgid "Failed"
 msgstr "Невдало"
 
-msgid "Failed to write /tmp/positionersetup.log:str"
+msgid "Failed to write /tmp/positionersetup.log: "
 msgstr ""
 
 #
@@ -2340,9 +2386,6 @@ msgstr "Швидкий період"
 #
 msgid "Favourites"
 msgstr "Фаворити"
-
-msgid "February"
-msgstr ""
 
 msgid "File appears to be busy.\n"
 msgstr ""
@@ -2606,6 +2649,9 @@ msgstr ""
 msgid "Hide CI messages"
 msgstr ""
 
+msgid "Hide Expired Title"
+msgstr ""
+
 msgid "Hide zap errors"
 msgstr ""
 
@@ -2651,6 +2697,9 @@ msgstr ""
 #
 msgid "Hungarian"
 msgstr "Угорська"
+
+msgid "IMDB"
+msgstr ""
 
 #
 msgid "IP Address"
@@ -2731,6 +2780,9 @@ msgstr "Збільшена напруга"
 #
 msgid "Index"
 msgstr "Індекс"
+
+msgid "Index allocated:"
+msgstr ""
 
 #
 msgid "Info"
@@ -2905,6 +2957,12 @@ msgid "Items per Page "
 msgstr ""
 
 msgid "January"
+msgstr ""
+
+msgid "Jump to First Service"
+msgstr ""
+
+msgid "Jump to Last Service"
 msgstr ""
 
 #
@@ -3161,9 +3219,6 @@ msgstr "Вибірковий транспондер"
 msgid "Manufacturer"
 msgstr "Виробник"
 
-msgid "March"
-msgstr ""
-
 #
 msgid "Margin after record"
 msgstr "Відступ після запису (в хвил.)"
@@ -3174,9 +3229,6 @@ msgstr "Відступ перед записом (в хвил.)"
 
 #
 msgid "Max. Bitrate: "
-msgstr ""
-
-msgid "May"
 msgstr ""
 
 #
@@ -3190,6 +3242,9 @@ msgstr "Медіа Програвач"
 #
 msgid "Medium is not a writeable DVD!"
 msgstr "Носій не є записуючим DVD!"
+
+msgid "Merge Short/Long Descriptions"
+msgstr ""
 
 #
 msgid "Medium is not empty!"
@@ -3441,6 +3496,9 @@ msgstr "Майстер налаштувань мережі"
 msgid "Networkname (SSID)"
 msgstr ""
 
+msgid "Next Bouquet"
+msgstr ""
+
 #
 msgid "New"
 msgstr "Нові"
@@ -3512,6 +3570,9 @@ msgstr "Не знайдено EPG інформаціїї, запис на нев
 msgid ""
 "No fast winding possible yet.. but you can use the number buttons to skip "
 "forward/backward!"
+msgstr ""
+
+msgid "No free index available"
 msgstr ""
 
 #
@@ -3690,9 +3751,6 @@ msgstr ""
 msgid "Nothing to upgrade"
 msgstr ""
 
-msgid "November"
-msgstr ""
-
 #
 msgid "Now Playing"
 msgstr "Зараз відтворюється"
@@ -3738,7 +3796,7 @@ msgstr ""
 msgid "OSD visibility"
 msgstr "Прозорість OSD"
 
-msgid "October"
+msgid "On Bouquet Switch goto first service"
 msgstr ""
 
 #
@@ -3815,6 +3873,18 @@ msgstr "Оновлення списку пакетів"
 msgid "Package removal failed.\n"
 msgstr "Видалення пакету невдале!\n"
 
+msgid "Page Down"
+msgstr ""
+
+msgid "Page Left"
+msgstr ""
+
+msgid "Page Right"
+msgstr ""
+
+msgid "Page Up"
+msgstr ""
+
 #
 msgid "Package removed successfully.\n"
 msgstr "Пакет видалено успішно.\n"
@@ -3838,6 +3908,9 @@ msgstr ""
 #
 msgid "Parent Directory"
 msgstr "Початкова директорія"
+
+msgid "Partial Search"
+msgstr ""
 
 #
 msgid "Parental control"
@@ -4300,6 +4373,9 @@ msgstr "Натисніть ОК щоб почати пошук"
 msgid "Press OK to toggle the selection."
 msgstr ""
 
+msgid "Previous Bouquet"
+msgstr ""
+
 #
 msgid "Press yellow to set this interface as default interface."
 msgstr ""
@@ -4420,6 +4496,12 @@ msgstr "Перезавантажити зараз?"
 msgid "Really shutdown now?"
 msgstr "Вимкнути зараз?"
 
+msgid "Really upgrade the frontprocessor and reboot now?"
+msgstr ""
+
+msgid "Really upgrade your settop box and reboot now?"
+msgstr ""
+
 #
 msgid "Reboot"
 msgstr "Перезавантажити"
@@ -4502,9 +4584,6 @@ msgid "Reloading bouquets and services..."
 msgstr ""
 
 msgid "Remember service PIN"
-msgstr ""
-
-msgid "Remember service PIN cancel"
 msgstr ""
 
 msgid "Remember these settings for each folder"
@@ -4720,6 +4799,9 @@ msgstr ""
 msgid "Rotor turning speed"
 msgstr "Швидкість обертання ротора"
 
+msgid "Round Start Time To"
+msgstr ""
+
 msgid "Round start time on"
 msgstr ""
 
@@ -4800,6 +4882,9 @@ msgstr "Зберегти"
 #
 msgid "Save Playlist"
 msgstr "Зберегти плейлист"
+
+msgid "Scale Picon"
+msgstr ""
 
 #
 msgid "Scaler sharpness"
@@ -4924,6 +5009,9 @@ msgstr ""
 msgid ""
 "Scans default lamedbs sorted by satellite with a connected dish positioner"
 msgstr "Просканувати снандартні супутники записані в позиціонері"
+
+msgid "Search"
+msgstr ""
 
 #
 msgid "Search east"
@@ -5058,9 +5146,6 @@ msgstr "Посилати DiSEqC тільки при зміні супутник�
 #
 msgid "Seperate titles with a main menu"
 msgstr "Окремі заголовки з головного меню"
-
-msgid "September"
-msgstr ""
 
 #
 msgid "Sequence repeat"
@@ -5215,6 +5300,9 @@ msgstr ""
 msgid "Show Service Names "
 msgstr ""
 
+msgid "Show Service Title"
+msgstr ""
+
 #
 msgid "Show WLAN Status"
 msgstr "Показати WLAN статус"
@@ -5311,6 +5399,9 @@ msgstr ""
 msgid "Similar"
 msgstr "Подібне"
 
+msgid "Similar Broadcast Search"
+msgstr ""
+
 #
 msgid "Similar broadcasts:"
 msgstr "Подібні передачі:"
@@ -5358,6 +5449,9 @@ msgid "Skins"
 msgstr "Скіни"
 
 msgid "Skip Empty Services"
+msgstr ""
+
+msgid "Skip Empty Services (may need restart)"
 msgstr ""
 
 #
@@ -5767,6 +5861,9 @@ msgstr ""
 msgid "Text font size"
 msgstr ""
 
+msgid "Thai"
+msgstr ""
+
 #
 msgid ""
 "Thank you for using the wizard.\n"
@@ -5812,6 +5909,14 @@ msgstr ""
 msgid ""
 "The USB stick was prepared to be bootable.\n"
 "Now you can download an NFI image file!"
+msgstr ""
+
+msgid "The User Interface of your receiver is restarting"
+msgstr ""
+
+msgid ""
+"The User Interface of your receiver is restarting\n"
+"due to an error in mytest.py"
 msgstr ""
 
 #
@@ -6126,6 +6231,21 @@ msgstr ""
 #
 msgid "Time/Date Input"
 msgstr "Час / Дата"
+
+msgid "Timeline 120 minutes"
+msgstr ""
+
+msgid "Timeline 180 minutes"
+msgstr ""
+
+msgid "Timeline 240 minutes"
+msgstr ""
+
+msgid "Timeline 300 minutes"
+msgstr ""
+
+msgid "Timeline 60 minutes"
+msgstr ""
 
 #
 msgid "Timer"
@@ -6489,6 +6609,9 @@ msgstr ""
 msgid "Use Interface"
 msgstr "Використовувати інтерфейс"
 
+msgid "Use Long Title"
+msgstr ""
+
 #
 msgid "Use Power Measurement"
 msgstr "Використовувати вимірювання потужності"
@@ -6581,6 +6704,12 @@ msgstr "Визначені користувачем"
 #
 msgid "Username"
 msgstr "Користувач"
+
+msgid "Using LNB"
+msgstr ""
+
+msgid "Using Tuner "
+msgstr ""
 
 msgid "Using fixed address"
 msgstr ""
@@ -6807,6 +6936,9 @@ msgstr ""
 
 #
 msgid "Warn if free space drops below (kB):"
+msgstr ""
+
+msgid "Warning: no LNB; using factory defaults."
 msgstr ""
 
 #
@@ -7207,6 +7339,12 @@ msgstr ""
 "ПЗ фронтпроцесора повинно бути оновлене.\n"
 "Натисніть OK для початку оновлення."
 
+msgid ""
+"Your frontprocessor will be upgraded\n"
+"Please wait until your receiver reboots\n"
+"This may take a few minutes"
+msgstr ""
+
 #
 msgid ""
 "Your internet connection is not working!\n"
@@ -7221,12 +7359,24 @@ msgstr "Ваше ім'я (необов'язково):"
 msgid "Your network configuration has been activated."
 msgstr "Конфігурація вашої мережі активована."
 
+msgid "Your receiver is rebooting"
+msgstr ""
+
+msgid "Your receiver is shutting down"
+msgstr ""
+
 #
 msgid ""
 "Your wireless LAN internet connection could not be started!\n"
 "Have you attached your USB WLAN Stick?\n"
 "\n"
 "Please choose what you want to do next."
+msgstr ""
+
+msgid "Zap"
+msgstr ""
+
+msgid "Zap PIG"
 msgstr ""
 
 #

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ims\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-08 20:34+0100\n"
+"POT-Creation-Date: 2012-05-28 23:25+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: ims <ims21@users.sourceforge.net>\n"
 "Language-Team: PLi <ims21@users.sourceforge.net>\n"
@@ -158,45 +158,35 @@ msgstr " dostupných aktualizací."
 msgid " wireless networks found!"
 msgstr "bezdrátové sítě nalezeny!"
 
-msgid "#000000"
+#. TRANSLATORS: short time representation hour:minute
+#, python-format
+msgid "%2d:%02d"
 msgstr ""
 
-msgid "#0064c7"
+#. TRANSLATORS: full time representation hour:minute:seconds
+#, python-format
+msgid "%2d:%02d:%02d"
 msgstr ""
 
-msgid "#25062748"
+#. TRANSLATORS: long date representations dayname daynum monthname in strftime() format! See 'man strftime'
+msgid "%A %e %B"
 msgstr ""
 
-msgid "#389416"
-msgstr ""
-
-msgid "#80000000"
-msgstr ""
-
-msgid "#80ffffff"
-msgstr ""
-
-msgid "#bab329"
-msgstr ""
-
-msgid "#f23d21"
-msgstr ""
-
-msgid "#ff0000"
-msgstr ""
-
-msgid "#ffff7f"
-msgstr ""
-
-msgid "#ffffff"
-msgstr ""
-
-msgid "#ffffffff"
+#. TRANSLATORS: full date representation dayname daynum monthname year in strftime() format! See 'man strftime'
+msgid "%A %e %B %Y"
 msgstr ""
 
 #
 msgid "%H:%M"
 msgstr "%H:%M"
+
+#. TRANSLATORS: short date representation short dayname daynum short monthname in strftime() format! See 'man strftime'
+msgid "%a %e/%m"
+msgstr ""
+
+#. TRANSLATORS: long date representation short dayname daynum short monthname hour:minute in strftime() format! See 'man strftime'
+msgid "%a %e/%m  %-H:%M"
+msgstr ""
 
 #, python-format
 msgid "%d hour"
@@ -241,6 +231,10 @@ msgstr "%d programů nalezeno!"
 #
 msgid "%d.%B %Y"
 msgstr "%d.%B %Y"
+
+#. TRANSLATORS: VFD hour:minute daynum short monthname in strftime() format! See 'man strftime'
+msgid "%k:%M %e/%m"
+msgstr ""
 
 #
 #, python-format
@@ -705,6 +699,12 @@ msgstr "Vše"
 msgid "All Satellites"
 msgstr "Všechny satelity"
 
+msgid "Allocate"
+msgstr ""
+
+msgid "Allocate unused memory index"
+msgstr ""
+
 msgid "Allow Subtitle equals Audio mask"
 msgstr "Titulky shodné s audio maskou"
 
@@ -744,10 +744,6 @@ msgstr "Anonymní crashlog?"
 
 msgid "Any activity"
 msgstr ""
-
-#
-msgid "April"
-msgstr "duben"
 
 #
 msgid "Arabic"
@@ -839,10 +835,6 @@ msgstr "Volba jazyka zvuku 3"
 #
 msgid "Audio language selection 4"
 msgstr "Volba jazyka zvuku 4"
-
-#
-msgid "August"
-msgstr "srpen"
 
 #
 msgid "Author: "
@@ -1075,6 +1067,9 @@ msgstr "Prohledání kabelovky"
 #
 msgid "Cache Thumbnails"
 msgstr "Uchovat náhledy"
+
+msgid "Calculate"
+msgstr ""
 
 msgid "Calculate all positions"
 msgstr ""
@@ -1320,6 +1315,9 @@ msgstr "Komunikace"
 msgid "Compact Flash"
 msgstr "Compact flash"
 
+msgid "Compatibilty Mode"
+msgstr ""
+
 #
 msgid "Complete"
 msgstr "Kompletní"
@@ -1334,6 +1332,9 @@ msgstr "Vytváření názvů nahrávaných souborů"
 #
 msgid "Configuration Mode"
 msgstr "Konfigurační mód"
+
+msgid "Configuration mode: "
+msgstr ""
 
 #
 msgid "Configure interface"
@@ -1569,6 +1570,12 @@ msgstr "DVOUVRSTVÉ DVD"
 msgid "DVB subtitle black transparency"
 msgstr "Průhlednost pozadí DVD titulků"
 
+msgid "DVB-C"
+msgstr ""
+
+msgid "DVB-C ANNEX C"
+msgstr ""
+
 #
 msgid "DVB-S"
 msgstr "DVB-S"
@@ -1576,6 +1583,12 @@ msgstr "DVB-S"
 #
 msgid "DVB-S2"
 msgstr "DVB-S2"
+
+msgid "DVB-T"
+msgstr ""
+
+msgid "DVB-T2"
+msgstr ""
 
 #
 msgid "DVD File Browser"
@@ -1604,9 +1617,8 @@ msgstr "Dánsky"
 msgid "Date"
 msgstr "Datum"
 
-#
-msgid "December"
-msgstr "prosinec"
+msgid "Date/Time"
+msgstr ""
 
 #
 msgid "Decide if you want to enable or disable the Cleanup Wizard."
@@ -1763,6 +1775,9 @@ msgstr "Zakázat"
 #
 msgid "Disable Picture in Picture"
 msgstr "Vypnout obraz v obraze"
+
+msgid "Disable Selecting Expired Events"
+msgstr ""
 
 msgid "Disable background scanning"
 msgstr "Zakázat prohledávání na pozadí"
@@ -2057,6 +2072,9 @@ msgstr "Upravit"
 msgid "Edit DNS"
 msgstr "Upravit DNS"
 
+msgid "Edit Search Title"
+msgstr ""
+
 #
 msgid "Edit Title"
 msgstr "Upravit titul"
@@ -2120,6 +2138,9 @@ msgstr "Povolit MHW EPG"
 #
 msgid "Enable Netmed EPG"
 msgstr "Povolit Netmed EPG"
+
+msgid "Enable Picon"
+msgstr ""
 
 msgid "Enable ViaSat EPG"
 msgstr "Povolit ViaSat EPG"
@@ -2252,6 +2273,9 @@ msgstr "Menu přehledu událostí"
 #
 msgid "Everywhere"
 msgstr "všude"
+
+msgid "Exact Search"
+msgstr ""
 
 #
 msgid "Exceeds dual layer medium!"
@@ -2651,6 +2675,9 @@ msgstr ""
 msgid "Hide CI messages"
 msgstr "Skrýt CI zprávy"
 
+msgid "Hide Expired Title"
+msgstr ""
+
 #
 msgid "Hide zap errors"
 msgstr "Skrýt chyby při přepínání"
@@ -2699,6 +2726,9 @@ msgstr ""
 #
 msgid "Hungarian"
 msgstr "Maďarsky"
+
+msgid "IMDB"
+msgstr ""
 
 msgid "IP Address"
 msgstr ""
@@ -2781,6 +2811,9 @@ msgstr "Zvýšit napětí"
 #
 msgid "Index"
 msgstr "Index"
+
+msgid "Index allocated:"
+msgstr ""
 
 #
 msgid "Info"
@@ -2965,6 +2998,12 @@ msgstr "Položek na stránku"
 #
 msgid "January"
 msgstr "leden"
+
+msgid "Jump to First Service"
+msgstr ""
+
+msgid "Jump to Last Service"
+msgstr ""
 
 #
 msgid "Job View"
@@ -3270,6 +3309,9 @@ msgstr ""
 msgid "Menu"
 msgstr "Menu"
 
+msgid "Merge Short/Long Descriptions"
+msgstr ""
+
 #
 msgid "Message"
 msgstr "Zpráva"
@@ -3525,6 +3567,9 @@ msgstr "Nová verze:"
 #
 msgid "Next"
 msgstr "Další"
+
+msgid "Next Bouquet"
+msgstr ""
 
 #
 msgid "No"
@@ -3827,6 +3872,9 @@ msgstr "Ok"
 msgid "On"
 msgstr "Zapnuto"
 
+msgid "On Bouquet Switch goto first service"
+msgstr ""
+
 #
 msgid "One"
 msgstr "Jeden"
@@ -3904,6 +3952,18 @@ msgstr "Správa doplňků"
 msgid "Packet manager"
 msgstr "Správce doplňků"
 
+msgid "Page Down"
+msgstr ""
+
+msgid "Page Left"
+msgstr ""
+
+msgid "Page Right"
+msgstr ""
+
+msgid "Page Up"
+msgstr ""
+
 #
 #. TRANSLATORS: (aspect ratio policy: cropped content on left/right) in doubt, keep english term
 msgid "Pan&Scan"
@@ -3928,6 +3988,9 @@ msgstr "Nastavení rodičovského zámku"
 #
 msgid "Parental control type"
 msgstr "Typ rodičovského zámku"
+
+msgid "Partial Search"
+msgstr ""
 
 msgid "Password"
 msgstr ""
@@ -4404,6 +4467,9 @@ msgstr "Prohlížet"
 msgid "Preview menu"
 msgstr "Náhled menu"
 
+msgid "Previous Bouquet"
+msgstr ""
+
 #
 msgid "Primary DNS"
 msgstr "Primární DNS"
@@ -4456,6 +4522,12 @@ msgstr ""
 #
 msgid "Python frontend for /tmp/mmi.socket"
 msgstr "Python frontend pro /tmp/mmi.socket"
+
+msgid "Really upgrade the frontprocessor and reboot now?"
+msgstr "SkuteÄnÄ aktualizovat frontprocesor a restartovat?"
+
+msgid "Really upgrade your settop box and reboot now?"
+msgstr "SkuteÄnÄ aktualizovat pÅijÃ­maÄ a restartovat"
 
 #
 msgid "Quick"
@@ -4816,6 +4888,9 @@ msgstr ""
 msgid "Rotor turning speed"
 msgstr "Rychlost otáčení rotoru"
 
+msgid "Round Start Time To"
+msgstr ""
+
 msgid "Round start time on"
 msgstr ""
 
@@ -4896,6 +4971,9 @@ msgstr "Uložit"
 #
 msgid "Save Playlist"
 msgstr "Uložit playlist"
+
+msgid "Scale Picon"
+msgstr ""
 
 #
 msgid "Scaler sharpness"
@@ -5024,6 +5102,9 @@ msgid ""
 msgstr ""
 "Prohledá standardní lamedbs setříděné podle satelitu a připojeného "
 "pozicioneru"
+
+msgid "Search"
+msgstr ""
 
 #
 msgid "Search east"
@@ -5321,6 +5402,9 @@ msgstr ""
 msgid "Show Service Names "
 msgstr ""
 
+msgid "Show Service Title"
+msgstr ""
+
 #
 msgid "Show WLAN Status"
 msgstr "Zobrazit status WLAN"
@@ -5420,6 +5504,9 @@ msgstr "Signál:"
 msgid "Similar"
 msgstr "Další vysílání"
 
+msgid "Similar Broadcast Search"
+msgstr ""
+
 #
 msgid "Similar broadcasts:"
 msgstr "Další vysílání pořadu:"
@@ -5467,6 +5554,9 @@ msgid "Skins"
 msgstr "Skiny"
 
 msgid "Skip Empty Services"
+msgstr ""
+
+msgid "Skip Empty Services (may need restart)"
 msgstr ""
 
 #
@@ -5888,6 +5978,9 @@ msgstr "Šířka okraje"
 msgid "Text font size"
 msgstr "Velikost textu"
 
+msgid "Thai"
+msgstr ""
+
 #
 msgid ""
 "Thank you for using the wizard.\n"
@@ -5940,6 +6033,16 @@ msgid ""
 msgstr ""
 "USB zařízení bylo připraveno jako bootovací.\n"
 "Nyní můžete nahrát soubor NFI s image! "
+
+msgid "The User Interface of your receiver is restarting"
+msgstr "Enigma se restartuje"
+
+msgid ""
+"The User Interface of your receiver is restarting\n"
+"due to an error in mytest.py"
+msgstr ""
+"Enigma byla restartovÃ¡na\n"
+"kvÅ¯li chybÄ v mytest.py"
 
 #
 msgid "The backup failed. Please choose a different backup location."
@@ -6263,6 +6366,21 @@ msgstr "Nastavení času / data"
 #
 msgid "Timer"
 msgstr "Časovač"
+
+msgid "Timeline 120 minutes"
+msgstr ""
+
+msgid "Timeline 180 minutes"
+msgstr ""
+
+msgid "Timeline 240 minutes"
+msgstr ""
+
+msgid "Timeline 300 minutes"
+msgstr ""
+
+msgid "Timeline 60 minutes"
+msgstr ""
 
 #
 msgid "Timer Edit"
@@ -6644,6 +6762,9 @@ msgstr "Použít měření výkonu"
 msgid "Use TV remote control"
 msgstr ""
 
+msgid "Use Long Title"
+msgstr ""
+
 #
 msgid "Use a gateway"
 msgstr "Použít bránu (gateway)"
@@ -6729,6 +6850,12 @@ msgid "User defined"
 msgstr "Uživatelsky definované"
 
 msgid "Username"
+msgstr ""
+
+msgid "Using LNB"
+msgstr ""
+
+msgid "Using Tuner "
 msgstr ""
 
 msgid "Using fixed address"
@@ -6959,6 +7086,9 @@ msgstr ""
 #
 msgid "Warn if free space drops below (kB):"
 msgstr "Upozornit, když volné místo klesne pod (kB):"
+
+msgid "Warning: no LNB; using factory defaults."
+msgstr ""
 
 #
 msgid "Wed"
@@ -7272,6 +7402,15 @@ msgstr ""
 msgid "You have to wait %s!"
 msgstr "Musíte čekat %s!"
 
+msgid ""
+"Your frontprocessor will be upgraded\n"
+"Please wait until your receiver reboots\n"
+"This may take a few minutes"
+msgstr ""
+"Frontprocesor bude aktualizovÃ¡n\n"
+"Äekejte, dokud se pÅijÃ­maÄ nerestartuje\n"
+"To mÅ¯Å¾e trvat nÄkolik minut"
+
 #
 msgid ""
 "You need a PC connected to your dreambox. If you need further instructions, "
@@ -7297,6 +7436,12 @@ msgstr ""
 
 msgid "You system does not support ext4"
 msgstr ""
+
+msgid "Your receiver is rebooting"
+msgstr "PÅijÃ­maÄ se restartuje"
+
+msgid "Your receiver is shutting down"
+msgstr "PÅijÃ­maÄ se vypÃ­nÃ¡"
 
 #
 msgid ""
@@ -7403,6 +7548,12 @@ msgstr ""
 #
 msgid "Zap back to previously tuned service?"
 msgstr "Přepnout zpět na předchozí naladěný program?"
+
+msgid "Zap"
+msgstr ""
+
+msgid "Zap PIG"
+msgstr ""
 
 #
 msgid "Zap back to service before positioner setup?"
@@ -8602,9 +8753,15 @@ msgstr "ano"
 msgid "tuner is not supported"
 msgstr "tuner není podporován"
 
+msgid "unavailable"
+msgstr ""
+
 #
 msgid "unconfirmed"
 msgstr "nepotvrzeno"
+
+msgid "undefined"
+msgstr ""
 
 #
 msgid "unknown"

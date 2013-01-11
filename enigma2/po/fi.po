@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enigma2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-08 20:34+0100\n"
+"POT-Creation-Date: 2012-05-28 23:25+0200\n"
 "PO-Revision-Date: 2011-08-07 17:04+0200\n"
 "Last-Translator: Timo <timojarvenpaa@hotmail.com>\n"
 "Language-Team: none\n"
@@ -157,44 +157,34 @@ msgstr " päivitystä."
 msgid " wireless networks found!"
 msgstr "WLAN-verkkoja löytyi!"
 
-msgid "#000000"
-msgstr "#000000"
-
-msgid "#0064c7"
-msgstr "#0064c7"
-
-msgid "#25062748"
-msgstr "#25062748"
-
-msgid "#389416"
-msgstr "#389416"
-
-msgid "#80000000"
-msgstr "#80000000"
-
-msgid "#80ffffff"
-msgstr "#80ffffff"
-
-msgid "#bab329"
-msgstr "#bab329"
-
-msgid "#f23d21"
-msgstr "#f23d21"
-
-msgid "#ff0000"
+#. TRANSLATORS: short time representation hour:minute
+#, python-format
+msgid "%2d:%02d"
 msgstr ""
 
-msgid "#ffff7f"
+#. TRANSLATORS: full time representation hour:minute:seconds
+#, python-format
+msgid "%2d:%02d:%02d"
 msgstr ""
 
-msgid "#ffffff"
-msgstr "#ffffff"
+#. TRANSLATORS: long date representations dayname daynum monthname in strftime() format! See 'man strftime'
+msgid "%A %e %B"
+msgstr ""
 
-msgid "#ffffffff"
-msgstr "#ffffffff"
+#. TRANSLATORS: full date representation dayname daynum monthname year in strftime() format! See 'man strftime'
+msgid "%A %e %B %Y"
+msgstr ""
 
 msgid "%H:%M"
 msgstr "%H:%M"
+
+#. TRANSLATORS: short date representation short dayname daynum short monthname in strftime() format! See 'man strftime'
+msgid "%a %e/%m"
+msgstr ""
+
+#. TRANSLATORS: long date representation short dayname daynum short monthname hour:minute in strftime() format! See 'man strftime'
+msgid "%a %e/%m  %-H:%M"
+msgstr ""
 
 #, python-format
 msgid "%d hour"
@@ -236,6 +226,10 @@ msgstr "%d kanavaa löydetty!"
 #
 msgid "%d.%B %Y"
 msgstr "%d.%m.%Y"
+
+#. TRANSLATORS: VFD hour:minute daynum short monthname in strftime() format! See 'man strftime'
+msgid "%k:%M %e/%m"
+msgstr ""
 
 #, python-format
 msgid "%s (%s)\n"
@@ -682,6 +676,12 @@ msgstr "Kaikki"
 msgid "All Satellites"
 msgstr "Kaikki satelliitit"
 
+msgid "Allocate"
+msgstr ""
+
+msgid "Allocate unused memory index"
+msgstr ""
+
 msgid "Allow Subtitle equals Audio mask"
 msgstr ""
 
@@ -720,9 +720,6 @@ msgid "Anonymize crashlog?"
 msgstr "Anonyymi kaatumisloki?"
 
 msgid "Any activity"
-msgstr ""
-
-msgid "April"
 msgstr ""
 
 #
@@ -809,9 +806,6 @@ msgid "Audio language selection 3"
 msgstr ""
 
 msgid "Audio language selection 4"
-msgstr ""
-
-msgid "August"
 msgstr ""
 
 #
@@ -1037,6 +1031,9 @@ msgstr ""
 #
 msgid "Cache Thumbnails"
 msgstr "Tallenna esikatselukuvat välimuistiin"
+
+msgid "Calculate"
+msgstr ""
 
 msgid "Calculate all positions"
 msgstr ""
@@ -1280,6 +1277,9 @@ msgstr "Kommunikointi"
 msgid "Compact Flash"
 msgstr "CompactFlash"
 
+msgid "Compatibilty Mode"
+msgstr ""
+
 #
 msgid "Complete"
 msgstr "Täysi"
@@ -1294,6 +1294,9 @@ msgstr "Tallennusnimien rakenne"
 #
 msgid "Configuration Mode"
 msgstr "Toimintatila"
+
+msgid "Configuration mode: "
+msgstr ""
 
 #
 msgid "Configure interface"
@@ -1519,6 +1522,12 @@ msgstr "DUAL LAYER DVD"
 msgid "DVB subtitle black transparency"
 msgstr ""
 
+msgid "DVB-C"
+msgstr ""
+
+msgid "DVB-C ANNEX C"
+msgstr ""
+
 #
 msgid "DVB-S"
 msgstr "DVB-S"
@@ -1526,6 +1535,12 @@ msgstr "DVB-S"
 #
 msgid "DVB-S2"
 msgstr "DVB-S2"
+
+msgid "DVB-T"
+msgstr ""
+
+msgid "DVB-T2"
+msgstr ""
 
 #
 msgid "DVD File Browser"
@@ -1554,7 +1569,7 @@ msgstr "Tanska"
 msgid "Date"
 msgstr "Päiväys"
 
-msgid "December"
+msgid "Date/Time"
 msgstr ""
 
 #
@@ -1704,6 +1719,9 @@ msgstr "Keskeytä"
 #
 msgid "Disable Picture in Picture"
 msgstr "Sulje PiP-kuva"
+
+msgid "Disable Selecting Expired Events"
+msgstr ""
 
 msgid "Disable background scanning"
 msgstr ""
@@ -2003,6 +2021,9 @@ msgstr "Muokkaa"
 msgid "Edit DNS"
 msgstr "Muuta DNS"
 
+msgid "Edit Search Title"
+msgstr ""
+
 #
 msgid "Edit Title"
 msgstr "Editoi"
@@ -2065,6 +2086,9 @@ msgid "Enable MHW EPG"
 msgstr ""
 
 msgid "Enable Netmed EPG"
+msgstr ""
+
+msgid "Enable Picon"
 msgstr ""
 
 msgid "Enable ViaSat EPG"
@@ -2180,7 +2204,16 @@ msgstr "Viro"
 msgid "Ethernet network interface"
 msgstr "Verkkokortti"
 
+msgid "Event"
+msgstr ""
+
+msgid "Event Fontsize"
+msgstr ""
+
 msgid "Event Fontsize (relative to skin size)"
+msgstr ""
+
+msgid "Event Info"
 msgstr ""
 
 #
@@ -2191,6 +2224,9 @@ msgid "Eventview menu"
 msgstr ""
 
 msgid "Everywhere"
+msgstr ""
+
+msgid "Exact Search"
 msgstr ""
 
 msgid "Exceeds dual layer medium!"
@@ -2279,7 +2315,7 @@ msgstr "Palauta tehdasasetukset"
 msgid "Failed"
 msgstr "Epäonnistui"
 
-msgid "Failed to write /tmp/positionersetup.log:str"
+msgid "Failed to write /tmp/positionersetup.log: "
 msgstr ""
 
 #, python-format
@@ -2316,9 +2352,6 @@ msgstr "Nopea päivällä"
 #
 msgid "Favourites"
 msgstr "Suosikit"
-
-msgid "February"
-msgstr ""
 
 msgid "File appears to be busy.\n"
 msgstr ""
@@ -2576,6 +2609,9 @@ msgstr "Piilotettu verkko"
 msgid "Hide CI messages"
 msgstr ""
 
+msgid "Hide Expired Title"
+msgstr ""
+
 msgid "Hide zap errors"
 msgstr ""
 
@@ -2621,6 +2657,9 @@ msgstr "Sävy"
 #
 msgid "Hungarian"
 msgstr "Unkari"
+
+msgid "IMDB"
+msgstr ""
 
 #
 msgid "IP Address"
@@ -2703,6 +2742,9 @@ msgstr "Korotettu LNB-jännite"
 #
 msgid "Index"
 msgstr "Indeksi"
+
+msgid "Index allocated:"
+msgstr ""
 
 msgid "Info"
 msgstr "Tietoja"
@@ -2870,6 +2912,12 @@ msgid "Items per Page "
 msgstr ""
 
 msgid "January"
+msgstr ""
+
+msgid "Jump to First Service"
+msgstr ""
+
+msgid "Jump to Last Service"
 msgstr ""
 
 #
@@ -3122,9 +3170,6 @@ msgstr "Manuaalinen lähetin"
 msgid "Manufacturer"
 msgstr "Valmistaja"
 
-msgid "March"
-msgstr ""
-
 #
 msgid "Margin after record"
 msgstr "Lisäaika tallenteen loppuun (minuuttia)"
@@ -3135,9 +3180,6 @@ msgstr "Lisäaika tallenteen alkuun (minuuttia)"
 
 msgid "Max. Bitrate: "
 msgstr "Maks. bittimäärä: "
-
-msgid "May"
-msgstr ""
 
 msgid "Media player"
 msgstr "Mediasoitin"
@@ -3162,6 +3204,9 @@ msgstr ""
 #
 msgid "Menu"
 msgstr "Valikko"
+
+msgid "Merge Short/Long Descriptions"
+msgstr ""
 
 #
 msgid "Message"
@@ -3413,6 +3458,9 @@ msgstr "Uusi versio:"
 msgid "Next"
 msgstr "Seuraava"
 
+msgid "Next Bouquet"
+msgstr ""
+
 #
 msgid "No"
 msgstr "Ei"
@@ -3459,6 +3507,9 @@ msgstr "Ei tietoja tästä päivityksestä"
 #
 msgid "No displayable files on this medium found!"
 msgstr "Tiedostoja ei löytynyt!"
+
+msgid "No free index available"
+msgstr ""
 
 #
 msgid "No event info found, recording indefinitely."
@@ -3650,9 +3701,6 @@ msgstr ""
 msgid "Nothing to upgrade"
 msgstr ""
 
-msgid "November"
-msgstr ""
-
 #
 msgid "Now Playing"
 msgstr "Toistetaan"
@@ -3699,9 +3747,6 @@ msgstr ""
 msgid "OSD visibility"
 msgstr "OSD:n läpinäkyvyys"
 
-msgid "October"
-msgstr ""
-
 #
 msgid "Off"
 msgstr "Pois"
@@ -3715,6 +3760,9 @@ msgstr ""
 #
 msgid "On"
 msgstr "Päällä"
+
+msgid "On Bouquet Switch goto first service"
+msgstr ""
 
 #
 msgid "One"
@@ -3788,6 +3836,18 @@ msgstr "Ohjelmapakettien hallinta"
 msgid "Packet manager"
 msgstr "Ohjelmapakettien hallinta"
 
+msgid "Page Down"
+msgstr ""
+
+msgid "Page Left"
+msgstr ""
+
+msgid "Page Right"
+msgstr ""
+
+msgid "Page Up"
+msgstr ""
+
 #. TRANSLATORS: (aspect ratio policy: cropped content on left/right) in doubt, keep english term
 msgid "Pan&Scan"
 msgstr "Pan&Scan"
@@ -3811,6 +3871,9 @@ msgstr "Lapsilukon asetukset"
 #
 msgid "Parental control type"
 msgstr "Lapsilukon tyyppi"
+
+msgid "Partial Search"
+msgstr ""
 
 #
 msgid "Password"
@@ -4277,6 +4340,9 @@ msgstr "Esikatselu"
 msgid "Preview menu"
 msgstr "Esikatsele valikkoa"
 
+msgid "Previous Bouquet"
+msgstr ""
+
 #
 msgid "Primary DNS"
 msgstr "Ensisijainen DNS"
@@ -4378,6 +4444,12 @@ msgstr "Haluatko silti käynnistää uudelleen?"
 #
 msgid "Really shutdown now?"
 msgstr "Haluatko silti sammuttaa?"
+
+msgid "Really upgrade the frontprocessor and reboot now?"
+msgstr ""
+
+msgid "Really upgrade your settop box and reboot now?"
+msgstr ""
 
 #
 msgid "Reboot"
@@ -4674,6 +4746,9 @@ msgstr ""
 msgid "Rotor turning speed"
 msgstr "Moottorin kääntönopeus"
 
+msgid "Round Start Time To"
+msgstr ""
+
 msgid "Round start time on"
 msgstr ""
 
@@ -4750,6 +4825,9 @@ msgstr "Tallenna"
 #
 msgid "Save Playlist"
 msgstr "Tallenna soittolista"
+
+msgid "Scale Picon"
+msgstr ""
 
 #
 msgid "Scaler sharpness"
@@ -4875,6 +4953,10 @@ msgid ""
 msgstr ""
 "Hakee oletuskanavalistan satelliittijärjestyksessä käyttäen kytkettyä "
 "antennimoottoria"
+
+#
+msgid "Search"
+msgstr "Hae"
 
 #
 msgid "Search east"
@@ -5009,9 +5091,6 @@ msgstr "Lähetä DiSEqC vain satelliitin vaihdossa"
 #
 msgid "Seperate titles with a main menu"
 msgstr "Erilliset tallenteet ja päävalikko"
-
-msgid "September"
-msgstr ""
 
 #
 msgid "Sequence repeat"
@@ -5167,6 +5246,9 @@ msgstr ""
 msgid "Show Service Names "
 msgstr ""
 
+msgid "Show Service Title"
+msgstr ""
+
 #
 msgid "Show WLAN Status"
 msgstr "Näytä WLAN:in tila"
@@ -5262,6 +5344,9 @@ msgstr "Signaali:"
 msgid "Similar"
 msgstr "Samanlaiset"
 
+msgid "Similar Broadcast Search"
+msgstr ""
+
 #
 msgid "Similar broadcasts:"
 msgstr "Samanlaiset lähetykset:"
@@ -5308,6 +5393,9 @@ msgid "Skins"
 msgstr "Teema"
 
 msgid "Skip Empty Services"
+msgstr ""
+
+msgid "Skip Empty Services (may need restart)"
 msgstr ""
 
 #
@@ -5715,6 +5803,9 @@ msgstr ""
 msgid "Text font size"
 msgstr ""
 
+msgid "Thai"
+msgstr ""
+
 msgid ""
 "Thank you for using the wizard.\n"
 "Please press OK to continue."
@@ -5776,6 +5867,14 @@ msgid ""
 msgstr ""
 "USB-tikusta tehtiin automaattisesti käynnistyvä.\n"
 "Voit nyt ladata NFI-tiedoston."
+
+msgid "The User Interface of your receiver is restarting"
+msgstr ""
+
+msgid ""
+"The User Interface of your receiver is restarting\n"
+"due to an error in mytest.py"
+msgstr ""
 
 #
 msgid "The backup failed. Please choose a different backup location."
@@ -6099,6 +6198,21 @@ msgstr ""
 #
 msgid "Time/Date Input"
 msgstr "Aika/Päivä"
+
+msgid "Timeline 120 minutes"
+msgstr ""
+
+msgid "Timeline 180 minutes"
+msgstr ""
+
+msgid "Timeline 240 minutes"
+msgstr ""
+
+msgid "Timeline 300 minutes"
+msgstr ""
+
+msgid "Timeline 60 minutes"
+msgstr ""
 
 #
 msgid "Timer"
@@ -6456,6 +6570,9 @@ msgstr ""
 msgid "Use Interface"
 msgstr "Sovitin käytössä"
 
+msgid "Use Long Title"
+msgstr ""
+
 #
 msgid "Use Power Measurement"
 msgstr "Käytä virran mittausta"
@@ -6563,6 +6680,12 @@ msgstr "Käyttäjän määrittelemä"
 #
 msgid "Username"
 msgstr "Käyttäjänimi"
+
+msgid "Using LNB"
+msgstr ""
+
+msgid "Using Tuner "
+msgstr ""
 
 msgid "Using fixed address"
 msgstr ""
@@ -6783,6 +6906,9 @@ msgstr ""
 #
 msgid "Warn if free space drops below (kB):"
 msgstr "Varoita jos tyhjä tila putoaa alle (kB):"
+
+msgid "Warning: no LNB; using factory defaults."
+msgstr ""
 
 #
 msgid "Wed"
@@ -7197,6 +7323,12 @@ msgstr ""
 "Edustaprosessorin ohjelmisto on päivitettävä.\n"
 "Paina OK aloittaaksesi päivityksen."
 
+msgid ""
+"Your frontprocessor will be upgraded\n"
+"Please wait until your receiver reboots\n"
+"This may take a few minutes"
+msgstr ""
+
 #
 msgid ""
 "Your internet connection is not working!\n"
@@ -7213,6 +7345,12 @@ msgstr "Nimi (ei pakollinen):"
 msgid "Your network configuration has been activated."
 msgstr "Verkkoasetukset on aktivoitu."
 
+msgid "Your receiver is rebooting"
+msgstr ""
+
+msgid "Your receiver is shutting down"
+msgstr ""
+
 #
 msgid ""
 "Your wireless LAN internet connection could not be started!\n"
@@ -7224,6 +7362,12 @@ msgstr ""
 "Oletko kytkenyt USB WLAN-tikun?\n"
 "\n"
 "Valitse mitä haluat tehdä seuraavaksi."
+
+msgid "Zap"
+msgstr ""
+
+msgid "Zap PIG"
+msgstr ""
 
 msgid "Zap back to previously tuned service?"
 msgstr "Palataanko aikaisemmalle kanavalle?"
@@ -8415,8 +8559,15 @@ msgid "tuner is not supported"
 msgstr "viritin ei ole tuettu"
 
 #
+msgid "unavailable"
+msgstr "Ei saatavilla"
+
+#
 msgid "unconfirmed"
 msgstr "vahvistamaton"
+
+msgid "undefined"
+msgstr ""
 
 #
 msgid "unknown"
@@ -8529,6 +8680,36 @@ msgstr "vaihdettu"
 
 #~ msgid " Results"
 #~ msgstr " Tulokset"
+
+#~ msgid "#000000"
+#~ msgstr "#000000"
+
+#~ msgid "#0064c7"
+#~ msgstr "#0064c7"
+
+#~ msgid "#25062748"
+#~ msgstr "#25062748"
+
+#~ msgid "#389416"
+#~ msgstr "#389416"
+
+#~ msgid "#80000000"
+#~ msgstr "#80000000"
+
+#~ msgid "#80ffffff"
+#~ msgstr "#80ffffff"
+
+#~ msgid "#bab329"
+#~ msgstr "#bab329"
+
+#~ msgid "#f23d21"
+#~ msgstr "#f23d21"
+
+#~ msgid "#ffffff"
+#~ msgstr "#ffffff"
+
+#~ msgid "#ffffffff"
+#~ msgstr "#ffffffff"
 
 #
 #~ msgid "%(Key)s successfully set to %(delay)i ms"
@@ -10703,6 +10884,9 @@ msgstr "vaihdettu"
 #~ msgid "Relevance"
 #~ msgstr "Merkitys"
 
+#~ msgid "Remember service PIN cancel"
+#~ msgstr "ÃlÃ¤ muista kanavan PIN:iÃ¤"
+
 #~ msgid "Remember service pin"
 #~ msgstr "Muista kanavan PIN"
 
@@ -10870,10 +11054,6 @@ msgstr "vaihdettu"
 #
 #~ msgid "Science & Technology"
 #~ msgstr "Tiede ja teknologia"
-
-#
-#~ msgid "Search"
-#~ msgstr "Hae"
 
 #
 #~ msgid "Search Term(s)"
@@ -12069,10 +12249,6 @@ msgstr "vaihdettu"
 
 #~ msgid "unable to find timer with id %i"
 #~ msgstr "ei löydy ajastusta id %i"
-
-#
-#~ msgid "unavailable"
-#~ msgstr "Ei saatavilla"
 
 #
 #~ msgid "until restart"

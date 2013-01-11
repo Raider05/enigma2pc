@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enigma2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-08 20:34+0100\n"
+"POT-Creation-Date: 2012-05-28 23:25+0200\n"
 "PO-Revision-Date: 2011-04-24 02:17+0200\n"
 "Last-Translator: spaeleus <spaeleus@croci.org>\n"
 "Language-Team: WWW.LINSAT.NET <spaeleus@croci.org>\n"
@@ -158,55 +158,35 @@ msgstr " aggiornamenti disponibili."
 msgid " wireless networks found!"
 msgstr " reti wireless rilevate!"
 
-#
-msgid "#000000"
-msgstr "#000000"
-
-#
-msgid "#0064c7"
-msgstr "#0064c7"
-
-#
-msgid "#25062748"
-msgstr "#25062748"
-
-#
-msgid "#389416"
-msgstr "#389416"
-
-#
-msgid "#80000000"
-msgstr "#80000000"
-
-#
-msgid "#80ffffff"
-msgstr "#80ffffff"
-
-#
-msgid "#bab329"
-msgstr "#bab329"
-
-#
-msgid "#f23d21"
-msgstr "#f23d21"
-
-msgid "#ff0000"
+#. TRANSLATORS: short time representation hour:minute
+#, python-format
+msgid "%2d:%02d"
 msgstr ""
 
-msgid "#ffff7f"
+#. TRANSLATORS: full time representation hour:minute:seconds
+#, python-format
+msgid "%2d:%02d:%02d"
 msgstr ""
 
-#
-msgid "#ffffff"
-msgstr "#ffffff"
+#. TRANSLATORS: long date representations dayname daynum monthname in strftime() format! See 'man strftime'
+msgid "%A %e %B"
+msgstr ""
 
-#
-msgid "#ffffffff"
-msgstr "#ffffffff"
+#. TRANSLATORS: full date representation dayname daynum monthname year in strftime() format! See 'man strftime'
+msgid "%A %e %B %Y"
+msgstr ""
 
 #
 msgid "%H:%M"
 msgstr "%H:%M"
+
+#. TRANSLATORS: short date representation short dayname daynum short monthname in strftime() format! See 'man strftime'
+msgid "%a %e/%m"
+msgstr ""
+
+#. TRANSLATORS: long date representation short dayname daynum short monthname hour:minute in strftime() format! See 'man strftime'
+msgid "%a %e/%m  %-H:%M"
+msgstr ""
 
 #, python-format
 msgid "%d hour"
@@ -248,6 +228,10 @@ msgstr "%d canali trovati!"
 #
 msgid "%d.%B %Y"
 msgstr "%d.%B %Y"
+
+#. TRANSLATORS: VFD hour:minute daynum short monthname in strftime() format! See 'man strftime'
+msgid "%k:%M %e/%m"
+msgstr ""
 
 #
 #, python-format
@@ -710,6 +694,12 @@ msgstr "Tutti"
 msgid "All Satellites"
 msgstr "Tutti i satelliti"
 
+msgid "Allocate"
+msgstr ""
+
+msgid "Allocate unused memory index"
+msgstr ""
+
 msgid "Allow Subtitle equals Audio mask"
 msgstr ""
 
@@ -748,9 +738,6 @@ msgid "Anonymize crashlog?"
 msgstr "Rendere anonimi i crashlog"
 
 msgid "Any activity"
-msgstr ""
-
-msgid "April"
 msgstr ""
 
 #
@@ -838,9 +825,6 @@ msgid "Audio language selection 3"
 msgstr ""
 
 msgid "Audio language selection 4"
-msgstr ""
-
-msgid "August"
 msgstr ""
 
 msgid "Author: "
@@ -1063,6 +1047,9 @@ msgstr ""
 #
 msgid "Cache Thumbnails"
 msgstr "Cache miniature"
+
+msgid "Calculate"
+msgstr ""
 
 msgid "Calculate all positions"
 msgstr ""
@@ -1306,6 +1293,9 @@ msgstr "Comunicazione"
 msgid "Compact Flash"
 msgstr "Compact Flash"
 
+msgid "Compatibilty Mode"
+msgstr ""
+
 #
 msgid "Complete"
 msgstr "Completo"
@@ -1320,6 +1310,9 @@ msgstr "Struttura nomi dei file registrazione"
 #
 msgid "Configuration Mode"
 msgstr "Modalità config."
+
+msgid "Configuration mode: "
+msgstr ""
 
 #
 msgid "Configure interface"
@@ -1546,6 +1539,12 @@ msgstr "DVD doppio strato"
 msgid "DVB subtitle black transparency"
 msgstr ""
 
+msgid "DVB-C"
+msgstr ""
+
+msgid "DVB-C ANNEX C"
+msgstr ""
+
 #
 msgid "DVB-S"
 msgstr "DVB-S"
@@ -1553,6 +1552,12 @@ msgstr "DVB-S"
 #
 msgid "DVB-S2"
 msgstr "DVB-S2"
+
+msgid "DVB-T"
+msgstr ""
+
+msgid "DVB-T2"
+msgstr ""
 
 #
 msgid "DVD File Browser"
@@ -1581,7 +1586,7 @@ msgstr "Danese"
 msgid "Date"
 msgstr "Data"
 
-msgid "December"
+msgid "Date/Time"
 msgstr ""
 
 #
@@ -1731,6 +1736,9 @@ msgstr "Disabilitare"
 #
 msgid "Disable Picture in Picture"
 msgstr "Disabiltare PiP"
+
+msgid "Disable Selecting Expired Events"
+msgstr ""
 
 msgid "Disable background scanning"
 msgstr ""
@@ -2014,6 +2022,9 @@ msgstr "Modif."
 msgid "Edit DNS"
 msgstr "Mod. DNS"
 
+msgid "Edit Search Title"
+msgstr ""
+
 #
 msgid "Edit Title"
 msgstr "Mod. titolo"
@@ -2072,6 +2083,9 @@ msgid "Enable MHW EPG"
 msgstr ""
 
 msgid "Enable Netmed EPG"
+msgstr ""
+
+msgid "Enable Picon"
 msgstr ""
 
 msgid "Enable ViaSat EPG"
@@ -2190,7 +2204,16 @@ msgstr "Estone"
 msgid "Ethernet network interface"
 msgstr "Interfaccia di rete Ethernet"
 
+msgid "Event"
+msgstr ""
+
+msgid "Event Fontsize"
+msgstr ""
+
 msgid "Event Fontsize (relative to skin size)"
+msgstr ""
+
+msgid "Event Info"
 msgstr ""
 
 #
@@ -2201,6 +2224,9 @@ msgid "Eventview menu"
 msgstr ""
 
 msgid "Everywhere"
+msgstr ""
+
+msgid "Exact Search"
 msgstr ""
 
 msgid "Exceeds dual layer medium!"
@@ -2291,7 +2317,7 @@ msgstr "Reset configurazioni di fabbrica"
 msgid "Failed"
 msgstr "Fallito"
 
-msgid "Failed to write /tmp/positionersetup.log:str"
+msgid "Failed to write /tmp/positionersetup.log: "
 msgstr ""
 
 #
@@ -2330,9 +2356,6 @@ msgstr "Epoch veloce"
 #
 msgid "Favourites"
 msgstr "Preferiti"
-
-msgid "February"
-msgstr ""
 
 msgid "File appears to be busy.\n"
 msgstr ""
@@ -2590,6 +2613,9 @@ msgstr "Rete nascosta"
 msgid "Hide CI messages"
 msgstr ""
 
+msgid "Hide Expired Title"
+msgstr ""
+
 msgid "Hide zap errors"
 msgstr ""
 
@@ -2635,6 +2661,9 @@ msgstr "Colore"
 #
 msgid "Hungarian"
 msgstr "Ungherese"
+
+msgid "IMDB"
+msgstr ""
 
 #
 msgid "IP Address"
@@ -2713,6 +2742,9 @@ msgstr "Voltaggio aumentato"
 #
 msgid "Index"
 msgstr "Indice"
+
+msgid "Index allocated:"
+msgstr ""
 
 #
 msgid "Info"
@@ -2885,17 +2917,14 @@ msgstr "Italiano"
 msgid "Items per Page "
 msgstr ""
 
-msgid "January"
-msgstr ""
-
 #
 msgid "Job View"
 msgstr "Vista processi"
 
-msgid "July"
+msgid "Jump to First Service"
 msgstr ""
 
-msgid "June"
+msgid "Jump to Last Service"
 msgstr ""
 
 #
@@ -3138,9 +3167,6 @@ msgstr "Transponder manuale"
 msgid "Manufacturer"
 msgstr "Costruttore"
 
-msgid "March"
-msgstr ""
-
 #
 msgid "Margin after record"
 msgstr "Margine fine registrazione (minuti)"
@@ -3152,9 +3178,6 @@ msgstr "Margine inizio registrazione (minuti)"
 #
 msgid "Max. Bitrate: "
 msgstr "Bitrate Max: "
-
-msgid "May"
-msgstr ""
 
 #
 msgid "Media player"
@@ -3181,6 +3204,9 @@ msgstr ""
 #
 msgid "Menu"
 msgstr "Menu"
+
+msgid "Merge Short/Long Descriptions"
+msgstr ""
 
 #
 msgid "Message"
@@ -3434,6 +3460,9 @@ msgstr "Nuova versione:"
 msgid "Next"
 msgstr "Succ."
 
+msgid "Next Bouquet"
+msgstr ""
+
 #
 msgid "No"
 msgstr "No"
@@ -3491,6 +3520,9 @@ msgid ""
 msgstr ""
 "FFW/REW non ancora disponibile... Utilizzare i tasti numerici per avanzare/"
 "arretrare nella riproduzione!"
+
+msgid "No free index available"
+msgstr ""
 
 #
 msgid "No free tuner!"
@@ -3662,9 +3694,6 @@ msgstr ""
 msgid "Nothing to upgrade"
 msgstr ""
 
-msgid "November"
-msgstr ""
-
 #
 msgid "Now Playing"
 msgstr "In riproduzione"
@@ -3708,9 +3737,6 @@ msgstr ""
 msgid "OSD visibility"
 msgstr "Trasparenza OSD"
 
-msgid "October"
-msgstr ""
-
 #
 msgid "Off"
 msgstr "Off"
@@ -3724,6 +3750,9 @@ msgstr ""
 #
 msgid "On"
 msgstr "On"
+
+msgid "On Bouquet Switch goto first service"
+msgstr ""
 
 #
 msgid "One"
@@ -3802,6 +3831,18 @@ msgstr "Gestione pacchetti"
 msgid "Packet manager"
 msgstr "Gestore pacchetti"
 
+msgid "Page Down"
+msgstr ""
+
+msgid "Page Left"
+msgstr ""
+
+msgid "Page Right"
+msgstr ""
+
+msgid "Page Up"
+msgstr ""
+
 #
 #. TRANSLATORS: (aspect ratio policy: cropped content on left/right) in doubt, keep english term
 msgid "Pan&Scan"
@@ -3824,6 +3865,9 @@ msgstr "Configurazione controllo parentale"
 
 msgid "Parental control type"
 msgstr "Tipo controllo parentale"
+
+msgid "Partial Search"
+msgstr ""
 
 #
 msgid "Password"
@@ -4298,6 +4342,9 @@ msgstr "Anteprima"
 msgid "Preview menu"
 msgstr "Menu anteprima"
 
+msgid "Previous Bouquet"
+msgstr ""
+
 #
 msgid "Primary DNS"
 msgstr "DNS primario"
@@ -4400,6 +4447,12 @@ msgstr "Riavviare ora?"
 msgid "Really shutdown now?"
 msgstr "Spegnere ora?"
 
+msgid "Really upgrade the frontprocessor and reboot now?"
+msgstr ""
+
+msgid "Really upgrade your settop box and reboot now?"
+msgstr ""
+
 #
 msgid "Reboot"
 msgstr "Riavviare"
@@ -4481,9 +4534,6 @@ msgstr ""
 
 msgid "Remember service PIN"
 msgstr "Ricordare il PIN canale"
-
-msgid "Remember service PIN cancel"
-msgstr "Ricordare disabilitazione PIN canale"
 
 msgid "Remember these settings for each folder"
 msgstr ""
@@ -4697,6 +4747,9 @@ msgstr ""
 msgid "Rotor turning speed"
 msgstr "Velocità rotazione motore"
 
+msgid "Round Start Time To"
+msgstr ""
+
 msgid "Round start time on"
 msgstr ""
 
@@ -4775,6 +4828,9 @@ msgstr "Salvare"
 #
 msgid "Save Playlist"
 msgstr "Salvare la playlist"
+
+msgid "Scale Picon"
+msgstr ""
 
 #
 msgid "Scaler sharpness"
@@ -4902,6 +4958,9 @@ msgid ""
 msgstr ""
 "Ricerca lamedb predefiniti, ordinati per satellite, tramite parabola "
 "motorizzata"
+
+msgid "Search"
+msgstr ""
 
 #
 msgid "Search east"
@@ -5035,9 +5094,6 @@ msgstr "Inviare DiSEqC solo su cambio satellite"
 
 msgid "Seperate titles with a main menu"
 msgstr "Separare i titoli con un menu principale"
-
-msgid "September"
-msgstr ""
 
 #
 msgid "Sequence repeat"
@@ -5191,6 +5247,9 @@ msgstr ""
 msgid "Show Service Names "
 msgstr ""
 
+msgid "Show Service Title"
+msgstr ""
+
 #
 msgid "Show WLAN Status"
 msgstr "Mostrare stato WLAN"
@@ -5284,6 +5343,9 @@ msgstr "Segnale: "
 msgid "Similar"
 msgstr "Simile"
 
+msgid "Similar Broadcast Search"
+msgstr ""
+
 #
 msgid "Similar broadcasts:"
 msgstr "Programmi simili:"
@@ -5331,6 +5393,9 @@ msgid "Skins"
 msgstr "Skin..."
 
 msgid "Skip Empty Services"
+msgstr ""
+
+msgid "Skip Empty Services (may need restart)"
 msgstr ""
 
 #
@@ -5736,6 +5801,9 @@ msgstr ""
 msgid "Text font size"
 msgstr ""
 
+msgid "Thai"
+msgstr ""
+
 #
 msgid ""
 "Thank you for using the wizard.\n"
@@ -5789,6 +5857,14 @@ msgid ""
 msgstr ""
 "La penna USB è stata configurata per essere avviabile.\n"
 "Ora si può scaricare il file immagine .NFI!"
+
+msgid "The User Interface of your receiver is restarting"
+msgstr ""
+
+msgid ""
+"The User Interface of your receiver is restarting\n"
+"due to an error in mytest.py"
+msgstr ""
 
 #
 msgid "The backup failed. Please choose a different backup location."
@@ -6112,6 +6188,21 @@ msgstr ""
 #
 msgid "Time/Date Input"
 msgstr "Inserimento Data/Ora"
+
+msgid "Timeline 120 minutes"
+msgstr ""
+
+msgid "Timeline 180 minutes"
+msgstr ""
+
+msgid "Timeline 240 minutes"
+msgstr ""
+
+msgid "Timeline 300 minutes"
+msgstr ""
+
+msgid "Timeline 60 minutes"
+msgstr ""
 
 #
 msgid "Timer"
@@ -6472,6 +6563,9 @@ msgstr ""
 msgid "Use Interface"
 msgstr "Usare l'Interfaccia"
 
+msgid "Use Long Title"
+msgstr ""
+
 #
 msgid "Use Power Measurement"
 msgstr "Usare misurazione di potenza"
@@ -6562,6 +6656,12 @@ msgstr "Definito dall'utente"
 
 msgid "Username"
 msgstr "Nome user"
+
+msgid "Using LNB"
+msgstr ""
+
+msgid "Using Tuner "
+msgstr ""
 
 msgid "Using fixed address"
 msgstr ""
@@ -6787,6 +6887,9 @@ msgstr ""
 #
 msgid "Warn if free space drops below (kB):"
 msgstr "Attivarsi se lo spazio libero è minore di (kB):"
+
+msgid "Warning: no LNB; using factory defaults."
+msgstr ""
 
 #
 msgid "Wed"
@@ -7200,6 +7303,12 @@ msgstr ""
 "Il firmware del frontprocessor deve essere aggiornato.\n"
 "OK -> iniziare l'aggiornamento."
 
+msgid ""
+"Your frontprocessor will be upgraded\n"
+"Please wait until your receiver reboots\n"
+"This may take a few minutes"
+msgstr ""
+
 #
 msgid ""
 "Your internet connection is not working!\n"
@@ -7216,6 +7325,12 @@ msgstr "Nome (facoltativo):"
 msgid "Your network configuration has been activated."
 msgstr "Configurazione di rete attivata correttamente."
 
+msgid "Your receiver is rebooting"
+msgstr ""
+
+msgid "Your receiver is shutting down"
+msgstr ""
+
 #
 msgid ""
 "Your wireless LAN internet connection could not be started!\n"
@@ -7227,6 +7342,12 @@ msgstr ""
 "Controllare che la penna WLAN USB sia collegata correttamente.\n"
 "\n"
 "Selezionare un'opzione per proseguire."
+
+msgid "Zap"
+msgstr ""
+
+msgid "Zap PIG"
+msgstr ""
 
 msgid "Zap back to previously tuned service?"
 msgstr "Tornare al canale sintonizzato in precedenza?"
@@ -8399,8 +8520,15 @@ msgid "tuner is not supported"
 msgstr "Tuner non supportato"
 
 #
+msgid "unavailable"
+msgstr "non disponibile"
+
+#
 msgid "unconfirmed"
 msgstr "Non confermato"
+
+msgid "undefined"
+msgstr ""
 
 #
 msgid "unknown"
@@ -8511,6 +8639,46 @@ msgstr "Zap eseguito"
 
 #~ msgid " Results"
 #~ msgstr " Risultati"
+
+#
+#~ msgid "#000000"
+#~ msgstr "#000000"
+
+#
+#~ msgid "#0064c7"
+#~ msgstr "#0064c7"
+
+#
+#~ msgid "#25062748"
+#~ msgstr "#25062748"
+
+#
+#~ msgid "#389416"
+#~ msgstr "#389416"
+
+#
+#~ msgid "#80000000"
+#~ msgstr "#80000000"
+
+#
+#~ msgid "#80ffffff"
+#~ msgstr "#80ffffff"
+
+#
+#~ msgid "#bab329"
+#~ msgstr "#bab329"
+
+#
+#~ msgid "#f23d21"
+#~ msgstr "#f23d21"
+
+#
+#~ msgid "#ffffff"
+#~ msgstr "#ffffff"
+
+#
+#~ msgid "#ffffffff"
+#~ msgstr "#ffffffff"
 
 #~ msgid ""
 #~ "%d conflict(s) encountered when trying to add new timers:\n"
@@ -10958,6 +11126,9 @@ msgstr "Zap eseguito"
 #~ msgid "Relevance"
 #~ msgstr "Rilevanza"
 
+#~ msgid "Remember service PIN cancel"
+#~ msgstr "Ricordare disabilitazione PIN canale"
+
 #~ msgid "Remember service pin"
 #~ msgstr "Memorizzare PIN canale"
 
@@ -12785,10 +12956,6 @@ msgstr "Zap eseguito"
 
 #~ msgid "unable to find timer with id %i"
 #~ msgstr "Impossibile trovare il timer con id %i"
-
-#
-#~ msgid "unavailable"
-#~ msgstr "non disponibile"
 
 #
 #~ msgid "until restart"

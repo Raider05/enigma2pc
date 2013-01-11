@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enigma2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-08 20:34+0100\n"
+"POT-Creation-Date: 2012-05-28 23:25+0200\n"
 "PO-Revision-Date: 2011-05-03 13:22+0200\n"
 "Last-Translator: sig <sigstop@hotmail.com>\n"
 "Language-Team: \n"
@@ -157,49 +157,35 @@ msgstr " uppdateringar tillgängliga."
 msgid " wireless networks found!"
 msgstr " trådlöst nätverk hittat!"
 
-#
-msgid "#000000"
-msgstr "#000000"
-
-msgid "#0064c7"
-msgstr "#0064c7"
-
-#
-msgid "#25062748"
-msgstr "#25062748"
-
-#
-msgid "#389416"
-msgstr "#389416"
-
-#
-msgid "#80000000"
-msgstr "#80000000"
-
-msgid "#80ffffff"
-msgstr "#80ffffff"
-
-msgid "#bab329"
-msgstr "#bab329"
-
-msgid "#f23d21"
-msgstr "#f23d21"
-
-msgid "#ff0000"
+#. TRANSLATORS: short time representation hour:minute
+#, python-format
+msgid "%2d:%02d"
 msgstr ""
 
-msgid "#ffff7f"
+#. TRANSLATORS: full time representation hour:minute:seconds
+#, python-format
+msgid "%2d:%02d:%02d"
 msgstr ""
 
-msgid "#ffffff"
-msgstr "#ffffff"
+#. TRANSLATORS: long date representations dayname daynum monthname in strftime() format! See 'man strftime'
+msgid "%A %e %B"
+msgstr ""
 
-msgid "#ffffffff"
-msgstr "#ffffffff"
+#. TRANSLATORS: full date representation dayname daynum monthname year in strftime() format! See 'man strftime'
+msgid "%A %e %B %Y"
+msgstr ""
 
 #
 msgid "%H:%M"
 msgstr "%H:%M"
+
+#. TRANSLATORS: short date representation short dayname daynum short monthname in strftime() format! See 'man strftime'
+msgid "%a %e/%m"
+msgstr ""
+
+#. TRANSLATORS: long date representation short dayname daynum short monthname hour:minute in strftime() format! See 'man strftime'
+msgid "%a %e/%m  %-H:%M"
+msgstr ""
 
 #, python-format
 msgid "%d hour"
@@ -239,6 +225,10 @@ msgstr "%d kanaler hittades!"
 
 msgid "%d.%B %Y"
 msgstr "%d.%B %Y"
+
+#. TRANSLATORS: VFD hour:minute daynum short monthname in strftime() format! See 'man strftime'
+msgid "%k:%M %e/%m"
+msgstr ""
 
 #, python-format
 msgid "%s (%s)\n"
@@ -694,6 +684,12 @@ msgstr "Alla"
 msgid "All Satellites"
 msgstr "Alla Satelliter"
 
+msgid "Allocate"
+msgstr ""
+
+msgid "Allocate unused memory index"
+msgstr ""
+
 msgid "Allow Subtitle equals Audio mask"
 msgstr ""
 
@@ -732,9 +728,6 @@ msgid "Anonymize crashlog?"
 msgstr "Anonymisera crashlog?"
 
 msgid "Any activity"
-msgstr ""
-
-msgid "April"
 msgstr ""
 
 #
@@ -822,9 +815,6 @@ msgid "Audio language selection 3"
 msgstr ""
 
 msgid "Audio language selection 4"
-msgstr ""
-
-msgid "August"
 msgstr ""
 
 #
@@ -1048,6 +1038,9 @@ msgstr ""
 #
 msgid "Cache Thumbnails"
 msgstr "Buffra miniatyrer"
+
+msgid "Calculate"
+msgstr ""
 
 msgid "Calculate all positions"
 msgstr ""
@@ -1290,6 +1283,9 @@ msgstr "Kommunikation"
 msgid "Compact Flash"
 msgstr "Compact Flash"
 
+msgid "Compatibilty Mode"
+msgstr ""
+
 #
 msgid "Complete"
 msgstr "Komplett"
@@ -1304,6 +1300,9 @@ msgstr "Sammansättning av inspelningars filnamn"
 #
 msgid "Configuration Mode"
 msgstr "Konfigurationsläge"
+
+msgid "Configuration mode: "
+msgstr ""
 
 #
 msgid "Configure interface"
@@ -1534,6 +1533,12 @@ msgstr "DUAL LAYER DVD"
 msgid "DVB subtitle black transparency"
 msgstr ""
 
+msgid "DVB-C"
+msgstr ""
+
+msgid "DVB-C ANNEX C"
+msgstr ""
+
 #
 msgid "DVB-S"
 msgstr "DVB-S"
@@ -1541,6 +1546,12 @@ msgstr "DVB-S"
 #
 msgid "DVB-S2"
 msgstr "DVB-S2"
+
+msgid "DVB-T"
+msgstr ""
+
+msgid "DVB-T2"
+msgstr ""
 
 #
 msgid "DVD File Browser"
@@ -1568,7 +1579,7 @@ msgstr "Danska"
 msgid "Date"
 msgstr "Datum"
 
-msgid "December"
+msgid "Date/Time"
 msgstr ""
 
 #
@@ -1719,6 +1730,9 @@ msgstr "Avaktivera"
 #
 msgid "Disable Picture in Picture"
 msgstr "Avaktivera Bild i Bild"
+
+msgid "Disable Selecting Expired Events"
+msgstr ""
 
 msgid "Disable background scanning"
 msgstr ""
@@ -2002,6 +2016,9 @@ msgstr "Ändra"
 msgid "Edit DNS"
 msgstr "Ändra DNS"
 
+msgid "Edit Search Title"
+msgstr ""
+
 #
 msgid "Edit Title"
 msgstr "Ändra titel"
@@ -2060,6 +2077,9 @@ msgid "Enable MHW EPG"
 msgstr ""
 
 msgid "Enable Netmed EPG"
+msgstr ""
+
+msgid "Enable Picon"
 msgstr ""
 
 msgid "Enable ViaSat EPG"
@@ -2177,7 +2197,16 @@ msgstr "Estniska"
 msgid "Ethernet network interface"
 msgstr "Ethernet nätverkskort"
 
+msgid "Event"
+msgstr ""
+
+msgid "Event Fontsize"
+msgstr ""
+
 msgid "Event Fontsize (relative to skin size)"
+msgstr ""
+
+msgid "Event Info"
 msgstr ""
 
 #
@@ -2188,6 +2217,9 @@ msgid "Eventview menu"
 msgstr ""
 
 msgid "Everywhere"
+msgstr ""
+
+msgid "Exact Search"
 msgstr ""
 
 msgid "Exceeds dual layer medium!"
@@ -2276,7 +2308,7 @@ msgstr "Fabriksåterställning"
 msgid "Failed"
 msgstr "Misslyckades"
 
-msgid "Failed to write /tmp/positionersetup.log:str"
+msgid "Failed to write /tmp/positionersetup.log: "
 msgstr ""
 
 #
@@ -2316,9 +2348,6 @@ msgstr "Snabb epoch"
 #
 msgid "Favourites"
 msgstr "Favoriter"
-
-msgid "February"
-msgstr ""
 
 msgid "File appears to be busy.\n"
 msgstr ""
@@ -2580,6 +2609,9 @@ msgstr ""
 msgid "Hide CI messages"
 msgstr ""
 
+msgid "Hide Expired Title"
+msgstr ""
+
 msgid "Hide zap errors"
 msgstr ""
 
@@ -2623,6 +2655,9 @@ msgstr "Färgton"
 #
 msgid "Hungarian"
 msgstr "Ungerska"
+
+msgid "IMDB"
+msgstr ""
 
 #
 msgid "IP Address"
@@ -2698,6 +2733,9 @@ msgstr "Ökad spänning"
 #
 msgid "Index"
 msgstr "Index"
+
+msgid "Index allocated:"
+msgstr ""
 
 #
 msgid "Info"
@@ -2871,17 +2909,14 @@ msgstr "Italienska"
 msgid "Items per Page "
 msgstr ""
 
-msgid "January"
-msgstr ""
-
 #
 msgid "Job View"
 msgstr "Arbets Vy"
 
-msgid "July"
+msgid "Jump to First Service"
 msgstr ""
 
-msgid "June"
+msgid "Jump to Last Service"
 msgstr ""
 
 #
@@ -3125,9 +3160,6 @@ msgstr "Manuell transponder"
 msgid "Manufacturer"
 msgstr "Tillverkare"
 
-msgid "March"
-msgstr ""
-
 msgid "Margin after record"
 msgstr "Marginal efter inspelning"
 
@@ -3138,9 +3170,6 @@ msgstr "Marginal innan inspelning (i minuter)"
 #
 msgid "Max. Bitrate: "
 msgstr "Max. Bitrate: "
-
-msgid "May"
-msgstr ""
 
 #
 msgid "Media player"
@@ -3167,6 +3196,9 @@ msgstr ""
 #
 msgid "Menu"
 msgstr "Meny"
+
+msgid "Merge Short/Long Descriptions"
+msgstr ""
 
 #
 msgid "Message"
@@ -3416,6 +3448,9 @@ msgstr "Ny version:"
 msgid "Next"
 msgstr "Nästa"
 
+msgid "Next Bouquet"
+msgstr ""
+
 #
 msgid "No"
 msgstr "Nej"
@@ -3471,6 +3506,9 @@ msgid ""
 msgstr ""
 "Ingen snabbspolning tillgänlig än... men du kan använda nummerknapparna för "
 "att hoppa framåt/bakåt!"
+
+msgid "No free index available"
+msgstr ""
 
 #
 msgid "No free tuner!"
@@ -3644,9 +3682,6 @@ msgstr ""
 msgid "Nothing to upgrade"
 msgstr ""
 
-msgid "November"
-msgstr ""
-
 #
 msgid "Now Playing"
 msgstr "Spelas nu"
@@ -3691,9 +3726,6 @@ msgstr ""
 msgid "OSD visibility"
 msgstr "OSD synlighet"
 
-msgid "October"
-msgstr ""
-
 #
 msgid "Off"
 msgstr "Av"
@@ -3707,6 +3739,9 @@ msgstr ""
 #
 msgid "On"
 msgstr "På"
+
+msgid "On Bouquet Switch goto first service"
+msgstr ""
 
 #
 msgid "One"
@@ -3782,6 +3817,18 @@ msgstr "Pakethantering"
 msgid "Packet manager"
 msgstr "Pakethanterare"
 
+msgid "Page Down"
+msgstr ""
+
+msgid "Page Left"
+msgstr ""
+
+msgid "Page Right"
+msgstr ""
+
+msgid "Page Up"
+msgstr ""
+
 #
 #. TRANSLATORS: (aspect ratio policy: cropped content on left/right) in doubt, keep english term
 msgid "Pan&Scan"
@@ -3806,6 +3853,9 @@ msgstr "Föräldrakontroll installation"
 #
 msgid "Parental control type"
 msgstr "Föräldrakontroll typ"
+
+msgid "Partial Search"
+msgstr ""
 
 #
 msgid "Password"
@@ -4275,6 +4325,9 @@ msgstr "Förhandsgranskning"
 msgid "Preview menu"
 msgstr "Förvisningsmeny"
 
+msgid "Previous Bouquet"
+msgstr ""
+
 #
 msgid "Primary DNS"
 msgstr "Primär DNS"
@@ -4379,6 +4432,12 @@ msgstr "Verkligen starta om nu?"
 msgid "Really shutdown now?"
 msgstr "Verkligen stänga av nu?"
 
+msgid "Really upgrade the frontprocessor and reboot now?"
+msgstr ""
+
+msgid "Really upgrade your settop box and reboot now?"
+msgstr ""
+
 #
 msgid "Reboot"
 msgstr "Omstart"
@@ -4460,9 +4519,6 @@ msgid "Reloading bouquets and services..."
 msgstr ""
 
 msgid "Remember service PIN"
-msgstr ""
-
-msgid "Remember service PIN cancel"
 msgstr ""
 
 msgid "Remember these settings for each folder"
@@ -4676,6 +4732,9 @@ msgstr ""
 msgid "Rotor turning speed"
 msgstr "Rotor rotationsfart"
 
+msgid "Round Start Time To"
+msgstr ""
+
 msgid "Round start time on"
 msgstr ""
 
@@ -4756,6 +4815,9 @@ msgstr "Spara"
 #
 msgid "Save Playlist"
 msgstr "Spara spellista"
+
+msgid "Scale Picon"
+msgstr ""
 
 #
 msgid "Scaler sharpness"
@@ -4881,6 +4943,9 @@ msgstr ""
 msgid ""
 "Scans default lamedbs sorted by satellite with a connected dish positioner"
 msgstr "Sök grund lamedbs sorterat på satellit med en ansluten parabolmotor"
+
+msgid "Search"
+msgstr ""
 
 #
 msgid "Search east"
@@ -5014,9 +5079,6 @@ msgstr "Skicka enbart DiSEqC vid ändrad satellit"
 #
 msgid "Seperate titles with a main menu"
 msgstr "Separera titlar med en huvudmeny"
-
-msgid "September"
-msgstr ""
 
 #
 msgid "Sequence repeat"
@@ -5170,6 +5232,9 @@ msgstr ""
 msgid "Show Service Names "
 msgstr ""
 
+msgid "Show Service Title"
+msgstr ""
+
 #
 msgid "Show WLAN Status"
 msgstr "Visa WLAN Status"
@@ -5265,6 +5330,9 @@ msgstr "Signal: "
 msgid "Similar"
 msgstr "Liknande"
 
+msgid "Similar Broadcast Search"
+msgstr ""
+
 #
 msgid "Similar broadcasts:"
 msgstr "Liknande sändningar:"
@@ -5312,6 +5380,9 @@ msgid "Skins"
 msgstr "Utseenden"
 
 msgid "Skip Empty Services"
+msgstr ""
+
+msgid "Skip Empty Services (may need restart)"
 msgstr ""
 
 #
@@ -5716,6 +5787,9 @@ msgstr ""
 msgid "Text font size"
 msgstr ""
 
+msgid "Thai"
+msgstr ""
+
 #
 msgid ""
 "Thank you for using the wizard.\n"
@@ -5769,6 +5843,14 @@ msgid ""
 msgstr ""
 "USB-stickan förbereddes för att vara bootbar.\n"
 "Nu kan du ladda ner en NFI image fil!"
+
+msgid "The User Interface of your receiver is restarting"
+msgstr ""
+
+msgid ""
+"The User Interface of your receiver is restarting\n"
+"due to an error in mytest.py"
+msgstr ""
 
 msgid "The backup failed. Please choose a different backup location."
 msgstr "Backupen misslyckades. Välj en annan plats för din backup."
@@ -6093,6 +6175,21 @@ msgstr ""
 #
 msgid "Time/Date Input"
 msgstr "Tid/Datum inmatning"
+
+msgid "Timeline 120 minutes"
+msgstr ""
+
+msgid "Timeline 180 minutes"
+msgstr ""
+
+msgid "Timeline 240 minutes"
+msgstr ""
+
+msgid "Timeline 300 minutes"
+msgstr ""
+
+msgid "Timeline 60 minutes"
+msgstr ""
 
 #
 msgid "Timer"
@@ -6453,6 +6550,9 @@ msgstr ""
 msgid "Use Interface"
 msgstr "Använd Interface"
 
+msgid "Use Long Title"
+msgstr ""
+
 #
 msgid "Use Power Measurement"
 msgstr "Använd Strömmätning"
@@ -6543,6 +6643,12 @@ msgstr "Användardefinierat"
 #
 msgid "Username"
 msgstr "Användarnamn"
+
+msgid "Using LNB"
+msgstr ""
+
+msgid "Using Tuner "
+msgstr ""
 
 msgid "Using fixed address"
 msgstr ""
@@ -6770,6 +6876,9 @@ msgstr ""
 #
 msgid "Warn if free space drops below (kB):"
 msgstr "Varna om tillgängligt utrymme understiger (kB):"
+
+msgid "Warning: no LNB; using factory defaults."
+msgstr ""
 
 #
 msgid "Wed"
@@ -7183,6 +7292,12 @@ msgstr ""
 "Din frontprocessors mjukvara måste uppgraderas.\n"
 "Tryck OK för att starta."
 
+msgid ""
+"Your frontprocessor will be upgraded\n"
+"Please wait until your receiver reboots\n"
+"This may take a few minutes"
+msgstr ""
+
 #
 msgid ""
 "Your internet connection is not working!\n"
@@ -7199,6 +7314,12 @@ msgstr "Ditt namn (valfritt):"
 msgid "Your network configuration has been activated."
 msgstr "Din nätverkskonfiguration har aktiverats."
 
+msgid "Your receiver is rebooting"
+msgstr ""
+
+msgid "Your receiver is shutting down"
+msgstr ""
+
 #
 msgid ""
 "Your wireless LAN internet connection could not be started!\n"
@@ -7210,6 +7331,12 @@ msgstr ""
 "Har du anslutit ditt USB WLAN-sticka?\n"
 "\n"
 "Vänligen välj vad du vill göra härnäst."
+
+msgid "Zap"
+msgstr ""
+
+msgid "Zap PIG"
+msgstr ""
 
 msgid "Zap back to previously tuned service?"
 msgstr "Zappa tillbaka till föregående kanal?"
@@ -8495,6 +8622,40 @@ msgstr "zapped"
 #
 #~ msgid " Results"
 #~ msgstr " Resultat"
+
+#
+#~ msgid "#000000"
+#~ msgstr "#000000"
+
+#~ msgid "#0064c7"
+#~ msgstr "#0064c7"
+
+#
+#~ msgid "#25062748"
+#~ msgstr "#25062748"
+
+#
+#~ msgid "#389416"
+#~ msgstr "#389416"
+
+#
+#~ msgid "#80000000"
+#~ msgstr "#80000000"
+
+#~ msgid "#80ffffff"
+#~ msgstr "#80ffffff"
+
+#~ msgid "#bab329"
+#~ msgstr "#bab329"
+
+#~ msgid "#f23d21"
+#~ msgstr "#f23d21"
+
+#~ msgid "#ffffff"
+#~ msgstr "#ffffff"
+
+#~ msgid "#ffffffff"
+#~ msgstr "#ffffffff"
 
 #~ msgid ""
 #~ "%d conflict(s) encountered when trying to add new timers:\n"

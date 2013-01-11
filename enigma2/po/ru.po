@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enigma2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-08 20:34+0100\n"
+"POT-Creation-Date: 2012-05-28 23:25+0200\n"
 "PO-Revision-Date: 2010-05-18 18:10+0200\n"
 "Last-Translator: peter <peter@dreambox.org.ua>\n"
 "Language-Team: Russian / enigma(c) Ukraine, Kiev>\n"
@@ -155,44 +155,34 @@ msgstr " обновлений доступно."
 msgid " wireless networks found!"
 msgstr " беспроводных сетей найдено!"
 
-msgid "#000000"
-msgstr "#000000"
-
-msgid "#0064c7"
-msgstr "#0064c7"
-
-msgid "#25062748"
-msgstr "#25062748"
-
-msgid "#389416"
-msgstr "#25062748"
-
-msgid "#80000000"
-msgstr "#80000000"
-
-msgid "#80ffffff"
-msgstr "#80ffffff"
-
-msgid "#bab329"
-msgstr "#bab329"
-
-msgid "#f23d21"
-msgstr "#f23d21"
-
-msgid "#ff0000"
+#. TRANSLATORS: short time representation hour:minute
+#, python-format
+msgid "%2d:%02d"
 msgstr ""
 
-msgid "#ffff7f"
+#. TRANSLATORS: full time representation hour:minute:seconds
+#, python-format
+msgid "%2d:%02d:%02d"
 msgstr ""
 
-msgid "#ffffff"
-msgstr "#ffffff"
+#. TRANSLATORS: long date representations dayname daynum monthname in strftime() format! See 'man strftime'
+msgid "%A %e %B"
+msgstr ""
 
-msgid "#ffffffff"
-msgstr "#ffffffff"
+#. TRANSLATORS: full date representation dayname daynum monthname year in strftime() format! See 'man strftime'
+msgid "%A %e %B %Y"
+msgstr ""
 
 msgid "%H:%M"
 msgstr "%H:%M"
+
+#. TRANSLATORS: short date representation short dayname daynum short monthname in strftime() format! See 'man strftime'
+msgid "%a %e/%m"
+msgstr ""
+
+#. TRANSLATORS: long date representation short dayname daynum short monthname hour:minute in strftime() format! See 'man strftime'
+msgid "%a %e/%m  %-H:%M"
+msgstr ""
 
 #, python-format
 msgid "%d hour"
@@ -237,6 +227,10 @@ msgstr "%d сервисов найдено!"
 #
 msgid "%d.%B %Y"
 msgstr "%d.%B %Y"
+
+#. TRANSLATORS: VFD hour:minute daynum short monthname in strftime() format! See 'man strftime'
+msgid "%k:%M %e/%m"
+msgstr ""
 
 #, python-format
 msgid "%s (%s)\n"
@@ -677,6 +671,12 @@ msgstr "Все"
 msgid "All Satellites"
 msgstr "Все Спутники"
 
+msgid "Allocate"
+msgstr ""
+
+msgid "Allocate unused memory index"
+msgstr ""
+
 msgid "Allow Subtitle equals Audio mask"
 msgstr ""
 
@@ -714,9 +714,6 @@ msgid "Anonymize crashlog?"
 msgstr ""
 
 msgid "Any activity"
-msgstr ""
-
-msgid "April"
 msgstr ""
 
 #
@@ -802,9 +799,6 @@ msgid "Audio language selection 3"
 msgstr ""
 
 msgid "Audio language selection 4"
-msgstr ""
-
-msgid "August"
 msgstr ""
 
 #
@@ -1035,6 +1029,9 @@ msgstr ""
 #
 msgid "Cache Thumbnails"
 msgstr "Кешировать Эскизы"
+
+msgid "Calculate"
+msgstr ""
 
 msgid "Calculate all positions"
 msgstr ""
@@ -1278,6 +1275,9 @@ msgstr ""
 msgid "Compact Flash"
 msgstr "Compact Flash"
 
+msgid "Compatibilty Mode"
+msgstr ""
+
 #
 msgid "Complete"
 msgstr "Полное"
@@ -1292,6 +1292,9 @@ msgstr ""
 #
 msgid "Configuration Mode"
 msgstr "Режим конфигурации"
+
+msgid "Configuration mode: "
+msgstr ""
 
 #
 msgid "Configure interface"
@@ -1520,6 +1523,12 @@ msgstr ""
 msgid "DVB subtitle black transparency"
 msgstr ""
 
+msgid "DVB-C"
+msgstr ""
+
+msgid "DVB-C ANNEX C"
+msgstr ""
+
 #
 msgid "DVB-S"
 msgstr "DVB-S"
@@ -1527,6 +1536,12 @@ msgstr "DVB-S"
 #
 msgid "DVB-S2"
 msgstr "DVB-S2"
+
+msgid "DVB-T"
+msgstr ""
+
+msgid "DVB-T2"
+msgstr ""
 
 #
 msgid "DVD File Browser"
@@ -1555,7 +1570,7 @@ msgstr "Датский"
 msgid "Date"
 msgstr "Дата"
 
-msgid "December"
+msgid "Date/Time"
 msgstr ""
 
 #
@@ -1707,6 +1722,9 @@ msgstr "Отключен"
 #
 msgid "Disable Picture in Picture"
 msgstr "Отключить режим PiP"
+
+msgid "Disable Selecting Expired Events"
+msgstr ""
 
 msgid "Disable background scanning"
 msgstr ""
@@ -1994,6 +2012,9 @@ msgstr "Редактировать"
 msgid "Edit DNS"
 msgstr "Изменить DNS"
 
+msgid "Edit Search Title"
+msgstr ""
+
 #
 msgid "Edit Title"
 msgstr "Изменить заголовок"
@@ -2053,6 +2074,9 @@ msgid "Enable MHW EPG"
 msgstr ""
 
 msgid "Enable Netmed EPG"
+msgstr ""
+
+msgid "Enable Picon"
 msgstr ""
 
 msgid "Enable ViaSat EPG"
@@ -2165,7 +2189,16 @@ msgstr ""
 msgid "Ethernet network interface"
 msgstr ""
 
+msgid "Event"
+msgstr ""
+
+msgid "Event Fontsize"
+msgstr ""
+
 msgid "Event Fontsize (relative to skin size)"
+msgstr ""
+
+msgid "Event Info"
 msgstr ""
 
 #
@@ -2176,6 +2209,9 @@ msgid "Eventview menu"
 msgstr ""
 
 msgid "Everywhere"
+msgstr ""
+
+msgid "Exact Search"
 msgstr ""
 
 #
@@ -2268,7 +2304,7 @@ msgstr "Заводские установки"
 msgid "Failed"
 msgstr "Неудачный"
 
-msgid "Failed to write /tmp/positionersetup.log:str"
+msgid "Failed to write /tmp/positionersetup.log: "
 msgstr ""
 
 #
@@ -2308,9 +2344,6 @@ msgstr ""
 #
 msgid "Favourites"
 msgstr "Избранное"
-
-msgid "February"
-msgstr ""
 
 msgid "File appears to be busy.\n"
 msgstr ""
@@ -2573,6 +2606,9 @@ msgstr ""
 msgid "Hide CI messages"
 msgstr ""
 
+msgid "Hide Expired Title"
+msgstr ""
+
 msgid "Hide zap errors"
 msgstr ""
 
@@ -2618,6 +2654,9 @@ msgstr ""
 #
 msgid "Hungarian"
 msgstr "Венгерский"
+
+msgid "IMDB"
+msgstr ""
 
 #
 msgid "IP Address"
@@ -2696,6 +2735,9 @@ msgstr "Повышенное напряжение"
 #
 msgid "Index"
 msgstr "Индекс"
+
+msgid "Index allocated:"
+msgstr ""
 
 #
 msgid "Info"
@@ -2870,6 +2912,12 @@ msgid "Items per Page "
 msgstr ""
 
 msgid "January"
+msgstr ""
+
+msgid "Jump to First Service"
+msgstr ""
+
+msgid "Jump to Last Service"
 msgstr ""
 
 #
@@ -3126,9 +3174,6 @@ msgstr "Транспондер вручную"
 msgid "Manufacturer"
 msgstr "Производитель"
 
-msgid "March"
-msgstr ""
-
 #
 msgid "Margin after record"
 msgstr "Объединить после записи"
@@ -3139,9 +3184,6 @@ msgstr "Объединить перед записью (в минутах)"
 
 #
 msgid "Max. Bitrate: "
-msgstr ""
-
-msgid "May"
 msgstr ""
 
 #
@@ -3155,6 +3197,9 @@ msgstr "Медиаплеер"
 #
 msgid "Medium is not a writeable DVD!"
 msgstr "Носитель не записываемый DVD!"
+
+msgid "Merge Short/Long Descriptions"
+msgstr ""
 
 #
 msgid "Medium is not empty!"
@@ -3406,6 +3451,9 @@ msgstr "Мастер настройки сети"
 msgid "Networkname (SSID)"
 msgstr ""
 
+msgid "Next Bouquet"
+msgstr ""
+
 #
 msgid "New"
 msgstr "Новые"
@@ -3477,6 +3525,9 @@ msgstr "Информация о событиях не найдена, запис
 msgid ""
 "No fast winding possible yet.. but you can use the number buttons to skip "
 "forward/backward!"
+msgstr ""
+
+msgid "No free index available"
 msgstr ""
 
 #
@@ -3653,9 +3704,6 @@ msgstr ""
 msgid "Nothing to upgrade"
 msgstr ""
 
-msgid "November"
-msgstr ""
-
 #
 msgid "Now Playing"
 msgstr "Воспроизводится "
@@ -3701,7 +3749,7 @@ msgstr ""
 msgid "OSD visibility"
 msgstr "Прозрачность OSD"
 
-msgid "October"
+msgid "On Bouquet Switch goto first service"
 msgstr ""
 
 #
@@ -3779,6 +3827,18 @@ msgstr "Обновление списка пакетов"
 msgid "Package removal failed.\n"
 msgstr ""
 
+msgid "Page Down"
+msgstr ""
+
+msgid "Page Left"
+msgstr ""
+
+msgid "Page Right"
+msgstr ""
+
+msgid "Page Up"
+msgstr ""
+
 #
 msgid "Package removed successfully.\n"
 msgstr ""
@@ -3802,6 +3862,9 @@ msgstr "Pan&Scan"
 #
 msgid "Parent Directory"
 msgstr "Родительский каталог"
+
+msgid "Partial Search"
+msgstr ""
 
 #
 msgid "Parental control"
@@ -4277,6 +4340,9 @@ msgstr "Нажмите OK для начала поиска."
 msgid "Press OK to toggle the selection."
 msgstr ""
 
+msgid "Previous Bouquet"
+msgstr ""
+
 #
 msgid "Press yellow to set this interface as default interface."
 msgstr ""
@@ -4397,6 +4463,12 @@ msgstr "Действительно перезагрузить сейчас?"
 msgid "Really shutdown now?"
 msgstr "Действительно выключить сейчас?"
 
+msgid "Really upgrade the frontprocessor and reboot now?"
+msgstr ""
+
+msgid "Really upgrade your settop box and reboot now?"
+msgstr ""
+
 #
 msgid "Reboot"
 msgstr "Перезагрузка"
@@ -4479,9 +4551,6 @@ msgid "Reloading bouquets and services..."
 msgstr ""
 
 msgid "Remember service PIN"
-msgstr ""
-
-msgid "Remember service PIN cancel"
 msgstr ""
 
 msgid "Remember these settings for each folder"
@@ -4695,6 +4764,9 @@ msgstr ""
 msgid "Rotor turning speed"
 msgstr "Скорость вращения мотора"
 
+msgid "Round Start Time To"
+msgstr ""
+
 msgid "Round start time on"
 msgstr ""
 
@@ -4775,6 +4847,9 @@ msgstr "Сохранить"
 #
 msgid "Save Playlist"
 msgstr "Сохранить плейлист"
+
+msgid "Scale Picon"
+msgstr ""
 
 #
 msgid "Scaler sharpness"
@@ -4899,6 +4974,9 @@ msgstr ""
 msgid ""
 "Scans default lamedbs sorted by satellite with a connected dish positioner"
 msgstr "Сканировать lamedb по спутникам с подключенным мотоподвесом"
+
+msgid "Search"
+msgstr ""
 
 #
 msgid "Search east"
@@ -5033,9 +5111,6 @@ msgstr "Отправить DiSEqC только при смене спутник�
 #
 msgid "Seperate titles with a main menu"
 msgstr "Отдельные главы в главном меню"
-
-msgid "September"
-msgstr ""
 
 #
 msgid "Sequence repeat"
@@ -5190,6 +5265,9 @@ msgstr ""
 msgid "Show Service Names "
 msgstr ""
 
+msgid "Show Service Title"
+msgstr ""
+
 #
 msgid "Show WLAN Status"
 msgstr "Показать состояние WLAN"
@@ -5286,6 +5364,9 @@ msgstr ""
 msgid "Similar"
 msgstr "Подобный"
 
+msgid "Similar Broadcast Search"
+msgstr ""
+
 #
 msgid "Similar broadcasts:"
 msgstr "Аналогичные передачи:"
@@ -5333,6 +5414,9 @@ msgid "Skins"
 msgstr ""
 
 msgid "Skip Empty Services"
+msgstr ""
+
+msgid "Skip Empty Services (may need restart)"
 msgstr ""
 
 #
@@ -5741,6 +5825,9 @@ msgstr ""
 msgid "Text font size"
 msgstr ""
 
+msgid "Thai"
+msgstr ""
+
 #
 msgid ""
 "Thank you for using the wizard.\n"
@@ -5788,6 +5875,14 @@ msgstr ""
 msgid ""
 "The USB stick was prepared to be bootable.\n"
 "Now you can download an NFI image file!"
+msgstr ""
+
+msgid "The User Interface of your receiver is restarting"
+msgstr ""
+
+msgid ""
+"The User Interface of your receiver is restarting\n"
+"due to an error in mytest.py"
 msgstr ""
 
 #
@@ -6105,6 +6200,21 @@ msgstr ""
 #
 msgid "Time/Date Input"
 msgstr "Ввод Время/Дата "
+
+msgid "Timeline 120 minutes"
+msgstr ""
+
+msgid "Timeline 180 minutes"
+msgstr ""
+
+msgid "Timeline 240 minutes"
+msgstr ""
+
+msgid "Timeline 300 minutes"
+msgstr ""
+
+msgid "Timeline 60 minutes"
+msgstr ""
 
 #
 msgid "Timer"
@@ -6467,6 +6577,9 @@ msgstr ""
 msgid "Use Interface"
 msgstr "Использовать интерфейс"
 
+msgid "Use Long Title"
+msgstr ""
+
 #
 msgid "Use Power Measurement"
 msgstr "Использовать измерение мощности"
@@ -6558,6 +6671,12 @@ msgstr "Определены пользователем"
 
 #
 msgid "Username"
+msgstr ""
+
+msgid "Using LNB"
+msgstr ""
+
+msgid "Using Tuner "
 msgstr ""
 
 msgid "Using fixed address"
@@ -6785,6 +6904,9 @@ msgstr ""
 
 #
 msgid "Warn if free space drops below (kB):"
+msgstr ""
+
+msgid "Warning: no LNB; using factory defaults."
 msgstr ""
 
 #
@@ -7188,6 +7310,12 @@ msgstr ""
 "Требуется обновление фронтпроцессора.\n"
 "Нажмите OK для начала обновления."
 
+msgid ""
+"Your frontprocessor will be upgraded\n"
+"Please wait until your receiver reboots\n"
+"This may take a few minutes"
+msgstr ""
+
 #
 msgid ""
 "Your internet connection is not working!\n"
@@ -7204,6 +7332,12 @@ msgstr ""
 msgid "Your network configuration has been activated."
 msgstr "Ваши сетевые настройки активированы."
 
+msgid "Your receiver is rebooting"
+msgstr ""
+
+msgid "Your receiver is shutting down"
+msgstr ""
+
 #
 msgid ""
 "Your wireless LAN internet connection could not be started!\n"
@@ -7215,6 +7349,12 @@ msgstr ""
 "Вы подключили USB WLAN адаптер?\n"
 "\n"
 "Выберите, что будете делать дальше."
+
+msgid "Zap"
+msgstr ""
+
+msgid "Zap PIG"
+msgstr ""
 
 #
 msgid "Zap back to previously tuned service?"
@@ -8524,6 +8664,36 @@ msgstr "переключено"
 #
 #~ msgid "\"?"
 #~ msgstr "\"?"
+
+#~ msgid "#000000"
+#~ msgstr "#000000"
+
+#~ msgid "#0064c7"
+#~ msgstr "#0064c7"
+
+#~ msgid "#25062748"
+#~ msgstr "#25062748"
+
+#~ msgid "#389416"
+#~ msgstr "#25062748"
+
+#~ msgid "#80000000"
+#~ msgstr "#80000000"
+
+#~ msgid "#80ffffff"
+#~ msgstr "#80ffffff"
+
+#~ msgid "#bab329"
+#~ msgstr "#bab329"
+
+#~ msgid "#f23d21"
+#~ msgstr "#f23d21"
+
+#~ msgid "#ffffff"
+#~ msgstr "#ffffff"
+
+#~ msgid "#ffffffff"
+#~ msgstr "#ffffffff"
 
 #~ msgid "%i ms"
 #~ msgstr "%i ms"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enigma2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-08 20:34+0100\n"
+"POT-Creation-Date: 2012-05-28 23:25+0200\n"
 "PO-Revision-Date: 2011-10-14 19:15+0100\n"
 "Last-Translator: \n"
 "Language-Team:  <Benny.DeTandt@gmail.com>\n"
@@ -143,44 +143,34 @@ msgstr " updates beschikbaar."
 msgid " wireless networks found!"
 msgstr "draadloze netwerken gevonden!"
 
-msgid "#000000"
-msgstr "#000000"
+#. TRANSLATORS: short time representation hour:minute
+#, python-format
+msgid "%2d:%02d"
+msgstr ""
 
-msgid "#0064c7"
-msgstr "#0064c7"
+#. TRANSLATORS: full time representation hour:minute:seconds
+#, python-format
+msgid "%2d:%02d:%02d"
+msgstr ""
 
-msgid "#25062748"
-msgstr "#25062748"
+#. TRANSLATORS: long date representations dayname daynum monthname in strftime() format! See 'man strftime'
+msgid "%A %e %B"
+msgstr ""
 
-msgid "#389416"
-msgstr "#389416"
-
-msgid "#80000000"
-msgstr "#80000000"
-
-msgid "#80ffffff"
-msgstr "#80ffffff"
-
-msgid "#bab329"
-msgstr "#bab329"
-
-msgid "#f23d21"
-msgstr "#f23d21"
-
-msgid "#ff0000"
-msgstr "#ff0000"
-
-msgid "#ffff7f"
-msgstr "#ffff7f"
-
-msgid "#ffffff"
-msgstr "#ffffff"
-
-msgid "#ffffffff"
-msgstr "#ffffffff"
+#. TRANSLATORS: full date representation dayname daynum monthname year in strftime() format! See 'man strftime'
+msgid "%A %e %B %Y"
+msgstr ""
 
 msgid "%H:%M"
 msgstr "%H:%M"
+
+#. TRANSLATORS: short date representation short dayname daynum short monthname in strftime() format! See 'man strftime'
+msgid "%a %e/%m"
+msgstr ""
+
+#. TRANSLATORS: long date representation short dayname daynum short monthname hour:minute in strftime() format! See 'man strftime'
+msgid "%a %e/%m  %-H:%M"
+msgstr ""
 
 #, python-format
 msgid "%d hour"
@@ -218,6 +208,10 @@ msgstr "%d kanalen gevonden."
 
 msgid "%d.%B %Y"
 msgstr "%d-%m-%Y"
+
+#. TRANSLATORS: VFD hour:minute daynum short monthname in strftime() format! See 'man strftime'
+msgid "%k:%M %e/%m"
+msgstr ""
 
 #, python-format
 msgid "%s (%s)\n"
@@ -588,6 +582,12 @@ msgstr "Alles"
 msgid "All Satellites"
 msgstr "Alle Satellieten"
 
+msgid "Allocate"
+msgstr ""
+
+msgid "Allocate unused memory index"
+msgstr ""
+
 msgid "Allow Subtitle equals Audio mask"
 msgstr "Ondertiteling gelijk aan de audo instelling"
 
@@ -620,9 +620,6 @@ msgstr "Crashlog anoniem maken?"
 
 msgid "Any activity"
 msgstr "Elke aktiviteit"
-
-msgid "April"
-msgstr "April"
 
 msgid "Arabic"
 msgstr "Arabisch"
@@ -697,9 +694,6 @@ msgstr "Audio taalkeuze 3"
 
 msgid "Audio language selection 4"
 msgstr "Audio taalkeuze 4"
-
-msgid "August"
-msgstr "Augustus"
 
 msgid "Author: "
 msgstr "Auteur:"
@@ -882,6 +876,9 @@ msgstr "Kabel scan"
 
 msgid "Cache Thumbnails"
 msgstr "Miniatuurafbeeldingen cachen"
+
+msgid "Calculate"
+msgstr ""
 
 msgid "Calculate all positions"
 msgstr ""
@@ -1079,6 +1076,9 @@ msgstr "Mededeling"
 msgid "Compact Flash"
 msgstr "Compact Flash"
 
+msgid "Compatibilty Mode"
+msgstr ""
+
 msgid "Complete"
 msgstr "Compleet"
 
@@ -1090,6 +1090,9 @@ msgstr "Samenstelling van de opname bestandsnamen"
 
 msgid "Configuration Mode"
 msgstr "Configuratie modus"
+
+msgid "Configuration mode: "
+msgstr ""
 
 msgid "Configure interface"
 msgstr "Configureer interface"
@@ -1278,11 +1281,23 @@ msgstr "DUAL LAYER DVD"
 msgid "DVB subtitle black transparency"
 msgstr "Zwart transparantie van DVB ondertitels"
 
+msgid "DVB-C"
+msgstr ""
+
+msgid "DVB-C ANNEX C"
+msgstr ""
+
 msgid "DVB-S"
 msgstr "DVB-S"
 
 msgid "DVB-S2"
 msgstr "DVB-S2"
+
+msgid "DVB-T"
+msgstr ""
+
+msgid "DVB-T2"
+msgstr ""
 
 msgid "DVD File Browser"
 msgstr "DvD file verkenner"
@@ -1305,8 +1320,8 @@ msgstr "Deens"
 msgid "Date"
 msgstr "Datum"
 
-msgid "December"
-msgstr "December"
+msgid "Date/Time"
+msgstr ""
 
 msgid "Decide if you want to enable or disable the Cleanup Wizard."
 msgstr "Wilt u de cleanup wizard aan of uitschakelen."
@@ -1428,6 +1443,9 @@ msgstr "Uit"
 
 msgid "Disable Picture in Picture"
 msgstr "Picture In Picture uitschakelen"
+
+msgid "Disable Selecting Expired Events"
+msgstr ""
 
 msgid "Disable background scanning"
 msgstr "Background scannen uitschakelen"
@@ -1667,6 +1685,9 @@ msgstr "Bewerk"
 msgid "Edit DNS"
 msgstr "DNS wijzigen"
 
+msgid "Edit Search Title"
+msgstr ""
+
 msgid "Edit Title"
 msgstr "Wijzig Titel"
 
@@ -1714,6 +1735,9 @@ msgstr "MHW EPG inschakelen"
 
 msgid "Enable Netmed EPG"
 msgstr "Netmed EPG inschakelen"
+
+msgid "Enable Picon"
+msgstr ""
 
 msgid "Enable ViaSat EPG"
 msgstr "Viasat EPG inschakelen"
@@ -1811,7 +1835,16 @@ msgstr "Estlands"
 msgid "Ethernet network interface"
 msgstr "Ethernet netwerk interface"
 
+msgid "Event"
+msgstr ""
+
+msgid "Event Fontsize"
+msgstr "Event lettergrootte"
+
 msgid "Event Fontsize (relative to skin size)"
+msgstr ""
+
+msgid "Event Info"
 msgstr ""
 
 msgid "Eventview"
@@ -1822,6 +1855,9 @@ msgstr "Programmaoverzicht menu"
 
 msgid "Everywhere"
 msgstr "Overal"
+
+msgid "Exact Search"
+msgstr ""
 
 msgid "Exceeds dual layer medium!"
 msgstr "Overschrijd een dual layer medium"
@@ -1924,9 +1960,6 @@ msgstr "Snel spoelen"
 
 msgid "Favourites"
 msgstr "Favorieten"
-
-msgid "February"
-msgstr "Februari"
 
 msgid "File appears to be busy.\n"
 msgstr "Bestand mogelijk in gebruik door ander proces.\n"
@@ -2152,6 +2185,9 @@ msgstr "Verborgen netwerk"
 msgid "Hide CI messages"
 msgstr "Verberg CI meldingen"
 
+msgid "Hide Expired Title"
+msgstr ""
+
 msgid "Hide zap errors"
 msgstr "Verberg zap fouten"
 
@@ -2190,6 +2226,9 @@ msgstr "Tint"
 
 msgid "Hungarian"
 msgstr "Hongaars"
+
+msgid "IMDB"
+msgstr ""
 
 msgid "IP Address"
 msgstr "IP Adres"
@@ -2259,6 +2298,9 @@ msgstr "Verhoogd voltage"
 
 msgid "Index"
 msgstr "Index"
+
+msgid "Index allocated:"
+msgstr ""
 
 msgid "Info"
 msgstr "Informatie"
@@ -2399,17 +2441,14 @@ msgstr "Italiaans"
 msgid "Items per Page "
 msgstr "Items per pagina"
 
-msgid "January"
-msgstr "Januari"
-
 msgid "Job View"
 msgstr "Voortgang"
 
-msgid "July"
-msgstr "Juli"
+msgid "Jump to First Service"
+msgstr ""
 
-msgid "June"
-msgstr "Juni"
+msgid "Jump to Last Service"
+msgstr ""
 
 #. TRANSLATORS: (aspect ratio policy: display as fullscreen, even if this breaks the aspect)
 msgid "Just Scale"
@@ -2606,9 +2645,6 @@ msgstr "Transponder handmatig"
 msgid "Manufacturer"
 msgstr "Fabrikant"
 
-msgid "March"
-msgstr "Maart"
-
 msgid "Margin after record"
 msgstr "Marge na afloop opname (minuten)"
 
@@ -2617,9 +2653,6 @@ msgstr "Marge voor opname (minuten)"
 
 msgid "Max. Bitrate: "
 msgstr "Max. bitrate: "
-
-msgid "May"
-msgstr "Mei"
 
 msgid "Media player"
 msgstr "Mediaspeler"
@@ -2641,6 +2674,9 @@ msgstr ""
 
 msgid "Menu"
 msgstr "Menu"
+
+msgid "Merge Short/Long Descriptions"
+msgstr ""
 
 msgid "Message"
 msgstr "Bericht"
@@ -2847,6 +2883,9 @@ msgstr "Nieuwe versie:"
 msgid "Next"
 msgstr "Volgende"
 
+msgid "Next Bouquet"
+msgstr ""
+
 msgid "No"
 msgstr "Nee"
 
@@ -2893,6 +2932,9 @@ msgid ""
 msgstr ""
 "Snel spoelen is nog niet mogelijk....maar u kunt de cijfertoetsengebruiken "
 "om te springen"
+
+msgid "No free index available"
+msgstr ""
 
 msgid "No free tuner!"
 msgstr "Geen vrije tuner!"
@@ -3040,9 +3082,6 @@ msgstr ""
 msgid "Nothing to upgrade"
 msgstr "Geen updates gevonden"
 
-msgid "November"
-msgstr "November"
-
 msgid "Now Playing"
 msgstr "Weergave loopt"
 
@@ -3080,9 +3119,6 @@ msgstr "OSD naam aanvragen"
 msgid "OSD visibility"
 msgstr "OSD zichtbaarheid"
 
-msgid "October"
-msgstr ""
-
 msgid "Off"
 msgstr "Uit"
 
@@ -3094,6 +3130,9 @@ msgstr "Ok"
 
 msgid "On"
 msgstr "Aan"
+
+msgid "On Bouquet Switch goto first service"
+msgstr ""
 
 msgid "One"
 msgstr "Een"
@@ -3158,6 +3197,18 @@ msgstr "Pakket beheer"
 msgid "Packet manager"
 msgstr "Pakket beheer"
 
+msgid "Page Down"
+msgstr ""
+
+msgid "Page Left"
+msgstr ""
+
+msgid "Page Right"
+msgstr ""
+
+msgid "Page Up"
+msgstr ""
+
 #. TRANSLATORS: (aspect ratio policy: cropped content on left/right) in doubt, keep english term
 msgid "Pan&Scan"
 msgstr "Pan&Scan"
@@ -3176,6 +3227,9 @@ msgstr "Kinderslot instellingen"
 
 msgid "Parental control type"
 msgstr "Kinderslot type"
+
+msgid "Partial Search"
+msgstr ""
 
 msgid "Password"
 msgstr "Wachtwoord"
@@ -3564,6 +3618,9 @@ msgstr "Voorbeeld"
 msgid "Preview menu"
 msgstr "Voorbeeld menu"
 
+msgid "Previous Bouquet"
+msgstr ""
+
 msgid "Primary DNS"
 msgstr "Primaire DNS"
 
@@ -3645,6 +3702,12 @@ msgstr "Nu herstarten?"
 msgid "Really shutdown now?"
 msgstr "Nu uitschakelen?"
 
+msgid "Really upgrade the frontprocessor and reboot now?"
+msgstr ""
+
+msgid "Really upgrade your settop box and reboot now?"
+msgstr ""
+
 msgid "Reboot"
 msgstr "Herstarten"
 
@@ -3714,9 +3777,6 @@ msgstr "Bouquetten en zenders opnieuw inladen"
 
 msgid "Remember service PIN"
 msgstr "Onhoud zender pincode"
-
-msgid "Remember service PIN cancel"
-msgstr "Onhoud zender pincode bij annuleren"
 
 msgid "Remember these settings for each folder"
 msgstr "Onthoud deze instellingen voor elke map"
@@ -3886,6 +3946,9 @@ msgstr ""
 msgid "Rotor turning speed"
 msgstr "Rotor draaisnelheid"
 
+msgid "Round Start Time To"
+msgstr ""
+
 msgid "Round start time on"
 msgstr ""
 
@@ -3948,6 +4011,9 @@ msgstr "Opslaan"
 
 msgid "Save Playlist"
 msgstr "Afspeellijst opslaan"
+
+msgid "Scale Picon"
+msgstr ""
 
 msgid "Scaler sharpness"
 msgstr "Scaler scherpte"
@@ -4050,6 +4116,9 @@ msgid ""
 msgstr ""
 "Doorzoekt standaard lamedbs gesorteerd op satelliet middels een verbonden "
 "DiSEqC rotor"
+
+msgid "Search"
+msgstr ""
 
 msgid "Search east"
 msgstr "Zoek oost"
@@ -4159,9 +4228,6 @@ msgstr "Verstuur DiSEqC enkel bij satelliet wijziging"
 
 msgid "Seperate titles with a main menu"
 msgstr "Zonder titels af met een hoofdmenu"
-
-msgid "September"
-msgstr "September"
 
 msgid "Sequence repeat"
 msgstr "Herhaal sequence"
@@ -4294,6 +4360,9 @@ msgstr ""
 msgid "Show Service Names "
 msgstr ""
 
+msgid "Show Service Title"
+msgstr ""
+
 msgid "Show WLAN Status"
 msgstr "WLAN status weergeven"
 
@@ -4375,6 +4444,9 @@ msgstr "Signaal:"
 msgid "Similar"
 msgstr "Gelijksoortig"
 
+msgid "Similar Broadcast Search"
+msgstr ""
+
 msgid "Similar broadcasts:"
 msgstr "Gelijksoortige uitzendingen:"
 
@@ -4413,6 +4485,9 @@ msgstr "Skins"
 
 msgid "Skip Empty Services"
 msgstr ""
+
+msgid "Skip Empty Services (may need restart)"
+msgstr "Lege services overslaan (kan herstart noodzakelijk zijn)"
 
 msgid "Sleep Timer"
 msgstr "Slaaptimer"
@@ -4750,6 +4825,9 @@ msgstr "Text randbreedte"
 msgid "Text font size"
 msgstr "Text lettergrootte"
 
+msgid "Thai"
+msgstr ""
+
 msgid ""
 "Thank you for using the wizard.\n"
 "Please press OK to continue."
@@ -4799,6 +4877,14 @@ msgid ""
 msgstr ""
 "De USB stick is geschikt gemaakt om van te booten.\n"
 "Je kunt nu een NFI image bestand downlaoden! "
+
+msgid "The User Interface of your receiver is restarting"
+msgstr ""
+
+msgid ""
+"The User Interface of your receiver is restarting\n"
+"due to an error in mytest.py"
+msgstr ""
 
 msgid "The backup failed. Please choose a different backup location."
 msgstr "Back-up is mislukt. Kies een andere back-up lokatie a.u.b."
@@ -5084,6 +5170,21 @@ msgstr "Tijd schaal"
 
 msgid "Time/Date Input"
 msgstr "Tijd/Datum invoer"
+
+msgid "Timeline 120 minutes"
+msgstr ""
+
+msgid "Timeline 180 minutes"
+msgstr ""
+
+msgid "Timeline 240 minutes"
+msgstr ""
+
+msgid "Timeline 300 minutes"
+msgstr ""
+
+msgid "Timeline 60 minutes"
+msgstr ""
 
 msgid "Timer"
 msgstr "Timer"
@@ -5383,6 +5484,9 @@ msgstr ""
 msgid "Use Interface"
 msgstr "Gebruik interface"
 
+msgid "Use Long Title"
+msgstr ""
+
 msgid "Use Power Measurement"
 msgstr "Gebruik stroommeting"
 
@@ -5462,6 +5566,12 @@ msgstr "Door u ingesteld"
 
 msgid "Username"
 msgstr "Gebruikersnaam"
+
+msgid "Using LNB"
+msgstr ""
+
+msgid "Using Tuner "
+msgstr ""
 
 msgid "Using fixed address"
 msgstr "Gebruik vast ingesteld adres"
@@ -5644,6 +5754,9 @@ msgstr "Wakeup signaal van TV"
 
 msgid "Warn if free space drops below (kB):"
 msgstr "Meldt als het vrij geheugen minder wordt dan (kB):"
+
+msgid "Warning: no LNB; using factory defaults."
+msgstr ""
 
 msgid "Wed"
 msgstr "Wo"
@@ -6006,6 +6119,12 @@ msgstr ""
 "Druk op OK, om dit proces te starten."
 
 msgid ""
+"Your frontprocessor will be upgraded\n"
+"Please wait until your receiver reboots\n"
+"This may take a few minutes"
+msgstr ""
+
+msgid ""
 "Your internet connection is not working!\n"
 "Please choose what you want to do next."
 msgstr ""
@@ -6018,6 +6137,12 @@ msgstr "Uw naam (optioneel):"
 msgid "Your network configuration has been activated."
 msgstr "Configuratie van uw netwerk is geactiveerd."
 
+msgid "Your receiver is rebooting"
+msgstr ""
+
+msgid "Your receiver is shutting down"
+msgstr ""
+
 msgid ""
 "Your wireless LAN internet connection could not be started!\n"
 "Have you attached your USB WLAN Stick?\n"
@@ -6028,6 +6153,12 @@ msgstr ""
 "Heeft u de USB WLAN Stick in de box geplaatst?\n"
 "\n"
 "Kies wat u hierna wilt doen."
+
+msgid "Zap"
+msgstr ""
+
+msgid "Zap PIG"
+msgstr ""
 
 msgid "Zap back to previously tuned service?"
 msgstr "Wilt u terug naar het vorige kanaal?"
@@ -6953,8 +7084,14 @@ msgstr ""
 msgid "tuner is not supported"
 msgstr "tuner wordt niet ondersteund"
 
+msgid "unavailable"
+msgstr "niet beschikbaar"
+
 msgid "unconfirmed"
 msgstr "onbevestigd"
+
+msgid "undefined"
+msgstr ""
 
 msgid "unknown"
 msgstr "onbekend"
@@ -7051,6 +7188,42 @@ msgstr "zapte"
 
 #~ msgid " Results"
 #~ msgstr " Resultaten"
+
+#~ msgid "#000000"
+#~ msgstr "#000000"
+
+#~ msgid "#0064c7"
+#~ msgstr "#0064c7"
+
+#~ msgid "#25062748"
+#~ msgstr "#25062748"
+
+#~ msgid "#389416"
+#~ msgstr "#389416"
+
+#~ msgid "#80000000"
+#~ msgstr "#80000000"
+
+#~ msgid "#80ffffff"
+#~ msgstr "#80ffffff"
+
+#~ msgid "#bab329"
+#~ msgstr "#bab329"
+
+#~ msgid "#f23d21"
+#~ msgstr "#f23d21"
+
+#~ msgid "#ff0000"
+#~ msgstr "#ff0000"
+
+#~ msgid "#ffff7f"
+#~ msgstr "#ffff7f"
+
+#~ msgid "#ffffff"
+#~ msgstr "#ffffff"
+
+#~ msgid "#ffffffff"
+#~ msgstr "#ffffffff"
 
 #~ msgid ""
 #~ "%d conflict(s) encountered when trying to add new timers:\n"
@@ -7272,6 +7445,9 @@ msgstr "zapte"
 #~ msgid "An error occured."
 #~ msgstr "Er is een fout opgetreden."
 
+#~ msgid "April"
+#~ msgstr "April"
+
 #
 #~ msgid ""
 #~ "Are you sure you want to save this network mount?\n"
@@ -7307,6 +7483,9 @@ msgstr "zapte"
 #~ msgstr ""
 #~ "AudioSync kan geluid (Bitstream/PCM) vertragen zodat het synchroon loopt "
 #~ "met het beeld."
+
+#~ msgid "August"
+#~ msgstr "Augustus"
 
 #
 #~ msgid "Australia"
@@ -7778,6 +7957,9 @@ msgstr "zapte"
 #~ "Met de DVD-speler kunt u DVD's afspelen op uw Dreambox, maar ook een ISO-"
 #~ "bestand en een Video-ts map op uw harde schijf of van uw netwerk."
 
+#~ msgid "December"
+#~ msgstr "December"
+
 #
 #~ msgid "Decrease delay"
 #~ msgstr "Verlaag vertraging"
@@ -8145,9 +8327,6 @@ msgstr "zapte"
 #~ msgid "Entertainment"
 #~ msgstr "Amusement"
 
-#~ msgid "Event Fontsize"
-#~ msgstr "Event lettergrootte"
-
 #~ msgid "Everything is fine"
 #~ msgstr "Alles is in orde"
 
@@ -8174,6 +8353,9 @@ msgstr "zapte"
 
 #~ msgid "Fast scan"
 #~ msgstr "Factscan"
+
+#~ msgid "February"
+#~ msgstr "Februari"
 
 #~ msgid "Fetching feed entries"
 #~ msgstr "Ophalen Feed items"
@@ -8584,9 +8766,18 @@ msgstr "zapte"
 #~ msgid "Italy"
 #~ msgstr "Italië"
 
+#~ msgid "January"
+#~ msgstr "Januari"
+
 #
 #~ msgid "Japan"
 #~ msgstr "Japan"
+
+#~ msgid "July"
+#~ msgstr "Juli"
+
+#~ msgid "June"
+#~ msgstr "Juni"
 
 #~ msgid "Kerni's BrushedAlu-HD skin"
 #~ msgstr "Kerni's BrushedAlu-HD skin"
@@ -8714,6 +8905,9 @@ msgstr "zapte"
 #~ msgid "Manage your network shares..."
 #~ msgstr "Beheer uw netwerkverbindingen."
 
+#~ msgid "March"
+#~ msgstr "Maart"
+
 #
 #~ msgid "Match Timespan: %02d:%02d - %02d:%02d"
 #~ msgstr "Match tijdspanne: %02d:%02d - %02d:%02d"
@@ -8738,6 +8932,9 @@ msgstr "zapte"
 #~ msgstr ""
 #~ "Maximale tijdsduur van een programma. Een programma dat langer duurt komt "
 #~ "niet overeen."
+
+#~ msgid "May"
+#~ msgstr "Mei"
 
 #~ msgid ""
 #~ "MediaScanner scans devices for playable media files and displays a menu "
@@ -9127,6 +9324,9 @@ msgstr "zapte"
 #~ msgid "Not fetching feed entries"
 #~ msgstr "Niet ophalen Feed items"
 
+#~ msgid "November"
+#~ msgstr "November"
+
 #~ msgid "Number of scheduled recordings left."
 #~ msgstr "Aantal geplande opnames beschikbaar."
 
@@ -9476,6 +9676,9 @@ msgstr "zapte"
 #~ msgid "Relevance"
 #~ msgstr "Relevantie"
 
+#~ msgid "Remember service PIN cancel"
+#~ msgstr "Onhoud zender pincode bij annuleren"
+
 #~ msgid "Remember service pin"
 #~ msgstr "Onthoud zender pincode"
 
@@ -9808,6 +10011,9 @@ msgstr "zapte"
 #~ msgid "Selected source image"
 #~ msgstr "Selecteer bron bestand"
 
+#~ msgid "September"
+#~ msgstr "September"
+
 #
 #~ msgid "Server IP"
 #~ msgstr "Server IP"
@@ -9930,9 +10136,6 @@ msgstr "zapte"
 
 #~ msgid "SkinSelector shows a menu with selectable skins"
 #~ msgstr "De SkinSelector toont u een menu met de beschikbare skins"
-
-#~ msgid "Skip Empty Services (may need restart)"
-#~ msgstr "Lege services overslaan (kan herstart noodzakelijk zijn)"
 
 #~ msgid "Slovakian"
 #~ msgstr "Slowaaks"
@@ -11295,9 +11498,6 @@ msgstr "zapte"
 
 #~ msgid "unable to find timer with id %i"
 #~ msgstr "kan timer met id %i niet vinden"
-
-#~ msgid "unavailable"
-#~ msgstr "niet beschikbaar"
 
 #~ msgid "until restart"
 #~ msgstr "tot herstart"

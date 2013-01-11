@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enigma2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-08 20:34+0100\n"
+"POT-Creation-Date: 2012-05-28 23:25+0200\n"
 "PO-Revision-Date: 2008-01-27 23:38+0100\n"
 "Last-Translator: Jurica <jurica@clarkdigital.com>\n"
 "Language-Team:  <jurica@dream-multimedia.eu>\n"
@@ -128,55 +128,35 @@ msgstr ""
 msgid " wireless networks found!"
 msgstr ""
 
-#
-msgid "#000000"
-msgstr "#ffffff"
-
-#
-msgid "#0064c7"
-msgstr "#0064c7"
-
-#
-msgid "#25062748"
-msgstr "#25062748"
-
-#
-msgid "#389416"
-msgstr "#389416"
-
-#
-msgid "#80000000"
-msgstr "#80000000"
-
-#
-msgid "#80ffffff"
-msgstr "#80ffffff"
-
-#
-msgid "#bab329"
-msgstr "#bab329"
-
-#
-msgid "#f23d21"
-msgstr "#f23d21"
-
-msgid "#ff0000"
+#. TRANSLATORS: short time representation hour:minute
+#, python-format
+msgid "%2d:%02d"
 msgstr ""
 
-msgid "#ffff7f"
+#. TRANSLATORS: full time representation hour:minute:seconds
+#, python-format
+msgid "%2d:%02d:%02d"
 msgstr ""
 
-#
-msgid "#ffffff"
-msgstr "#ffffff"
+#. TRANSLATORS: long date representations dayname daynum monthname in strftime() format! See 'man strftime'
+msgid "%A %e %B"
+msgstr ""
 
-#
-msgid "#ffffffff"
-msgstr "#ffffffff"
+#. TRANSLATORS: full date representation dayname daynum monthname year in strftime() format! See 'man strftime'
+msgid "%A %e %B %Y"
+msgstr ""
 
 #
 msgid "%H:%M"
 msgstr "%S:%M"
+
+#. TRANSLATORS: short date representation short dayname daynum short monthname in strftime() format! See 'man strftime'
+msgid "%a %e/%m"
+msgstr ""
+
+#. TRANSLATORS: long date representation short dayname daynum short monthname hour:minute in strftime() format! See 'man strftime'
+msgid "%a %e/%m  %-H:%M"
+msgstr ""
 
 #, python-format
 msgid "%d hour"
@@ -218,6 +198,10 @@ msgstr "%d usluga pronađeno!"
 #
 msgid "%d.%B %Y"
 msgstr "%d.%B %Y"
+
+#. TRANSLATORS: VFD hour:minute daynum short monthname in strftime() format! See 'man strftime'
+msgid "%k:%M %e/%m"
+msgstr ""
 
 #
 #, python-format
@@ -674,6 +658,12 @@ msgstr "Svi"
 msgid "All Satellites"
 msgstr ""
 
+msgid "Allocate"
+msgstr ""
+
+msgid "Allocate unused memory index"
+msgstr ""
+
 msgid "Allow Subtitle equals Audio mask"
 msgstr ""
 
@@ -712,9 +702,6 @@ msgid "Anonymize crashlog?"
 msgstr ""
 
 msgid "Any activity"
-msgstr ""
-
-msgid "April"
 msgstr ""
 
 #
@@ -792,9 +779,6 @@ msgid "Audio language selection 3"
 msgstr ""
 
 msgid "Audio language selection 4"
-msgstr ""
-
-msgid "August"
 msgstr ""
 
 #
@@ -1026,6 +1010,9 @@ msgstr ""
 #
 msgid "Cache Thumbnails"
 msgstr "Učitaj sličice"
+
+msgid "Calculate"
+msgstr ""
 
 msgid "Calculate all positions"
 msgstr ""
@@ -1269,6 +1256,9 @@ msgstr ""
 msgid "Compact Flash"
 msgstr "Kompakt Flash"
 
+msgid "Compatibilty Mode"
+msgstr ""
+
 #
 msgid "Complete"
 msgstr "Kompletno"
@@ -1283,6 +1273,9 @@ msgstr ""
 #
 msgid "Configuration Mode"
 msgstr "Mod Konfiguracije"
+
+msgid "Configuration mode: "
+msgstr ""
 
 #
 msgid "Configure interface"
@@ -1511,6 +1504,12 @@ msgstr ""
 msgid "DVB subtitle black transparency"
 msgstr ""
 
+msgid "DVB-C"
+msgstr ""
+
+msgid "DVB-C ANNEX C"
+msgstr ""
+
 #
 msgid "DVB-S"
 msgstr "DVB-S"
@@ -1518,6 +1517,12 @@ msgstr "DVB-S"
 #
 msgid "DVB-S2"
 msgstr "DVB-S2"
+
+msgid "DVB-T"
+msgstr ""
+
+msgid "DVB-T2"
+msgstr ""
 
 #
 msgid "DVD File Browser"
@@ -1546,7 +1551,7 @@ msgstr "Danski"
 msgid "Date"
 msgstr "Datum"
 
-msgid "December"
+msgid "Date/Time"
 msgstr ""
 
 #
@@ -1696,6 +1701,9 @@ msgstr "Onemogući"
 #
 msgid "Disable Picture in Picture"
 msgstr "Isključi Sliku u Slici"
+
+msgid "Disable Selecting Expired Events"
+msgstr ""
 
 msgid "Disable background scanning"
 msgstr ""
@@ -1977,6 +1985,9 @@ msgstr ""
 msgid "Edit DNS"
 msgstr ""
 
+msgid "Edit Search Title"
+msgstr ""
+
 #
 msgid "Edit Title"
 msgstr ""
@@ -2036,6 +2047,9 @@ msgid "Enable MHW EPG"
 msgstr ""
 
 msgid "Enable Netmed EPG"
+msgstr ""
+
+msgid "Enable Picon"
 msgstr ""
 
 msgid "Enable ViaSat EPG"
@@ -2146,7 +2160,16 @@ msgstr ""
 msgid "Ethernet network interface"
 msgstr ""
 
+msgid "Event"
+msgstr ""
+
+msgid "Event Fontsize"
+msgstr ""
+
 msgid "Event Fontsize (relative to skin size)"
+msgstr ""
+
+msgid "Event Info"
 msgstr ""
 
 #
@@ -2157,6 +2180,9 @@ msgid "Eventview menu"
 msgstr ""
 
 msgid "Everywhere"
+msgstr ""
+
+msgid "Exact Search"
 msgstr ""
 
 #
@@ -2248,7 +2274,7 @@ msgstr ""
 msgid "Failed"
 msgstr ""
 
-msgid "Failed to write /tmp/positionersetup.log:str"
+msgid "Failed to write /tmp/positionersetup.log: "
 msgstr ""
 
 #
@@ -2288,9 +2314,6 @@ msgstr "Brza epoha"
 #
 msgid "Favourites"
 msgstr "Favoriti"
-
-msgid "February"
-msgstr ""
 
 msgid "File appears to be busy.\n"
 msgstr ""
@@ -2553,6 +2576,9 @@ msgstr ""
 msgid "Hide CI messages"
 msgstr ""
 
+msgid "Hide Expired Title"
+msgstr ""
+
 msgid "Hide zap errors"
 msgstr ""
 
@@ -2598,6 +2624,9 @@ msgstr ""
 #
 msgid "Hungarian"
 msgstr "Mađarski"
+
+msgid "IMDB"
+msgstr ""
 
 #
 msgid "IP Address"
@@ -2669,6 +2698,9 @@ msgstr "Povećani napon"
 #
 msgid "Index"
 msgstr "Index"
+
+msgid "Index allocated:"
+msgstr ""
 
 #
 msgid "Info"
@@ -2843,17 +2875,14 @@ msgstr "Talijanski"
 msgid "Items per Page "
 msgstr ""
 
-msgid "January"
-msgstr ""
-
 #
 msgid "Job View"
 msgstr ""
 
-msgid "July"
+msgid "Jump to First Service"
 msgstr ""
 
-msgid "June"
+msgid "Jump to Last Service"
 msgstr ""
 
 #
@@ -3100,9 +3129,6 @@ msgstr "Ručno uneseni transponder"
 msgid "Manufacturer"
 msgstr ""
 
-msgid "March"
-msgstr ""
-
 #
 msgid "Margin after record"
 msgstr "Rub nakon snimanja"
@@ -3113,9 +3139,6 @@ msgstr "Rub prije snimanja (u minutama)"
 
 #
 msgid "Max. Bitrate: "
-msgstr ""
-
-msgid "May"
 msgstr ""
 
 #
@@ -3143,6 +3166,9 @@ msgstr ""
 #
 msgid "Menu"
 msgstr "Izbornik "
+
+msgid "Merge Short/Long Descriptions"
+msgstr ""
 
 #
 msgid "Message"
@@ -3395,6 +3421,9 @@ msgstr "Nova verzija:"
 msgid "Next"
 msgstr "Sljed."
 
+msgid "Next Bouquet"
+msgstr ""
+
 #
 msgid "No"
 msgstr "Ne"
@@ -3449,6 +3478,9 @@ msgstr "Informacije o događaju nisu pronađene, snimanje nedefinirano."
 msgid ""
 "No fast winding possible yet.. but you can use the number buttons to skip "
 "forward/backward!"
+msgstr ""
+
+msgid "No free index available"
 msgstr ""
 
 #
@@ -3614,9 +3646,6 @@ msgstr ""
 msgid "Nothing to upgrade"
 msgstr ""
 
-msgid "November"
-msgstr ""
-
 #
 msgid "Now Playing"
 msgstr "Trenutno pokrenuto"
@@ -3658,9 +3687,6 @@ msgstr ""
 msgid "OSD visibility"
 msgstr ""
 
-msgid "October"
-msgstr ""
-
 #
 msgid "Off"
 msgstr "Isključi"
@@ -3674,6 +3700,9 @@ msgstr ""
 #
 msgid "On"
 msgstr "Uključeno"
+
+msgid "On Bouquet Switch goto first service"
+msgstr ""
 
 #
 msgid "One"
@@ -3750,6 +3779,18 @@ msgstr "Rukovanje paketima"
 msgid "Packet manager"
 msgstr ""
 
+msgid "Page Down"
+msgstr ""
+
+msgid "Page Left"
+msgstr ""
+
+msgid "Page Right"
+msgstr ""
+
+msgid "Page Up"
+msgstr ""
+
 #
 #. TRANSLATORS: (aspect ratio policy: cropped content on left/right) in doubt, keep english term
 msgid "Pan&Scan"
@@ -3774,6 +3815,9 @@ msgstr "Postavke roditeljske zaštite"
 #
 msgid "Parental control type"
 msgstr "Vrsta roditeljske zaštite"
+
+msgid "Partial Search"
+msgstr ""
 
 #
 msgid "Password"
@@ -4232,6 +4276,9 @@ msgstr ""
 msgid "Preview menu"
 msgstr ""
 
+msgid "Previous Bouquet"
+msgstr ""
+
 #
 msgid "Primary DNS"
 msgstr ""
@@ -4336,6 +4383,12 @@ msgstr ""
 msgid "Really shutdown now?"
 msgstr ""
 
+msgid "Really upgrade the frontprocessor and reboot now?"
+msgstr ""
+
+msgid "Really upgrade your settop box and reboot now?"
+msgstr ""
+
 #
 msgid "Reboot"
 msgstr ""
@@ -4418,9 +4471,6 @@ msgid "Reloading bouquets and services..."
 msgstr ""
 
 msgid "Remember service PIN"
-msgstr ""
-
-msgid "Remember service PIN cancel"
 msgstr ""
 
 msgid "Remember these settings for each folder"
@@ -4634,6 +4684,9 @@ msgstr ""
 msgid "Rotor turning speed"
 msgstr "Brzina okretanja rotora"
 
+msgid "Round Start Time To"
+msgstr ""
+
 msgid "Round start time on"
 msgstr ""
 
@@ -4714,6 +4767,9 @@ msgstr ""
 #
 msgid "Save Playlist"
 msgstr "Pohrani playlistu"
+
+msgid "Scale Picon"
+msgstr ""
 
 #
 msgid "Scaler sharpness"
@@ -4837,6 +4893,9 @@ msgstr ""
 #
 msgid ""
 "Scans default lamedbs sorted by satellite with a connected dish positioner"
+msgstr ""
+
+msgid "Search"
 msgstr ""
 
 #
@@ -4971,9 +5030,6 @@ msgstr ""
 
 #
 msgid "Seperate titles with a main menu"
-msgstr ""
-
-msgid "September"
 msgstr ""
 
 #
@@ -5129,6 +5185,9 @@ msgstr ""
 msgid "Show Service Names "
 msgstr ""
 
+msgid "Show Service Title"
+msgstr ""
+
 #
 msgid "Show WLAN Status"
 msgstr ""
@@ -5225,6 +5284,9 @@ msgstr ""
 msgid "Similar"
 msgstr "Slično"
 
+msgid "Similar Broadcast Search"
+msgstr ""
+
 #
 msgid "Similar broadcasts:"
 msgstr "Slični pružatelji:"
@@ -5272,6 +5334,9 @@ msgid "Skins"
 msgstr ""
 
 msgid "Skip Empty Services"
+msgstr ""
+
+msgid "Skip Empty Services (may need restart)"
 msgstr ""
 
 #
@@ -5676,6 +5741,9 @@ msgstr ""
 msgid "Text font size"
 msgstr ""
 
+msgid "Thai"
+msgstr ""
+
 #
 msgid ""
 "Thank you for using the wizard.\n"
@@ -5719,6 +5787,14 @@ msgstr ""
 msgid ""
 "The USB stick was prepared to be bootable.\n"
 "Now you can download an NFI image file!"
+msgstr ""
+
+msgid "The User Interface of your receiver is restarting"
+msgstr ""
+
+msgid ""
+"The User Interface of your receiver is restarting\n"
+"due to an error in mytest.py"
 msgstr ""
 
 #
@@ -5996,6 +6072,21 @@ msgstr ""
 #
 msgid "Time/Date Input"
 msgstr "Unos Vremena/Datuma"
+
+msgid "Timeline 120 minutes"
+msgstr ""
+
+msgid "Timeline 180 minutes"
+msgstr ""
+
+msgid "Timeline 240 minutes"
+msgstr ""
+
+msgid "Timeline 300 minutes"
+msgstr ""
+
+msgid "Timeline 60 minutes"
+msgstr ""
 
 #
 msgid "Timer"
@@ -6357,6 +6448,9 @@ msgstr ""
 msgid "Use Interface"
 msgstr ""
 
+msgid "Use Long Title"
+msgstr ""
+
 #
 msgid "Use Power Measurement"
 msgstr "Koristi Mjerenje Snage"
@@ -6448,6 +6542,12 @@ msgstr "Korisnički def"
 
 #
 msgid "Username"
+msgstr ""
+
+msgid "Using LNB"
+msgstr ""
+
+msgid "Using Tuner "
 msgstr ""
 
 msgid "Using fixed address"
@@ -6669,6 +6769,9 @@ msgstr ""
 
 #
 msgid "Warn if free space drops below (kB):"
+msgstr ""
+
+msgid "Warning: no LNB; using factory defaults."
 msgstr ""
 
 #
@@ -7042,6 +7145,12 @@ msgstr ""
 "Vaš softver frontprocesora mora biti nadograđen.\n"
 "Pritisnite OK za početak nadogradnje."
 
+msgid ""
+"Your frontprocessor will be upgraded\n"
+"Please wait until your receiver reboots\n"
+"This may take a few minutes"
+msgstr ""
+
 #
 msgid ""
 "Your internet connection is not working!\n"
@@ -7056,12 +7165,24 @@ msgstr ""
 msgid "Your network configuration has been activated."
 msgstr ""
 
+msgid "Your receiver is rebooting"
+msgstr ""
+
+msgid "Your receiver is shutting down"
+msgstr ""
+
 #
 msgid ""
 "Your wireless LAN internet connection could not be started!\n"
 "Have you attached your USB WLAN Stick?\n"
 "\n"
 "Please choose what you want to do next."
+msgstr ""
+
+msgid "Zap"
+msgstr ""
+
+msgid "Zap PIG"
 msgstr ""
 
 #
@@ -8246,8 +8367,14 @@ msgstr ""
 msgid "tuner is not supported"
 msgstr ""
 
+msgid "unavailable"
+msgstr ""
+
 #
 msgid "unconfirmed"
+msgstr ""
+
+msgid "undefined"
 msgstr ""
 
 #
@@ -8359,16 +8486,56 @@ msgstr "prebačen"
 #~ msgstr "\"?"
 
 #
+#~ msgid "#000000"
+#~ msgstr "#ffffff"
+
+#
 #~ msgid "#003258"
 #~ msgstr "#003258"
+
+#
+#~ msgid "#0064c7"
+#~ msgstr "#0064c7"
+
+#
+#~ msgid "#25062748"
+#~ msgstr "#25062748"
 
 #
 #~ msgid "#33294a6b"
 #~ msgstr "#33294a6b"
 
 #
+#~ msgid "#389416"
+#~ msgstr "#389416"
+
+#
 #~ msgid "#77ffffff"
 #~ msgstr "#77ffffff"
+
+#
+#~ msgid "#80000000"
+#~ msgstr "#80000000"
+
+#
+#~ msgid "#80ffffff"
+#~ msgstr "#80ffffff"
+
+#
+#~ msgid "#bab329"
+#~ msgstr "#bab329"
+
+#
+#~ msgid "#f23d21"
+#~ msgstr "#f23d21"
+
+#
+#~ msgid "#ffffff"
+#~ msgstr "#ffffff"
+
+#
+#~ msgid "#ffffffff"
+#~ msgstr "#ffffffff"
 
 #
 #~ msgid ""
