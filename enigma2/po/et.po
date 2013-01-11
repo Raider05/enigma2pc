@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxbox-enigma 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-28 23:25+0200\n"
+"POT-Creation-Date: 2012-03-08 20:34+0100\n"
 "PO-Revision-Date: 2011-12-06 12:09+0300\n"
 "Last-Translator: Raivo, Henkka, eesatfan, rimas\n"
 "Language-Team: Raivo, Henkka, eesatfan, rimas\n"
@@ -138,34 +138,44 @@ msgstr " uuendust saadaval."
 msgid " wireless networks found!"
 msgstr " WiFi võrku leitud!"
 
-#. TRANSLATORS: short time representation hour:minute
-#, python-format
-msgid "%2d:%02d"
+msgid "#000000"
+msgstr "#000000"
+
+msgid "#0064c7"
+msgstr "#0064c7"
+
+msgid "#25062748"
+msgstr "#25062748"
+
+msgid "#389416"
+msgstr "#389416"
+
+msgid "#80000000"
+msgstr "#80000000"
+
+msgid "#80ffffff"
+msgstr "#80ffffff"
+
+msgid "#bab329"
+msgstr "#bab329"
+
+msgid "#f23d21"
+msgstr "#f23d21"
+
+msgid "#ff0000"
 msgstr ""
 
-#. TRANSLATORS: full time representation hour:minute:seconds
-#, python-format
-msgid "%2d:%02d:%02d"
+msgid "#ffff7f"
 msgstr ""
 
-#. TRANSLATORS: long date representations dayname daynum monthname in strftime() format! See 'man strftime'
-msgid "%A %e %B"
-msgstr ""
+msgid "#ffffff"
+msgstr "#ffffff"
 
-#. TRANSLATORS: full date representation dayname daynum monthname year in strftime() format! See 'man strftime'
-msgid "%A %e %B %Y"
-msgstr ""
+msgid "#ffffffff"
+msgstr "#ffffffff"
 
 msgid "%H:%M"
 msgstr "%H:%M"
-
-#. TRANSLATORS: short date representation short dayname daynum short monthname in strftime() format! See 'man strftime'
-msgid "%a %e/%m"
-msgstr ""
-
-#. TRANSLATORS: long date representation short dayname daynum short monthname hour:minute in strftime() format! See 'man strftime'
-msgid "%a %e/%m  %-H:%M"
-msgstr ""
 
 #, python-format
 msgid "%d hour"
@@ -203,10 +213,6 @@ msgstr "%d kanalit leitud!"
 
 msgid "%d.%B %Y"
 msgstr "%d.%B %Y"
-
-#. TRANSLATORS: VFD hour:minute daynum short monthname in strftime() format! See 'man strftime'
-msgid "%k:%M %e/%m"
-msgstr ""
 
 #, python-format
 msgid "%s (%s)\n"
@@ -578,12 +584,6 @@ msgstr "Kõik"
 msgid "All Satellites"
 msgstr "Kõik satelliidid"
 
-msgid "Allocate"
-msgstr ""
-
-msgid "Allocate unused memory index"
-msgstr ""
-
 msgid "Allow Subtitle equals Audio mask"
 msgstr "Luba subtiitrid audio valiku järgi"
 
@@ -616,6 +616,9 @@ msgstr "Muuda vealogi nimetuks?"
 
 msgid "Any activity"
 msgstr ""
+
+msgid "April"
+msgstr "Aprill"
 
 msgid "Arabic"
 msgstr "Araabia"
@@ -690,6 +693,9 @@ msgstr "Heli keele valik 3"
 
 msgid "Audio language selection 4"
 msgstr "Heli keele valik 4"
+
+msgid "August"
+msgstr "August"
 
 msgid "Author: "
 msgstr "Autor: "
@@ -870,9 +876,6 @@ msgstr ""
 
 msgid "Cache Thumbnails"
 msgstr "Salvesta pisipildid"
-
-msgid "Calculate"
-msgstr ""
 
 msgid "Calculate all positions"
 msgstr ""
@@ -1069,9 +1072,6 @@ msgstr "Suhtlus"
 msgid "Compact Flash"
 msgstr "CompactFlash"
 
-msgid "Compatibilty Mode"
-msgstr ""
-
 msgid "Complete"
 msgstr "Valmis"
 
@@ -1083,9 +1083,6 @@ msgstr "Salvestuse nimede komponeerimine"
 
 msgid "Configuration Mode"
 msgstr "Häälestamine"
-
-msgid "Configuration mode: "
-msgstr ""
 
 msgid "Configure interface"
 msgstr "Seadista liides"
@@ -1274,23 +1271,11 @@ msgstr "Kahekihiline DVD"
 msgid "DVB subtitle black transparency"
 msgstr "DVB subtiitrite tausta läbipaistvus"
 
-msgid "DVB-C"
-msgstr ""
-
-msgid "DVB-C ANNEX C"
-msgstr ""
-
 msgid "DVB-S"
 msgstr "DVB-S"
 
 msgid "DVB-S2"
 msgstr "DVB-S2"
-
-msgid "DVB-T"
-msgstr ""
-
-msgid "DVB-T2"
-msgstr ""
 
 msgid "DVD File Browser"
 msgstr "DVD failibrauser"
@@ -1313,8 +1298,8 @@ msgstr "Taani"
 msgid "Date"
 msgstr "Kuupäev"
 
-msgid "Date/Time"
-msgstr ""
+msgid "December"
+msgstr "Detsember"
 
 msgid "Decide if you want to enable or disable the Cleanup Wizard."
 msgstr "Otsusta kas lubate või keelate puhastusabilise."
@@ -1436,9 +1421,6 @@ msgstr "Keela"
 
 msgid "Disable Picture in Picture"
 msgstr "Sulge pilt-pildis"
-
-msgid "Disable Selecting Expired Events"
-msgstr ""
 
 msgid "Disable background scanning"
 msgstr "Keela kanaliotsing taustal"
@@ -1670,9 +1652,6 @@ msgstr "Muuda"
 msgid "Edit DNS"
 msgstr "Muuda DNS"
 
-msgid "Edit Search Title"
-msgstr ""
-
 msgid "Edit Title"
 msgstr "Muuda pealkirja"
 
@@ -1720,9 +1699,6 @@ msgstr "Luba MHW EPG"
 
 msgid "Enable Netmed EPG"
 msgstr "Luba Netmed EPG"
-
-msgid "Enable Picon"
-msgstr ""
 
 msgid "Enable ViaSat EPG"
 msgstr "Luba ViaSat EPG"
@@ -1819,16 +1795,7 @@ msgstr "Eesti"
 msgid "Ethernet network interface"
 msgstr ""
 
-msgid "Event"
-msgstr ""
-
-msgid "Event Fontsize"
-msgstr ""
-
 msgid "Event Fontsize (relative to skin size)"
-msgstr ""
-
-msgid "Event Info"
 msgstr ""
 
 msgid "Eventview"
@@ -1839,9 +1806,6 @@ msgstr ""
 
 msgid "Everywhere"
 msgstr "Igal pool"
-
-msgid "Exact Search"
-msgstr ""
 
 msgid "Exceeds dual layer medium!"
 msgstr "Liiga suur kahekihilise ketta jaoks!"
@@ -1912,7 +1876,7 @@ msgstr "Algseadistuse taaste"
 msgid "Failed"
 msgstr "Nurjus"
 
-msgid "Failed to write /tmp/positionersetup.log: "
+msgid "Failed to write /tmp/positionersetup.log:str"
 msgstr ""
 
 #, python-format
@@ -1944,6 +1908,9 @@ msgstr "Kiire kerimine"
 
 msgid "Favourites"
 msgstr "Lemmikud"
+
+msgid "February"
+msgstr "Veebruar"
 
 msgid "File appears to be busy.\n"
 msgstr ""
@@ -2169,9 +2136,6 @@ msgstr ""
 msgid "Hide CI messages"
 msgstr "Peida CI teated"
 
-msgid "Hide Expired Title"
-msgstr ""
-
 msgid "Hide zap errors"
 msgstr "Peida veateated kanalivahetusel"
 
@@ -2210,9 +2174,6 @@ msgstr "Värvitoon"
 
 msgid "Hungarian"
 msgstr "Ungari"
-
-msgid "IMDB"
-msgstr ""
 
 msgid "IP Address"
 msgstr "IP Aadress"
@@ -2281,9 +2242,6 @@ msgstr "Suurendatud pinge"
 
 msgid "Index"
 msgstr "Indeks"
-
-msgid "Index allocated:"
-msgstr ""
 
 msgid "Info"
 msgstr "Info"
@@ -2435,12 +2393,6 @@ msgstr "Juuli"
 
 msgid "June"
 msgstr "Juuni"
-
-msgid "Jump to First Service"
-msgstr ""
-
-msgid "Jump to Last Service"
-msgstr ""
 
 #. TRANSLATORS: (aspect ratio policy: display as fullscreen, even if this breaks the aspect)
 msgid "Just Scale"
@@ -2649,6 +2601,9 @@ msgstr "Salvestise algusesse lisatakse (minutit)"
 msgid "Max. Bitrate: "
 msgstr "Max. Bitikiirus: "
 
+msgid "May"
+msgstr "Mai"
+
 msgid "Media player"
 msgstr "Meediamängija"
 
@@ -2669,9 +2624,6 @@ msgstr ""
 
 msgid "Menu"
 msgstr "Menüü"
-
-msgid "Merge Short/Long Descriptions"
-msgstr ""
 
 msgid "Message"
 msgstr "Teade"
@@ -2878,9 +2830,6 @@ msgstr "Uus versioon:"
 msgid "Next"
 msgstr "Järgmine"
 
-msgid "Next Bouquet"
-msgstr ""
-
 msgid "No"
 msgstr "Ei"
 
@@ -2927,9 +2876,6 @@ msgid ""
 msgstr ""
 "Kiire kerimine pole veel võimalik, aga saad kasutad numbrinuppe edasi/tagasi "
 "hüppamiseks!"
-
-msgid "No free index available"
-msgstr ""
 
 msgid "No free tuner!"
 msgstr "Pole vaba tuunerit!"
@@ -3075,6 +3021,9 @@ msgstr ""
 msgid "Nothing to upgrade"
 msgstr "Uuendusi ei ole"
 
+msgid "November"
+msgstr "November"
+
 msgid "Now Playing"
 msgstr "Taasesitus käib"
 
@@ -3111,6 +3060,9 @@ msgstr ""
 msgid "OSD visibility"
 msgstr "OSD nähtavus"
 
+msgid "October"
+msgstr ""
+
 msgid "Off"
 msgstr "Väljas"
 
@@ -3122,9 +3074,6 @@ msgstr ""
 
 msgid "On"
 msgstr "Sees"
-
-msgid "On Bouquet Switch goto first service"
-msgstr ""
 
 msgid "One"
 msgstr "Üks"
@@ -3189,18 +3138,6 @@ msgstr "Pakkide haldamine"
 msgid "Packet manager"
 msgstr "Paketi haldur"
 
-msgid "Page Down"
-msgstr ""
-
-msgid "Page Left"
-msgstr ""
-
-msgid "Page Right"
-msgstr ""
-
-msgid "Page Up"
-msgstr ""
-
 #. TRANSLATORS: (aspect ratio policy: cropped content on left/right) in doubt, keep english term
 msgid "Pan&Scan"
 msgstr "Pan&Scan"
@@ -3219,9 +3156,6 @@ msgstr "Lapseluku seaded"
 
 msgid "Parental control type"
 msgstr "Lapseluku tüüp"
-
-msgid "Partial Search"
-msgstr ""
 
 msgid "Password"
 msgstr "Salasõna"
@@ -3601,9 +3535,6 @@ msgstr "Eelvaade"
 msgid "Preview menu"
 msgstr "Eelvaate menüü"
 
-msgid "Previous Bouquet"
-msgstr ""
-
 msgid "Primary DNS"
 msgstr "Esmane nimeserver"
 
@@ -3684,12 +3615,6 @@ msgstr "Teeme taaskäivituse kohe?"
 
 msgid "Really shutdown now?"
 msgstr "Lülitame välja?"
-
-msgid "Really upgrade the frontprocessor and reboot now?"
-msgstr ""
-
-msgid "Really upgrade your settop box and reboot now?"
-msgstr ""
 
 msgid "Reboot"
 msgstr "Taaskäivitus"
@@ -3932,9 +3857,6 @@ msgstr ""
 msgid "Rotor turning speed"
 msgstr "Mootori pööramise kiirus"
 
-msgid "Round Start Time To"
-msgstr ""
-
 msgid "Round start time on"
 msgstr ""
 
@@ -3997,9 +3919,6 @@ msgstr "Salvesta"
 
 msgid "Save Playlist"
 msgstr "Salvesta esitusloend"
-
-msgid "Scale Picon"
-msgstr ""
 
 msgid "Scaler sharpness"
 msgstr "Skaleerija teravus"
@@ -4102,9 +4021,6 @@ msgid ""
 msgstr ""
 "Otsib algsed lamedb-d järjestatud satelliitide järgi ühendatud "
 "positsioneeriga"
-
-msgid "Search"
-msgstr ""
 
 msgid "Search east"
 msgstr "Otsi itta"
@@ -4213,6 +4129,9 @@ msgstr "Saada DiSEqC anult satelliidi vahetamisel"
 
 msgid "Seperate titles with a main menu"
 msgstr "Eraldi pealkirjad koos peamenüüga"
+
+msgid "September"
+msgstr "September"
 
 msgid "Sequence repeat"
 msgstr "Järjekorra kordus"
@@ -4345,9 +4264,6 @@ msgstr ""
 msgid "Show Service Names "
 msgstr ""
 
-msgid "Show Service Title"
-msgstr ""
-
 msgid "Show WLAN Status"
 msgstr "Näita WiFi Olekut"
 
@@ -4429,9 +4345,6 @@ msgstr "Signaal: "
 msgid "Similar"
 msgstr "Sarnased"
 
-msgid "Similar Broadcast Search"
-msgstr ""
-
 msgid "Similar broadcasts:"
 msgstr "Sarnased saated:"
 
@@ -4469,9 +4382,6 @@ msgid "Skins"
 msgstr "Välimus"
 
 msgid "Skip Empty Services"
-msgstr ""
-
-msgid "Skip Empty Services (may need restart)"
 msgstr ""
 
 msgid "Sleep Timer"
@@ -4805,9 +4715,6 @@ msgstr "Teksti äärise laius"
 msgid "Text font size"
 msgstr "Teksti suurus"
 
-msgid "Thai"
-msgstr ""
-
 msgid ""
 "Thank you for using the wizard.\n"
 "Please press OK to continue."
@@ -4856,14 +4763,6 @@ msgid ""
 msgstr ""
 "USB pulk oli ette valmistatud käivitatavana.\n"
 "Nüüd saad NFI tarkvara faili alla laadida!"
-
-msgid "The User Interface of your receiver is restarting"
-msgstr ""
-
-msgid ""
-"The User Interface of your receiver is restarting\n"
-"due to an error in mytest.py"
-msgstr ""
 
 msgid "The backup failed. Please choose a different backup location."
 msgstr "Varukoopia loomine nurjus. Vali uus varukoopia asukoht."
@@ -5141,21 +5040,6 @@ msgstr ""
 
 msgid "Time/Date Input"
 msgstr "Aeg/Kuupäev"
-
-msgid "Timeline 120 minutes"
-msgstr ""
-
-msgid "Timeline 180 minutes"
-msgstr ""
-
-msgid "Timeline 240 minutes"
-msgstr ""
-
-msgid "Timeline 300 minutes"
-msgstr ""
-
-msgid "Timeline 60 minutes"
-msgstr ""
 
 msgid "Timer"
 msgstr "Taimer"
@@ -5449,9 +5333,6 @@ msgstr ""
 msgid "Use Interface"
 msgstr "Kasuta võrguliidest"
 
-msgid "Use Long Title"
-msgstr ""
-
 msgid "Use Power Measurement"
 msgstr "Kasuta võimsuse mõõtmist"
 
@@ -5528,12 +5409,6 @@ msgstr "Kasutaja määratud"
 
 msgid "Username"
 msgstr "Kasutajatunnus"
-
-msgid "Using LNB"
-msgstr ""
-
-msgid "Using Tuner "
-msgstr ""
 
 msgid "Using fixed address"
 msgstr ""
@@ -5716,9 +5591,6 @@ msgstr ""
 
 msgid "Warn if free space drops below (kB):"
 msgstr "Hoiata, kui vaba ruumi alla (kB):"
-
-msgid "Warning: no LNB; using factory defaults."
-msgstr ""
 
 msgid "Wed"
 msgstr "K"
@@ -6068,12 +5940,6 @@ msgstr ""
 "Uuendamiseks vajuta OK."
 
 msgid ""
-"Your frontprocessor will be upgraded\n"
-"Please wait until your receiver reboots\n"
-"This may take a few minutes"
-msgstr ""
-
-msgid ""
 "Your internet connection is not working!\n"
 "Please choose what you want to do next."
 msgstr ""
@@ -6086,12 +5952,6 @@ msgstr "Nimi (soovi korral):"
 msgid "Your network configuration has been activated."
 msgstr "Võrguseadistus on aktiveeritud."
 
-msgid "Your receiver is rebooting"
-msgstr ""
-
-msgid "Your receiver is shutting down"
-msgstr ""
-
 msgid ""
 "Your wireless LAN internet connection could not be started!\n"
 "Have you attached your USB WLAN Stick?\n"
@@ -6102,12 +5962,6 @@ msgstr ""
 "Kas WLAN USB pulk on ühendatud?\n"
 "\n"
 "Vali, mida soovid teha edasi."
-
-msgid "Zap"
-msgstr ""
-
-msgid "Zap PIG"
-msgstr ""
 
 msgid "Zap back to previously tuned service?"
 msgstr "Tagasi vaadatud kanalile?"
@@ -7031,14 +6885,8 @@ msgstr ""
 msgid "tuner is not supported"
 msgstr "tuuner pole toetatud"
 
-msgid "unavailable"
-msgstr "pole saadaval"
-
 msgid "unconfirmed"
 msgstr "kinnitamata"
-
-msgid "undefined"
-msgstr ""
 
 msgid "unknown"
 msgstr "tundmatu"
@@ -7124,36 +6972,6 @@ msgstr "vahetatud"
 
 #~ msgid " sec"
 #~ msgstr " sek"
-
-#~ msgid "#000000"
-#~ msgstr "#000000"
-
-#~ msgid "#0064c7"
-#~ msgstr "#0064c7"
-
-#~ msgid "#25062748"
-#~ msgstr "#25062748"
-
-#~ msgid "#389416"
-#~ msgstr "#389416"
-
-#~ msgid "#80000000"
-#~ msgstr "#80000000"
-
-#~ msgid "#80ffffff"
-#~ msgstr "#80ffffff"
-
-#~ msgid "#bab329"
-#~ msgstr "#bab329"
-
-#~ msgid "#f23d21"
-#~ msgstr "#f23d21"
-
-#~ msgid "#ffffff"
-#~ msgstr "#ffffff"
-
-#~ msgid "#ffffffff"
-#~ msgstr "#ffffffff"
 
 #~ msgid "%i ms"
 #~ msgstr "%i ms"
@@ -7362,9 +7180,6 @@ msgstr "vahetatud"
 #~ "Parajasti toimub teise filmi lõikamine .\n"
 #~ "Filmi \"%s\" lõikamine taustal algab pärast seda."
 
-#~ msgid "April"
-#~ msgstr "Aprill"
-
 #~ msgid ""
 #~ "Are you sure you want to save this network mount?\n"
 #~ "\n"
@@ -7393,9 +7208,6 @@ msgstr "vahetatud"
 #~ msgstr ""
 #~ "AudoSync muudab heli viidet väljundis (Bitstream / PCM) nii, et see on "
 #~ "sünkroonis pildiga."
-
-#~ msgid "August"
-#~ msgstr "August"
 
 #~ msgid "Australia"
 #~ msgstr "Austraalia"
@@ -7737,9 +7549,6 @@ msgstr "vahetatud"
 #~ msgid "Daily automatic import"
 #~ msgstr "Automaatne EPG import iga päev"
 
-#~ msgid "December"
-#~ msgstr "Detsember"
-
 #~ msgid "Decrease delay"
 #~ msgstr "Vähenda viidet"
 
@@ -8010,9 +7819,6 @@ msgstr "vahetatud"
 #~ "FTPBrowser võimaldab failide vahendust vastuvõtja ja serveri vahel, "
 #~ "kasutades failivahenduse protokolli FTP."
 
-#~ msgid "February"
-#~ msgstr "Veebruar"
-
 #~ msgid "Fetching feed entries"
 #~ msgstr "Fiidide sisestuste võtmine"
 
@@ -8272,17 +8078,8 @@ msgstr "vahetatud"
 #~ msgid "Italy"
 #~ msgstr "Itaalia"
 
-#~ msgid "January"
-#~ msgstr "Jaanuar"
-
 #~ msgid "Japan"
 #~ msgstr "Jaapan"
-
-#~ msgid "July"
-#~ msgstr "Juuli"
-
-#~ msgid "June"
-#~ msgstr "Juuni"
 
 #~ msgid "Kerni's BrushedAlu-HD skin"
 #~ msgstr "Kerni's BrushedAlu-HD välimus"
@@ -8401,9 +8198,6 @@ msgstr "vahetatud"
 #~ msgid "Manual"
 #~ msgstr "Käsitsi"
 
-#~ msgid "March"
-#~ msgstr "MÃ¤rts"
-
 #~ msgid "Match Timespan: %02d:%02d - %02d:%02d"
 #~ msgstr "Vastab ajavahemikuga: %02d:%02d - %02d:%02d"
 
@@ -8422,9 +8216,6 @@ msgstr "vahetatud"
 #~ msgstr ""
 #~ "Suurim sobiv saate kestus. Kui saade on pikem kui see ajavahemik (ilma "
 #~ "seatud eranditeta), see ei sobi."
-
-#~ msgid "May"
-#~ msgstr "Mai"
 
 #~ msgid ""
 #~ "MediaScanner scans devices for playable media files and displays a menu "
@@ -8763,9 +8554,6 @@ msgstr "vahetatud"
 #~ msgid "Not fetching feed entries"
 #~ msgstr "Otsingut ei toimu"
 
-#~ msgid "November"
-#~ msgstr "November"
-
 #~ msgid "Number of scheduled recordings left."
 #~ msgstr "Järgijäänud määratud salvestuste arv."
 
@@ -9006,9 +8794,6 @@ msgstr "vahetatud"
 #~ msgid "Relevance"
 #~ msgstr "Asjakohasus"
 
-#~ msgid "Remember service PIN cancel"
-#~ msgstr "Ãra mÃ¤leta kanali PIN-i"
-
 #
 #~ msgid "Remove directory from Bookmarks"
 #~ msgstr "Eemalda kataloog lemmikutest"
@@ -9168,9 +8953,6 @@ msgstr "vahetatud"
 
 #~ msgid "Select your choice."
 #~ msgstr "Tee oma valik."
-
-#~ msgid "September"
-#~ msgstr "September"
 
 #~ msgid "Server IP"
 #~ msgstr "Serveri IP"
@@ -10080,6 +9862,9 @@ msgstr "vahetatud"
 
 #~ msgid "show second selected tag"
 #~ msgstr "näita teine valitud märksõna"
+
+#~ msgid "unavailable"
+#~ msgstr "pole saadaval"
 
 #~ msgid "use as HDD replacement"
 #~ msgstr "kasuta HDD asenduseks"

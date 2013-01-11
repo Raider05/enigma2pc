@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enigma2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-24 23:40+0100\n"
+"POT-Creation-Date: 2012-03-08 20:34+0100\n"
 "PO-Revision-Date: 2012-03-07 22:15+0330\n"
 "Last-Translator: Persian Prince <persianprince@persianpros.com>\n"
 "Language-Team: Persian Professionals <persianpros@yahoo.com>\n"
@@ -190,7 +190,7 @@ msgstr "%ساعت:%دقیقه"
 #, python-format
 msgid "%d hour"
 msgid_plural "%d hours"
-msgstr[0] "%d Ø³Ø§Ø¹Øª"
+msgstr[0] ""
 
 #, python-format
 msgid "%d jobs are running in the background!"
@@ -203,7 +203,7 @@ msgstr "%d دقیقه"
 #, python-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] "%d Ø¯ÙÛÙÙ"
+msgstr[0] ""
 
 #, python-format
 msgid "%d minutes"
@@ -212,7 +212,7 @@ msgstr ""
 #, python-format
 msgid "%d second"
 msgid_plural "%d seconds"
-msgstr[0] "%d Ø«Ø§ÙÛÙ"
+msgstr[0] ""
 
 #, python-format
 msgid "%d services found!"
@@ -220,10 +220,6 @@ msgstr "%d کانال یافت شد"
 
 msgid "%d.%B %Y"
 msgstr "%d.%B %Y"
-
-#. TRANSLATORS: VFD hour:minute daynum short monthname in strftime() format! See 'man strftime'
-msgid "%k:%M %e/%m"
-msgstr ""
 
 #, python-format
 msgid "%s (%s)\n"
@@ -599,12 +595,6 @@ msgstr "همه"
 msgid "All Satellites"
 msgstr "همه ماهواره ها"
 
-msgid "Allocate"
-msgstr "Ø§Ø®ØªØµØ§Øµ Ø¯Ø§Ø¯Ù"
-
-msgid "Allocate unused memory index"
-msgstr ""
-
 msgid "Allow Subtitle equals Audio mask"
 msgstr ""
 
@@ -637,6 +627,9 @@ msgid "Anonymize crashlog?"
 msgstr "ناشناس کردن گزارش خطای دستگاه ؟"
 
 msgid "Any activity"
+msgstr ""
+
+msgid "April"
 msgstr ""
 
 msgid "Arabic"
@@ -715,6 +708,9 @@ msgstr ""
 msgid "Audio language selection 4"
 msgstr ""
 
+msgid "August"
+msgstr ""
+
 msgid "Author: "
 msgstr "مولف:"
 
@@ -781,7 +777,7 @@ msgid "Background delete option"
 msgstr ""
 
 msgid "Background delete speed"
-msgstr "Ø³Ø±Ø¹Øª Ø­Ø°Ù Ù¾Ø³ Ø²ÙÛÙÙ"
+msgstr ""
 
 msgid "Backup"
 msgstr "نسخه پشتیبان"
@@ -836,10 +832,10 @@ msgid "Bitrate:"
 msgstr "میزان ارسال"
 
 msgid "Black screen"
-msgstr "ØµÙØ­Ù ÙÙØ§ÛØ´ Ø³ÛØ§Ù"
+msgstr ""
 
 msgid "Black screen till locked"
-msgstr "ØµÙØ­Ù ÙÙØ§ÛØ´ Ø³ÛØ§Ù ØªØ§ Ø²ÙØ§ÙÛ Ú©Ù ÙÙÙ Ø´ÙØ¯"
+msgstr ""
 
 #
 msgid "Block noise reduction"
@@ -900,9 +896,6 @@ msgstr ""
 msgid "Cache Thumbnails"
 msgstr "ذخیره کردن عکس های کوچک"
 
-msgid "Calculate"
-msgstr ""
-
 msgid "Calculate all positions"
 msgstr ""
 
@@ -934,7 +927,7 @@ msgid "Card"
 msgstr "کارت"
 
 msgid "Centered DVB subtitles"
-msgstr "Ø²ÛØ±ÙÙÛØ³ ÙØ³Ø· DVB"
+msgstr ""
 
 msgid "Change bouquets in quickzap"
 msgstr "تغییر لیست در جابجایی سریع کانال"
@@ -1098,9 +1091,6 @@ msgstr "ارتباط"
 msgid "Compact Flash"
 msgstr "فلش فشرده"
 
-msgid "Compatibilty Mode"
-msgstr "Ø­Ø§ÙØª Ø³Ø§Ø²Ú¯Ø§Ø±Û"
-
 msgid "Complete"
 msgstr "کامل"
 
@@ -1112,9 +1102,6 @@ msgstr "ترکیب نام های فایل های ضبط"
 
 msgid "Configuration Mode"
 msgstr "حالت پیکربندی"
-
-msgid "Configuration mode: "
-msgstr "Ø­Ø§ÙØª Ù¾ÛÚ©Ø±Ø¨ÙØ¯Û: "
 
 msgid "Configure interface"
 msgstr "رابط مشترک"
@@ -1313,23 +1300,11 @@ msgstr "DVD دو لایه"
 msgid "DVB subtitle black transparency"
 msgstr ""
 
-msgid "DVB-C"
-msgstr "DVB-C"
-
-msgid "DVB-C ANNEX C"
-msgstr "DVB-C ANNEX C"
-
 msgid "DVB-S"
 msgstr "DVB-S"
 
 msgid "DVB-S2"
 msgstr "DVB-S2"
-
-msgid "DVB-T"
-msgstr "DVB-T"
-
-msgid "DVB-T2"
-msgstr "DVB-T2"
 
 #
 msgid "DVD File Browser"
@@ -1342,7 +1317,7 @@ msgid "DVD Titlelist"
 msgstr "لیست عنوان DVD"
 
 msgid "DVD data format"
-msgstr "ÙØ±ÙØª Ø§Ø·ÙØ§Ø¹Ø§Øª DVD"
+msgstr ""
 
 msgid "DVD media toolbox"
 msgstr "جعبه ابزار رسانه DVD"
@@ -1353,8 +1328,8 @@ msgstr "دانمارکی"
 msgid "Date"
 msgstr "تاریخ"
 
-msgid "Date/Time"
-msgstr "ØªØ§Ø±ÛØ®/Ø²ÙØ§Ù"
+msgid "December"
+msgstr ""
 
 msgid "Decide if you want to enable or disable the Cleanup Wizard."
 msgstr "تصمیم بگیرید که آیا میخواهید هدایتگر پاک ساز فعال شود یا غیر فعال"
@@ -1478,11 +1453,8 @@ msgstr "غیر فعال"
 msgid "Disable Picture in Picture"
 msgstr "غیر فعال کردن تصویر در تصویر"
 
-msgid "Disable Selecting Expired Events"
-msgstr "ØºÛØ± ÙØ¹Ø§Ù Ú©Ø±Ø¯Ù Ø§ÙØªØ®Ø§Ø¨ Ø±Ø®Ø¯Ø§Ø¯ ÙØ§Û ØªÙØ§Ù Ø´Ø¯Ù"
-
 msgid "Disable background scanning"
-msgstr "ØºÛØ± ÙØ¹Ø§Ù Ú©Ø±Ø¯Ù Ø§Ø³Ú©Ù Ú©Ø±Ø¯Ù Ø¯Ø± Ù¾Ø³ Ø²ÙÛÙÙ"
+msgstr ""
 
 #
 msgid "Disable crashlog reporting"
@@ -1717,9 +1689,6 @@ msgstr "ویرایش"
 msgid "Edit DNS"
 msgstr "ویرایش DNS"
 
-msgid "Edit Search Title"
-msgstr "ÙÛØ±Ø§ÛØ´ Ø¹ÙÙØ§Ù Ø¬Ø³ØªØ¬Ù"
-
 msgid "Edit Title"
 msgstr "ویرایش عنوان"
 
@@ -1769,9 +1738,6 @@ msgstr ""
 
 msgid "Enable Netmed EPG"
 msgstr ""
-
-msgid "Enable Picon"
-msgstr "ÙØ¹Ø§Ù Ú©Ø±Ø¯Ù Ù¾ÛÚ©ÙÙ"
 
 msgid "Enable ViaSat EPG"
 msgstr ""
@@ -1851,7 +1817,7 @@ msgid "Error"
 msgstr "خطا"
 
 msgid "Error code"
-msgstr "Ú©Ø¯ Ø®Ø·Ø§"
+msgstr ""
 
 msgid "Error executing plugin"
 msgstr "خطا هنگام اجرای پلاگین"
@@ -1871,16 +1837,7 @@ msgstr "استونیایی"
 msgid "Ethernet network interface"
 msgstr "رابط شبکه Ethernet"
 
-msgid "Event"
-msgstr ""
-
-msgid "Event Fontsize"
-msgstr ""
-
 msgid "Event Fontsize (relative to skin size)"
-msgstr ""
-
-msgid "Event Info"
 msgstr ""
 
 msgid "Eventview"
@@ -1890,9 +1847,6 @@ msgid "Eventview menu"
 msgstr ""
 
 msgid "Everywhere"
-msgstr ""
-
-msgid "Exact Search"
 msgstr ""
 
 msgid "Exceeds dual layer medium!"
@@ -1965,7 +1919,7 @@ msgstr "بازگشت به حالت کارخانه ای"
 msgid "Failed"
 msgstr "ناموفق"
 
-msgid "Failed to write /tmp/positionersetup.log: "
+msgid "Failed to write /tmp/positionersetup.log:str"
 msgstr ""
 
 #, python-format
@@ -1999,6 +1953,9 @@ msgstr "epoch سریع"
 
 msgid "Favourites"
 msgstr "محبوب"
+
+msgid "February"
+msgstr ""
 
 msgid "File appears to be busy.\n"
 msgstr ""
@@ -2230,9 +2187,6 @@ msgstr "شبکه مخفی"
 msgid "Hide CI messages"
 msgstr ""
 
-msgid "Hide Expired Title"
-msgstr ""
-
 msgid "Hide zap errors"
 msgstr ""
 
@@ -2259,7 +2213,7 @@ msgid "Horizontal"
 msgstr "افقی"
 
 msgid "Horizontal turning speed"
-msgstr "Ø³Ø±Ø¹Øª ÚØ±Ø®Ø´ Ø§ÙÙÛ"
+msgstr ""
 
 msgid "How many minutes do you want to record?"
 msgstr "چند دقیقه میخواهید ضبط کنید؟"
@@ -2272,9 +2226,6 @@ msgstr "رنگ"
 
 msgid "Hungarian"
 msgstr "مجارستانی"
-
-msgid "IMDB"
-msgstr "IMDB"
 
 msgid "IP Address"
 msgstr "IP آدرس"
@@ -2338,9 +2289,6 @@ msgstr "ولتاژ افزایش یافته"
 msgid "Index"
 msgstr "صفحه اصلی"
 
-msgid "Index allocated:"
-msgstr ""
-
 msgid "Info"
 msgstr "اطلاعات"
 
@@ -2364,16 +2312,16 @@ msgstr "آماده سازی سرعت پرش به عقب"
 
 #
 msgid "Initial location in new timers"
-msgstr "Ø¢ÙØ§Ø¯Ù Ø³Ø§Ø²Û ÙÚ©Ø§Ù Ø¯Ø± Ø²ÙØ§Ù ÙØ§Û Ø¬Ø¯ÛØ¯"
+msgstr ""
 
 msgid "Initial lock ratio"
 msgstr ""
 
 msgid "Initial signal quality"
-msgstr "Ø¢ÙØ§Ø¯Ù Ø³Ø§Ø²Û Ú©ÛÙÛØª Ø³ÛÚ¯ÙØ§Ù"
+msgstr ""
 
 msgid "Initial signal quality:"
-msgstr "Ø¢ÙØ§Ø¯Ù Ø³Ø§Ø²Û Ú©ÛÙÛØª Ø³ÛÚ¯ÙØ§Ù:"
+msgstr ""
 
 msgid "Initialization"
 msgstr ""
@@ -2454,7 +2402,7 @@ msgid "Internal Flash"
 msgstr "فلش داخلی"
 
 msgid "Internal hdd only"
-msgstr "ÙÙØ· ÙØ§Ø±Ø¯ Ø¯Ø§Ø®ÙÛ"
+msgstr ""
 
 msgid "Interval between keys when repeating:"
 msgstr ""
@@ -2497,12 +2445,6 @@ msgstr ""
 
 msgid "June"
 msgstr ""
-
-msgid "Jump to First Service"
-msgstr "Ù¾Ø±Ø´ Ø¨Ù Ø§ÙÙÛÙ Ú©Ø§ÙØ§Ù"
-
-msgid "Jump to Last Service"
-msgstr "Ù¾Ø±Ø´ Ø¨Ù Ø¢Ø®Ø±ÛÙ Ú©Ø§ÙØ§Ù"
 
 #. TRANSLATORS: (aspect ratio policy: display as fullscreen, even if this breaks the aspect)
 msgid "Just Scale"
@@ -2577,7 +2519,7 @@ msgid "Letterbox"
 msgstr "Letterbox"
 
 msgid "Letzeburgesch"
-msgstr "Letzeburgesch"
+msgstr ""
 
 msgid "Limit east"
 msgstr "محدودیت شرق"
@@ -2590,10 +2532,10 @@ msgid "Limited character set for recording filenames"
 msgstr ""
 
 msgid "Limits cancelled"
-msgstr "ÙØ­Ø¯ÙØ¯ÛØª ÙØ§ ÙØºÙ Ø´Ø¯ÙØ¯"
+msgstr ""
 
 msgid "Limits enabled"
-msgstr "ÙØ­Ø¯ÙØ¯ÛØª ÙØ§ ÙØ¹Ø§Ù Ø´Ø¯ÙØ¯"
+msgstr ""
 
 msgid "Limits off"
 msgstr "خاموش کردن محدودیت"
@@ -2704,6 +2646,9 @@ msgstr "ترانسپوندر دستی"
 msgid "Manufacturer"
 msgstr "تولید کننده"
 
+msgid "March"
+msgstr ""
+
 msgid "Margin after record"
 msgstr ""
 
@@ -2712,6 +2657,9 @@ msgstr ""
 
 #
 msgid "Max. Bitrate: "
+msgstr ""
+
+msgid "May"
 msgstr ""
 
 msgid "Media player"
@@ -2734,9 +2682,6 @@ msgstr ""
 
 msgid "Menu"
 msgstr "منو"
-
-msgid "Merge Short/Long Descriptions"
-msgstr "Ø§Ø¯ØºØ§Ù ØªÙØ¶ÛØ­Ø§Øª Ú©ÙØªØ§Ù/Ø¨ÙÙØ¯"
 
 msgid "Message"
 msgstr "پیام"
@@ -2945,9 +2890,6 @@ msgstr "نسخه جدید:"
 msgid "Next"
 msgstr "بعدی"
 
-msgid "Next Bouquet"
-msgstr "ÙÛØ³Øª Ú©Ø§ÙØ§Ù Ø¨Ø¹Ø¯Û"
-
 msgid "No"
 msgstr "خیر"
 
@@ -2989,7 +2931,9 @@ msgid "No event info found, recording indefinitely."
 msgstr ""
 
 #
-msgid "No fast winding possible yet.. but you can use the number buttons to skip forward/backward!"
+msgid ""
+"No fast winding possible yet.. but you can use the number buttons to skip "
+"forward/backward!"
 msgstr ""
 
 msgid "No free tuner!"
@@ -3057,19 +3001,22 @@ msgstr "هیچ شبکه بدون سیمی یافت نشد ، در حال جست�
 #
 msgid ""
 "No working local network adapter found.\n"
-"Please verify that you have attached a network cable and your network is configured correctly."
+"Please verify that you have attached a network cable and your network is "
+"configured correctly."
 msgstr ""
 
 #
 msgid ""
 "No working wireless network adapter found.\n"
-"Please verify that you have attached a compatible WLAN device and your network is configured correctly."
+"Please verify that you have attached a compatible WLAN device and your "
+"network is configured correctly."
 msgstr ""
 
 #
 msgid ""
 "No working wireless network interface found.\n"
-" Please verify that you have attached a compatible WLAN device or enable your local network interface."
+" Please verify that you have attached a compatible WLAN device or enable "
+"your local network interface."
 msgstr ""
 
 msgid "No, but restart from begin"
@@ -3126,10 +3073,16 @@ msgstr ""
 msgid "Nothing to upgrade"
 msgstr ""
 
+msgid "November"
+msgstr ""
+
 msgid "Now Playing"
 msgstr "در حال پخش"
 
-msgid "Now, use the contrast setting to turn up the brightness of the background as much as possible, but make sure that you can still see the difference between the two brightest levels of shades.If you have done that, press OK."
+msgid ""
+"Now, use the contrast setting to turn up the brightness of the background as "
+"much as possible, but make sure that you can still see the difference "
+"between the two brightest levels of shades.If you have done that, press OK."
 msgstr ""
 
 msgid "OK"
@@ -3157,6 +3110,9 @@ msgstr ""
 msgid "OSD visibility"
 msgstr "OSD پدیداری"
 
+msgid "October"
+msgstr ""
+
 msgid "Off"
 msgstr "خاموش"
 
@@ -3168,9 +3124,6 @@ msgstr ""
 
 msgid "On"
 msgstr "روشن"
-
-msgid "On Bouquet Switch goto first service"
-msgstr ""
 
 msgid "One"
 msgstr "یک"
@@ -3236,18 +3189,6 @@ msgstr "مدیریت بسته های نرم افزاری"
 msgid "Packet manager"
 msgstr "مدیریت بسته های نرم افزاری"
 
-msgid "Page Down"
-msgstr "ØµÙØ­Ù Ù¾Ø§ÛÛÙ"
-
-msgid "Page Left"
-msgstr "ØµÙØ­Ù ÚÙ¾"
-
-msgid "Page Right"
-msgstr "ØµÙØ­Ù Ø±Ø§Ø³Øª"
-
-msgid "Page Up"
-msgstr "ØµÙØ­Ù Ø¨Ø§ÙØ§"
-
 #. TRANSLATORS: (aspect ratio policy: cropped content on left/right) in doubt, keep english term
 msgid "Pan&Scan"
 msgstr "Pan&Scan"
@@ -3267,9 +3208,6 @@ msgstr "تنظیمات کنترل والدین"
 msgid "Parental control type"
 msgstr "نوع کنترل والدین"
 
-msgid "Partial Search"
-msgstr "Ø¬Ø³ØªØ¬ÙÛ Ø¬Ø²Ø¦Û"
-
 #
 msgid "Password"
 msgstr "رمز عبور"
@@ -3281,7 +3219,7 @@ msgid "Permanently delete all recordings in the trash can?"
 msgstr ""
 
 msgid "Permanently remove all deleted items"
-msgstr "Ø­Ø°Ù ØªÙØ§ÙÛ ÙÙØ§Ø±Ø¯ Ø­Ø°Ù Ø´Ø¯Ù Ø¨Ù ØµÙØ±Øª Ø¯Ø§Ø¦ÙÛ"
+msgstr ""
 
 msgid "Persian"
 msgstr "فارسی"
@@ -3320,7 +3258,7 @@ msgid "Play Music..."
 msgstr "پخش موسیقی"
 
 msgid "Play audio in background"
-msgstr "Ù¾Ø®Ø´ ØµØ¯Ø§ Ø¯Ø± Ù¾Ø³ Ø²ÙÛÙÙ"
+msgstr ""
 
 msgid "Play next"
 msgstr ""
@@ -3337,7 +3275,9 @@ msgstr "لطفا یک رسانه را برای اسکن انتخاب کنید"
 msgid "Please add titles to the compilation."
 msgstr ""
 
-msgid "Please be aware, that anyone can disable the parental control, if you have not set a PIN."
+msgid ""
+"Please be aware, that anyone can disable the parental control, if you have "
+"not set a PIN."
 msgstr ""
 
 msgid "Please change recording endtime"
@@ -3357,13 +3297,15 @@ msgstr "لطفا لیست های پیش فرض مورد نظر خود را بر�
 
 #
 msgid ""
-"Please configure or verify your Nameservers by filling out the required values.\n"
+"Please configure or verify your Nameservers by filling out the required "
+"values.\n"
 "When you are ready press OK to continue."
 msgstr ""
 
 #
 msgid ""
-"Please configure your internet connection by filling out the required values.\n"
+"Please configure your internet connection by filling out the required "
+"values.\n"
 "When you are ready press OK to continue."
 msgstr ""
 
@@ -3444,7 +3386,8 @@ msgstr "لطفا مسیر فیلم را انتخاب کنید"
 
 #
 msgid ""
-"Please select the network interface that you want to use for your internet connection.\n"
+"Please select the network interface that you want to use for your internet "
+"connection.\n"
 "\n"
 "Please press OK to continue."
 msgstr ""
@@ -3471,8 +3414,10 @@ msgid ""
 "Press OK to go back to the TV mode or EXIT to cancel the moving."
 msgstr ""
 
-msgid "Please use the UP and DOWN keys to select your language. Afterwards press the OK button."
-msgstr "ÙØ·ÙØ§ Ø§Ø² Ú©ÙÛØ¯ ÙØ§Û Ø¨Ø§ÙØ§ Ù Ù¾Ø§ÛÛÙ Ø¨Ø±Ø§Û Ø§ÙØªØ®Ø§Ø¨ Ø²Ø¨Ø§Ù Ø®ÙØ¯ Ø§Ø³ØªÙØ§Ø¯Ù Ú©ÙÛØ¯ Ø Ø³Ù¾Ø³ Ø¯Ú©ÙÙ OK Ø±Ø§ ÙØ´Ø§Ø± Ø¯ÙÛØ¯"
+msgid ""
+"Please use the UP and DOWN keys to select your language. Afterwards press "
+"the OK button."
+msgstr ""
 
 #
 msgid "Please wait for activation of your network configuration..."
@@ -3642,9 +3587,6 @@ msgstr "پیش نمایش"
 msgid "Preview menu"
 msgstr "منوی قبلی"
 
-msgid "Previous Bouquet"
-msgstr "ÙÛØ³Øª ÙØ¨ÙÛ"
-
 msgid "Primary DNS"
 msgstr "DNS اول"
 
@@ -3679,10 +3621,10 @@ msgid "Providers"
 msgstr "ارائه کنندگان"
 
 msgid "Put TV in standby"
-msgstr "ÙØ±Ø§Ø± Ø¯Ø§Ø¯Ù ØªÙÙØ²ÛÙÙ Ø¯Ø± Ø®Ø§ÙÙØ´Û ÙÙÙØª"
+msgstr ""
 
 msgid "Put receiver in standby"
-msgstr "ÙØ±Ø§Ø± Ø¯Ø§Ø¯Ù Ø¯Ø³ØªÚ¯Ø§Ù Ø¯Ø± Ø®Ø§ÙÙØ´Û ÙÙÙØª"
+msgstr ""
 
 msgid "Python frontend for /tmp/mmi.socket"
 msgstr "Python frontend برای /tmp/mmi.socket"
@@ -3726,17 +3668,11 @@ msgstr "راه اندازی مجدد هم اکنون؟"
 msgid "Really shutdown now?"
 msgstr "خاموش کردن هم اکنون؟"
 
-msgid "Really upgrade the frontprocessor and reboot now?"
-msgstr ""
-
-msgid "Really upgrade your settop box and reboot now?"
-msgstr ""
-
 msgid "Reboot"
 msgstr "راه اندازی مجدد"
 
 msgid "Rec"
-msgstr "Ø¶Ø¨Ø·"
+msgstr ""
 
 msgid "Reception Settings"
 msgstr "تنظیمات دریافت"
@@ -3982,9 +3918,6 @@ msgstr ""
 msgid "Rotor turning speed"
 msgstr "سرعت چرخش موتور"
 
-msgid "Round Start Time To"
-msgstr ""
-
 msgid "Round start time on"
 msgstr ""
 
@@ -4049,9 +3982,6 @@ msgstr "ذخیره"
 
 msgid "Save Playlist"
 msgstr "ذخیره لیست پخش"
-
-msgid "Scale Picon"
-msgstr ""
 
 #
 msgid "Scaler sharpness"
@@ -4129,7 +4059,9 @@ msgstr "اسکن باند US MID"
 msgid "Scan band US SUPER"
 msgstr "اسکن باند US SUPER"
 
-msgid "Scan your network for wireless access points and connect to them using your selected wireless device.\n"
+msgid ""
+"Scan your network for wireless access points and connect to them using your "
+"selected wireless device.\n"
 msgstr ""
 
 #, python-format
@@ -4146,11 +4078,9 @@ msgstr ""
 msgid "Scanning..."
 msgstr ""
 
-msgid "Scans default lamedbs sorted by satellite with a connected dish positioner"
+msgid ""
+"Scans default lamedbs sorted by satellite with a connected dish positioner"
 msgstr ""
-
-msgid "Search"
-msgstr "Ø¬Ø³ØªØ¬Ù"
 
 msgid "Search east"
 msgstr "جستجوی شرق"
@@ -4262,6 +4192,9 @@ msgstr "ارسال DiSEqC فقط هنگام تغییر ماهواره"
 msgid "Seperate titles with a main menu"
 msgstr "جدا کردن عناوین با یک منوی اصلی"
 
+msgid "September"
+msgstr ""
+
 msgid "Sequence repeat"
 msgstr "تکرار دنباله"
 
@@ -4320,7 +4253,7 @@ msgid "Set End Time"
 msgstr "تنظیم زمان پایان"
 
 msgid "Set Limits"
-msgstr "ØªÙØ¸ÛÙ ÙØ­Ø¯ÙØ¯ÛØª ÙØ§"
+msgstr ""
 
 #
 msgid "Set Voltage and 22KHz"
@@ -4365,11 +4298,13 @@ msgid "Setup menu"
 msgstr ""
 
 msgid "Setup your positioner"
-msgstr "ØªÙØ¸ÛÙ ÙÚ©Ø§Ù ÛØ§Ø¨ Ø´ÙØ§"
+msgstr ""
 
 #
 #, python-format
-msgid "Shall the USB stick wizard proceed and program the image file %s into flash memory?"
+msgid ""
+"Shall the USB stick wizard proceed and program the image file %s into flash "
+"memory?"
 msgstr ""
 
 #
@@ -4380,7 +4315,7 @@ msgid "Short filenames"
 msgstr "نام های کوتاه فایل"
 
 msgid "Show EIT now/next in infobar"
-msgstr "ÙÙØ§ÛØ´ EIT Ø§ÙØ§Ù/Ø¨Ø¹Ø¯Û Ø¯Ø± ÙÙØ§Ø± Ø§Ø·ÙØ§Ø¹Ø§Øª"
+msgstr ""
 
 msgid "Show Info"
 msgstr "نمایش اطلاعات"
@@ -4395,9 +4330,6 @@ msgstr ""
 msgid "Show Service Names "
 msgstr ""
 
-msgid "Show Service Title"
-msgstr "ÙÙØ§ÛØ´ Ø¹ÙÙØ§Ù Ú©Ø§ÙØ§Ù"
-
 msgid "Show WLAN Status"
 msgstr "نمایش وضعیت شبکه بدون سیم"
 
@@ -4405,7 +4337,7 @@ msgid "Show animation while busy"
 msgstr ""
 
 msgid "Show background in Radio Mode"
-msgstr "ÙÙØ§ÛØ´ ØªØµÙÛØ± Ù¾Ø³ Ø²ÙÛÙÙ Ø¯Ø± Ø­Ø§ÙØª Ø±Ø§Ø¯ÛÙ"
+msgstr ""
 
 msgid "Show bouquet selection menu"
 msgstr ""
@@ -4414,10 +4346,10 @@ msgid "Show channel numbers in channel selection"
 msgstr ""
 
 msgid "Show crypto info in infobar"
-msgstr "ÙÙØ§ÛØ´ Ø§Ø·ÙØ§Ø¹Ø§Øª Ú©Ø¯ Ú¯Ø°Ø§Ø±Û Ø¯Ø± ÙÙØ§Ø± Ø§Ø·ÙØ§Ø¹Ø§Øª"
+msgstr ""
 
 msgid "Show detailed event info"
-msgstr "ÙÙØ§ÛØ´ Ø§Ø·ÙØ§Ø¹Ø§Øª ÙÙØ±Ø§Ù Ø¬Ø²Ø¦ÛØ§Øª Ø±Ø®Ø¯Ø§Ø¯"
+msgstr ""
 
 #
 msgid "Show event-progress in channel selection"
@@ -4439,7 +4371,7 @@ msgid "Show positioner movement"
 msgstr "نمایش گردش مکان یاب"
 
 msgid "Show second infobar"
-msgstr "ÙÙØ§ÛØ´ ÙÙØ§Ø± Ø§Ø·ÙØ§Ø¹Ø§Øª Ø¯ÙÙ"
+msgstr ""
 
 msgid "Show services beginning with"
 msgstr "نمایش کانال های که شروع میشوند با"
@@ -4463,7 +4395,7 @@ msgid "Shutdown Dreambox after"
 msgstr "خاموش کردن کامل دستگاه بعد از"
 
 msgid "Side by Side"
-msgstr "Ù¾ÙÙÙ Ø¨Ù Ù¾ÙÙÙ"
+msgstr ""
 
 msgid "Signal OK, proceeding"
 msgstr ""
@@ -4481,9 +4413,6 @@ msgstr "سیگنال:"
 
 msgid "Similar"
 msgstr "شبیه"
-
-msgid "Similar Broadcast Search"
-msgstr ""
 
 msgid "Similar broadcasts:"
 msgstr ""
@@ -4523,10 +4452,7 @@ msgid "Skins"
 msgstr "اسکین ها"
 
 msgid "Skip Empty Services"
-msgstr "ÙØ§Ø¯ÛØ¯Ù Ú¯Ø±ÙØªÙ Ú©Ø§ÙØ§Ù ÙØ§Û Ø®Ø§ÙÛ"
-
-msgid "Skip Empty Services (may need restart)"
-msgstr "ÙØ§Ø¯ÛØ¯Ù Ú¯Ø±ÙØªÙ Ú©Ø§ÙØ§Ù ÙØ§Û Ø®Ø§ÙÛ (ÙÙÚ©Ù Ø§Ø³Øª Ø¨Ù Ø±Ø§Ù Ø§ÙØ¯Ø§Ø²Û ÙØ¬Ø¯Ø¯ ÙÛØ§Ø² Ø¯Ø§Ø´ØªÙ Ø¨Ø§Ø´Ø¯)"
+msgstr ""
 
 msgid "Sleep Timer"
 msgstr "زمان خواب"
@@ -4616,7 +4542,7 @@ msgstr ""
 "لطفا محل دیگری را انتخاب کنید"
 
 msgid "Sort"
-msgstr "ÚÛØ¯Ù"
+msgstr ""
 
 #. TRANSLATORS: This must fit into the header button in the EPG-List
 msgid "Sort A-Z"
@@ -4633,7 +4559,7 @@ msgid "Soundcarrier"
 msgstr "حمل کننده صدا"
 
 msgid "Source request"
-msgstr "Ø¯Ø±Ø®ÙØ§Ø³Øª ÙÙØ¨Ø¹"
+msgstr ""
 
 msgid "South"
 msgstr "جنوب"
@@ -4706,7 +4632,7 @@ msgid "Stop playing this movie?"
 msgstr "توقف پخش این فیلم؟"
 
 msgid "Stop recording"
-msgstr "ØªÙÙÙ Ø¶Ø¨Ø· Ú©Ø±Ø¯Ù"
+msgstr ""
 
 msgid "Stop recording and delete"
 msgstr ""
@@ -4723,7 +4649,7 @@ msgid "Stop testing plane after # successful transponders"
 msgstr ""
 
 msgid "Stopped"
-msgstr "ÙØªÙÙÙ Ø´Ø¯Ù"
+msgstr ""
 
 msgid "Store at index"
 msgstr ""
@@ -4738,7 +4664,7 @@ msgid "Stream request"
 msgstr ""
 
 msgid "Strongest position"
-msgstr "ÙÙÛ ØªØ±ÛÙ ÙÚ©Ø§Ù"
+msgstr ""
 
 msgid "Subservice list..."
 msgstr "لیست کانال های فرعی"
@@ -4802,13 +4728,13 @@ msgid "Switchable tuner types:"
 msgstr "انواع تیونر های قابل تعویض:"
 
 msgid "Symbol Rate"
-msgstr "Ø³ÛÙØ¨Ù Ø±ÛØª"
+msgstr ""
 
 msgid "Symbol rate"
-msgstr "Ø³ÛÙØ¨Ù Ø±ÛØª"
+msgstr ""
 
 msgid "Symbolrate"
-msgstr "Ø³ÛÙØ¨Ù Ø±ÛØª"
+msgstr ""
 
 msgid "Sync failure moving back to origin !"
 msgstr ""
@@ -4873,9 +4799,6 @@ msgstr ""
 msgid "Text font size"
 msgstr ""
 
-msgid "Thai"
-msgstr ""
-
 msgid ""
 "Thank you for using the wizard.\n"
 "Please press OK to continue."
@@ -4890,7 +4813,10 @@ msgstr ""
 "ممنون بابت استفاده از هدایتگر ، دستگاه شما آماده برای استفاده است\n"
 "لطفا دکمه OK را برای شروع استفاده از دستگاه خود فشار دهید"
 
-msgid "The DVD standard doesn't support H.264 (HDTV) video streams. Do you want to create a Dreambox format data DVD (which will not play in stand-alone DVD players) instead?"
+msgid ""
+"The DVD standard doesn't support H.264 (HDTV) video streams. Do you want to "
+"create a Dreambox format data DVD (which will not play in stand-alone DVD "
+"players) instead?"
 msgstr ""
 
 #
@@ -4914,14 +4840,6 @@ msgstr ""
 msgid ""
 "The USB stick was prepared to be bootable.\n"
 "Now you can download an NFI image file!"
-msgstr ""
-
-msgid "The User Interface of your receiver is restarting"
-msgstr ""
-
-msgid ""
-"The User Interface of your receiver is restarting\n"
-"due to an error in mytest.py"
 msgstr ""
 
 msgid "The backup failed. Please choose a different backup location."
@@ -4998,7 +4916,9 @@ msgstr "زمان خواب فعال شد"
 msgid "The sleep timer has been disabled."
 msgstr "زمان خواب غیر فعال شد"
 
-msgid "The status of the current beta image could not be checked because www.openpli.org could not be reached for some reason"
+msgid ""
+"The status of the current beta image could not be checked because www."
+"openpli.org could not be reached for some reason"
 msgstr ""
 
 msgid "The timer file (timers.xml) is corrupt and could not be loaded."
@@ -5085,10 +5005,13 @@ msgid "This is step number 2."
 msgstr "این مرحله دوم است"
 
 msgid ""
-"This plugin creates a USB stick which can be used to update the firmware of your Dreambox without the need for a network or WLAN connection.\n"
+"This plugin creates a USB stick which can be used to update the firmware of "
+"your Dreambox without the need for a network or WLAN connection.\n"
 "First, a USB stick needs to be prepared so that it becomes bootable.\n"
-"In the next step, an NFI image file can be downloaded from the update server and saved on the USB stick.\n"
-"If you already have a prepared bootable USB stick, please insert it now. Otherwise plug in a USB stick with a minimum size of 64 MB!"
+"In the next step, an NFI image file can be downloaded from the update server "
+"and saved on the USB stick.\n"
+"If you already have a prepared bootable USB stick, please insert it now. "
+"Otherwise plug in a USB stick with a minimum size of 64 MB!"
 msgstr ""
 
 #
@@ -5111,7 +5034,8 @@ msgid ""
 "This test checks for configured Nameservers.\n"
 "If you get a \"unconfirmed\" message:\n"
 "- please check your DHCP, cabling and Adapter setup\n"
-"- if you configured your Nameservers manually please verify your entries in the \"Nameserver\" Configuration"
+"- if you configured your Nameservers manually please verify your entries in "
+"the \"Nameserver\" Configuration"
 msgstr ""
 
 msgid ""
@@ -5129,10 +5053,12 @@ msgid ""
 msgstr ""
 
 msgid ""
-"This test checks whether your LAN Adapter is set up for automatic IP Address configuration with DHCP.\n"
+"This test checks whether your LAN Adapter is set up for automatic IP Address "
+"configuration with DHCP.\n"
 "If you get a \"disabled\" message:\n"
 " - then your LAN Adapter is configured for manual IP Setup\n"
-"- verify thay you have entered correct IP informations in the AdapterSetup dialog.\n"
+"- verify thay you have entered correct IP informations in the AdapterSetup "
+"dialog.\n"
 "If you get an \"enabeld\" message:\n"
 "-verify that you have a configured and working DHCP Server in your network."
 msgstr ""
@@ -5141,7 +5067,8 @@ msgid "This test detects your configured LAN-Adapter."
 msgstr ""
 
 msgid ""
-"This will (re-)calculate all positions of your rotor and may remove previously memorised positions and fine-tuning!\n"
+"This will (re-)calculate all positions of your rotor and may remove "
+"previously memorised positions and fine-tuning!\n"
 "Are you sure?"
 msgstr ""
 
@@ -5170,21 +5097,6 @@ msgstr ""
 msgid "Time/Date Input"
 msgstr "ورودی زمان و تاریخ"
 
-msgid "Timeline 120 minutes"
-msgstr "Ø®Ø· Ø²ÙØ§Ù 120 Ø¯ÙÛÙÙ"
-
-msgid "Timeline 180 minutes"
-msgstr "Ø®Ø· Ø²ÙØ§Ù 180 Ø¯ÙÛÙÙ"
-
-msgid "Timeline 240 minutes"
-msgstr "Ø®Ø· Ø²ÙØ§Ù 240 Ø¯ÙÛÙÙ"
-
-msgid "Timeline 300 minutes"
-msgstr "Ø®Ø· Ø²ÙØ§Ù 300 Ø¯ÙÛÙÙ"
-
-msgid "Timeline 60 minutes"
-msgstr "Ø®Ø· Ø²ÙØ§Ù 60 Ø¯ÙÛÙÙ"
-
 msgid "Timer"
 msgstr "زمان"
 
@@ -5195,7 +5107,7 @@ msgid "Timer Editor"
 msgstr "ویرایشگر زمان"
 
 msgid "Timer Overview"
-msgstr "Ø¨Ø±Ø±Ø³Û Ø§Ø¬ÙØ§ÙÛ Ø²ÙØ§Ù Ø®ÙØ¯Ú©Ø§Ø±"
+msgstr ""
 
 msgid "Timer Type"
 msgstr "نوع زمان"
@@ -5246,15 +5158,17 @@ msgid "Titleset mode"
 msgstr "حالت تنظیم عنوان"
 
 msgid "To audio selection"
-msgstr "Ø¨Ø±Ø§Û Ø§ÙØªØ®Ø§Ø¨ ØµØ¯Ø§"
+msgstr ""
 
 msgid "To subtitle selection"
-msgstr "Ø¨Ø±Ø§Û Ø§ÙØªØ®Ø§Ø¨ Ø²ÛØ±ÙÙÛØ³"
+msgstr ""
 
 msgid ""
 "To update your Dreambox firmware, please follow these steps:\n"
-"1) Turn off your box with the rear power switch and make sure the bootable USB stick is plugged in.\n"
-"2) Turn mains back on and hold the DOWN button on the front panel pressed for 10 seconds.\n"
+"1) Turn off your box with the rear power switch and make sure the bootable "
+"USB stick is plugged in.\n"
+"2) Turn mains back on and hold the DOWN button on the front panel pressed "
+"for 10 seconds.\n"
 "3) Wait for bootup and follow instructions of the wizard."
 msgstr ""
 
@@ -5274,7 +5188,7 @@ msgid "Toneburst A/B"
 msgstr "Toneburst A/B"
 
 msgid "Top and Bottom"
-msgstr "Ø¨Ø§ÙØ§ Ù Ù¾Ø§ÛÛÙ"
+msgstr ""
 
 msgid "Track"
 msgstr "آهنگ"
@@ -5286,7 +5200,7 @@ msgid "Translation:"
 msgstr "ترجمه:"
 
 msgid "Transmission Mode"
-msgstr "Ø­Ø§ÙØª Ø§Ø±Ø³Ø§Ù"
+msgstr ""
 
 msgid "Transmission mode"
 msgstr "حالت انتقال"
@@ -5435,7 +5349,7 @@ msgid "Updatefeed not available."
 msgstr "Updatefeed در دسترس نیست"
 
 msgid "Updates your receiver's software"
-msgstr "Ø¨Ù Ø±ÙØ² Ø±Ø³Ø§ÙÛ ÙØ±Ù Ø§ÙØ²Ø§Ø± Ø¯Ø³ØªÚ¯Ø§Ù Ø´ÙØ§"
+msgstr ""
 
 msgid "Updating finished. Here is the result:"
 msgstr "به روز رسانی انجام شد ، نتیجه این است"
@@ -5475,9 +5389,6 @@ msgstr ""
 msgid "Use Interface"
 msgstr "استفاده از رابط"
 
-msgid "Use Long Title"
-msgstr ""
-
 msgid "Use Power Measurement"
 msgstr "استفاده از اندازه گیری توان"
 
@@ -5497,7 +5408,7 @@ msgid "Use official channel numbering"
 msgstr ""
 
 msgid "Use original teletext position"
-msgstr "Ø§Ø³ØªÙØ§Ø¯Ù Ø§Ø² ÙÚ©Ø§Ù Ø§ØµÙÛ ØªÙÙ ØªÚ©Ø³Øª"
+msgstr ""
 
 msgid "Use power measurement"
 msgstr "استفاده از اندازه گیری توان"
@@ -5514,11 +5425,13 @@ msgid ""
 "Please set up tuner A"
 msgstr ""
 
-msgid "Use the up/down keys on your remote control to select an option. After that, press OK."
+msgid ""
+"Use the up/down keys on your remote control to select an option. After that, "
+"press OK."
 msgstr ""
 
 msgid "Use this input device settings?"
-msgstr "Ø§Ø³ØªÙØ§Ø¯Ù Ø§Ø² Ø§ÛÙ ØªÙØ¸ÛÙØ§Øª ÙØ³ÛÙÙ ÙØ±ÙØ¯Û Ø"
+msgstr ""
 
 msgid "Use this settings?"
 msgstr "استفاده از این تنظیمات ؟"
@@ -5538,25 +5451,19 @@ msgid "Use usals for this sat"
 msgstr "استفاده از usals برای این ماهواره"
 
 msgid "Use wizard to set up basic features"
-msgstr "Ø§Ø³ØªÙØ§Ø¯Ù Ø§Ø² ÙØ¯Ø§ÛØªÚ¯Ø± Ø¨Ø±Ø§Û ØªÙØ¸ÛÙ ÙÛÚÚ¯Û ÙØ§Û Ù¾Ø§ÛÙ"
+msgstr ""
 
 msgid "Used service scan type"
-msgstr "ÙÙØ¹ Ø§Ø³Ú©Ù Ú©Ø§ÙØ§Ù Ø§Ø³ØªÙØ§Ø¯Ù Ø´Ø¯Ù"
+msgstr ""
 
 msgid "User - bouquets"
-msgstr "ÙÛØ³Øª ÙØ§Û Ú©Ø§Ø±Ø¨Ø±"
+msgstr ""
 
 msgid "User defined"
 msgstr "تعریف شده توسط کاربر"
 
 msgid "Username"
 msgstr "نام کاربری"
-
-msgid "Using LNB"
-msgstr "Ø§Ø³ØªÙØ§Ø¯Ù Ø§Ø² LNB"
-
-msgid "Using Tuner "
-msgstr "Ø§Ø³ØªÙØ§Ø¯Ù Ø§Ø² ØªÛÙÙØ±"
 
 msgid "Using fixed address"
 msgstr ""
@@ -5571,7 +5478,7 @@ msgid "Vertical"
 msgstr "عمودی"
 
 msgid "Vertical turning speed"
-msgstr "Ø³Ø±Ø¹Øª ÚØ±Ø®Ø´ Ø¹ÙÙØ¯Û"
+msgstr ""
 
 msgid "Video Fine-Tuning"
 msgstr "بهینه سازی تصویر"
@@ -5606,7 +5513,8 @@ msgstr "تنظیمات بهینه تصویر"
 msgid ""
 "Video input selection\n"
 "\n"
-"Please press OK if you can see this page on your TV (or select a different input port).\n"
+"Please press OK if you can see this page on your TV (or select a different "
+"input port).\n"
 "\n"
 "The next input port will be automatically probed in 10 seconds."
 msgstr ""
@@ -5754,9 +5662,6 @@ msgstr ""
 msgid "Warn if free space drops below (kB):"
 msgstr "هشدار دادن اگر فضای خالی به کمتر از این میزان کیلوبایت رسید"
 
-msgid "Warning: no LNB; using factory defaults."
-msgstr ""
-
 msgid "Wed"
 msgstr "چهارشنبه"
 
@@ -5772,12 +5677,16 @@ msgstr ""
 msgid ""
 "Welcome to the Cutlist editor.\n"
 "\n"
-"Seek to the start of the stuff you want to cut away. Press OK, select 'start cut'.\n"
+"Seek to the start of the stuff you want to cut away. Press OK, select 'start "
+"cut'.\n"
 "\n"
 "Then seek to the end, press OK, select 'end cut'. That's it."
 msgstr ""
 
-msgid "Welcome to the Image upgrade wizard. The wizard will assist you in upgrading the firmware of your Dreambox by providing a backup facility for your current settings and a short explanation of how to upgrade your firmware."
+msgid ""
+"Welcome to the Image upgrade wizard. The wizard will assist you in upgrading "
+"the firmware of your Dreambox by providing a backup facility for your "
+"current settings and a short explanation of how to upgrade your firmware."
 msgstr ""
 
 #
@@ -5785,7 +5694,8 @@ msgid ""
 "Welcome to the cleanup wizard.\n"
 "\n"
 "We have detected that your available internal memory has dropped below 2MB.\n"
-"To ensure stable operation of your Dreambox, the internal memory should be cleaned up.\n"
+"To ensure stable operation of your Dreambox, the internal memory should be "
+"cleaned up.\n"
 "You can use this wizard to remove some extensions.\n"
 msgstr ""
 
@@ -5793,7 +5703,8 @@ msgstr ""
 msgid ""
 "Welcome.\n"
 "\n"
-"If you want to connect your Dreambox to the Internet, this wizard will guide you through the basic network setup of your Dreambox.\n"
+"If you want to connect your Dreambox to the Internet, this wizard will guide "
+"you through the basic network setup of your Dreambox.\n"
 "\n"
 "Press OK to start configuring your network"
 msgstr ""
@@ -5825,7 +5736,8 @@ msgstr "گزارش های خطای دستگاه چه شوند ؟"
 msgid ""
 "When you do a factory reset, you will lose ALL your configuration data\n"
 "(including bouquets, services, satellite data ...)\n"
-"After completion of factory reset, your receiver will restart automatically!\n"
+"After completion of factory reset, your receiver will restart "
+"automatically!\n"
 "\n"
 "Really do a factory reset?"
 msgstr ""
@@ -5865,10 +5777,10 @@ msgid "Year"
 msgstr "سال"
 
 msgid "Yellow DVB subtitles"
-msgstr "Ø²ÛØ±ÙÙÛØ³ Ø²Ø±Ø¯ DVB"
+msgstr ""
 
 msgid "Yellow pango subtitles"
-msgstr "Ø²ÛØ±ÙÙÛØ³ Ø²Ø±Ø¯ pango"
+msgstr ""
 
 msgid "Yes"
 msgstr "بله"
@@ -6012,7 +5924,7 @@ msgid ""
 msgstr ""
 
 msgid "You system does not support ext4"
-msgstr "Ø³ÛØ³ØªÙ Ø´ÙØ§ Ø§Ø² ext4 Ù¾Ø´ØªÛØ¨Ø§ÙÛ ÙÙÛÚ©ÙØ¯"
+msgstr ""
 
 msgid ""
 "Your Dreambox is now ready to use.\n"
@@ -6041,11 +5953,15 @@ msgstr ""
 msgid "Your Dreambox will restart after pressing OK on your remote control."
 msgstr "دستگاه شما بعد از فشار دادن دکمه OK دوباره راه اندازی خواهد شد"
 
-msgid "Your backup succeeded. We will now continue to explain the further upgrade process."
+msgid ""
+"Your backup succeeded. We will now continue to explain the further upgrade "
+"process."
 msgstr ""
 
 #
-msgid "Your collection exceeds the size of a single layer medium, you will need a blank dual layer DVD!"
+msgid ""
+"Your collection exceeds the size of a single layer medium, you will need a "
+"blank dual layer DVD!"
 msgstr ""
 
 #
@@ -6069,12 +5985,6 @@ msgid ""
 "Press OK to start upgrade."
 msgstr ""
 
-msgid ""
-"Your frontprocessor will be upgraded\n"
-"Please wait until your receiver reboots\n"
-"This may take a few minutes"
-msgstr ""
-
 #
 msgid ""
 "Your internet connection is not working!\n"
@@ -6090,24 +6000,12 @@ msgstr "نام شما (اختیاری)"
 msgid "Your network configuration has been activated."
 msgstr "پیکربندی شبکه شما فعال شد"
 
-msgid "Your receiver is rebooting"
-msgstr "Ø¯Ø³ØªÚ¯Ø§Ù Ø´ÙØ§ Ø¯Ø± Ø­Ø§Ù Ø±Ø§Ù Ø§ÙØ¯Ø§Ø²Û ÙØ¬Ø¯Ø¯ Ø§Ø³Øª"
-
-msgid "Your receiver is shutting down"
-msgstr "Ø¯Ø³ØªÚ¯Ø§Ù Ø´ÙØ§ Ø¯Ø± Ø­Ø§Ù Ø®Ø§ÙÙØ´ Ø´Ø¯Ù Ø§Ø³Øª"
-
 #
 msgid ""
 "Your wireless LAN internet connection could not be started!\n"
 "Have you attached your USB WLAN Stick?\n"
 "\n"
 "Please choose what you want to do next."
-msgstr ""
-
-msgid "Zap"
-msgstr "ØªØ¹ÙÛØ¶"
-
-msgid "Zap PIG"
 msgstr ""
 
 msgid "Zap back to previously tuned service?"
@@ -6129,10 +6027,10 @@ msgid "Zap focus to main screen"
 msgstr ""
 
 msgid "Zap mode"
-msgstr "Ø­Ø§ÙØª ØªØ¹ÙÛØ¶"
+msgstr ""
 
 msgid "Zap to selected channel"
-msgstr "ØªØ¹ÙÛØ¶ Ø¨Ù Ú©Ø§ÙØ§Ù Ø§ÙØªØ®Ø§Ø¨ Ø´Ø¯Ù"
+msgstr ""
 
 msgid "[alternative edit]"
 msgstr "[ویرایش متناوب]"
@@ -6242,8 +6140,6 @@ msgid ""
 "are you sure you want to restore\n"
 "following backup:\n"
 msgstr ""
-"Ø¢ÛØ§ ÙØ·ÙØ¦Ù ÙØ³ØªÛØ¯ Ú©Ù ÙÛØ®ÙØ§ÙÛØ¯ ÙØ³Ø®Ù Ù¾Ø´ØªÛØ¨Ø§Ù\n"
-"Ø²ÛØ± Ø±Ø§ Ø¨Ø§Ø²Ú¯Ø±Ø¯Ø§ÙÛ Ú©ÙÛØ¯:\n"
 
 #
 msgid "assigned CAIds:"
@@ -6373,7 +6269,7 @@ msgid "delete..."
 msgstr "حذف"
 
 msgid "descramble and record ecm"
-msgstr "Ú©Ø¯ Ú¯Ø´Ø§ÛÛ Ù Ø¶Ø¨Ø· ECM"
+msgstr ""
 
 msgid "disable"
 msgstr "غیر فعال"
@@ -6394,7 +6290,7 @@ msgid "do nothing"
 msgstr "کاری انجام نشود"
 
 msgid "don't descramble, record ecm"
-msgstr "Ú©Ø¯ Ú¯Ø´Ø§ÛÛ ÙØ´ÙØ¯ Ø Ø¶Ø¨Ø· ECM"
+msgstr ""
 
 msgid "don't record"
 msgstr "ضبط نشود"
@@ -6496,7 +6392,7 @@ msgid "fine-tune your display"
 msgstr ""
 
 msgid "fixed"
-msgstr "Ø«Ø§Ø¨Øª"
+msgstr ""
 
 msgid "forward to the next chapter"
 msgstr "جلو رفتن به فصل بعدی"
@@ -6508,7 +6404,7 @@ msgid "free diskspace"
 msgstr "فضای خالی دیسک"
 
 msgid "full transparency"
-msgstr "Ø´ÙØ§ÙÛØª Ú©Ø§ÙÙ"
+msgstr ""
 
 msgid "go to deep standby"
 msgstr "رفتن به خاموشی کامل"
@@ -6552,7 +6448,7 @@ msgid "insert mark here"
 msgstr "درج علامت اینجا"
 
 msgid "invalid type"
-msgstr "ÙÙØ¹ ÙØ§ÙØ¹ØªØ¨Ø±"
+msgstr ""
 
 msgid "jump back to the previous title"
 msgstr "پرش به عقب عنوان قبلی"
@@ -6916,7 +6812,7 @@ msgid "show extended description"
 msgstr "نمایش توضیحات طولانی"
 
 msgid "show mediaplayer on mainmenu"
-msgstr "ÙÙØ§ÛØ´ Ù¾Ø®Ø´ Ú©ÙÙØ¯Ù ØµÙØªÛ Ù ØªØµÙÛØ±Û Ø¯Ø± ÙÙÙÛ Ø§ØµÙÛ"
+msgstr ""
 
 msgid "show shutdown menu"
 msgstr "نمایش منوی خاموش کردن"
@@ -7138,42 +7034,6 @@ msgstr "حذف شد"
 
 #~ msgid " Results"
 #~ msgstr "نتایج"
-
-#~ msgid "#000000"
-#~ msgstr "#000000"
-
-#~ msgid "#0064c7"
-#~ msgstr "#0064c7"
-
-#~ msgid "#25062748"
-#~ msgstr "#25062748"
-
-#~ msgid "#389416"
-#~ msgstr "#389416"
-
-#~ msgid "#80000000"
-#~ msgstr "#80000000"
-
-#~ msgid "#80ffffff"
-#~ msgstr "#80ffffff"
-
-#~ msgid "#bab329"
-#~ msgstr "#bab329"
-
-#~ msgid "#f23d21"
-#~ msgstr "#f23d21"
-
-#~ msgid "#ff0000"
-#~ msgstr "#ff0000"
-
-#~ msgid "#ffff7f"
-#~ msgstr "#ffff7f"
-
-#~ msgid "#ffffff"
-#~ msgstr "#ffffff"
-
-#~ msgid "#ffffffff"
-#~ msgstr "#ffffffff"
 
 #~ msgid ""
 #~ "%d conflict(s) encountered when trying to add new timers:\n"
@@ -9010,9 +8870,6 @@ msgstr "حذف شد"
 #
 #~ msgid "Relevance"
 #~ msgstr "ارتباط"
-
-#~ msgid "Remember service PIN cancel"
-#~ msgstr "ÙØºÙ Ø¨Ù ÛØ§Ø¯ Ø¯Ø§Ø´ØªÙ Ø±ÙØ² Ú©Ø§ÙØ§Ù"
 
 #~ msgid "Remove selected AutoTimer"
 #~ msgstr "حذف زمان خودکار انتخاب شده"

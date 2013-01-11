@@ -686,12 +686,6 @@ msgstr "Vse"
 msgid "All Satellites"
 msgstr "Vsi sateliti"
 
-msgid "Allocate"
-msgstr ""
-
-msgid "Allocate unused memory index"
-msgstr ""
-
 #
 msgid "Allow Subtitle equals Audio mask"
 msgstr "Podnapisi naj se ujemajo z zvočno sledjo"
@@ -1299,9 +1293,6 @@ msgstr "Komunikacija"
 msgid "Compact Flash"
 msgstr "Compact Flash"
 
-msgid "Compatibilty Mode"
-msgstr ""
-
 #
 msgid "Complete"
 msgstr "Končano"
@@ -1317,9 +1308,6 @@ msgstr "Struktura imena posnetih datotek"
 #
 msgid "Configuration Mode"
 msgstr "Nastavitveni način"
-
-msgid "Configuration mode: "
-msgstr ""
 
 #
 msgid "Configure interface"
@@ -1600,9 +1588,6 @@ msgstr ""
 msgid "Decide what should be done when crashlogs are found."
 msgstr "Kaj naj se stori, če bi se našli dnevniki napak."
 
-msgid "Date/Time"
-msgstr ""
-
 #
 msgid "Decide what should happen to the crashlogs after submission."
 msgstr "Kaj naj se stori z dnevniki napak, ko se jih pošlje naprej."
@@ -1744,9 +1729,6 @@ msgstr "Izklop"
 #
 msgid "Disable Picture in Picture"
 msgstr "Izklop Slike v Sliki"
-
-msgid "Disable Selecting Expired Events"
-msgstr ""
 
 #
 msgid "Disable background scanning"
@@ -2038,9 +2020,6 @@ msgstr "Spremeni"
 msgid "Edit DNS"
 msgstr "Urejanje DNS"
 
-msgid "Edit Search Title"
-msgstr ""
-
 #
 msgid "Edit Title"
 msgstr "Uredi Naslov"
@@ -2104,9 +2083,6 @@ msgstr "MHW EPG sistem"
 #
 msgid "Enable Netmed EPG"
 msgstr "Netmed EPG sistem"
-
-msgid "Enable Picon"
-msgstr ""
 
 #
 msgid "Enable ViaSat EPG"
@@ -2220,16 +2196,7 @@ msgstr "Estonsko"
 msgid "Ethernet network interface"
 msgstr ""
 
-msgid "Event"
-msgstr ""
-
-msgid "Event Fontsize"
-msgstr ""
-
 msgid "Event Fontsize (relative to skin size)"
-msgstr ""
-
-msgid "Event Info"
 msgstr ""
 
 #
@@ -2241,9 +2208,6 @@ msgid "Eventview menu"
 msgstr "Dodatne možnosti"
 
 msgid "Everywhere"
-msgstr ""
-
-msgid "Exact Search"
 msgstr ""
 
 #
@@ -2336,7 +2300,7 @@ msgstr "Ponastavitev nastavitev"
 msgid "Failed"
 msgstr "Ni uspelo"
 
-msgid "Failed to write /tmp/positionersetup.log: "
+msgid "Failed to write /tmp/positionersetup.log:str"
 msgstr ""
 
 #
@@ -2641,9 +2605,6 @@ msgstr ""
 msgid "Hidden network"
 msgstr ""
 
-msgid "Hide Expired Title"
-msgstr ""
-
 #
 msgid "Hide CI messages"
 msgstr "Skrij napake povezane z naročniškimi karticami"
@@ -2777,9 +2738,6 @@ msgstr "Povečana napetost"
 #
 msgid "Index"
 msgstr "Indeks"
-
-msgid "Index allocated:"
-msgstr ""
 
 #
 msgid "Info"
@@ -2958,12 +2916,6 @@ msgstr ""
 #
 msgid "January"
 msgstr "Januar"
-
-msgid "Jump to First Service"
-msgstr ""
-
-msgid "Jump to Last Service"
-msgstr ""
 
 #
 msgid "Job View"
@@ -3268,9 +3220,6 @@ msgstr ""
 msgid "Menu"
 msgstr "Meni"
 
-msgid "Merge Short/Long Descriptions"
-msgstr ""
-
 #
 msgid "Message"
 msgstr "Obvestilo"
@@ -3525,9 +3474,6 @@ msgstr "Nova verzija:"
 #
 msgid "Next"
 msgstr "Naslednji"
-
-msgid "Next Bouquet"
-msgstr ""
 
 #
 msgid "No"
@@ -3829,9 +3775,6 @@ msgstr "Potrdi"
 msgid "On"
 msgstr "Vklop"
 
-msgid "On Bouquet Switch goto first service"
-msgstr ""
-
 #
 msgid "One"
 msgstr "En"
@@ -3907,18 +3850,6 @@ msgstr "Upravljanje paketov"
 msgid "Packet manager"
 msgstr "Upravljanje paketkov."
 
-msgid "Page Down"
-msgstr ""
-
-msgid "Page Left"
-msgstr ""
-
-msgid "Page Right"
-msgstr ""
-
-msgid "Page Up"
-msgstr ""
-
 #
 #. TRANSLATORS: (aspect ratio policy: cropped content on left/right) in doubt, keep english term
 msgid "Pan&Scan"
@@ -3943,9 +3874,6 @@ msgstr "Nastavitve starševske zaščite"
 #
 msgid "Parental control type"
 msgstr "Vrsta starševske zaščite"
-
-msgid "Partial Search"
-msgstr ""
 
 #
 msgid "Password"
@@ -4422,9 +4350,6 @@ msgstr "Predogled"
 msgid "Preview menu"
 msgstr "Predogled meni"
 
-msgid "Previous Bouquet"
-msgstr ""
-
 #
 msgid "Primary DNS"
 msgstr "Primarni DNS"
@@ -4833,9 +4758,6 @@ msgstr ""
 msgid "Rotor turning speed"
 msgstr "Hitrost premikanja rotorja"
 
-msgid "Round Start Time To"
-msgstr ""
-
 msgid "Round start time on"
 msgstr ""
 
@@ -4916,9 +4838,6 @@ msgstr "Potrditev"
 #
 msgid "Save Playlist"
 msgstr "Shranite seznam predvajanja"
-
-msgid "Scale Picon"
-msgstr ""
 
 #
 msgid "Scaler sharpness"
@@ -5046,9 +4965,6 @@ msgid ""
 "Scans default lamedbs sorted by satellite with a connected dish positioner"
 msgstr ""
 "Isknje privzetih lamedbs razvrščenih po satelitih s povezanimi pozicionerji."
-
-msgid "Search"
-msgstr ""
 
 #
 msgid "Search east"
@@ -5348,9 +5264,6 @@ msgstr ""
 msgid "Show Service Names "
 msgstr ""
 
-msgid "Show Service Title"
-msgstr ""
-
 #
 msgid "Show WLAN Status"
 msgstr "Prikaz stanja brezzične mreže"
@@ -5453,9 +5366,6 @@ msgstr "Signal:"
 msgid "Similar"
 msgstr "Podobno"
 
-msgid "Similar Broadcast Search"
-msgstr ""
-
 #
 msgid "Similar broadcasts:"
 msgstr "Sorodne oddaje:"
@@ -5503,9 +5413,6 @@ msgid "Skins"
 msgstr "Predloge"
 
 msgid "Skip Empty Services"
-msgstr ""
-
-msgid "Skip Empty Services (may need restart)"
 msgstr ""
 
 #
@@ -6300,21 +6207,6 @@ msgstr "Urejevalnik časovnikov"
 msgid "Timer Overview"
 msgstr ""
 
-msgid "Timeline 120 minutes"
-msgstr ""
-
-msgid "Timeline 180 minutes"
-msgstr ""
-
-msgid "Timeline 240 minutes"
-msgstr ""
-
-msgid "Timeline 300 minutes"
-msgstr ""
-
-msgid "Timeline 60 minutes"
-msgstr ""
-
 #
 msgid "Timer Type"
 msgstr "Vrsta časovnika"
@@ -6685,9 +6577,6 @@ msgstr ""
 msgid "Use original teletext position"
 msgstr "Originalen položaj teletekst podn."
 
-msgid "Use Long Title"
-msgstr ""
-
 #
 msgid "Use power measurement"
 msgstr "Uporaba merjenja moči"
@@ -6759,12 +6648,6 @@ msgstr "Določeno s strani uporabnika"
 #
 msgid "Username"
 msgstr "Uporabniško ime"
-
-msgid "Using LNB"
-msgstr ""
-
-msgid "Using Tuner "
-msgstr ""
 
 msgid "Using fixed address"
 msgstr ""
@@ -6992,9 +6875,6 @@ msgstr ""
 #
 msgid "Warn if free space drops below (kB):"
 msgstr "Opozori, če se prostor na disku zmanjša pod (kB):"
-
-msgid "Warning: no LNB; using factory defaults."
-msgstr ""
 
 #
 msgid "Wed"
@@ -7445,12 +7325,6 @@ msgid "Zap focus to Picture in Picture"
 msgstr ""
 
 msgid "Zap focus to main screen"
-msgstr ""
-
-msgid "Zap"
-msgstr ""
-
-msgid "Zap PIG"
 msgstr ""
 
 #
@@ -8619,15 +8493,9 @@ msgstr ""
 msgid "tuner is not supported"
 msgstr ""
 
-msgid "unavailable"
-msgstr ""
-
 #
 msgid "unconfirmed"
 msgstr "nepotrjen"
-
-msgid "undefined"
-msgstr ""
 
 #
 msgid "unknown"
