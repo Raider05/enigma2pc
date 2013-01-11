@@ -255,44 +255,44 @@
  						else:
  							network = ("%s %d.%d %s") % (sat_name, orb_pos / 10, orb_pos % 10, h)
 -						tp_text = ("%s %s %d%c / %d / %s") %( { tp.System_DVB_S : "DVB-S",
--							tp.System_DVB_S2 : "DVB-S2" }.get(tp.system, tp.System_DVB_S),
+-							tp.System_DVB_S2 : "DVB-S2" }.get(tp.system, ""),
 -							{ tp.Modulation_Auto : "Auto", tp.Modulation_QPSK : "QPSK",
--								tp.Modulation_8PSK : "8PSK", tp.Modulation_QAM16 : "QAM16" }.get(tp.modulation, tp.Modulation_QPSK),
+-								tp.Modulation_8PSK : "8PSK", tp.Modulation_QAM16 : "QAM16" }.get(tp.modulation, ""),
 -							tp.frequency/1000,
 -							{ tp.Polarisation_Horizontal : 'H', tp.Polarisation_Vertical : 'V', tp.Polarisation_CircularLeft : 'L',
--								tp.Polarisation_CircularRight : 'R' }.get(tp.polarisation, tp.Polarisation_Horizontal),
+-								tp.Polarisation_CircularRight : 'R' }.get(tp.polarisation, ' '),
 -							tp.symbol_rate/1000,
 -							{ tp.FEC_Auto : "AUTO", tp.FEC_1_2 : "1/2", tp.FEC_2_3 : "2/3",
 -								tp.FEC_3_4 : "3/4", tp.FEC_5_6 : "5/6", tp.FEC_7_8 : "7/8",
 -								tp.FEC_8_9 : "8/9", tp.FEC_3_5 : "3/5", tp.FEC_4_5 : "4/5",
--								tp.FEC_9_10 : "9/10", tp.FEC_None : "NONE" }.get(tp.fec, tp.FEC_Auto))
+-								tp.FEC_9_10 : "9/10", tp.FEC_None : "NONE" }.get(tp.fec, ""))
 +						if tp.mis > -1 and tp.system == tp.System_DVB_S2:
 +							tp_text = ("%s %s %d%c / %d / %s / %d") %( { tp.System_DVB_S : "DVB-S",
-+								tp.System_DVB_S2 : "DVB-S2" }.get(tp.system, tp.System_DVB_S),
++								tp.System_DVB_S2 : "DVB-S2" }.get(tp.system, ""),
 +								{ tp.Modulation_Auto : "Auto", tp.Modulation_QPSK : "QPSK",
-+									tp.Modulation_8PSK : "8PSK", tp.Modulation_16APSK : "16APSK", tp.Modulation_32APSK : "32APSK" }.get(tp.modulation, tp.Modulation_QPSK),
++									tp.Modulation_8PSK : "8PSK", tp.Modulation_16APSK : "16APSK", tp.Modulation_32APSK : "32APSK" }.get(tp.modulation, ""),
 +									tp.frequency/1000,
 +								{ tp.Polarisation_Horizontal : 'H', tp.Polarisation_Vertical : 'V', tp.Polarisation_CircularLeft : 'L',
-+									tp.Polarisation_CircularRight : 'R' }.get(tp.polarisation, tp.Polarisation_Horizontal),
++									tp.Polarisation_CircularRight : 'R' }.get(tp.polarisation, ' '),
 +									tp.symbol_rate/1000,
 +								{ tp.FEC_Auto : "AUTO", tp.FEC_1_2 : "1/2", tp.FEC_2_3 : "2/3",
 +									tp.FEC_3_4 : "3/4", tp.FEC_5_6 : "5/6", tp.FEC_7_8 : "7/8",
 +									tp.FEC_8_9 : "8/9", tp.FEC_3_5 : "3/5", tp.FEC_4_5 : "4/5",
-+									tp.FEC_9_10 : "9/10", tp.FEC_None : "NONE" }.get(tp.fec, tp.FEC_Auto),
++									tp.FEC_9_10 : "9/10", tp.FEC_None : "NONE" }.get(tp.fec, ""),
 +								tp.mis)
 +						else:
 +							tp_text = ("%s %s %d%c / %d / %s") %( { tp.System_DVB_S : "DVB-S",
-+								tp.System_DVB_S2 : "DVB-S2" }.get(tp.system, tp.System_DVB_S),
++								tp.System_DVB_S2 : "DVB-S2" }.get(tp.system, ""),
 +								{ tp.Modulation_Auto : "Auto", tp.Modulation_QPSK : "QPSK",
-+									tp.Modulation_8PSK : "8PSK", tp.Modulation_16APSK : "16APSK", tp.Modulation_32APSK : "32APSK" }.get(tp.modulation, tp.Modulation_QPSK),
++									tp.Modulation_8PSK : "8PSK", tp.Modulation_16APSK : "16APSK", tp.Modulation_32APSK : "32APSK" }.get(tp.modulation, ""),
 +									tp.frequency/1000,
 +								{ tp.Polarisation_Horizontal : 'H', tp.Polarisation_Vertical : 'V', tp.Polarisation_CircularLeft : 'L',
-+									tp.Polarisation_CircularRight : 'R' }.get(tp.polarisation, tp.Polarisation_Horizontal),
++									tp.Polarisation_CircularRight : 'R' }.get(tp.polarisation, ' '),
 +									tp.symbol_rate/1000,
 +								{ tp.FEC_Auto : "AUTO", tp.FEC_1_2 : "1/2", tp.FEC_2_3 : "2/3",
 +									tp.FEC_3_4 : "3/4", tp.FEC_5_6 : "5/6", tp.FEC_7_8 : "7/8",
 +									tp.FEC_8_9 : "8/9", tp.FEC_3_5 : "3/5", tp.FEC_4_5 : "4/5",
-+									tp.FEC_9_10 : "9/10", tp.FEC_None : "NONE" }.get(tp.fec, tp.FEC_Auto))
++									tp.FEC_9_10 : "9/10", tp.FEC_None : "NONE" }.get(tp.fec, ""))
 +					
  					elif tp_type == iDVBFrontend.feCable:
  						network = _("Cable")
@@ -609,8 +609,7 @@
 @@ -48,6 +48,7 @@
  			parm.rolloff = x[8]
  			parm.pilot = x[9]
- 			parm.system = x[10]
-+			parm.mis = x[11]
++			parm.mis = x[10]
  			tlist.append(parm)
  
  def getInitialCableTransponderList(tlist, nim):
