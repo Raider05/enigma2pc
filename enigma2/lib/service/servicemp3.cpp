@@ -580,6 +580,7 @@ RESULT eServiceMP3::seekTo(pts_t to)
 
 RESULT eServiceMP3::trickSeek(gdouble ratio)
 {
+//	m_currentTrickRatio = ratio;
 	printf("----Ratio=%d\n",ratio);
 	cXineLib *xineLib = cXineLib::getInstance();
 	xineLib->VideoIleriF();
