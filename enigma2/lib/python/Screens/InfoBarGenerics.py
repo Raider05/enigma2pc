@@ -1,4 +1,4 @@
- from ChannelSelection import ChannelSelection, BouquetSelector, SilentBouquetSelector
+from ChannelSelection import ChannelSelection, BouquetSelector, SilentBouquetSelector
 
 from Components.ActionMap import ActionMap, HelpableActionMap
 from Components.ActionMap import NumberActionMap
