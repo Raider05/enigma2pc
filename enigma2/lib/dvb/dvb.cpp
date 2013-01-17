@@ -700,11 +700,8 @@ PyObject *eDVBResourceManager::setFrontendSlotInformations(ePyObject list)
 		}
 	}
 	if (assigned != PyList_Size(list)) {
-		char blasel[256];
-		sprintf(blasel, "eDVBResourceManager::setFrontendSlotInformations .. assigned %d socket informations, but %zd configured !",
+		eDebug("eDVBResourceManager::setFrontendSlotInformations .. assigned %d socket informations, but %zd configured !",
 			assigned,PyList_Size(list));
-		PyErr_SetString(PyExc_StandardError, blasel);
-		return NULL;
 	}
 	for (eSmartPtrList<eDVBRegisteredFrontend>::iterator i(m_simulate_frontend.begin()); i != m_simulate_frontend.end(); ++i)
 	{
