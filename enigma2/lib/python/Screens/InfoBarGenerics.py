@@ -607,7 +607,7 @@ class InfoBarEPG:
 
 		self["EPGActions"] = HelpableActionMap(self, "InfobarEPGActions",
 			{
-				"showEventInfo": (self.openEventView, _("show EPG...")),
+				"showEventInfo": (self.showDefaultEPG, _("show EPG...")),
 				"showEventInfoPlugin": (self.showEventInfoPlugins, _("list of EPG views...")),
 				"showInfobarOrEpgWhenInfobarAlreadyVisible": self.showEventInfoWhenNotVisible,
 			})
@@ -617,6 +617,7 @@ class InfoBarEPG:
 		if pluginlist:
 			pluginlist.append((_("show single service EPG..."), self.openSingleServiceEPG))
 			pluginlist.append((_("Multi EPG"), self.openMultiServiceEPG))
+			pluginlist.append((_("Current event EPG"), self.openEventView))
 		return pluginlist
 
 	def getDefaultEPGtype(self):
@@ -789,10 +790,13 @@ class InfoBarEPG:
 			if self.epglist:
 				self.eventView.setEvent(self.epglist[0])
 
-	def openEventView(self):
+	def showDefaultEPG(self):
 		if self.defaultEPGType is not None:
 			self.defaultEPGType()
 			return
+		self.openEventView()
+
+	def openEventView(self):
 		ref = self.session.nav.getCurrentlyPlayingServiceReference()
 		self.getNowNext()
 		epglist = self.epglist
