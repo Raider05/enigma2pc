@@ -364,7 +364,7 @@ class InfoBarNumberZap:
 		return None
 
 	def zapToNumber(self, number):
-		bouquet = self.servicelist.bouquet_root
+		bouquet = self.servicelist.getRoot()
 		service = None
 		serviceHandler = eServiceCenter.getInstance()
 		if not config.usage.multibouquet.value:
@@ -372,9 +372,9 @@ class InfoBarNumberZap:
 		else:
 			service = self.searchNumberHelper(serviceHandler, number, bouquet) #search the current bouqeut first
 			if service is None:
+				bouquet = self.servicelist.bouquet_root
 				bouquetlist = serviceHandler.list(bouquet)
 				if not bouquetlist is None:
-					bouquet = bouquetlist.getNext()
 					while bouquet.valid():
 						if bouquet.flags & eServiceReference.isDirectory:
 							service = self.searchNumberHelper(serviceHandler, number, bouquet)
