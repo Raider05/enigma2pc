@@ -13,7 +13,7 @@ static int determineBufferCount()
 	struct sysinfo si;
 	if (sysinfo(&si) != 0)
 	{
-		return 40; // Default to small
+		return 20; // Default to small
 	}
 	unsigned int megabytes = si.totalram >> 20;
 	int result;
@@ -23,7 +23,7 @@ static int determineBufferCount()
 		result = 16; // 256MB systems: Use 3MB demux buffers (dm8000, et5x00, vuduo)
 	else
 		result = 8; // Smaller boxes: Use 1.5MB buffer (dm7025)
-	return 40;
+	return 20;
 }
 
 static int recordingBufferCount = determineBufferCount();
@@ -790,7 +790,7 @@ eDebug("eDVBTSRecorder::start %s", filename);
 		return -3;
 	}
 
-	setBufferSize(1024*1024);
+	setBufferSize(2*1024*1024);
 
 	dmx_pes_filter_params flt;
 	flt.pes_type = DMX_PES_OTHER;
