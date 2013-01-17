@@ -500,10 +500,14 @@
 		<device name="Xlib">
 			<key id="KEY_TV" mapto="leavePlayer" flags="m" />
 			<key id="KEY_STOP" mapto="leavePlayer" flags="m" />
+			<key id="KEY_EXIT" mapto="leavePlayerOnExit" flags="m" />
+			<key id="KEY_ESC" mapto="leavePlayerOnExit" flags="m" />
 		</device>
 		<device name="Lirc">
 			<key id="KEY_TV" mapto="leavePlayer" flags="m" />
 			<key id="KEY_STOP" mapto="leavePlayer" flags="m" />
+			<key id="KEY_EXIT" mapto="leavePlayerOnExit" flags="m" />
+			<key id="KEY_ESC" mapto="leavePlayerOnExit" flags="m" />
 		</device>
 	</map>
 	
