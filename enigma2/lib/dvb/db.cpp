@@ -294,6 +294,8 @@ void eDVBService::setCacheEntry(cacheID id, int pid)
 
 DEFINE_REF(eDVBDB);
 
+bool m_numberingMode(false);
+
 void eDVBDB::reloadServicelist()
 {
 	loadServicelist(eEnv::resolve("${sysconfdir}/enigma2/lamedb").c_str());
@@ -737,7 +739,7 @@ int eDVBDB::loadBouquet(const char *path, int startChannelNum)
 						snprintf(buf, 256, "FROM BOUQUET \"%s\" ORDER BY bouquet", path.c_str());
 						tmp.path = buf;
 					}
-					if (path.find("alternatives.") == 0)
+					if (m_numberingMode || path.find("alternatives.") == 0)
 						loadBouquet(path.c_str());
 					else
 						startChannelNum = loadBouquet(path.c_str(), startChannelNum);
@@ -819,6 +821,15 @@ void eDVBDB::renumberBouquet()
 	renumberBouquet( m_bouquets["bouquets.radio"] );
 }
 
+void eDVBDB::setNumberingMode(bool numberingMode)
+{
+	if (m_numberingMode != numberingMode)
+	{
+		m_numberingMode = numberingMode;
+		renumberBouquet();
+	}
+}
+
 int eDVBDB::renumberBouquet(eBouquet &bouquet, int startChannelNum)
 {
 	std::list<eServiceReference> &list = bouquet.m_services;
@@ -867,7 +878,7 @@ int eDVBDB::renumberBouquet(eBouquet &bouquet, int startChannelNum)
 				continue;
 			}
 			eBouquet &subBouquet = m_bouquets[path];
-			if (path.find("alternatives.") == 0)
+			if (m_numberingMode || path.find("alternatives.") == 0)
 				renumberBouquet(subBouquet);
 			else
 				startChannelNum = renumberBouquet(subBouquet, startChannelNum);
