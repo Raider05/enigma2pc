@@ -264,7 +264,7 @@ eDVBUsbAdapter::eDVBUsbAdapter(int nr)
 	char filename[256];
 	int vtunerid = nr - 1;
 
-	pumpThread = NULL;
+	pumpThread = 0;
 
 	int num_fe = 0;
 	while (1)
@@ -598,6 +598,7 @@ void *eDVBUsbAdapter::vtunerPump()
 			}
 		}
 	}
+	return NULL;
 }
 
 eDVBResourceManager::~eDVBResourceManager()
@@ -2122,7 +2123,7 @@ RESULT eDVBChannel::getDemux(ePtr<iDVBDemux> &demux, int cap)
 {
 	ePtr<eDVBAllocatedDemux> &our_demux = m_demux; // openpliPC
 
-	if (m_frontend == NULL)
+	if (!m_frontend)
 	{
 		/* in dvr mode, we have to stick to a single demux (the one connected to our dvr device) */
 		our_demux = m_decoder_demux ? m_decoder_demux : m_demux;
