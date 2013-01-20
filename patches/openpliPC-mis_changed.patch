@@ -705,7 +705,7 @@
  								self.scan_sat.modulation.value,
  								self.scan_sat.rolloff.value,
 -								self.scan_sat.pilot.value)
-+								self.scan_sat.pilot.value),
++								self.scan_sat.pilot.value,
 +								self.scan_sat.mis.value)
  				removeAll = False
  			elif self.scan_type.value == "single_satellite":
