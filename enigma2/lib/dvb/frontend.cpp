@@ -575,6 +575,10 @@ int eDVBFrontend::openFrontend()
 #endif
 					break;
 				}
+				case FE_ATSC:	// placeholder to prevent warning
+				{
+					break;
+				}
 			}
 #endif
 			switch (fe_info.type)
@@ -2394,7 +2398,7 @@ RESULT eDVBFrontend::prepare_sat(const eDVBFrontendParametersSatellite &feparm, 
 			feparm.modulation,
 			feparm.pilot,
 			feparm.rolloff);
-		if (satfrequency < fe_info.frequency_min || satfrequency > fe_info.frequency_max)
+		if ((unsigned int)satfrequency < fe_info.frequency_min || (unsigned int)satfrequency > fe_info.frequency_max)
 		{
 			eDebugNoSimulate("%d mhz out of tuner range.. dont tune", satfrequency / 1000);
 			return -EINVAL;
