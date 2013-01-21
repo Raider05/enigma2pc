@@ -70,6 +70,7 @@ public:
 	void setNumberingMode(bool numberingMode);
 	int renumberBouquet(eBouquet &bouquet, int startChannelNum = 1);
 #endif
+	void setNumberingMode(bool numberingMode);
 	void renumberBouquet();
 	void loadServicelist(const char *filename);
 	static eDVBDB *getInstance() { return instance; }
