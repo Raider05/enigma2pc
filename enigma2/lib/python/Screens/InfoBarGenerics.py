@@ -361,12 +361,12 @@ class InfoBarNumberZap:
 				self.session.openWithCallback(self.numberEntered, NumberZap, number, self.searchNumber)
 
 	def numberEntered(self, service = None, bouquet = None):
-		if not service is None:
-			self.zapToNumber(service, bouquet)
+		if service:
+			self.zapToService(service, bouquet)
 
 	def searchNumberHelper(self, serviceHandler, num, bouquet):
 		servicelist = serviceHandler.list(bouquet)
-		if not servicelist is None:
+		if servicelist:
 			serviceIterator = servicelist.getNext()
 			while serviceIterator.valid():
 				if num == serviceIterator.getChannelNum():
@@ -399,8 +399,8 @@ class InfoBarNumberZap:
 						bouquet = bouquetlist.getNext()
 		return service, bouquet
 
-	def zapToNumber(self, service, bouquet):
-		if not service is None:
+	def zapToService(self, service, bouquet):
+		if service:
 			if self.servicelist.getRoot() != bouquet: #already in correct bouquet?
 				self.servicelist.clearPath()
 				if self.servicelist.bouquet_root != bouquet:
@@ -408,6 +408,10 @@ class InfoBarNumberZap:
 				self.servicelist.enterPath(bouquet)
 			self.servicelist.setCurrentSelection(service) #select the service in servicelist
 			self.servicelist.zap(enable_pipzap = True)
+
+	def zapToNumber(self, number):
+		service, bouquet = self.searchNumber(number)
+		self.zapToService(service, bouquet)
 
 	def zapToNumber(self, number):
 		service, bouquet = self.searchNumber(number)
