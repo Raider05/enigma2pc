@@ -362,7 +362,7 @@ class InfoBarNumberZap:
 
 	def numberEntered(self, service = None, bouquet = None):
 		if service:
-			self.zapToService(service, bouquet)
+			self.selectAndStartService(service, bouquet)
 
 	def searchNumberHelper(self, serviceHandler, num, bouquet):
 		servicelist = serviceHandler.list(bouquet)
@@ -399,7 +399,7 @@ class InfoBarNumberZap:
 						bouquet = bouquetlist.getNext()
 		return service, bouquet
 
-	def zapToService(self, service, bouquet):
+	def selectAndStartService(self, service, bouquet):
 		if service:
 			if self.servicelist.getRoot() != bouquet: #already in correct bouquet?
 				self.servicelist.clearPath()
@@ -415,7 +415,7 @@ class InfoBarNumberZap:
 
 	def zapToNumber(self, number):
 		service, bouquet = self.searchNumber(number)
-		self.zapToService(service, bouquet)
+		self.selectAndStartService(service, bouquet)
 
 config.misc.initialchannelselection = ConfigBoolean(default = True)
 
