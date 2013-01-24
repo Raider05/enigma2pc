@@ -76,23 +76,24 @@ eDVBResourceManager::eDVBResourceManager()
 	if (!instance)
 		instance = this;
 
-	int num_adapter = 0;
+	int num_adapter = 1;
 	while (eDVBAdapterLinux::exist(num_adapter))
 	{
 		if (eDVBAdapterLinux::isusb(num_adapter))
 		{
 			eDVBAdapterLinux *adapter = new eDVBUsbAdapter(num_adapter);
-			adapter->scanDevices();
-			addAdapter(adapter, true);
-		}
-		else
-		{
-			eDVBAdapterLinux *adapter = new eDVBAdapterLinux(num_adapter);
-			adapter->scanDevices();
-			addAdapter(adapter, true);
+			addAdapter(adapter);
 		}
 		num_adapter++;
 	}
+
+	if (eDVBAdapterLinux::exist(0))
+	{
+			eDVBAdapterLinux *adapter = new eDVBAdapterLinux(0);
+			adapter->scanDevices();
+			addAdapter(adapter, true);
+	}
+
 	int fd = open(eEnv::resolve("${sysconfdir}/stb/info/model").c_str(), O_RDONLY);
 	char tmp[16];
 	int rd = fd >= 0 ? read(fd, tmp, sizeof(tmp)) : 0;
