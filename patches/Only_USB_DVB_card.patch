@@ -1,0 +1,35 @@
+--- enigma2_orig/lib/dvb/dvb.cpp	2013-01-24 17:41:56.000000000 +0400
++++ enigma2/lib/dvb/dvb.cpp	2013-01-24 15:48:12.000000000 +0400
+@@ -76,24 +76,23 @@
+ 	if (!instance)
+ 		instance = this;
+ 
+-	int num_adapter = 1;
++	int num_adapter = 0;
+ 	while (eDVBAdapterLinux::exist(num_adapter))
+ 	{
+ 		if (eDVBAdapterLinux::isusb(num_adapter))
+ 		{
+ 			eDVBAdapterLinux *adapter = new eDVBUsbAdapter(num_adapter);
+-			addAdapter(adapter);
++			adapter->scanDevices();
++			addAdapter(adapter, true);
+ 		}
+-		num_adapter++;
+-	}
+-
+-	if (eDVBAdapterLinux::exist(0))
+-	{
+-			eDVBAdapterLinux *adapter = new eDVBAdapterLinux(0);
++		else
++		{
++			eDVBAdapterLinux *adapter = new eDVBAdapterLinux(num_adapter);
+ 			adapter->scanDevices();
+ 			addAdapter(adapter, true);
++		}
++		num_adapter++;
+ 	}
+-
+ 	int fd = open(eEnv::resolve("${sysconfdir}/stb/info/model").c_str(), O_RDONLY);
+ 	char tmp[16];
+ 	int rd = fd >= 0 ? read(fd, tmp, sizeof(tmp)) : 0;
