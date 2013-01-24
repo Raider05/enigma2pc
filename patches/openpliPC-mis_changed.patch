@@ -126,14 +126,14 @@
  	else
  	{
 @@ -297,6 +301,8 @@
- 			diff = 1<<29;
- 		else if (sat.polarisation != osat.polarisation)
- 			diff = 1<<28;
-+		else if (sat.mis != osat.mis)
-+			diff = 1<<27;
- 		else if (exact && sat.fec != osat.fec && sat.fec != eDVBFrontendParametersSatellite::FEC_Auto && osat.fec != eDVBFrontendParametersSatellite::FEC_Auto)
- 			diff = 1<<27;
- 		else if (exact && sat.modulation != osat.modulation && sat.modulation != eDVBFrontendParametersSatellite::Modulation_Auto && osat.modulation != eDVBFrontendParametersSatellite::Modulation_Auto)
+ 				diff = 1<<29;
+	 		else if (sat.polarisation != osat.polarisation)
+ 				diff = 1<<28;
++			else if (sat.mis != osat.mis)
++				diff = 1<<27;
+ 			else if (exact && sat.fec != osat.fec && sat.fec != eDVBFrontendParametersSatellite::FEC_Auto && osat.fec != eDVBFrontendParametersSatellite::FEC_Auto)
+ 				diff = 1<<27;
+ 			else if (exact && sat.modulation != osat.modulation && sat.modulation != eDVBFrontendParametersSatellite::Modulation_Auto && osat.modulation != eDVBFrontendParametersSatellite::Modulation_Auto)
 @@ -992,6 +998,7 @@
  	{
  		PutToDict(dict, "rolloff", feparm.rolloff);
@@ -143,11 +143,11 @@
  	PutToDict(dict, "system", feparm.system);
  }
 @@ -1094,6 +1101,8 @@
- 			default: eDebug("got unsupported modulation from frontend! report as QPSK!");
- 			case QPSK: tmp = eDVBFrontendParametersSatellite::Modulation_QPSK; break;
- 			case PSK_8: tmp = eDVBFrontendParametersSatellite::Modulation_8PSK; break;
-+			case APSK_16: tmp = eDVBFrontendParametersSatellite::Modulation_16APSK; break;
-+			case APSK_32: tmp = eDVBFrontendParametersSatellite::Modulation_32APSK; break;
+ 				default: eDebug("got unsupported modulation from frontend! report as QPSK!");
+ 				case QPSK: tmp = eDVBFrontendParametersSatellite::Modulation_QPSK; break;
+ 				case PSK_8: tmp = eDVBFrontendParametersSatellite::Modulation_8PSK; break;
++				case APSK_16: tmp = eDVBFrontendParametersSatellite::Modulation_16APSK; break;
++				case APSK_32: tmp = eDVBFrontendParametersSatellite::Modulation_32APSK; break;
  			}
  			PutToDict(dict, "modulation", tmp);
  			break;
@@ -193,11 +193,11 @@
  		cmdseq.num = 0;
 @@ -1998,7 +2015,8 @@
  			{
- 			case eDVBFrontendParametersSatellite::Modulation_QPSK: modulation = QPSK; break;
- 			case eDVBFrontendParametersSatellite::Modulation_8PSK: modulation = PSK_8; break;
--			case eDVBFrontendParametersSatellite::Modulation_QAM16: modulation = QAM_16; break;
-+			case eDVBFrontendParametersSatellite::Modulation_16APSK: modulation = APSK_16; break;
-+			case eDVBFrontendParametersSatellite::Modulation_32APSK: modulation = APSK_32; break;
+ 				case eDVBFrontendParametersSatellite::Modulation_QPSK: modulation = QPSK; break;
+ 				case eDVBFrontendParametersSatellite::Modulation_8PSK: modulation = PSK_8; break;
+-				case eDVBFrontendParametersSatellite::Modulation_QAM16: modulation = QAM_16; break;
++				case eDVBFrontendParametersSatellite::Modulation_16APSK: modulation = APSK_16; break;
++				case eDVBFrontendParametersSatellite::Modulation_32APSK: modulation = APSK_32; break;
  			}
  			switch (oparm.sat.pilot)
  			{
@@ -225,7 +225,7 @@
 -			feparm.rolloff);
 +			feparm.rolloff,
 +			feparm.mis);
- 		if (satfrequency < fe_info.frequency_min || satfrequency > fe_info.frequency_max)
+ 		if ((unsigned int)satfrequency < fe_info.frequency_min || (unsigned int)satfrequency > fe_info.frequency_max)
  		{
  			eDebugNoSimulate("%d mhz out of tuner range.. dont tune", satfrequency / 1000);
 --- enigma2_orig/lib/dvb/frontendparms.h	2012-12-28 12:19:55.000000000 +0400
