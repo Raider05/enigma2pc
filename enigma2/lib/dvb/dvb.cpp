@@ -82,7 +82,14 @@ eDVBResourceManager::eDVBResourceManager()
 		if (eDVBAdapterLinux::isusb(num_adapter))
 		{
 			eDVBAdapterLinux *adapter = new eDVBUsbAdapter(num_adapter);
-			addAdapter(adapter);
+			adapter->scanDevices();
+			addAdapter(adapter, true);
+		}
+		else
+		{
+			eDVBAdapterLinux *adapter = new eDVBAdapterLinux(num_adapter);
+			adapter->scanDevices();
+			addAdapter(adapter, true);
 		}
 		num_adapter++;
 	}
