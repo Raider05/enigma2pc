@@ -80,7 +80,7 @@
  					PyTuple_SET_ITEM(tuple, 0, PyInt_FromLong(0));
  					PyTuple_SET_ITEM(tuple, 1, PyInt_FromLong(freq));
  					PyTuple_SET_ITEM(tuple, 2, PyInt_FromLong(sr));
-@@ -946,8 +950,11 @@
+@@ -946,8 +950,10 @@
  					PyTuple_SET_ITEM(tuple, 7, PyInt_FromLong(inv));
  					PyTuple_SET_ITEM(tuple, 8, PyInt_FromLong(rolloff));
  					PyTuple_SET_ITEM(tuple, 9, PyInt_FromLong(pilot));
@@ -90,7 +90,6 @@
 +					PyTuple_SET_ITEM(tuple, 10, PyInt_FromLong(is_id));
 +					PyTuple_SET_ITEM(tuple, 11, PyInt_FromLong(tsid));
 +					PyTuple_SET_ITEM(tuple, 12, PyInt_FromLong(onid));
-+					PyTuple_SET_ITEM(tuple, 10, PyInt_FromLong(mis));
  					PyList_Append(tplist, tuple);
  					Py_DECREF(tuple);
  				}
@@ -651,7 +650,7 @@
  			parm.modulation = x[6]
  			parm.rolloff = x[8]
  			parm.pilot = x[9]
-+			parm.mis = x[10]
++			parm.is_id = x[10]
  			tlist.append(parm)
  
  def getInitialCableTransponderList(tlist, nim):
@@ -667,7 +666,7 @@
  						defaultSat["fec_s2"] = frontendData.get("fec_inner", eDVBFrontendParametersSatellite.FEC_Auto)
  						defaultSat["rolloff"] = frontendData.get("rolloff", eDVBFrontendParametersSatellite.RollOff_alpha_0_35)
  						defaultSat["pilot"] = frontendData.get("pilot", eDVBFrontendParametersSatellite.Pilot_Unknown)
-+						defaultSat["mis"] = frontendData.get("is_id", 0)
++						defaultSat["is_id"] = frontendData.get("is_id", 0)
  					else:
  						defaultSat["fec"] = frontendData.get("fec_inner", eDVBFrontendParametersSatellite.FEC_Auto)
  					defaultSat["modulation"] = frontendData.get("modulation", eDVBFrontendParametersSatellite.Modulation_QPSK)
@@ -696,7 +695,7 @@
  
 -	def addSatTransponder(self, tlist, frequency, symbol_rate, polarisation, fec, inversion, orbital_position, system, modulation, rolloff, pilot):
 -		print "Add Sat: frequ: " + str(frequency) + " symbol: " + str(symbol_rate) + " pol: " + str(polarisation) + " fec: " + str(fec) + " inversion: " + str(inversion) + " modulation: " + str(modulation) + " system: " + str(system) + " rolloff" + str(rolloff) + " pilot" + str(pilot)
-+	def addSatTransponder(self, tlist, frequency, symbol_rate, polarisation, fec, inversion, orbital_position, system, modulation, rolloff, pilot, mis):
++	def addSatTransponder(self, tlist, frequency, symbol_rate, polarisation, fec, inversion, orbital_position, system, modulation, rolloff, pilot, is_id):
 +		print "Add Sat: frequ: " + str(frequency) + " symbol: " + str(symbol_rate) + " pol: " + str(polarisation) + " fec: " + str(fec) + " inversion: " + str(inversion) + " modulation: " + str(modulation) + " system: " + str(system) + " rolloff" + str(rolloff) + " pilot" + str(pilot) + " is_id" + str(is_id)	
  		print "orbpos: " + str(orbital_position)
  		parm = eDVBFrontendParametersSatellite()
