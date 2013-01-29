@@ -12,6 +12,8 @@ dist_install_DATA = \
 	epgclock_post.png \
 	epgclock_pre.png \
 	epgclock_prepost.png \
+	faz.png \
+	fza.png \
 	folder.png \
 	ico_mp_forward.png \
 	ico_mp_pause.png \
