@@ -1227,7 +1227,7 @@ void eDVBServicePMTHandler::free()
 
 	if (m_pvr_channel)
 	{
-		m_pvr_channel->stopFile();
+		m_pvr_channel->stop();
 		m_pvr_channel->setCueSheet(0);
 	}
 

@@ -1399,7 +1399,7 @@ eDVBChannel::~eDVBChannel()
 	if (m_channel_id)
 		m_mgr->removeChannel(this);
 
-	stopFile();
+	stop();
 }
 
 void eDVBChannel::frontendStateChanged(iDVBFrontend*fe)
@@ -2106,7 +2106,7 @@ RESULT eDVBChannel::playSource(ePtr<iTsSource> &source, const char *streaminfo_f
 	return 0;
 }
 
-void eDVBChannel::stopSource()
+void eDVBChannel::stop()
 {
 	if (m_pvr_thread)
 	{
@@ -2121,11 +2121,6 @@ void eDVBChannel::stopSource()
 	}
 	m_source = NULL;
 	m_tstools.setSource(m_source);
-}
-
-void eDVBChannel::stopFile()
-{
-	stopSource();
 }
 
 void eDVBChannel::setCueSheet(eCueSheet *cuesheet)
