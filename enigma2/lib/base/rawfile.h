@@ -13,7 +13,6 @@ public:
 	eRawFile(int packetsize = 188);
 	~eRawFile();
 	int open(const char *filename);
-	int openCached(const char *filename);
 
 	// iTsSource
 	ssize_t read(off_t offset, void *buf, size_t count);
@@ -22,10 +21,8 @@ public:
 	int valid();
 protected:
 	eSingleLock m_lock;
-	int m_fd;     /* for uncached */
+	int m_fd;
 private:
-	FILE *m_file; /* for cached */
-	int m_cached;
 	off_t m_splitsize, m_totallength, m_current_offset, m_base_offset, m_last_offset;
 	int m_nrfiles;
 	int m_current_file;
@@ -36,7 +33,6 @@ private:
 	void scan();
 	int switchOffset(off_t off);
 	off_t lseek_internal(off_t offset);
-	FILE *openFileCached(int nr);
 	int openFileUncached(int nr);
 };
 
