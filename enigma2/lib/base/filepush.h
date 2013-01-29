@@ -22,8 +22,6 @@ public:
 	~eFilePushThread();
 	void thread();
 	void stop();
-	void start(int sourcefd, int destfd);
-	int start(const char *filename, int destfd);
 	void start(ePtr<iTsSource> &source, int destfd);
 
 	void pause();
