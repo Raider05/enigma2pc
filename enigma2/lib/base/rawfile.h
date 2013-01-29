@@ -16,7 +16,6 @@ public:
 	int openCached(const char *filename);
 
 	// iTsSource
-	off_t lseek(off_t offset, int whence);
 	ssize_t read(off_t offset, void *buf, size_t count);
 	off_t length();
 	off_t offset();
@@ -36,7 +35,7 @@ private:
 	int close();
 	void scan();
 	int switchOffset(off_t off);
-	off_t lseek_internal(off_t offset, int whence);
+	off_t lseek_internal(off_t offset);
 	FILE *openFileCached(int nr);
 	int openFileUncached(int nr);
 };
