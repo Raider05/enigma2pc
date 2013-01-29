@@ -48,9 +48,9 @@ def keyNumberGlobal(instance, number):
 				if not refstr in ("", "none"):
 					OpenBouquetByRef(instance, eServiceReference(refstr))
 				else:
-					instance.session.openWithCallback(instance.numberEntered, NumberZap, number)
+					instance.session.openWithCallback(instance.numberEntered, NumberZap, number, instance.searchNumber)
 			else:
-				instance.session.openWithCallback(instance.numberEntered, NumberZap, number)
+				instance.session.openWithCallback(instance.numberEntered, NumberZap, number, instance.searchNumber)
 
 InfoBarNumberZap.keyNumberGlobal = keyNumberGlobal
 

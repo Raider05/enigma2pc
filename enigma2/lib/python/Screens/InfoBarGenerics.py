@@ -409,10 +409,6 @@ class InfoBarNumberZap:
 
 	def zapToNumber(self, number):
 		service, bouquet = self.searchNumber(number)
-		self.zapToService(service, bouquet)
-
-	def zapToNumber(self, number):
-		service, bouquet = self.searchNumber(number)
 		self.selectAndStartService(service, bouquet)
 
 config.misc.initialchannelselection = ConfigBoolean(default = True)
