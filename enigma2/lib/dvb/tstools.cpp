@@ -1,6 +1,5 @@
 #include <lib/dvb/tstools.h>
 #include <lib/base/eerror.h>
-#include <lib/base/cachedtssource.h>
 #include <unistd.h>
 #include <fcntl.h>
 
@@ -34,10 +33,8 @@ int eDVBTSTools::openFile(const char *filename, int nostreaminfo)
 	eRawFile *f = new eRawFile();
 	ePtr<iTsSource> src = f;
 
-	if (f->open(filename) < 0)
+	if (f->open(filename, 1) < 0)
 		return -1;
-
-	src = new eCachedSource(src);
 
 	setSource(src, nostreaminfo ? NULL : filename);
 
@@ -452,7 +449,7 @@ void eDVBTSTools::calcEnd()
 	// If there's a structure file, the calculation is much smarter, so we can try more often
 	off_t threshold = m_streaminfo.hasStructure() ? 100*1024 : 1024*1024;
 
-	off_t end = m_source->length();
+	off_t end = m_source->lseek(0, SEEK_END);
 	if (llabs(end - m_last_filelength) > threshold)
 	{
 		m_last_filelength = end;
