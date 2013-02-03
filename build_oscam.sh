@@ -28,8 +28,8 @@ echo "-----------------------------------------"
 echo "*** INSTALL OSCAM ***"
 echo "-----------------------------------------"
 
-mkdir oscam_7316/build
-cd oscam_7316/build
+mkdir oscam_8249/build
+cd oscam_8249/build
 cmake --DHAVE_DVBAPI --DHAVE_WEBIF ../
 sudo make install
 cd ../..
