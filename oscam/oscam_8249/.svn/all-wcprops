@@ -1,0 +1,131 @@
+K 25
+svn:wc:ra_dav:version-url
+V 30
+/svn/oscam/!svn/ver/8249/trunk
+END
+module-webif.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/oscam/!svn/ver/8244/trunk/module-webif.c
+END
+module-cacheex.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/oscam/!svn/ver/8242/trunk/module-cacheex.c
+END
+oscam-ecm.c
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/oscam/!svn/ver/8242/trunk/oscam-ecm.c
+END
+reader-bulcrypt.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/oscam/!svn/ver/7999/trunk/reader-bulcrypt.c
+END
+module-monitor.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/oscam/!svn/ver/8212/trunk/module-monitor.c
+END
+reader-videoguard2.c
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/oscam/!svn/ver/8244/trunk/reader-videoguard2.c
+END
+global-functions.h
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/oscam/!svn/ver/8242/trunk/global-functions.h
+END
+oscam-log.c
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/oscam/!svn/ver/8211/trunk/oscam-log.c
+END
+module-cccshare.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/oscam/!svn/ver/8207/trunk/module-cccshare.c
+END
+oscam.c
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/oscam/!svn/ver/8246/trunk/oscam.c
+END
+reader-irdeto.c
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/oscam/!svn/ver/8223/trunk/reader-irdeto.c
+END
+globals.h
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/oscam/!svn/ver/8246/trunk/globals.h
+END
+reader-common.c
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/oscam/!svn/ver/8242/trunk/reader-common.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/oscam/!svn/ver/8246/trunk/Makefile
+END
+reader-common.h
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/oscam/!svn/ver/7692/trunk/reader-common.h
+END
+oscam-reader.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/oscam/!svn/ver/8242/trunk/oscam-reader.c
+END
+oscam-reader.h
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/oscam/!svn/ver/7906/trunk/oscam-reader.h
+END
+oscam-client.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/oscam/!svn/ver/8207/trunk/oscam-client.c
+END
+oscam-emm.c
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/oscam/!svn/ver/8241/trunk/oscam-emm.c
+END
+oscam-client.h
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/oscam/!svn/ver/8093/trunk/oscam-client.h
+END
+module-cccam.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/oscam/!svn/ver/8247/trunk/module-cccam.c
+END
