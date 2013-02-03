@@ -5,7 +5,7 @@ INSTALL_E2DIR="/usr/local/e2"
 
 BACKUP_E2="etc/enigma2 etc/tuxbox/*.xml etc/tuxbox/nim_sockets share/enigma2/xine.conf"
 
-REQPKG="xterm unclutter mingetty \
+REQPKG="xterm unclutter mingetty libmpcdec-dev \
 	"
 for p in $REQPKG; do
         echo -n ">>> Checking \"$p\" : "
@@ -116,7 +116,7 @@ if [ "$DO_XINE" -eq "1" ]; then
 	  echo "configuring OpenPliPC $PKG"
 	  echo "-----------------------------------------"
 
-	  ./autogen.sh --disable-xinerama --disable-musepack --prefix=/usr
+	  ./autogen.sh --disable-xinerama --prefix=/usr
   fi	
 
   if [ "$DO_MAKEINSTALL" -eq "0" ]; then
