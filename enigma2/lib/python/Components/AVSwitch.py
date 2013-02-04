@@ -77,11 +77,11 @@ def InitAVSwitch():
 	config.av.colorformat = ConfigSelection(choices=colorformat_choices, default="rgb")
 	config.av.aspectratio = ConfigSelection(choices={
 			"4_3_letterbox": _("4:3 Letterbox"),
-			"4_3_panscan": _("4:3 PanScan"), 
+			"4_3_panscan": _("4:3 Pan&scan"), 
 			"16_9": _("16:9"), 
 			"16_9_always": _("16:9 always"),
 			"16_10_letterbox": _("16:10 Letterbox"),
-			"16_10_panscan": _("16:10 PanScan"), 
+			"16_10_panscan": _("16:10 Pan&scan"), 
 			"16_9_letterbox": _("16:9 Letterbox")}, 
 			default = "16_9")
 	config.av.aspect = ConfigSelection(choices={
@@ -94,9 +94,9 @@ def InitAVSwitch():
 	# TRANSLATORS: (aspect ratio policy: black bars on top/bottom) in doubt, keep english term.
 	"letterbox": _("Letterbox"),
 	# TRANSLATORS: (aspect ratio policy: cropped content on left/right) in doubt, keep english term
-	"panscan": _("Pan&Scan"),
+	"panscan": _("Pan&scan"),
 	# TRANSLATORS: (aspect ratio policy: display as fullscreen, even if this breaks the aspect)
-	"scale": _("Just Scale"),
+	"scale": _("Just scale"),
   
   "zoom": _("Zoom")}
 	if os.path.exists("/usr/local/e2/etc/stb/video/policy2_choices") and "auto" in open("/usr/local/e2/etc/stb/video/policy2_choices").readline():
@@ -107,11 +107,11 @@ def InitAVSwitch():
 	# TRANSLATORS: (aspect ratio policy: black bars on left/right) in doubt, keep english term.
 	"pillarbox": _("Pillarbox"),
 	# TRANSLATORS: (aspect ratio policy: cropped content on left/right) in doubt, keep english term
-	"panscan": _("Pan&Scan"),
+	"panscan": _("Pan&scan"),
 	# TRANSLATORS: (aspect ratio policy: display as fullscreen, with stretching the left/right)
 	"nonlinear": _("Nonlinear"),
 	# TRANSLATORS: (aspect ratio policy: display as fullscreen, even if this breaks the aspect)
-	"scale": _("Just Scale"),
+	"scale": _("Just scale"),
   
   "zoom": _("Zoom")}
 	if os.path.exists(eEnv.resolve("${sysconfdir}/stb/video/policy_choices")) and "auto" in open(eEnv.resolve("${sysconfdir}/stb/video/policy_choices")).readline():

@@ -1,4 +1,4 @@
-<menu text="Mainmenu" title="Main menu">
+<menu text="Main menu" title="Main menu">
 	<id val="mainmenu" />
 <!-- the following types are allowed:
 	<screen [module="mod"] [screen="classname"]>[arguments]</screen> 
@@ -38,9 +38,9 @@
 				<id val="scan" />
 				<item text="Tuner configuration" entryID="tuner_setup"><screen module="Satconfig" screen="NimSelection" /></item>
 				<!--<item text="Default services lists" entryID="default_lists"><screen module="ScanSetup" screen="DefaultSatLists" /></item>-->
-				<item text="Automatic Scan" entryID="auto_scan"><screen module="ScanSetup" screen="ScanSimple" /></item>
+				<item text="Automatic scan" entryID="auto_scan"><screen module="ScanSetup" screen="ScanSimple" /></item>
 				<!--<item text="Automatic Scan"><screen module="ServiceScan" /></item>-->
-				<item text="Manual Scan" entryID="manual_scan"><screen module="ScanSetup" /></item>
+				<item text="Manual scan" entryID="manual_scan"><screen module="ScanSetup" /></item>
 				<!--<item text="Rotor Control"></item>
 				<item text="Edit Transponder"></item>
 				<item text="Satfinder"></item>-->
@@ -58,8 +58,8 @@
 					<id val="harddisk" />
 					<item level="1" entryID="harddisk_setup"><setup id="harddisk"/></item>
 					<item level="0" text="Initialization" entryID="harddisk_init"><screen module="HarddiskSetup" screen="HarddiskSelection"/></item>
-					<item level="0" text="Filesystem Check" entryID="harddisk_check"><screen module="HarddiskSetup" screen="HarddiskFsckSelection"/></item>
-					<item level="0" text="Convert filesystem ext3 to ext4" entryID="harddisk_convert" requires="ext4"><screen module="HarddiskSetup" screen="HarddiskConvertExt4Selection"/></item>
+					<item level="0" text="Filesystem check" entryID="harddisk_check"><screen module="HarddiskSetup" screen="HarddiskFsckSelection"/></item>
+					<item level="0" text="Convert ext3 filesystem to ext4" entryID="harddisk_convert" requires="ext4"><screen module="HarddiskSetup" screen="HarddiskConvertExt4Selection"/></item>
 				</menu>
 				<!--<item text="OSD"><setup id="osd" /></item>-->
 				<item level="0" text="Network" entryID="network_setup"><screen module="NetworkSetup" screen="NetworkAdapterSelection" /></item>
@@ -100,11 +100,11 @@ self.session.openWithCallback(msgClosed, FactoryReset)
 		<menu text="Standby / Restart" entryID="standby_restart_list">
 			<id val="shutdown" />
 			<!--<item text="Standby"><code>quitMainloop(0)</code></item>-->
-			<item text="Sleep Timer" entryID="sleep"><screen module="SleepTimerEdit" screen="SleepTimerEdit" /></item>
+			<item text="Sleep timer" entryID="sleep"><screen module="SleepTimerEdit" screen="SleepTimerEdit" /></item>
 			<item text="Standby" entryID="standby"><screen module="Standby" screen="Standby"/></item>
 			<item text="Restart" entryID="restart"><screen module="Standby" screen="TryQuitMainloop">2</screen></item>
 			<item text="Restart enigma" entryID="restart_enigma"><screen module="Standby" screen="TryQuitMainloop">3</screen></item>
-			<item text="Deep Standby" requires="DeepstandbySupport" entryID="deep_standby"><screen module="Standby" screen="TryQuitMainloop">1</screen></item>
+			<item text="Deep standby" requires="DeepstandbySupport" entryID="deep_standby"><screen module="Standby" screen="TryQuitMainloop">1</screen></item>
 			<item text="Shutdown" requires="!DeepstandbySupport" entryID="deep_standby"><screen module="Standby" screen="TryQuitMainloop">1</screen></item>
 		</menu>
 </menu>
