@@ -119,6 +119,7 @@ struct eDVBFrontendParametersTerrestrial
 	int hierarchy;
 	int inversion;
 	int system;
+	int plpid;
 };
 SWIG_ALLOW_OUTPUT_SIMPLE(eDVBFrontendParametersTerrestrial);
 
