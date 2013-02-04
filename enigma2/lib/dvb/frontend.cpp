@@ -582,6 +582,10 @@ int eDVBFrontend::openFrontend()
 #endif
 		}
 
+		if (m_simulate_fe)
+		{
+			m_simulate_fe->m_delsys = m_delsys;
+		}
 		m_sn = eSocketNotifier::create(eApp, m_fd, eSocketNotifier::Read, false);
 		CONNECT(m_sn->activated, eDVBFrontend::feEvent);
 	}
@@ -2868,6 +2872,10 @@ void eDVBFrontend::setDeliverySystemWhitelist(const std::vector<fe_delivery_syst
 	for (unsigned int i = 0; i < whitelist.size(); i++)
 	{
 		m_delsys_whitelist[whitelist[i]] = true;
+	}
+	if (m_simulate_fe)
+	{
+		m_simulate_fe->setDeliverySystemWhitelist(whitelist);
 	}
 }
 
