@@ -14,39 +14,12 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+
 #include "freesatv2.h"
-#include "eerror.h"
-#include <asm/types.h>
-#include "cfile.h"
 
-#define START   '\0'
-#define STOP    '\0'
-#define ESCAPE  '\1'
-
-#ifndef DATADIR
-#	define DATADIR "/usr/share"
-#endif
-
-#ifndef FREESAT_DATA_DIRECTORY
-#define FREESAT_DATA_DIRECTORY       DATADIR
-#endif
-#define TABLE1_FILENAME FREESAT_DATA_DIRECTORY "/enigma2/freesat.t1"
-#define TABLE2_FILENAME FREESAT_DATA_DIRECTORY "/enigma2/freesat.t2"
-
-struct huffTableEntry {
-	__u32 value;
-	__u16 bits;
-	char next;
-	huffTableEntry * nextEntry;
-
-	huffTableEntry(unsigned int value, short bits, char next, huffTableEntry * nextEntry) : value(value), bits(bits), next(next), nextEntry(nextEntry)
-	{ }
-};
-
-freesatHuffmanDecoder::freesatHuffmanDecoder()
+freesatHuffmanDecoder::freesatHuffmanDecoder() : m_tablesLoaded(false)
 {
 	memset(m_tables, 0, sizeof(m_tables));
-	loadTables();
 }
 
 freesatHuffmanDecoder::~freesatHuffmanDecoder()
@@ -71,8 +44,13 @@ freesatHuffmanDecoder::~freesatHuffmanDecoder()
 
 void freesatHuffmanDecoder::loadTables()
 {
-	loadFile(1, TABLE1_FILENAME);
-	loadFile(2, TABLE2_FILENAME);
+	if (! m_tablesLoaded )
+	{
+		eDebug("[FREESAT] Load tables");
+		loadFile(1, TABLE1_FILENAME);
+		loadFile(2, TABLE2_FILENAME);
+		m_tablesLoaded = true;
+	}
 }
 
 
@@ -82,32 +60,29 @@ void freesatHuffmanDecoder::loadTables()
 *
 *  \return Raw character
 */
-static unsigned char resolveChar(const char *str)
+static unsigned char resolveChar(char *str)
 {
-	if (str[1] == 0)
-		return str[0];
+	if (str[1] == 0) return str[0];
 
-	switch(str[0])
+	if ( strcmp(str,"ESCAPE") == 0 )
 	{
-		case 'E':
-			if ( strcmp(str,"ESCAPE") == 0 )
-				return ESCAPE;
-			break;
-		case 'S':
-			if ( strcmp(str,"STOP") == 0 )
-				return STOP;
-			if ( strcmp(str,"START") == 0 )
-				return START;
-			break;
-		case '0':
-			{
-				int val;
-				if ( sscanf(str,"0x%02x", &val) == 1 )
-				{
-					return val;
-				}
-			}
-			break;
+		return ESCAPE;
+	}
+	else if ( strcmp(str,"STOP") == 0 )
+	{
+		return STOP;
+	}
+	else if ( strcmp(str,"START") == 0 )
+	{
+		return START;
+	}
+	else
+	{
+		int val;
+		if ( sscanf(str,"0x%02x", &val) == 1 )
+		{
+			return val;
+		}
 	}
 	return str[0];
 }
@@ -119,19 +94,19 @@ static unsigned char resolveChar(const char *str)
 *
 *  \return Decoded value
 */
-static unsigned long decodeBinary(const char *binary)
+static unsigned long decodeBinary(char *binary)
 {
 	unsigned long mask = 0x80000000;
 	unsigned long val = 0;
+	size_t i, len = strlen(binary);
 
-	while (*binary)
+	for ( i = 0; i < len; i++ )
 	{
-		if ( *binary == '1' )
+		if ( binary[i] == '1' )
 		{
 			val |= mask;
 		}
 		mask >>= 1;
-		++binary;
 	}
 	return val;
 }
@@ -141,37 +116,23 @@ static unsigned long decodeBinary(const char *binary)
 *  \param tableid   - Table id that should be loaded
 *  \param filename  - Filename to load
 */
-void freesatHuffmanDecoder::loadFile(int tableid, const char *filename)
+void freesatHuffmanDecoder::loadFile(int tableid, char *filename)
 {
-	char buf[1024];
-	char *from;
-	char *to;
-	char *binary;
-	char *colon;
+	char     buf[1024];
+	char    *from, *to, *binary;
+	FILE    *fp;
 
-	CFile fp(filename, "r");
-	if ( fp )
+	tableid--;
+
+	if ( ( fp = fopen(filename,"r") ) != NULL )
 	{
-		eDebug("[FREESAT] Loading table %d Filename <%s>", tableid, filename);
+		eDebug("[FREESAT] Loading table %d Filename <%s>",tableid + 1, filename);
 
-		tableid--;
 		while ( fgets(buf,sizeof(buf),fp) != NULL )
 		{
-			// Tokenize string "in place"
-			from = buf;
-			colon = strchr(buf, ':');
-			if (colon == NULL)
-				continue;
-			binary = colon + 1;
-			*colon = 0;
-			colon = strchr(binary, ':');
-			if (colon == NULL)
-				continue;
-			*colon = 0;
-			to = colon + 1;
-			colon = strchr(to, ':');
-			if (colon != NULL)
-				*colon = 0;
+			from = binary = to = NULL;
+			int elems = sscanf(buf,"%a[^:]:%a[^:]:%a[^:]:", &from, &binary, &to);
+			if ( elems == 3 )
 			{
 				int bin_len = strlen(binary);
 				int from_char = resolveChar(from);
@@ -186,7 +147,11 @@ void freesatHuffmanDecoder::loadFile(int tableid, const char *filename)
 				}
 				*pCurrent = new huffTableEntry(bin, bin_len, to_char, NULL);
 			}
+			free(from);
+			free(to);
+			free(binary);
 		}
+		fclose(fp);
 	}
 	else
 	{
@@ -207,6 +172,8 @@ std::string freesatHuffmanDecoder::decode(const unsigned char *src, size_t size)
 {
 	std::string uncompressed;
 	int tableid;
+
+	loadTables();
 
 	if (src[0] == 0x1f && (src[1] == 1 || src[1] == 2))
 	{
