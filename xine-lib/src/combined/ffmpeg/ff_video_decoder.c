@@ -138,6 +138,8 @@ struct ff_video_decoder_s {
 #ifdef LOG
   enum PixelFormat  debug_fmt;
 #endif
+
+  uint8_t           set_stream_info;
 };
 
 /* import color matrix names */
@@ -213,7 +215,7 @@ static int get_buffer(AVCodecContext *context, AVFrame *av_frame){
       this->aspect_ratio = (double)width / (double)height;
       this->aspect_ratio_prio = 1;
       lprintf("default aspect ratio: %f\n", this->aspect_ratio);
-      set_stream_info(this);
+      this->set_stream_info = 1;
     }
   }
 
@@ -608,7 +610,7 @@ static int ff_handle_mpeg_sequence(ff_video_decoder_t *this, mpeg_parser_t *pars
   return 1;
 }
 
-static void ff_convert_frame(ff_video_decoder_t *this, vo_frame_t *img) {
+static void ff_convert_frame(ff_video_decoder_t *this, vo_frame_t *img, AVFrame *av_frame) {
   int         y;
   uint8_t    *dy, *du, *dv, *sy, *su, *sv;
 
@@ -622,9 +624,9 @@ static void ff_convert_frame(ff_video_decoder_t *this, vo_frame_t *img) {
   dy = img->base[0];
   du = img->base[1];
   dv = img->base[2];
-  sy = this->av_frame->data[0];
-  su = this->av_frame->data[1];
-  sv = this->av_frame->data[2];
+  sy = av_frame->data[0];
+  su = av_frame->data[1];
+  sv = av_frame->data[2];
 
   /* Some segfaults & heap corruption have been observed with img->height,
    * so we use this->bih.biHeight instead (which is the displayed height)
@@ -634,18 +636,18 @@ static void ff_convert_frame(ff_video_decoder_t *this, vo_frame_t *img) {
 
     yuv9_to_yv12(
      /* Y */
-      this->av_frame->data[0],
-      this->av_frame->linesize[0],
+      av_frame->data[0],
+      av_frame->linesize[0],
       img->base[0],
       img->pitches[0],
      /* U */
-      this->av_frame->data[1],
-      this->av_frame->linesize[1],
+      av_frame->data[1],
+      av_frame->linesize[1],
       img->base[1],
       img->pitches[1],
      /* V */
-      this->av_frame->data[2],
-      this->av_frame->linesize[2],
+      av_frame->data[2],
+      av_frame->linesize[2],
       img->base[2],
       img->pitches[2],
      /* width x height */
@@ -656,18 +658,18 @@ static void ff_convert_frame(ff_video_decoder_t *this, vo_frame_t *img) {
 
     yuv411_to_yv12(
      /* Y */
-      this->av_frame->data[0],
-      this->av_frame->linesize[0],
+      av_frame->data[0],
+      av_frame->linesize[0],
       img->base[0],
       img->pitches[0],
      /* U */
-      this->av_frame->data[1],
-      this->av_frame->linesize[1],
+      av_frame->data[1],
+      av_frame->linesize[1],
       img->base[1],
       img->pitches[1],
      /* V */
-      this->av_frame->data[2],
-      this->av_frame->linesize[2],
+      av_frame->data[2],
+      av_frame->linesize[2],
       img->base[2],
       img->pitches[2],
      /* width x height */
@@ -697,7 +699,7 @@ static void ff_convert_frame(ff_video_decoder_t *this, vo_frame_t *img) {
         this->yuv.v[plane_ptr] = COMPUTE_V(r, g, b);
         plane_ptr++;
       }
-      sy += this->av_frame->linesize[0];
+      sy += av_frame->linesize[0];
     }
 
     yuv444_to_yuy2(&this->yuv, img->base[0], img->pitches[0]);
@@ -726,7 +728,7 @@ static void ff_convert_frame(ff_video_decoder_t *this, vo_frame_t *img) {
         this->yuv.v[plane_ptr] = COMPUTE_V(r, g, b);
         plane_ptr++;
       }
-      sy += this->av_frame->linesize[0];
+      sy += av_frame->linesize[0];
     }
 
     yuv444_to_yuy2(&this->yuv, img->base[0], img->pitches[0]);
@@ -755,7 +757,7 @@ static void ff_convert_frame(ff_video_decoder_t *this, vo_frame_t *img) {
         this->yuv.v[plane_ptr] = COMPUTE_V(r, g, b);
         plane_ptr++;
       }
-      sy += this->av_frame->linesize[0];
+      sy += av_frame->linesize[0];
     }
 
     yuv444_to_yuy2(&this->yuv, img->base[0], img->pitches[0]);
@@ -779,7 +781,7 @@ static void ff_convert_frame(ff_video_decoder_t *this, vo_frame_t *img) {
         this->yuv.v[plane_ptr] = COMPUTE_V(r, g, b);
         plane_ptr++;
       }
-      sy += this->av_frame->linesize[0];
+      sy += av_frame->linesize[0];
     }
 
     yuv444_to_yuy2(&this->yuv, img->base[0], img->pitches[0]);
@@ -803,7 +805,7 @@ static void ff_convert_frame(ff_video_decoder_t *this, vo_frame_t *img) {
         this->yuv.v[plane_ptr] = COMPUTE_V(r, g, b);
         plane_ptr++;
       }
-      sy += this->av_frame->linesize[0];
+      sy += av_frame->linesize[0];
     }
 
     yuv444_to_yuy2(&this->yuv, img->base[0], img->pitches[0]);
@@ -842,7 +844,7 @@ static void ff_convert_frame(ff_video_decoder_t *this, vo_frame_t *img) {
         this->yuv.v[plane_ptr] = v_palette[pixel];
         plane_ptr++;
       }
-      sy += this->av_frame->linesize[0];
+      sy += av_frame->linesize[0];
     }
 
     yuv444_to_yuy2(&this->yuv, img->base[0], img->pitches[0]);
@@ -866,7 +868,7 @@ static void ff_convert_frame(ff_video_decoder_t *this, vo_frame_t *img) {
         q = dy;
         for (x = img->width; x > 0; x--) *q++ = ytab[*p++];
         dy += img->pitches[0];
-        sy += this->av_frame->linesize[0];
+        sy += av_frame->linesize[0];
       }
 
       for (y = 0; y < this->bih.biHeight / 2; y++) {
@@ -884,11 +886,11 @@ static void ff_convert_frame(ff_video_decoder_t *this, vo_frame_t *img) {
         du += img->pitches[1];
         dv += img->pitches[2];
         if (subsampv) {
-          su += 2 * this->av_frame->linesize[1];
-          sv += 2 * this->av_frame->linesize[2];
+          su += 2 * av_frame->linesize[1];
+          sv += 2 * av_frame->linesize[2];
         } else {
-          su += this->av_frame->linesize[1];
-          sv += this->av_frame->linesize[2];
+          su += av_frame->linesize[1];
+          sv += av_frame->linesize[2];
         }
       }
 
@@ -897,7 +899,7 @@ static void ff_convert_frame(ff_video_decoder_t *this, vo_frame_t *img) {
       for (y = 0; y < this->bih.biHeight; y++) {
         xine_fast_memcpy (dy, sy, img->width);
         dy += img->pitches[0];
-        sy += this->av_frame->linesize[0];
+        sy += av_frame->linesize[0];
       }
 
       for (y = 0; y < this->bih.biHeight / 2; y++) {
@@ -926,11 +928,11 @@ static void ff_convert_frame(ff_video_decoder_t *this, vo_frame_t *img) {
         du += img->pitches[1];
         dv += img->pitches[2];
         if (subsampv) {
-          su += 2*this->av_frame->linesize[1];
-          sv += 2*this->av_frame->linesize[2];
+          su += 2*av_frame->linesize[1];
+          sv += 2*av_frame->linesize[2];
         } else {
-          su += this->av_frame->linesize[1];
-          sv += this->av_frame->linesize[2];
+          su += av_frame->linesize[1];
+          sv += av_frame->linesize[2];
         }
       }
 
@@ -1320,6 +1322,11 @@ static void ff_handle_mpeg12_buffer (ff_video_decoder_t *this, buf_element_t *bu
       offset += len;
     }
 
+    if( this->set_stream_info) {
+      set_stream_info(this);
+      this->set_stream_info = 0;
+    }
+
     if (got_picture && this->av_frame->data[0]) {
       /* got a picture, draw it */
       if(!this->av_frame->opaque) {
@@ -1336,6 +1343,10 @@ static void ff_handle_mpeg12_buffer (ff_video_decoder_t *this, buf_element_t *bu
         img = (vo_frame_t*) this->av_frame->opaque;
         free_img = 0;
       }
+
+      /* transfer some more frame settings for deinterlacing */
+      img->progressive_frame = !this->av_frame->interlaced_frame;
+      img->top_field_first   = this->av_frame->top_field_first;
 
       /* get back reordered pts */
       img->pts = ff_untag_pts (this, this->av_frame->reordered_opaque);
@@ -1532,6 +1543,11 @@ static void ff_handle_buffer (ff_video_decoder_t *this, buf_element_t *buf) {
 	set_stream_info(this);
       }
 
+      if( this->set_stream_info) {
+        set_stream_info(this);
+        this->set_stream_info = 0;
+      }
+
       if (got_picture && this->av_frame->data[0]) {
         /* got a picture, draw it */
         got_one_picture = 1;
@@ -1591,7 +1607,7 @@ static void ff_handle_buffer (ff_video_decoder_t *this, buf_element_t *buf) {
             free_img = 1;
           }
 
-          pp_postprocess(this->av_frame->data, this->av_frame->linesize,
+          pp_postprocess((const uint8_t **)this->av_frame->data, this->av_frame->linesize,
                         img->base, img->pitches,
                         img->width, img->height,
                         this->av_frame->qscale_table, this->av_frame->qstride,
@@ -1600,7 +1616,7 @@ static void ff_handle_buffer (ff_video_decoder_t *this, buf_element_t *buf) {
 
         } else if (!this->av_frame->opaque) {
 	  /* colorspace conversion or copy */
-          ff_convert_frame(this, img);
+          ff_convert_frame(this, img, this->av_frame);
         }
 
         img->pts  = ff_untag_pts(this, this->av_frame->reordered_opaque);
@@ -1895,6 +1911,7 @@ static video_decoder_t *ff_video_open_plugin (video_decoder_class_t *class_gen, 
   this->mpeg_parser       = NULL;
 
   this->dr1_frames        = xine_list_new();
+  this->set_stream_info   = 0;
 
 #ifdef LOG
   this->debug_fmt = -1;

@@ -83,6 +83,9 @@ typedef struct {
   int       unscaled;
   int       vid_scale;
   int       type; /* GL_RGBA or GL_BGRA */
+
+  int       extent_width;
+  int       extent_height;
 } opengl2_overlay_t;
 
 
@@ -557,6 +560,8 @@ static int opengl2_process_ovl( opengl2_driver_t *this_gen, vo_overlay_t *overla
   ovl->ovl_x = overlay->x;
   ovl->ovl_y = overlay->y;
   ovl->unscaled = overlay->unscaled;
+  ovl->extent_width = overlay->extent_width;
+  ovl->extent_height = overlay->extent_height;
   if ( overlay->extent_width == -1 )
     ovl->vid_scale = 1;
   else
@@ -626,17 +631,15 @@ static int opengl2_process_rgba_ovl( opengl2_driver_t *this_gen, vo_overlay_t *o
   ovl->ovl_x = overlay->x;
   ovl->ovl_y = overlay->y;
   ovl->unscaled = overlay->unscaled;
+  ovl->extent_width = overlay->extent_width;
+  ovl->extent_height = overlay->extent_height;
   if ( overlay->extent_width == -1 )
     ovl->vid_scale = 1;
   else
     ovl->vid_scale = 0;
   ovl->type = GL_BGRA;
 
-  pthread_mutex_lock(&overlay->argb_layer->mutex);
-
   memcpy(ovl->ovl_rgba, overlay->argb_layer->buffer, overlay->width * overlay->height * 4);
-
-  pthread_mutex_unlock(&overlay->argb_layer->mutex);
 
   return 1;
 }
@@ -661,8 +664,15 @@ static void opengl2_overlay_blend (vo_driver_t *this_gen, vo_frame_t *frame_gen,
     return;
 
   if (overlay->argb_layer && overlay->argb_layer->buffer) {
-    if ( opengl2_process_rgba_ovl( this, overlay ) )
-      ++this->ovl_changed;
+
+    pthread_mutex_lock(&overlay->argb_layer->mutex); /* buffer can be changed or freed while unlocked */
+
+    if (overlay->argb_layer->buffer) {
+      if ( opengl2_process_rgba_ovl( this, overlay ) )
+        ++this->ovl_changed;
+    }
+
+    pthread_mutex_unlock(&overlay->argb_layer->mutex);
   }
 
   else if (overlay->rle) {
@@ -910,9 +920,17 @@ static void opengl2_draw_scaled_overlays( opengl2_driver_t *that, opengl2_frame_
     o = &that->overlays[i];
     if ( o->unscaled )
       continue;
+    /* scaled overlays with known extent:
+       draw overlay over scaled video frame -> more sharpness in overlay */
+    if (o->extent_width > 0 && o->extent_height > 0)
+      continue;
     ox = o->ovl_x; oy = o->ovl_y;
     ow = o->ovl_w; oh = o->ovl_h;
-    if ( o->vid_scale && that->ovl_vid_scale ) {
+    if (o->extent_width > 0 && o->extent_height > 0) {
+      float fx = frame->width / (float)o->extent_width, fy = frame->height / (float)o->extent_height;
+      ox *= fx; oy *= fy;
+      ow *= fx; oh *= fy;
+    } else if ( o->vid_scale && that->ovl_vid_scale ) {
       float fx = frame->width / 720.0, fy = frame->height / 576.0;
       ox *= fx; oy *= fy;
       ow *= fx; oh *= fy;
@@ -934,22 +952,31 @@ static void opengl2_draw_scaled_overlays( opengl2_driver_t *that, opengl2_frame_
 
 static void opengl2_draw_unscaled_overlays( opengl2_driver_t *that )
 {
-  int i;
+  int i, ox, oy, ow, oh;
   opengl2_overlay_t *o;
   
   glEnable( GL_BLEND );
   for ( i=0; i<that->num_ovls; ++i ) {
     o = &that->overlays[i];
-    if ( !o->unscaled )
+    if ( !o->unscaled && (o->extent_width <= 0 || o->extent_height <= 0))
       continue;
+    ox = o->ovl_x; oy = o->ovl_y;
+    ow = o->ovl_w; oh = o->ovl_h;
     glActiveTexture( GL_TEXTURE0 );
     glBindTexture( GL_TEXTURE_RECTANGLE_ARB, o->tex );
 
+    if (!o->unscaled) {
+      float fx = that->sc.gui_width / (float)o->extent_width, fy = that->sc.gui_height / (float)o->extent_height;
+      /* scale to output */
+      ox = fx * ox; oy = fy * oy;
+      ow = fx * ow; oh = fy * oh;
+    }
+
     glBegin( GL_QUADS );
-      glTexCoord2f( 0, 0 );                  glVertex3f( o->ovl_x, o->ovl_y, 0.);
-      glTexCoord2f( 0, o->tex_h );           glVertex3f( o->ovl_x, o->ovl_y + o->ovl_h, 0.);
-      glTexCoord2f( o->tex_w, o->tex_h );    glVertex3f( o->ovl_x + o->ovl_w, o->ovl_y + o->ovl_h, 0.);
-      glTexCoord2f( o->tex_w, 0 );           glVertex3f( o->ovl_x + o->ovl_w, o->ovl_y, 0.);
+      glTexCoord2f( 0, 0 );                  glVertex3f( ox, oy, 0.);
+      glTexCoord2f( 0, o->tex_h );           glVertex3f( ox, oy + oh, 0.);
+      glTexCoord2f( o->tex_w, o->tex_h );    glVertex3f( ox + ow, oy + oh, 0.);
+      glTexCoord2f( o->tex_w, 0 );           glVertex3f( ox + ow, oy, 0.);
     glEnd();
   }
   glDisable( GL_BLEND );
