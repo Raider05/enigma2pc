@@ -313,6 +313,7 @@ struct xine_video_port_s {
 #define VO_CAP_VDPAU_MPEG12           0x00000100 /* driver can use VDPAU for mpeg1/2 */
 #define VO_CAP_VDPAU_VC1              0x00000200 /* driver can use VDPAU for VC1 */
 #define VO_CAP_VDPAU_MPEG4            0x00000400 /* driver can use VDPAU for mpeg4-part2 */
+#define VO_CAP_VAAPI                  0x00000800 /* driver can use VAAPI */
 #define VO_CAP_COLOR_MATRIX           0x00004000 /* driver can use alternative yuv->rgb matrices */
 #define VO_CAP_FULLRANGE              0x00008000 /* driver handles fullrange yuv */
 #define VO_CAP_HUE                    0x00010000

@@ -458,6 +458,7 @@ int  xine_get_current_frame_data (xine_stream_t *stream,
 #define XINE_IMGFMT_XVMC (('C'<<24)|('M'<<16)|('v'<<8)|'X')
 #define XINE_IMGFMT_XXMC (('C'<<24)|('M'<<16)|('x'<<8)|'X')
 #define XINE_IMGFMT_VDPAU (('A'<<24)|('P'<<16)|('D'<<8)|'V')
+#define XINE_IMGFMT_VAAPI (('P'<<24)|('A'<<16)|('A'<<8)|'V')
 
 /* get current xine's virtual presentation timestamp (1/90000 sec)
  * note: this is mostly internal data.

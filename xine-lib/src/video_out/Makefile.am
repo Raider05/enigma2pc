@@ -46,6 +46,10 @@ if ENABLE_VDPAU
 vdpau_module = xineplug_vo_out_vdpau.la
 endif
 
+if ENABLE_VAAPI
+vaapi_module = xineplug_vo_out_vaapi.la
+endif
+
 if ENABLE_XCB
 XCBOSD = xcbosd.c
 if ENABLE_XCBSHM
@@ -121,12 +125,17 @@ xineplug_LTLIBRARIES = $(xshm_module) $(xv_module) $(xvmc_module) \
 		  $(xcbshm_module) \
 		  $(xcbxv_module) \
 		  $(vdpau_module) \
+		  $(vaapi_module) \
                   xineplug_vo_out_raw.la \
                   xineplug_vo_out_none.la
 
 xineplug_vo_out_vdpau_la_SOURCES = video_out_vdpau.c
 xineplug_vo_out_vdpau_la_LIBADD = $(XINE_LIB) $(MLIB_LIBS) $(AVUTIL_LIBS) $(PTHREAD_LIBS) $(X_LIBS) $(LTLIBINTL) $(VDPAU_LIBS) -lm
 xineplug_vo_out_vdpau_la_CFLAGS = $(VISIBILITY_FLAG) $(MLIB_CFLAGS) $(X_CFLAGS) $(VDPAU_CFLAGS) $(AVUTIL_CFLAGS) -fno-strict-aliasing
+
+xineplug_vo_out_vaapi_la_SOURCES = $(X11OSD) video_out_vaapi.c
+xineplug_vo_out_vaapi_la_LIBADD = $(YUV_LIBS) $(XINE_LIB) $(OPENGL_LIBS) $(FFMPEG_LIBS) $(AVUTIL_LIBS) $(X_LIBS) $(PTHREAD_LIBS) $(LTLIBINTL) -ldl -lGLU -lva-glx -lva-x11 -lva
+xineplug_vo_out_vaapi_la_CFLAGS = $(AM_CFLAGS) $(X_CFLAGS) $(XV_CFLAGS) -fno-strict-aliasing
 
 xineplug_vo_out_xcbshm_la_SOURCES = video_out_xcbshm.c $(XCBOSD)
 xineplug_vo_out_xcbshm_la_LIBADD = $(YUV_LIBS) $(PTHREAD_LIBS) $(XCB_LIBS) $(XCBSHM_LIBS) $(LTLIBINTL)

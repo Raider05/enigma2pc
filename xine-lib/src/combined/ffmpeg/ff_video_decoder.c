@@ -50,6 +50,12 @@
 #  include <libpostproc/postprocess.h>
 #endif
 
+#ifdef HAVE_VA_VA_X11_H
+#include <libavcodec/vaapi.h>
+#include "accel_vaapi.h"
+#define ENABLE_VAAPI 1
+#endif
+
 #include "ffmpeg_compat.h"
 
 #define VIDEOBUFSIZE        (128*1024)
@@ -69,6 +75,9 @@ typedef struct ff_video_class_s {
   int8_t                  skip_loop_filter_enum;
   int8_t                  choose_speed_over_accuracy;
   uint8_t                 enable_dri;
+
+  uint8_t                 enable_vaapi;
+  uint8_t                 vaapi_mpeg_softdec;
 
   xine_t                 *xine;
 } ff_video_class_t;
@@ -140,6 +149,12 @@ struct ff_video_decoder_s {
 #endif
 
   uint8_t           set_stream_info;
+
+#ifdef ENABLE_VAAPI
+  struct vaapi_context  vaapi_context;
+  vaapi_accel_t         *accel;
+  vo_frame_t            *accel_img;
+#endif
 };
 
 /* import color matrix names */
@@ -204,6 +219,7 @@ static int get_buffer(AVCodecContext *context, AVFrame *av_frame){
   vo_frame_t *img;
   int width  = context->width;
   int height = context->height;
+  int guarded_render = 0;
 
   ff_check_colorspace (this);
 
@@ -221,8 +237,70 @@ static int get_buffer(AVCodecContext *context, AVFrame *av_frame){
 
   avcodec_align_dimensions(context, &width, &height);
 
-  if (this->full2mpeg || (this->context->pix_fmt != PIX_FMT_YUV420P &&
-    this->context->pix_fmt != PIX_FMT_YUVJ420P)) {
+#ifdef ENABLE_VAAPI
+  if( this->context->pix_fmt == PIX_FMT_VAAPI_VLD) {
+
+    av_frame->opaque  = NULL;
+    av_frame->data[0] = NULL;
+    av_frame->data[1] = NULL;
+    av_frame->data[2] = NULL;
+    av_frame->data[3] = NULL;
+    av_frame->type = FF_BUFFER_TYPE_USER;
+#ifdef AVFRAMEAGE
+    av_frame->age = 1;
+#endif
+    av_frame->reordered_opaque = context->reordered_opaque;
+
+    if(!this->accel->guarded_render(this->accel_img)) {
+      img = this->stream->video_out->get_frame (this->stream->video_out,
+                                            width,
+                                            height,
+                                            this->aspect_ratio,
+                                            this->output_format,
+                                            VO_BOTH_FIELDS|this->frame_flags);
+
+      av_frame->opaque = img;
+      xine_list_push_back(this->dr1_frames, av_frame);
+
+      vaapi_accel_t *accel = (vaapi_accel_t*)img->accel_data;
+      ff_vaapi_surface_t *va_surface = accel->get_vaapi_surface(img);
+
+      if(va_surface) {
+        av_frame->data[0] = (void *)va_surface;//(void *)(uintptr_t)va_surface->va_surface_id;
+        av_frame->data[3] = (void *)(uintptr_t)va_surface->va_surface_id;
+      }
+    } else {
+      ff_vaapi_surface_t *va_surface = this->accel->get_vaapi_surface(this->accel_img);
+
+      if(va_surface) {
+        av_frame->data[0] = (void *)va_surface;//(void *)(uintptr_t)va_surface->va_surface_id;
+        av_frame->data[3] = (void *)(uintptr_t)va_surface->va_surface_id;
+      }
+    }
+
+    lprintf("1: 0x%08x\n", av_frame->data[3]);
+
+    av_frame->linesize[0] = 0;
+    av_frame->linesize[1] = 0;
+    av_frame->linesize[2] = 0;
+    av_frame->linesize[3] = 0;
+
+    this->is_direct_rendering_disabled = 1;
+
+    return 0;
+  }
+
+  /* on vaapi out do not use direct rendeing */
+  if(this->class->enable_vaapi) {
+    this->output_format = XINE_IMGFMT_YV12;
+  }
+
+  if(this->accel)
+    guarded_render = this->accel->guarded_render(this->accel_img);
+#endif /* ENABLE_VAAPI */
+
+  if ((this->full2mpeg || (this->context->pix_fmt != PIX_FMT_YUV420P &&
+			   this->context->pix_fmt != PIX_FMT_YUVJ420P)) || guarded_render) {
     if (!this->is_direct_rendering_disabled) {
       xprintf(this->stream->xine, XINE_VERBOSITY_LOG,
               _("ffmpeg_video_dec: unsupported frame format, DR1 disabled.\n"));
@@ -293,6 +371,18 @@ static int get_buffer(AVCodecContext *context, AVFrame *av_frame){
 static void release_buffer(struct AVCodecContext *context, AVFrame *av_frame){
   ff_video_decoder_t *this = (ff_video_decoder_t *)context->opaque;
 
+#ifdef ENABLE_VAAPI
+  if( this->context->pix_fmt == PIX_FMT_VAAPI_VLD ) {
+    if(this->accel->guarded_render(this->accel_img)) {
+      ff_vaapi_surface_t *va_surface = (ff_vaapi_surface_t *)av_frame->data[0];
+      if(va_surface != NULL) {
+        this->accel->release_vaapi_surface(this->accel_img, va_surface);
+        lprintf("release_buffer: va_surface_id 0x%08x\n", (unsigned int)av_frame->data[3]);
+      }
+    }
+  }
+#endif
+
   if (av_frame->type == FF_BUFFER_TYPE_USER) {
     if ( av_frame->opaque ) {
       vo_frame_t *img = (vo_frame_t *)av_frame->opaque;
@@ -338,6 +428,53 @@ static const int skip_loop_filter_enum_values[] = {
   AVDISCARD_NONKEY,
   AVDISCARD_ALL
 };
+
+#ifdef ENABLE_VAAPI
+static enum PixelFormat get_format(struct AVCodecContext *context, const enum PixelFormat *fmt)
+{
+  int i, profile;
+  ff_video_decoder_t *this = (ff_video_decoder_t *)context->opaque;
+
+  if(!this->class->enable_vaapi || !this->accel_img)
+    return PIX_FMT_YUV420P;
+
+  vaapi_accel_t *accel = (vaapi_accel_t*)this->accel_img->accel_data;
+
+  for (i = 0; fmt[i] != PIX_FMT_NONE; i++) {
+    if (fmt[i] != PIX_FMT_VAAPI_VLD)
+      continue;
+
+    profile = accel->profile_from_imgfmt(this->accel_img, fmt[i], context->codec_id, this->class->vaapi_mpeg_softdec);
+
+    if (profile >= 0) {
+      VAStatus status;
+
+      status = accel->vaapi_init(this->accel_img, profile, context->width, context->height, 0);
+
+      if( status == VA_STATUS_SUCCESS ) {
+        ff_vaapi_context_t *va_context = accel->get_context(this->accel_img);
+
+        if(!va_context)
+          return PIX_FMT_YUV420P;
+
+        context->draw_horiz_band = NULL;
+        context->slice_flags = SLICE_FLAG_CODED_ORDER | SLICE_FLAG_ALLOW_FIELD;
+        context->dsp_mask = 0;
+
+        this->vaapi_context.config_id    = va_context->va_config_id;
+        this->vaapi_context.context_id   = va_context->va_context_id;
+        this->vaapi_context.display      = va_context->va_display;
+
+        context->hwaccel_context     = &this->vaapi_context;
+        this->pts = 0;
+
+        return fmt[i];
+      }
+    }
+  }
+  return PIX_FMT_YUV420P;
+}
+#endif
 
 static void init_video_codec (ff_video_decoder_t *this, unsigned int codec_type) {
   size_t i;
@@ -391,6 +528,40 @@ static void init_video_codec (ff_video_decoder_t *this, unsigned int codec_type)
   }
 #endif
 
+  if(this->class->enable_vaapi) {
+    this->class->thread_count = this->context->thread_count = 1;
+
+    this->context->skip_loop_filter = AVDISCARD_DEFAULT;
+    xprintf(this->stream->xine, XINE_VERBOSITY_LOG,
+     _("ffmpeg_video_dec: force AVDISCARD_DEFAULT for VAAPI\n"));
+  } else {
+    this->context->skip_loop_filter = skip_loop_filter_enum_values[this->class->skip_loop_filter_enum];
+  }
+
+  /* enable direct rendering by default */
+  this->output_format = XINE_IMGFMT_YV12;
+#ifdef ENABLE_DIRECT_RENDERING
+  if( this->codec->capabilities & CODEC_CAP_DR1 && this->class->enable_dri ) {
+    this->context->get_buffer = get_buffer;
+    this->context->release_buffer = release_buffer;
+    xprintf(this->stream->xine, XINE_VERBOSITY_LOG,
+	    _("ffmpeg_video_dec: direct rendering enabled\n"));
+  }
+#endif
+
+#ifdef ENABLE_VAAPI
+  if( this->class->enable_vaapi ) {
+    this->class->enable_dri = 1;
+    this->output_format = XINE_IMGFMT_VAAPI;
+    this->context->get_buffer = get_buffer;
+    this->context->reget_buffer = get_buffer;
+    this->context->release_buffer = release_buffer;
+    this->context->get_format = get_format;
+    xprintf(this->stream->xine, XINE_VERBOSITY_LOG,
+	    _("ffmpeg_video_dec: direct rendering enabled\n"));
+  }
+#endif /* ENABLE_VAAPI */
+
   pthread_mutex_lock(&ffmpeg_lock);
   if (avcodec_open (this->context, this->codec) < 0) {
     pthread_mutex_unlock(&ffmpeg_lock);
@@ -426,8 +597,6 @@ static void init_video_codec (ff_video_decoder_t *this, unsigned int codec_type)
   }
 #endif
 
-  this->context->skip_loop_filter = skip_loop_filter_enum_values[this->class->skip_loop_filter_enum];
-
   pthread_mutex_unlock(&ffmpeg_lock);
 
   lprintf("lavc decoder opened\n");
@@ -450,21 +619,11 @@ static void init_video_codec (ff_video_decoder_t *this, unsigned int codec_type)
 
   this->skipframes = 0;
 
-  /* enable direct rendering by default */
-  this->output_format = XINE_IMGFMT_YV12;
-#ifdef ENABLE_DIRECT_RENDERING
-  if( this->codec->capabilities & CODEC_CAP_DR1 && this->class->enable_dri ) {
-    this->context->get_buffer = get_buffer;
-    this->context->release_buffer = release_buffer;
-    xprintf(this->stream->xine, XINE_VERBOSITY_LOG,
-	    _("ffmpeg_video_dec: direct rendering enabled\n"));
-  }
-#endif
-
   /* flag for interlaced streams */
   this->frame_flags = 0;
   /* FIXME: which codecs can be interlaced?
       FIXME: check interlaced DCT and other codec specific info. */
+  if(!this->class->enable_vaapi) {
   switch( codec_type ) {
     case BUF_VIDEO_DV:
       this->frame_flags |= VO_INTERLACED_FLAG;
@@ -482,12 +641,27 @@ static void init_video_codec (ff_video_decoder_t *this, unsigned int codec_type)
       this->frame_flags |= VO_INTERLACED_FLAG;
       break;
   }
+  }
 
 #ifdef AVCODEC_HAS_REORDERED_OPAQUE
   /* dont want initial AV_NOPTS_VALUE here */
   this->context->reordered_opaque = 0;
 #endif
 }
+
+#ifdef ENABLE_VAAPI
+static void vaapi_enable_vaapi(void *user_data, xine_cfg_entry_t *entry) {
+  ff_video_class_t   *class = (ff_video_class_t *) user_data;
+
+  class->enable_vaapi = entry->num_value;
+}
+
+static void vaapi_mpeg_softdec_func(void *user_data, xine_cfg_entry_t *entry) {
+  ff_video_class_t   *class = (ff_video_class_t *) user_data;
+
+  class->vaapi_mpeg_softdec = entry->num_value;
+}
+#endif /* ENABLE_VAAPI */
 
 static void choose_speed_over_accuracy_cb(void *user_data, xine_cfg_entry_t *entry) {
   ff_video_class_t   *class = (ff_video_class_t *) user_data;
@@ -1299,12 +1473,28 @@ static void ff_handle_mpeg12_buffer (ff_video_decoder_t *this, buf_element_t *bu
     avpkt.data = (uint8_t *)this->mpeg_parser->chunk_buffer;
     avpkt.size = this->mpeg_parser->buffer_size;
     avpkt.flags = AV_PKT_FLAG_KEY;
+# if ENABLE_VAAPI
+    if (this->accel) {
+      len = this->accel->avcodec_decode_video2 ( this->accel_img, this->context, this->av_frame,
+				 &got_picture, &avpkt);
+    } else
+# endif
+    {
     len = avcodec_decode_video2 (this->context, this->av_frame,
 				 &got_picture, &avpkt);
+    }
 #else
+# if ENABLE_VAAPI
+    if(this->accel) {
+      len = this->accel->avcodec_decode_video ( this->accel_img, this->context, this->av_frame,
+                                &got_picture, this->mpeg_parser->chunk_buffer,
+                                this->mpeg_parser->buffer_size);
+    } else
+# endif
     len = avcodec_decode_video (this->context, this->av_frame,
                                 &got_picture, this->mpeg_parser->chunk_buffer,
                                 this->mpeg_parser->buffer_size);
+    }
 #endif
     lprintf("avcodec_decode_video: decoded_size=%d, got_picture=%d\n",
             len, got_picture);
@@ -1320,6 +1510,11 @@ static void ff_handle_mpeg12_buffer (ff_video_decoder_t *this, buf_element_t *bu
     } else {
       size -= len;
       offset += len;
+    }
+
+    if (got_picture && this->class->enable_vaapi) {
+      this->bih.biWidth = this->context->width;
+      this->bih.biHeight = this->context->height;
     }
 
     if( this->set_stream_info) {
@@ -1361,6 +1556,16 @@ static void ff_handle_mpeg12_buffer (ff_video_decoder_t *this, buf_element_t *bu
 
       img->crop_right  = this->crop_right;
       img->crop_bottom = this->crop_bottom;
+
+#ifdef ENABLE_VAAPI
+      if( this->context->pix_fmt == PIX_FMT_VAAPI_VLD) {
+        if(this->accel->guarded_render(this->accel_img)) {
+          ff_vaapi_surface_t *va_surface = (ff_vaapi_surface_t *)this->av_frame->data[0];
+          this->accel->render_vaapi_surface(img, va_surface);
+          lprintf("handle_mpeg12_buffer: render_vaapi_surface va_surface_id 0x%08x\n", this->av_frame->data[0]);
+        }
+      }
+#endif /* ENABLE_VAAPi */
 
       this->skipframes = img->draw(img, this->stream);
 
@@ -1486,12 +1691,29 @@ static void ff_handle_buffer (ff_video_decoder_t *this, buf_element_t *buf) {
 	avpkt.data = (uint8_t *)&chunk_buf[offset];
 	avpkt.size = this->size;
 	avpkt.flags = AV_PKT_FLAG_KEY;
+# if ENABLE_VAAPI
+	if(this->accel) {
+	  len = this->accel->avcodec_decode_video2 ( this->accel_img, this->context, this->av_frame,
+						     &got_picture, &avpkt);
+	} else
+# endif
+	{
 	len = avcodec_decode_video2 (this->context, this->av_frame,
 				     &got_picture, &avpkt);
+	}
 #else
+# if ENABLE_VAAPI
+	if(this->accel) {
+	  len = this->accel->avcodec_decode_video ( this->accel_img, this->context, this->av_frame,
+						    &got_picture, &chunk_buf[offset],
+						    this->size);
+	} else
+# endif
+	{
         len = avcodec_decode_video (this->context, this->av_frame,
                                     &got_picture, &chunk_buf[offset],
                                     this->size);
+	}
 #endif
         /* reset consumed pts value */
         this->context->reordered_opaque = ff_tag_pts(this, 0);
@@ -1555,7 +1777,7 @@ static void ff_handle_buffer (ff_video_decoder_t *this, buf_element_t *buf) {
 	  /* indirect rendering */
 
 	  /* initialize the colorspace converter */
-	  if (!this->cs_convert_init) {
+	  if (!this->cs_convert_init && !this->context->pix_fmt != PIX_FMT_VAAPI_VLD) {
 	    if ((this->context->pix_fmt == PIX_FMT_RGB32) ||
 	        (this->context->pix_fmt == PIX_FMT_RGB565) ||
 	        (this->context->pix_fmt == PIX_FMT_RGB555) ||
@@ -1591,10 +1813,10 @@ static void ff_handle_buffer (ff_video_decoder_t *this, buf_element_t *buf) {
         }
 
         /* post processing */
-        if(this->pp_quality != this->class->pp_quality)
+        if(this->pp_quality != this->class->pp_quality && this->context->pix_fmt != PIX_FMT_VAAPI_VLD)
           pp_change_quality(this);
 
-        if(this->pp_available && this->pp_quality) {
+        if(this->pp_available && this->pp_quality && this->context->pix_fmt != PIX_FMT_VAAPI_VLD) {
 
           if(this->av_frame->opaque) {
             /* DR1 */
@@ -1616,7 +1838,8 @@ static void ff_handle_buffer (ff_video_decoder_t *this, buf_element_t *buf) {
 
         } else if (!this->av_frame->opaque) {
 	  /* colorspace conversion or copy */
-          ff_convert_frame(this, img, this->av_frame);
+          if( this->context->pix_fmt != PIX_FMT_VAAPI_VLD)
+            ff_convert_frame(this, img, this->av_frame);
         }
 
         img->pts  = ff_untag_pts(this, this->av_frame->reordered_opaque);
@@ -1644,6 +1867,17 @@ static void ff_handle_buffer (ff_video_decoder_t *this, buf_element_t *buf) {
         /* transfer some more frame settings for deinterlacing */
         img->progressive_frame = !this->av_frame->interlaced_frame;
         img->top_field_first   = this->av_frame->top_field_first;
+
+#ifdef ENABLE_VAAPI
+        if( this->context->pix_fmt == PIX_FMT_VAAPI_VLD) {
+          if(this->accel->guarded_render(this->accel_img)) {
+            ff_vaapi_surface_t *va_surface = (ff_vaapi_surface_t *)this->av_frame->data[0];
+            this->accel->render_vaapi_surface(img, va_surface);
+            if(va_surface)
+              lprintf("handle_buffer: render_vaapi_surface va_surface_id 0x%08x\n", this->av_frame->data[0]);
+          }
+        }
+#endif /* ENABLE_VAAPI */
 
         this->skipframes = img->draw(img, this->stream);
 
@@ -1868,6 +2102,11 @@ static void ff_dispose (video_decoder_t *this_gen) {
 
   xine_list_delete(this->dr1_frames);
 
+#ifdef ENABLE_VAAPI
+  if(this->accel_img)
+    this->accel_img->free(this->accel_img);
+#endif
+
   free (this_gen);
 }
 
@@ -1915,6 +2154,35 @@ static video_decoder_t *ff_video_open_plugin (video_decoder_class_t *class_gen, 
 
 #ifdef LOG
   this->debug_fmt = -1;
+#endif
+
+#ifdef ENABLE_VAAPI
+  memset(&this->vaapi_context, 0x0 ,sizeof(struct vaapi_context));
+
+  this->accel             = NULL;
+  this->accel_img         = NULL;
+#endif
+
+
+#ifdef ENABLE_VAAPI
+  if(this->class->enable_vaapi && (stream->video_driver->get_capabilities(stream->video_driver) & VO_CAP_VAAPI)) {
+    xprintf(this->class->xine, XINE_VERBOSITY_LOG, _("ffmpeg_video_dec: vaapi_mpeg_softdec %d\n"),
+          this->class->vaapi_mpeg_softdec );
+
+    this->accel_img  = stream->video_out->get_frame( stream->video_out, 1920, 1080, 1, XINE_IMGFMT_VAAPI, VO_BOTH_FIELDS );
+
+    if( this->accel_img ) {
+      this->accel = (vaapi_accel_t*)this->accel_img->accel_data;
+      xprintf(this->class->xine, XINE_VERBOSITY_LOG, _("ffmpeg_video_dec: VAAPI Enabled in config.\n"));
+    } else {
+      this->class->enable_vaapi = 0;
+      xprintf(this->class->xine, XINE_VERBOSITY_LOG, _("ffmpeg_video_dec: VAAPI Enabled disabled by driver.\n"));
+    }
+  } else {
+    this->class->enable_vaapi = 0;
+    this->class->vaapi_mpeg_softdec = 0;
+    xprintf(this->class->xine, XINE_VERBOSITY_LOG, _("ffmpeg_video_dec: VAAPI Enabled disabled by driver.\n"));
+  }
 #endif
 
   return &this->video_decoder;
@@ -1981,6 +2249,18 @@ void *init_video_plugin (xine_t *xine, void *data) {
     _("Disable direct rendering if you are experiencing lock-ups with\n"
       "streams with lot of reference frames."),
     10, dri_cb, this);
+
+#ifdef ENABLE_VAAPI
+  this->vaapi_mpeg_softdec = xine->config->register_bool(config, "video.processing.vaapi_mpeg_softdec", 0,
+    _("VAAPI Mpeg2 softdecoding"),
+    _("If the machine freezes on mpeg2 decoding use mpeg2 software decoding."),
+    10, vaapi_mpeg_softdec_func, this);
+
+  this->enable_vaapi = xine->config->register_bool(config, "video.processing.ffmpeg_enable_vaapi", 1,
+    _("Enable VAAPI"),
+    _("Enable or disable usage of vaapi"),
+    10, vaapi_enable_vaapi, this);
+#endif /* ENABLE_VAAPI */
 
   return this;
 }

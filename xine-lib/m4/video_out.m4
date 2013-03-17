@@ -27,6 +27,7 @@ AC_DEFUN([XINE_VIDEO_OUT_PLUGINS], [
     default_enable_xinerama=yes
     default_enable_xvmc=yes
     default_enable_vdpau=no
+    default_enable_vaapi=no
 
     default_with_caca=yes
     default_with_libstk=no
@@ -56,6 +57,7 @@ AC_DEFUN([XINE_VIDEO_OUT_PLUGINS], [
             default_enable_fb=yes
             default_enable_vidix=yes
             default_enable_vdpau=yes
+            default_enable_vaapi=yes
             enable_linux=yes
             ;;
     esac
@@ -517,5 +519,14 @@ AC_DEFUN([XINE_VIDEO_OUT_PLUGINS], [
         fi
     fi
     AM_CONDITIONAL([ENABLE_VDPAU], test x"$have_vdpau" = x"yes")
-    
+
+    dnl VAAPI
+    XINE_ARG_ENABLE([vaapi], [Disable VAAPI output plugin])
+    if test x"$no_x" != x"yes" && test x"$enable_vaapi" != x"no"; then
+        PKG_CHECK_MODULES([LIBVA], [libva], [have_vaapi=yes], [have_vaapi=no])
+        AC_CHECK_HEADERS([va/va.h], , [have_vaapi=no])
+        AC_CHECK_HEADERS([va/va_x11.h], , [have_vaapi=no])
+    fi
+    AM_CONDITIONAL([ENABLE_VAAPI], test x"$have_vaapi" = x"yes")
+
 ])dnl XINE_VIDEO_OUT_PLUGIN

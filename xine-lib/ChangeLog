@@ -1,4 +1,5 @@
 xine-lib (1.2.3) ????-??-??
+  * Add VAAPI HW decoding support
   * Add OpenGL 2.0 output plugin
   * Add crop support to XShm output plugins
   * Add color matrix and full range support to OpenGL/Xv/XShm output plugins
