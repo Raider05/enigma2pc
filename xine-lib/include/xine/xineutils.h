@@ -312,6 +312,8 @@ extern void *rgb2yuy2_alloc (int color_matrix, const char *format) XINE_PROTECTE
 extern void  rgb2yuy2_free (void *rgb2yuy2) XINE_PROTECTED;
 extern void  rgb2yuy2_slice (void *rgb2yuy2, const uint8_t *in, int ipitch, uint8_t *out, int opitch,
   int width, int height) XINE_PROTECTED;
+extern void  rgb2yuy2_palette (void *rgb2yuy2, const uint8_t *pal, int num_colors, int bits_per_pixel)
+  XINE_PROTECTED;
 
 
 /* frame copying functions */
