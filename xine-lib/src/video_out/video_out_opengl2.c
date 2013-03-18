@@ -769,8 +769,10 @@ static void opengl2_update_frame_format( vo_driver_t *this_gen, vo_frame_t *fram
       frame->vo_frame.pitches[1] = ((width + 15) & ~15) >> 1;
       frame->vo_frame.pitches[2] = ((width + 15) & ~15) >> 1;
       frame->vo_frame.base[0] = av_mallocz (frame->vo_frame.pitches[0] * height);
-      frame->vo_frame.base[1] = av_mallocz (frame->vo_frame.pitches[1] * ((height+1)/2));
-      frame->vo_frame.base[2] = av_mallocz (frame->vo_frame.pitches[2] * ((height+1)/2));
+      frame->vo_frame.base[1] = av_malloc  (frame->vo_frame.pitches[1] * ((height+1)/2));
+      frame->vo_frame.base[2] = av_malloc  (frame->vo_frame.pitches[2] * ((height+1)/2));
+      memset (frame->vo_frame.base[1], 128, frame->vo_frame.pitches[1] * ((height+1)/2));
+      memset (frame->vo_frame.base[2], 128, frame->vo_frame.pitches[2] * ((height+1)/2));
     } else if (format == XINE_IMGFMT_YUY2){
       frame->vo_frame.pitches[0] = ((width + 15) & ~15) << 1;
       frame->vo_frame.base[0] = av_mallocz (frame->vo_frame.pitches[0] * height);
