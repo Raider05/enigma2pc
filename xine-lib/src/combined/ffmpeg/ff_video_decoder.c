@@ -101,7 +101,6 @@ struct ff_video_decoder_s {
   uint8_t           decoder_init_mode:1;
   uint8_t           is_mpeg12:1;
   uint8_t           pp_available:1;
-  uint8_t           yuv_init:1;
   uint8_t           is_direct_rendering_disabled:1;  /* used only to avoid flooding log */
   uint8_t           cs_convert_init:1;
   uint8_t           assume_bad_field_picture:1;
@@ -135,14 +134,15 @@ struct ff_video_decoder_s {
 
   xine_list_t       *dr1_frames;
 
-  yuv_planes_t      yuv;
-
 #ifdef AVPaletteControl
   AVPaletteControl  palette_control;
 #endif
 
   int               color_matrix, full2mpeg;
   unsigned char     ytab[256], ctab[256];
+
+  int               pix_fmt;
+  void             *rgb2yuy2;
 
 #ifdef LOG
   enum PixelFormat  debug_fmt;
@@ -784,6 +784,36 @@ static int ff_handle_mpeg_sequence(ff_video_decoder_t *this, mpeg_parser_t *pars
   return 1;
 }
 
+static void ff_setup_rgb2yuy2 (ff_video_decoder_t *this, int pix_fmt) {
+  const char *fmt = "";
+  int cm = 10; /* mpeg range ITU-R 601 */
+
+  switch (pix_fmt) {
+    case PIX_FMT_ARGB:     fmt = "argb";     break;
+    case PIX_FMT_BGRA:     fmt = "bgra";     break;
+    case PIX_FMT_RGB24:    fmt = "rgb";      break;
+    case PIX_FMT_BGR24:    fmt = "bgr";      break;
+    case PIX_FMT_RGB555BE: fmt = "rgb555be"; break;
+    case PIX_FMT_RGB555LE: fmt = "rgb555le"; break;
+    case PIX_FMT_RGB565BE: fmt = "rgb565be"; break;
+    case PIX_FMT_RGB565LE: fmt = "rgb565le"; break;
+#ifdef __BIG_ENDIAN__
+    case PIX_FMT_PAL8:     fmt = "argb";     break;
+#else
+    case PIX_FMT_PAL8:     fmt = "bgra";     break;
+#endif
+  }
+  if (this->stream->video_out->get_capabilities (this->stream->video_out) & VO_CAP_FULLRANGE)
+    cm = 11; /* full range */
+  free (this->rgb2yuy2);
+  this->rgb2yuy2 = rgb2yuy2_alloc (cm, fmt);
+  this->pix_fmt = pix_fmt;
+  VO_SET_FLAGS_CM (cm, this->frame_flags);
+  if (pix_fmt == PIX_FMT_PAL8) fmt = "pal8";
+  xprintf (this->stream->xine, XINE_VERBOSITY_LOG,
+    "ffmpeg_video_dec: converting %s -> %s yuy2\n", fmt, cm_names[cm]);
+}
+
 static void ff_convert_frame(ff_video_decoder_t *this, vo_frame_t *img, AVFrame *av_frame) {
   int         y;
   uint8_t    *dy, *du, *dv, *sy, *su, *sv;
@@ -806,311 +836,166 @@ static void ff_convert_frame(ff_video_decoder_t *this, vo_frame_t *img, AVFrame 
    * so we use this->bih.biHeight instead (which is the displayed height)
    */
 
-  if (this->context->pix_fmt == PIX_FMT_YUV410P) {
+  switch (this->context->pix_fmt) {
+    case PIX_FMT_YUV410P:
+      yuv9_to_yv12(
+       /* Y */
+        av_frame->data[0],
+        av_frame->linesize[0],
+        img->base[0],
+        img->pitches[0],
+       /* U */
+        av_frame->data[1],
+        av_frame->linesize[1],
+        img->base[1],
+        img->pitches[1],
+       /* V */
+        av_frame->data[2],
+        av_frame->linesize[2],
+        img->base[2],
+        img->pitches[2],
+       /* width x height */
+        img->width,
+        this->bih.biHeight);
+    break;
 
-    yuv9_to_yv12(
-     /* Y */
-      av_frame->data[0],
-      av_frame->linesize[0],
-      img->base[0],
-      img->pitches[0],
-     /* U */
-      av_frame->data[1],
-      av_frame->linesize[1],
-      img->base[1],
-      img->pitches[1],
-     /* V */
-      av_frame->data[2],
-      av_frame->linesize[2],
-      img->base[2],
-      img->pitches[2],
-     /* width x height */
-      img->width,
-      this->bih.biHeight);
+    case PIX_FMT_YUV411P:
+      yuv411_to_yv12(
+       /* Y */
+        av_frame->data[0],
+        av_frame->linesize[0],
+        img->base[0],
+        img->pitches[0],
+       /* U */
+        av_frame->data[1],
+        av_frame->linesize[1],
+        img->base[1],
+        img->pitches[1],
+       /* V */
+        av_frame->data[2],
+        av_frame->linesize[2],
+        img->base[2],
+        img->pitches[2],
+       /* width x height */
+        img->width,
+        this->bih.biHeight);
+    break;
 
-  } else if (this->context->pix_fmt == PIX_FMT_YUV411P) {
+    /* PIX_FMT_RGB32 etc. are only aliases for the native endian versions.
+       Lets support them both - wont harm performance here :-) */
 
-    yuv411_to_yv12(
-     /* Y */
-      av_frame->data[0],
-      av_frame->linesize[0],
-      img->base[0],
-      img->pitches[0],
-     /* U */
-      av_frame->data[1],
-      av_frame->linesize[1],
-      img->base[1],
-      img->pitches[1],
-     /* V */
-      av_frame->data[2],
-      av_frame->linesize[2],
-      img->base[2],
-      img->pitches[2],
-     /* width x height */
-      img->width,
-      this->bih.biHeight);
+    case PIX_FMT_ARGB:
+    case PIX_FMT_BGRA:
+    case PIX_FMT_RGB24:
+    case PIX_FMT_BGR24:
 
-  } else if (this->context->pix_fmt == PIX_FMT_RGB32) {
+    case PIX_FMT_RGB555BE:
+    case PIX_FMT_RGB555LE:
+    case PIX_FMT_RGB565BE:
+    case PIX_FMT_RGB565LE:
+      if (this->pix_fmt != this->context->pix_fmt)
+        ff_setup_rgb2yuy2 (this, this->context->pix_fmt);
+      rgb2yuy2_slice (this->rgb2yuy2, sy, av_frame->linesize[0],
+        img->base[0], img->pitches[0], img->width, this->bih.biHeight);
+    break;
 
-    int x, plane_ptr = 0;
-    uint32_t *argb_pixels;
-    uint32_t argb;
+    case PIX_FMT_PAL8:
+      if (this->pix_fmt != this->context->pix_fmt)
+        ff_setup_rgb2yuy2 (this, this->context->pix_fmt);
+      rgb2yuy2_palette (this->rgb2yuy2, su, 256, 8);
+      rgb2yuy2_slice (this->rgb2yuy2, sy, av_frame->linesize[0],
+        img->base[0], img->pitches[0], img->width, this->bih.biHeight);
+    break;
 
-    for(y = 0; y < this->bih.biHeight; y++) {
-      argb_pixels = (uint32_t *)sy;
-      for(x = 0; x < img->width; x++) {
-        uint8_t r, g, b;
+    default: {
+      int subsamph = (this->context->pix_fmt == PIX_FMT_YUV444P)
+                  || (this->context->pix_fmt == PIX_FMT_YUVJ444P);
+      int subsampv = (this->context->pix_fmt != PIX_FMT_YUV420P)
+                  && (this->context->pix_fmt != PIX_FMT_YUVJ420P);
 
-        /* this is endian-safe as the ARGB pixels are stored in
-         * machine order */
-        argb = *argb_pixels++;
-        r = (argb >> 16) & 0xFF;
-        g = (argb >>  8) & 0xFF;
-        b = (argb >>  0) & 0xFF;
+      if (this->full2mpeg) {
 
-        this->yuv.y[plane_ptr] = COMPUTE_Y(r, g, b);
-        this->yuv.u[plane_ptr] = COMPUTE_U(r, g, b);
-        this->yuv.v[plane_ptr] = COMPUTE_V(r, g, b);
-        plane_ptr++;
-      }
-      sy += av_frame->linesize[0];
-    }
+        uint8_t *ytab = this->ytab;
+        uint8_t *ctab = this->ctab;
+        uint8_t *p, *q;
+        int x;
 
-    yuv444_to_yuy2(&this->yuv, img->base[0], img->pitches[0]);
-
-  } else if (this->context->pix_fmt == PIX_FMT_RGB565) {
-
-    int x, plane_ptr = 0;
-    uint8_t *src;
-    uint16_t pixel16;
-
-    for(y = 0; y < this->bih.biHeight; y++) {
-      src = sy;
-      for(x = 0; x < img->width; x++) {
-        uint8_t r, g, b;
-
-        /* a 16-bit RGB565 pixel is supposed to be stored in native-endian
-         * byte order; the following should be endian-safe */
-        pixel16 = *((uint16_t *)src);
-        src += 2;
-        b = (pixel16 << 3) & 0xFF;
-        g = (pixel16 >> 3) & 0xFF;
-        r = (pixel16 >> 8) & 0xFF;
-
-        this->yuv.y[plane_ptr] = COMPUTE_Y(r, g, b);
-        this->yuv.u[plane_ptr] = COMPUTE_U(r, g, b);
-        this->yuv.v[plane_ptr] = COMPUTE_V(r, g, b);
-        plane_ptr++;
-      }
-      sy += av_frame->linesize[0];
-    }
-
-    yuv444_to_yuy2(&this->yuv, img->base[0], img->pitches[0]);
-
-  } else if (this->context->pix_fmt == PIX_FMT_RGB555) {
-
-    int x, plane_ptr = 0;
-    uint8_t *src;
-    uint16_t pixel16;
-
-    for(y = 0; y < this->bih.biHeight; y++) {
-      src = sy;
-      for(x = 0; x < img->width; x++) {
-        uint8_t r, g, b;
-
-        /* a 16-bit RGB555 pixel is supposed to be stored in native-endian
-         * byte order; the following should be endian-safe */
-        pixel16 = *((uint16_t *)src);
-        src += 2;
-        b = (pixel16 << 3) & 0xFF;
-        g = (pixel16 >> 2) & 0xFF;
-        r = (pixel16 >> 7) & 0xFF;
-
-        this->yuv.y[plane_ptr] = COMPUTE_Y(r, g, b);
-        this->yuv.u[plane_ptr] = COMPUTE_U(r, g, b);
-        this->yuv.v[plane_ptr] = COMPUTE_V(r, g, b);
-        plane_ptr++;
-      }
-      sy += av_frame->linesize[0];
-    }
-
-    yuv444_to_yuy2(&this->yuv, img->base[0], img->pitches[0]);
-
-  } else if (this->context->pix_fmt == PIX_FMT_BGR24) {
-
-    int x, plane_ptr = 0;
-    uint8_t *src;
-
-    for(y = 0; y < this->bih.biHeight; y++) {
-      src = sy;
-      for(x = 0; x < img->width; x++) {
-        uint8_t r, g, b;
-
-        b = *src++;
-        g = *src++;
-        r = *src++;
-
-        this->yuv.y[plane_ptr] = COMPUTE_Y(r, g, b);
-        this->yuv.u[plane_ptr] = COMPUTE_U(r, g, b);
-        this->yuv.v[plane_ptr] = COMPUTE_V(r, g, b);
-        plane_ptr++;
-      }
-      sy += av_frame->linesize[0];
-    }
-
-    yuv444_to_yuy2(&this->yuv, img->base[0], img->pitches[0]);
-
-  } else if (this->context->pix_fmt == PIX_FMT_RGB24) {
-
-    int x, plane_ptr = 0;
-    uint8_t *src;
-
-    for(y = 0; y < this->bih.biHeight; y++) {
-      src = sy;
-      for(x = 0; x < img->width; x++) {
-        uint8_t r, g, b;
-
-        r = *src++;
-        g = *src++;
-        b = *src++;
-
-        this->yuv.y[plane_ptr] = COMPUTE_Y(r, g, b);
-        this->yuv.u[plane_ptr] = COMPUTE_U(r, g, b);
-        this->yuv.v[plane_ptr] = COMPUTE_V(r, g, b);
-        plane_ptr++;
-      }
-      sy += av_frame->linesize[0];
-    }
-
-    yuv444_to_yuy2(&this->yuv, img->base[0], img->pitches[0]);
-
-  } else if (this->context->pix_fmt == PIX_FMT_PAL8) {
-
-    int x, plane_ptr = 0;
-    uint8_t *src;
-    uint8_t pixel;
-    uint32_t *palette32 = (uint32_t *)su;  /* palette is in data[1] */
-    uint32_t rgb_color;
-    uint8_t r, g, b;
-    uint8_t y_palette[256];
-    uint8_t u_palette[256];
-    uint8_t v_palette[256];
-
-    for (x = 0; x < 256; x++) {
-      rgb_color = palette32[x];
-      b = rgb_color & 0xFF;
-      rgb_color >>= 8;
-      g = rgb_color & 0xFF;
-      rgb_color >>= 8;
-      r = rgb_color & 0xFF;
-      y_palette[x] = COMPUTE_Y(r, g, b);
-      u_palette[x] = COMPUTE_U(r, g, b);
-      v_palette[x] = COMPUTE_V(r, g, b);
-    }
-
-    for(y = 0; y < this->bih.biHeight; y++) {
-      src = sy;
-      for(x = 0; x < img->width; x++) {
-        pixel = *src++;
-
-        this->yuv.y[plane_ptr] = y_palette[pixel];
-        this->yuv.u[plane_ptr] = u_palette[pixel];
-        this->yuv.v[plane_ptr] = v_palette[pixel];
-        plane_ptr++;
-      }
-      sy += av_frame->linesize[0];
-    }
-
-    yuv444_to_yuy2(&this->yuv, img->base[0], img->pitches[0]);
-
-  } else {
-
-    int subsamph = (this->context->pix_fmt == PIX_FMT_YUV444P)
-                || (this->context->pix_fmt == PIX_FMT_YUVJ444P);
-    int subsampv = (this->context->pix_fmt != PIX_FMT_YUV420P)
-                && (this->context->pix_fmt != PIX_FMT_YUVJ420P);
-
-    if (this->full2mpeg) {
-
-      uint8_t *ytab = this->ytab;
-      uint8_t *ctab = this->ctab;
-      uint8_t *p, *q;
-      int x;
-
-      for (y = 0; y < this->bih.biHeight; y++) {
-        p = sy;
-        q = dy;
-        for (x = img->width; x > 0; x--) *q++ = ytab[*p++];
-        dy += img->pitches[0];
-        sy += av_frame->linesize[0];
-      }
-
-      for (y = 0; y < this->bih.biHeight / 2; y++) {
-        if (!subsamph) {
-          p = su, q = du;
-          for (x = img->width / 2; x > 0; x--) *q++ = ctab[*p++];
-          p = sv, q = dv;
-          for (x = img->width / 2; x > 0; x--) *q++ = ctab[*p++];
-        } else {
-          p = su, q = du;
-          for (x = img->width / 2; x > 0; x--) {*q++ = ctab[*p]; p += 2;}
-          p = sv, q = dv;
-          for (x = img->width / 2; x > 0; x--) {*q++ = ctab[*p]; p += 2;}
+        for (y = 0; y < this->bih.biHeight; y++) {
+          p = sy;
+          q = dy;
+          for (x = img->width; x > 0; x--) *q++ = ytab[*p++];
+          dy += img->pitches[0];
+          sy += av_frame->linesize[0];
         }
-        du += img->pitches[1];
-        dv += img->pitches[2];
-        if (subsampv) {
-          su += 2 * av_frame->linesize[1];
-          sv += 2 * av_frame->linesize[2];
-        } else {
-          su += av_frame->linesize[1];
-          sv += av_frame->linesize[2];
-        }
-      }
 
-    } else {
-
-      for (y = 0; y < this->bih.biHeight; y++) {
-        xine_fast_memcpy (dy, sy, img->width);
-        dy += img->pitches[0];
-        sy += av_frame->linesize[0];
-      }
-
-      for (y = 0; y < this->bih.biHeight / 2; y++) {
-        if (!subsamph) {
-          xine_fast_memcpy (du, su, img->width/2);
-          xine_fast_memcpy (dv, sv, img->width/2);
-        } else {
-          int x;
-          uint8_t *src;
-          uint8_t *dst;
-          src = su;
-          dst = du;
-          for (x = 0; x < (img->width / 2); x++) {
-            *dst = *src;
-            dst++;
-            src += 2;
+        for (y = 0; y < this->bih.biHeight / 2; y++) {
+          if (!subsamph) {
+            p = su, q = du;
+            for (x = img->width / 2; x > 0; x--) *q++ = ctab[*p++];
+            p = sv, q = dv;
+            for (x = img->width / 2; x > 0; x--) *q++ = ctab[*p++];
+          } else {
+            p = su, q = du;
+            for (x = img->width / 2; x > 0; x--) {*q++ = ctab[*p]; p += 2;}
+            p = sv, q = dv;
+            for (x = img->width / 2; x > 0; x--) {*q++ = ctab[*p]; p += 2;}
           }
-          src = sv;
-          dst = dv;
-          for (x = 0; x < (img->width / 2); x++) {
-            *dst = *src;
-            dst++;
-            src += 2;
+          du += img->pitches[1];
+          dv += img->pitches[2];
+          if (subsampv) {
+            su += 2 * av_frame->linesize[1];
+            sv += 2 * av_frame->linesize[2];
+          } else {
+            su += av_frame->linesize[1];
+            sv += av_frame->linesize[2];
           }
         }
-        du += img->pitches[1];
-        dv += img->pitches[2];
-        if (subsampv) {
-          su += 2*av_frame->linesize[1];
-          sv += 2*av_frame->linesize[2];
-        } else {
-          su += av_frame->linesize[1];
-          sv += av_frame->linesize[2];
-        }
-      }
 
+      } else {
+
+        for (y = 0; y < this->bih.biHeight; y++) {
+          xine_fast_memcpy (dy, sy, img->width);
+          dy += img->pitches[0];
+          sy += av_frame->linesize[0];
+        }
+
+        for (y = 0; y < this->bih.biHeight / 2; y++) {
+          if (!subsamph) {
+            xine_fast_memcpy (du, su, img->width/2);
+            xine_fast_memcpy (dv, sv, img->width/2);
+          } else {
+            int x;
+            uint8_t *src;
+            uint8_t *dst;
+            src = su;
+            dst = du;
+            for (x = 0; x < (img->width / 2); x++) {
+              *dst = *src;
+              dst++;
+              src += 2;
+            }
+            src = sv;
+            dst = dv;
+            for (x = 0; x < (img->width / 2); x++) {
+              *dst = *src;
+              dst++;
+              src += 2;
+            }
+          }
+          du += img->pitches[1];
+          dv += img->pitches[2];
+          if (subsampv) {
+            su += 2*av_frame->linesize[1];
+            sv += 2*av_frame->linesize[2];
+          } else {
+            su += av_frame->linesize[1];
+            sv += av_frame->linesize[2];
+          }
+        }
+
+      }
     }
+    break;
   }
 }
 
@@ -1776,20 +1661,25 @@ static void ff_handle_buffer (ff_video_decoder_t *this, buf_element_t *buf) {
         if(!this->av_frame->opaque) {
 	  /* indirect rendering */
 
-	  /* initialize the colorspace converter */
-	  if (!this->cs_convert_init && !this->context->pix_fmt != PIX_FMT_VAAPI_VLD) {
-	    if ((this->context->pix_fmt == PIX_FMT_RGB32) ||
-	        (this->context->pix_fmt == PIX_FMT_RGB565) ||
-	        (this->context->pix_fmt == PIX_FMT_RGB555) ||
-	        (this->context->pix_fmt == PIX_FMT_BGR24) ||
-	        (this->context->pix_fmt == PIX_FMT_RGB24) ||
-	        (this->context->pix_fmt == PIX_FMT_PAL8)) {
-	      this->output_format = XINE_IMGFMT_YUY2;
-	      init_yuv_planes(&this->yuv, (this->bih.biWidth + 15) & ~15, this->bih.biHeight);
-	      this->yuv_init = 1;
-	    }
-	    this->cs_convert_init = 1;
-	  }
+          /* prepare for colorspace conversion */
+          if (!this->cs_convert_init && !this->context->pix_fmt != PIX_FMT_VAAPI_VLD) {
+            switch (this->context->pix_fmt) {
+              case PIX_FMT_ARGB:
+              case PIX_FMT_BGRA:
+              case PIX_FMT_RGB24:
+              case PIX_FMT_BGR24:
+              case PIX_FMT_RGB555BE:
+              case PIX_FMT_RGB555LE:
+              case PIX_FMT_RGB565BE:
+              case PIX_FMT_RGB565LE:
+              case PIX_FMT_PAL8:
+                this->output_format = XINE_IMGFMT_YUY2;
+              break;
+              default:
+                this->output_format = XINE_IMGFMT_YV12;
+            }
+            this->cs_convert_init = 1;
+          }
 
 	  if (this->aspect_ratio_prio == 0) {
 	    this->aspect_ratio = (double)this->bih.biWidth / (double)this->bih.biHeight;
@@ -2053,6 +1943,8 @@ static void ff_dispose (video_decoder_t *this_gen) {
 
   lprintf ("ff_dispose\n");
 
+  rgb2yuy2_free (this->rgb2yuy2);
+
   if (this->decoder_ok) {
     xine_list_iterator_t it = NULL;
 
@@ -2078,9 +1970,6 @@ static void ff_dispose (video_decoder_t *this_gen) {
 
   if(this->context && this->context->extradata)
     free(this->context->extradata);
-
-  if(this->yuv_init)
-    free_yuv_planes(&this->yuv);
 
   if( this->context )
     av_free( this->context );
@@ -2151,6 +2040,9 @@ static video_decoder_t *ff_video_open_plugin (video_decoder_class_t *class_gen, 
 
   this->dr1_frames        = xine_list_new();
   this->set_stream_info   = 0;
+
+  this->pix_fmt           = -1;
+  this->rgb2yuy2          = NULL;
 
 #ifdef LOG
   this->debug_fmt = -1;
