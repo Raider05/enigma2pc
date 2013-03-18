@@ -790,6 +790,27 @@ static void demux_ts_flush_media(demux_ts_media *m)
   demux_ts_send_buffer(m, BUF_FLAG_FRAME_END);
 }
 
+static void post_sequence_end(fifo_buffer_t *fifo, uint32_t video_type) {
+
+  if (video_type == BUF_VIDEO_H264 ||
+      video_type == BUF_VIDEO_MPEG ||
+      video_type == BUF_VIDEO_VC1) {
+
+    buf_element_t *buf = fifo->buffer_pool_try_alloc(fifo);
+    if (buf) {
+      buf->type = video_type;
+      buf->size = 4;
+      buf->decoder_flags = BUF_FLAG_FRAME_END;
+      buf->content[0] = 0x00;
+      buf->content[1] = 0x00;
+      buf->content[2] = 0x01;
+      buf->content[3] = (video_type == BUF_VIDEO_MPEG) ? 0xb7 : 0x0a;
+      fifo->put(fifo, buf);
+    }
+  }
+}
+
+
 static void demux_ts_flush(demux_ts_t *this)
 {
   unsigned int i;
@@ -797,6 +818,10 @@ static void demux_ts_flush(demux_ts_t *this)
     demux_ts_flush_media(&this->media[i]);
     this->media[i].corrupted_pes = 1;
   }
+
+  /* append sequence end code to video stream */
+  if (this->videoPid != INVALID_PID)
+    post_sequence_end(this->stream->video_fifo, this->media[this->videoMedia].type);
 }
 
 /*
