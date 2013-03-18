@@ -1662,7 +1662,11 @@ static void ff_handle_buffer (ff_video_decoder_t *this, buf_element_t *buf) {
 	  /* indirect rendering */
 
           /* prepare for colorspace conversion */
-          if (!this->cs_convert_init && !this->context->pix_fmt != PIX_FMT_VAAPI_VLD) {
+#ifdef ENABLE_VAAPI
+          if (this->context->pix_fmt != PIX_FMT_VAAPI_VLD) {
+#endif
+          if (!this->cs_convert_init) {
+            xprintf (this->stream->xine, XINE_VERBOSITY_DEBUG, "ff_video_dec: PIX_FMT %d\n", this->context->pix_fmt);
             switch (this->context->pix_fmt) {
               case PIX_FMT_ARGB:
               case PIX_FMT_BGRA:
@@ -1675,11 +1679,13 @@ static void ff_handle_buffer (ff_video_decoder_t *this, buf_element_t *buf) {
               case PIX_FMT_PAL8:
                 this->output_format = XINE_IMGFMT_YUY2;
               break;
-              default:
-                this->output_format = XINE_IMGFMT_YV12;
+              default: ;
             }
             this->cs_convert_init = 1;
           }
+#ifdef ENABLE_VAAPI
+          }
+#endif
 
 	  if (this->aspect_ratio_prio == 0) {
 	    this->aspect_ratio = (double)this->bih.biWidth / (double)this->bih.biHeight;
