@@ -48,10 +48,14 @@
 
 typedef struct {
   audio_decoder_class_t   decoder_class;
+
+  float                   gain;
 } ff_audio_class_t;
 
 typedef struct ff_audio_decoder_s {
   audio_decoder_t   audio_decoder;
+
+  ff_audio_class_t *class;
 
   xine_stream_t    *stream;
 
@@ -118,14 +122,15 @@ static void ff_audio_ensure_buffer_size(ff_audio_decoder_t *this, int size) {
 }
 
 static void ff_audio_handle_special_buffer(ff_audio_decoder_t *this, buf_element_t *buf) {
+  /* prefer plain global headers */
+  if (((buf->decoder_info[1] == BUF_SPECIAL_STSD_ATOM) && !this->context->extradata)
+    || (buf->decoder_info[1] == BUF_SPECIAL_DECODER_CONFIG)) {
 
-  if (buf->decoder_info[1] == BUF_SPECIAL_STSD_ATOM) {
-
+    free (this->context->extradata);
     this->context->extradata_size = buf->decoder_info[2];
-    this->context->extradata = malloc(buf->decoder_info[2] +
-                                      FF_INPUT_BUFFER_PADDING_SIZE);
-    memcpy(this->context->extradata, buf->decoder_info_ptr[2],
-           buf->decoder_info[2]);
+    this->context->extradata = malloc (buf->decoder_info[2] + FF_INPUT_BUFFER_PADDING_SIZE);
+    memcpy (this->context->extradata, buf->decoder_info_ptr[2], buf->decoder_info[2]);
+    memset (this->context->extradata + buf->decoder_info[2], 0, FF_INPUT_BUFFER_PADDING_SIZE);
   }
 }
 
@@ -403,6 +408,7 @@ static int ff_audio_decode (ff_audio_decoder_t *this,
   avpkt.flags = AV_PKT_FLAG_KEY;
 #  if AVAUDIO > 3
   int got_frame;
+  const float gain = this->class->gain;
   if (!this->av_frame)
     this->av_frame = avcodec_alloc_frame ();
 
@@ -479,7 +485,7 @@ static int ff_audio_decode (ff_audio_decoder_t *this,
             p[i] = (float *)this->av_frame->extended_data[i];
           for (i = samples; i; i--) {
             for (j = 0; j < channels; j++) {
-              int v = *p[j]++ * (float)0x7fff;
+              int v = *p[j]++ * gain;
               *q++ = (v + 0x8000) & ~0xffff ? (v >> 31) ^ 0x7fff : v;
             }
           }
@@ -489,7 +495,7 @@ static int ff_audio_decode (ff_audio_decoder_t *this,
         {
           float *p = (float *)this->av_frame->extended_data[0];
           for (i = samples * channels; i; i--) {
-            int v = *p++ * (float)0x7fff;
+            int v = *p++ * gain;
             *q++ = (v + 0x8000) & ~0xffff ? (v >> 31) ^ 0x7fff : v;
           }
         }
@@ -752,6 +758,8 @@ static audio_decoder_t *ff_audio_open_plugin (audio_decoder_class_t *class_gen, 
 
   this = calloc(1, sizeof (ff_audio_decoder_t));
 
+  this->class = (ff_audio_class_t *)class_gen;
+
   this->audio_decoder.decode_data         = ff_audio_decode_data;
   this->audio_decoder.reset               = ff_audio_reset;
   this->audio_decoder.discontinuity       = ff_audio_discontinuity;
@@ -775,6 +783,12 @@ static audio_decoder_t *ff_audio_open_plugin (audio_decoder_class_t *class_gen, 
   return &this->audio_decoder;
 }
 
+static void ff_gain_cb (void *user_data, xine_cfg_entry_t *entry) {
+  ff_audio_class_t *class = (ff_audio_class_t *)user_data;
+
+  class->gain = (float)0x7fff * powf ((float)10, (float)entry->num_value / (float)20);
+}
+
 void *init_audio_plugin (xine_t *xine, void *data) {
 
   ff_audio_class_t *this ;
@@ -787,6 +801,15 @@ void *init_audio_plugin (xine_t *xine, void *data) {
   this->decoder_class.dispose         = default_audio_decoder_class_dispose;
 
   pthread_once( &once_control, init_once_routine );
+
+  this->gain = (float)0x7fff * powf ((float)10, (float)
+    xine->config->register_num (xine->config,
+      "audio.processing.ffmpeg_gain_dB", -3,
+      _("FFmpeg audio gain (dB)"),
+      _("Some AAC and WMA tracks are encoded too loud and thus play distorted.\n"
+        "This cannot be fixed by volume control, but by this setting."),
+      10, ff_gain_cb, this)
+    / (float)20);
 
   return this;
 }
