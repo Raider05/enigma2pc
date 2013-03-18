@@ -134,8 +134,11 @@ struct ff_video_decoder_s {
 
   xine_list_t       *dr1_frames;
 
-#ifdef AVPaletteControl
+#if AVPALETTE == 1
   AVPaletteControl  palette_control;
+#elif AVPALETTE == 2
+  uint32_t          palette[256];
+  int               palette_changed;
 #endif
 
   int               color_matrix, full2mpeg;
@@ -1199,18 +1202,14 @@ static void ff_handle_special_buffer (ff_video_decoder_t *this, buf_element_t *b
       buf->decoder_info[2]);
 
   }
-#ifdef AVPaletteControl
   else if (buf->decoder_info[1] == BUF_SPECIAL_PALETTE) {
     unsigned int i;
+    palette_entry_t *demuxer_palette = (palette_entry_t *)buf->decoder_info_ptr[2];
 
-    palette_entry_t *demuxer_palette;
-    AVPaletteControl *decoder_palette;
+#if AVPALETTE == 1
+    AVPaletteControl *decoder_palette = &this->palette_control;
 
-    lprintf("BUF_SPECIAL_PALETTE\n");
-    this->context->palctrl = &this->palette_control;
-    decoder_palette = (AVPaletteControl *)this->context->palctrl;
-    demuxer_palette = (palette_entry_t *)buf->decoder_info_ptr[2];
-
+    lprintf ("BUF_SPECIAL_PALETTE\n");
     for (i = 0; i < buf->decoder_info[2]; i++) {
       decoder_palette->palette[i] =
         (demuxer_palette[i].r << 16) |
@@ -1218,9 +1217,19 @@ static void ff_handle_special_buffer (ff_video_decoder_t *this, buf_element_t *b
         (demuxer_palette[i].b <<  0);
     }
     decoder_palette->palette_changed = 1;
+    this->context->palctrl = decoder_palette;
 
-  }
+#elif AVPALETTE == 2
+    lprintf ("BUF_SPECIAL_PALETTE\n");
+    for (i = 0; i < buf->decoder_info[2]; i++) {
+      this->palette[i] =
+        (demuxer_palette[i].r << 16) |
+        (demuxer_palette[i].g <<  8) |
+        (demuxer_palette[i].b <<  0);
+    }
+    this->palette_changed = 1;
 #endif
+  }
   else if (buf->decoder_info[1] == BUF_SPECIAL_RV_CHUNK_TABLE) {
     int i;
 
@@ -1576,6 +1585,13 @@ static void ff_handle_buffer (ff_video_decoder_t *this, buf_element_t *buf) {
 	avpkt.data = (uint8_t *)&chunk_buf[offset];
 	avpkt.size = this->size;
 	avpkt.flags = AV_PKT_FLAG_KEY;
+# if AVPALETTE == 2
+	if (this->palette_changed) {
+	  uint8_t *sd = av_packet_new_side_data (&avpkt, AV_PKT_DATA_PALETTE, 256 * 4);
+	  if (sd)
+	    memcpy (sd, this->palette, 256 * 4);
+	}
+# endif
 # if ENABLE_VAAPI
 	if(this->accel) {
 	  len = this->accel->avcodec_decode_video2 ( this->accel_img, this->context, this->av_frame,
@@ -1586,6 +1602,18 @@ static void ff_handle_buffer (ff_video_decoder_t *this, buf_element_t *buf) {
 	len = avcodec_decode_video2 (this->context, this->av_frame,
 				     &got_picture, &avpkt);
 	}
+# if AVPALETTE == 2
+	if (this->palette_changed) {
+	  /* TJ. Oh dear and sigh.
+	      AVPacket side data handling is broken even in ffmpeg 1.1.1 - see avcodec/avpacket.c
+	      The suggested av_free_packet () would leave a memory leak here, and
+	      ff_packet_free_side_data () is private. */
+	  avpkt.data = NULL;
+	  avpkt.size = 0;
+	  av_destruct_packet (&avpkt);
+	  this->palette_changed = 0;
+	}
+# endif
 #else
 # if ENABLE_VAAPI
 	if(this->accel) {
@@ -2026,7 +2054,7 @@ static video_decoder_t *ff_video_open_plugin (video_decoder_class_t *class_gen, 
   this->av_frame          = avcodec_alloc_frame();
   this->context           = avcodec_alloc_context();
   this->context->opaque   = this;
-#ifdef AVPaletteControl
+#if AVPALETTE == 1
   this->context->palctrl  = NULL;
 #endif
 

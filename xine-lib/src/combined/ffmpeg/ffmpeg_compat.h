@@ -105,4 +105,13 @@
 #  define AVFRAMEAGE 1
 #endif
 
+#if LIBAVCODEC_VERSION_MAJOR < 53
+/* release 0.7.x (libavcodec 52) has deprecated AVCodecContext.palctrl but for backwards compatibility no
+   working alternative. */
+#  define AVPALETTE 1
+#else
+/* pass palette as AVPacket side data */
+#  define AVPALETTE 2
+#endif
+
 #endif /* XINE_AVCODEC_COMPAT_H */
