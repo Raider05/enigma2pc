@@ -1454,6 +1454,58 @@ static int interruptable_sleep(vos_t *this, int usec_to_sleep)
   return timedout;
 }
 
+/* PRIVATE to paused_loop () */
+static vo_frame_t *force_duplicate_frame (vos_t *this, vo_frame_t *s) {
+  vo_frame_t *img, *prev = NULL;
+
+  if (!s)
+    return NULL;
+
+  pthread_mutex_lock (&this->free_img_buf_queue->mutex);
+  img = this->free_img_buf_queue->first;
+
+  if (!img) {
+    /* OK we run out of free frames. Try to whistle back a frame already waiting for display.
+       Search for one that is _not_ a DR1 reference frame that the decoder wants unchanged */
+    pthread_mutex_lock (&this->display_img_buf_queue->mutex);
+    for (img = this->display_img_buf_queue->first; img; img = img->next) {
+      if (img->lock_counter == 1) break;
+      prev = img;
+    }
+
+    if (img) {
+      if (img == this->display_img_buf_queue->first)
+        this->display_img_buf_queue->first = img->next;
+      if (prev)
+        prev->next = img->next;
+      if (img == this->display_img_buf_queue->last)
+        this->display_img_buf_queue->last = prev;
+      if (!this->display_img_buf_queue->first)
+        this->display_img_buf_queue->num_buffers = 0;
+      else
+        this->display_img_buf_queue->num_buffers--;
+
+      img->next = NULL;
+
+      if (img != s) {
+        /* Now put it into free queue where it gets taken from next */
+        this->free_img_buf_queue->first = img;
+        this->free_img_buf_queue->last  = img;
+        this->free_img_buf_queue->num_buffers = 1;
+        img->lock_counter = 0;
+      }
+    }
+    pthread_mutex_unlock (&this->display_img_buf_queue->mutex);
+  }
+
+  if (img != s)
+    img = duplicate_frame (this, s);
+
+  pthread_mutex_unlock (&this->free_img_buf_queue->mutex);
+
+  return img;
+}
+
 /* special loop for paused mode
  * needed to update screen due overlay changes, resize, window
  * movement, brightness adjusting etc.
@@ -1462,52 +1514,36 @@ static void paused_loop( vos_t *this, int64_t vpts )
 {
   vo_frame_t   *img;
 
-  pthread_mutex_lock( &this->free_img_buf_queue->mutex );
   /* prevent decoder thread from allocating new frames */
+  pthread_mutex_lock (&this->free_img_buf_queue->mutex);
   this->free_img_buf_queue->locked_for_read = 1;
+  pthread_mutex_unlock (&this->free_img_buf_queue->mutex);
 
   while (this->clock->speed == XINE_SPEED_PAUSE && this->video_loop_running) {
 
-    /* we need at least one free frame to keep going */
-    if( this->display_img_buf_queue->first &&
-       !this->free_img_buf_queue->first ) {
-
-      img = vo_remove_from_img_buf_queue (this->display_img_buf_queue);
-      img->next = NULL;
-      this->free_img_buf_queue->first = img;
-      this->free_img_buf_queue->last  = img;
-      this->free_img_buf_queue->num_buffers = 1;
-    }
-
     /* set img_backup to play the same frame several times */
-    if( this->display_img_buf_queue->first && !this->img_backup ) {
-      this->img_backup = vo_remove_from_img_buf_queue (this->display_img_buf_queue);
+    if (!this->img_backup) {
+      this->img_backup = force_duplicate_frame (this, this->display_img_buf_queue->first);
       this->redraw_needed = 1;
     }
 
     check_redraw_needed( this, vpts );
 
-    if( this->redraw_needed && this->img_backup ) {
-      img = duplicate_frame (this, this->img_backup );
+    if (this->redraw_needed) {
+      img = force_duplicate_frame (this, this->img_backup);
       if( img ) {
         /* extra info of the backup is thrown away, because it is not up to date */
         _x_extra_info_reset(img->extra_info);
-        pthread_mutex_unlock( &this->free_img_buf_queue->mutex );
         overlay_and_display_frame (this, img, vpts);
-        pthread_mutex_lock( &this->free_img_buf_queue->mutex );
       }
     }
 
-    pthread_mutex_unlock( &this->free_img_buf_queue->mutex );
     interruptable_sleep(this, 20000);
-    pthread_mutex_lock( &this->free_img_buf_queue->mutex );
   }
 
+  pthread_mutex_lock (&this->free_img_buf_queue->mutex);
   this->free_img_buf_queue->locked_for_read = 0;
-
-  if( this->free_img_buf_queue->first )
-    pthread_cond_signal (&this->free_img_buf_queue->not_empty);
-  pthread_mutex_unlock( &this->free_img_buf_queue->mutex );
+  pthread_mutex_unlock (&this->free_img_buf_queue->mutex);
 }
 
 static void video_out_update_disable_flush_from_video_out(void *disable_decoder_flush_from_video_out, xine_cfg_entry_t *entry)
