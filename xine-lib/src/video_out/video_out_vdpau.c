@@ -413,7 +413,6 @@ typedef struct {
   int               honor_progressive;
   int               skip_chroma;
   int               sd_only_properties;
-  int               studio_levels;
   int               background;
 
   int               vdp_runtime_nr;
@@ -424,7 +423,15 @@ typedef struct {
   int               allocated_surfaces;
   int		            zoom_x;
   int		            zoom_y;
+
+  int               color_matrix;
+  int               update_csc;
+  int               cm_state;
 } vdpau_driver_t;
+
+/* import common color matrix stuff */
+#define CM_DRIVER_T vdpau_driver_t
+#include "color_matrix.c"
 
 
 typedef struct {
@@ -1328,7 +1335,7 @@ static int vdpau_redraw_needed (vo_driver_t *this_gen)
     _x_vo_scale_compute_output_size( &this->sc );
     return 1;
   }
-  return 0;
+  return this->update_csc;
 }
 
 
@@ -1593,71 +1600,81 @@ static void vdpau_update_sd_only_properties( void *this_gen, xine_cfg_entry_t *e
 
 
 
-static void vdpau_update_csc( vdpau_driver_t *this_gen )
-{
-  float hue = this_gen->hue/100.0;
-  float saturation = this_gen->saturation/100.0;
-  float contrast = this_gen->contrast/100.0;
-  float brightness = this_gen->brightness/100.0;
+static void vdpau_update_csc_matrix (vdpau_driver_t *that, vdpau_frame_t *frame) {
+  int color_matrix;
 
-  fprintf(stderr, "vo_vdpau: vdpau_update_csc: hue=%f, saturation=%f, contrast=%f, brightness=%f, color_standard=%d studio_levels=%d\n", hue, saturation, contrast, brightness, this_gen->color_standard, this_gen->studio_levels );
+  color_matrix = cm_from_frame (&frame->vo_frame);
 
-  VdpStatus st;
-  VdpCSCMatrix matrix;
-  VdpProcamp procamp = { VDP_PROCAMP_VERSION, brightness, contrast, saturation, hue };
-
-  if ( this_gen->studio_levels ) {
+  if ( that->update_csc || that->color_matrix != color_matrix ) {
+    VdpStatus st;
+    VdpCSCMatrix matrix;
+    float hue = (float)that->hue * 3.14159265359 / 128.0;
+    float saturation = (float)that->saturation / 128.0;
+    float contrast = (float)that->contrast / 128.0;
+    float brightness = that->brightness;
+    float uvcos = saturation * cos( hue );
+    float uvsin = saturation * sin( hue );
+    float kb, kr;
+    float vr, vg, ug, ub;
+    float ygain, yoffset;
     int i;
-    float Kr, Kg, Kb;
-    float uvcos = procamp.saturation * cos(procamp.hue);
-    float uvsin = procamp.saturation * sin(procamp.hue);
-    int rgbmin = 16;
-    int rgbr = 235 - 16;
-    switch ( this_gen->color_standard ) {
-      case VDP_COLOR_STANDARD_SMPTE_240M:
-        Kr = 0.2122;
-        Kg = 0.7013;
-        Kb = 0.0865;
+
+    switch (color_matrix >> 1) {
+      case 1:  kb = 0.0722; kr = 0.2126; /* ITU-R 709 */
+        that->color_standard = VDP_COLOR_STANDARD_ITUR_BT_709;
         break;
-      case VDP_COLOR_STANDARD_ITUR_BT_709:
-        Kr = 0.2125;
-        Kg = 0.7154;
-        Kb = 0.0721;
+      case 4:  kb = 0.1100; kr = 0.3000; /* FCC */
+        that->color_standard = VDP_COLOR_STANDARD_ITUR_BT_601;
         break;
-      case VDP_COLOR_STANDARD_ITUR_BT_601:
-      default:
-        Kr = 0.299;
-        Kg = 0.587;
-        Kb = 0.114;
+      case 7:  kb = 0.0870; kr = 0.2120; /* SMPTE 240 */
+        that->color_standard = VDP_COLOR_STANDARD_SMPTE_240M;
         break;
+      default: kb = 0.1140; kr = 0.2990; /* ITU-R 601 */
+        that->color_standard = VDP_COLOR_STANDARD_ITUR_BT_601;
     }
-    float uv_coeffs[3][2] = {{ 0.000,                                (rgbr / 112.0) * (1 - Kr)           },
-                             {-(rgbr / 112.0) * (1 - Kb) * Kb / Kg, -(rgbr / 112.0) * (1 - Kr) * Kr / Kg },
-                             { (rgbr / 112.0) * (1 - Kb),            0.000                               }};
-    for (i = 0; i < 3; ++i) {
-      matrix[i][3]  = procamp.brightness;
-      matrix[i][0]  = rgbr * procamp.contrast / 219;
-      matrix[i][3] += (-16 / 255.0) * matrix[i][0];
-      matrix[i][1]  = uv_coeffs[i][0] * uvcos + uv_coeffs[i][1] * uvsin;
-      matrix[i][3] += (-128 / 255.0) * matrix[i][1];
-      matrix[i][2]  = uv_coeffs[i][0] * uvsin + uv_coeffs[i][1] * uvcos;
-      matrix[i][3] += (-128 / 255.0) * matrix[i][2];
-      matrix[i][3] += rgbmin / 255.0;
-      matrix[i][3] += 0.5 - procamp.contrast / 2.0;
+    vr = 2.0 * (1.0 - kr);
+    vg = -2.0 * kr * (1.0 - kr) / (1.0 - kb - kr);
+    ug = -2.0 * kb * (1.0 - kb) / (1.0 - kb - kr);
+    ub = 2.0 * (1.0 - kb);
+
+    if (color_matrix & 1) {
+      /* fullrange mode */
+      yoffset = brightness;
+      ygain = contrast;
+      uvcos *= contrast * 255.0 / 254.0;
+      uvsin *= contrast * 255.0 / 254.0;
+    } else {
+      /* mpeg range */
+      yoffset = brightness - 16.0;
+      ygain = contrast * 255.0 / 219.0;
+      uvcos *= contrast * 255.0 / 224.0;
+      uvsin *= contrast * 255.0 / 224.0;
     }
+
+    /* matrix[rgb][yuv1] */
+    matrix[0][1] = -uvsin * vr;
+    matrix[0][2] = uvcos * vr;
+    matrix[1][1] = uvcos * ug - uvsin * vg;
+    matrix[1][2] = uvcos * vg + uvsin * ug;
+    matrix[2][1] = uvcos * ub;
+    matrix[2][2] = uvsin * ub;
+    for (i = 0; i < 3; i++) {
+      matrix[i][0] = ygain;
+      matrix[i][3] = (yoffset * ygain - 128.0 * (matrix[i][1] + matrix[i][2])) / 255.0;
+    }
+
+    that->color_matrix = color_matrix;
+    that->update_csc = 0;
+
+    VdpVideoMixerAttribute attributes [] = {VDP_VIDEO_MIXER_ATTRIBUTE_CSC_MATRIX};
+    void* attribute_values[] = {&matrix};
+    st = vdp_video_mixer_set_attribute_values (that->video_mixer, 1, attributes, attribute_values);
+    if (st != VDP_STATUS_OK)
+      fprintf (stderr, "vo_vdpau: error, can't set csc matrix !!\n");
+
+    xprintf (that->xine, XINE_VERBOSITY_LOG,"video_out_vdpau: b %d c %d s %d h %d [%s]\n",
+      that->brightness, that->contrast, that->saturation, that->hue, cm_names[color_matrix]);
   }
-  else {
-    st = vdp_generate_csc_matrix( &procamp, this_gen->color_standard, &matrix );
-    if ( st != VDP_STATUS_OK ) {
-      fprintf(stderr, "vo_vdpau: error, can't generate csc matrix !!\n" );
-      return;
-    }
-  }
-  VdpVideoMixerAttribute attributes [] = { VDP_VIDEO_MIXER_ATTRIBUTE_CSC_MATRIX };
-  void* attribute_values[] = { &matrix };
-  st = vdp_video_mixer_set_attribute_values( this_gen->video_mixer, 1, attributes, attribute_values );
-  if ( st != VDP_STATUS_OK )
-    fprintf(stderr, "vo_vdpau: error, can't set csc matrix !!\n" );
 }
 
 
@@ -1683,15 +1700,6 @@ static void vdpau_set_skip_chroma( void *this_gen, xine_cfg_entry_t *entry )
   vdpau_driver_t  *this  = (vdpau_driver_t *) this_gen;
   this->skip_chroma = entry->num_value;
   vdpau_update_skip_chroma( this );
-}
-
-
-
-static void vdpau_set_studio_levels( void *this_gen, xine_cfg_entry_t *entry )
-{
-  vdpau_driver_t  *this  = (vdpau_driver_t *) this_gen;
-  this->studio_levels = entry->num_value;
-  vdpau_update_csc( this );
 }
 
 
@@ -1977,16 +1985,12 @@ static void vdpau_display_frame (vo_driver_t *this_gen, vo_frame_t *frame_gen)
     vdpau_update_noise( this );
     vdpau_update_sharpness( this );
     this->color_standard = color_standard;
-    vdpau_update_csc( this );
+    this->update_csc = 1;
     vdpau_update_skip_chroma( this );
     vdpau_update_background( this );
   }
 
-  if (color_standard != this->color_standard) {
-    lprintf("vo_vdpau: update color_standard: %d\n", color_standard);
-    this->color_standard = color_standard;
-    vdpau_update_csc( this );
-  }
+  vdpau_update_csc_matrix (this, frame);
 
   if (this->ovl_changed || redraw_needed)
     vdpau_process_overlays(this);
@@ -2204,10 +2208,10 @@ static int vdpau_set_property (vo_driver_t *this_gen, int property, int value)
       this->sc.user_ratio = value;
       this->sc.force_redraw = 1;    /* trigger re-calc of output size */
       break;
-    case VO_PROP_HUE: this->hue = value; vdpau_update_csc( this ); break;
-    case VO_PROP_SATURATION: this->saturation = value; vdpau_update_csc( this ); break;
-    case VO_PROP_CONTRAST: this->contrast = value; vdpau_update_csc( this ); break;
-    case VO_PROP_BRIGHTNESS: this->brightness = value; vdpau_update_csc( this ); break;
+    case VO_PROP_HUE: this->hue = value; this->update_csc = 1; break;
+    case VO_PROP_SATURATION: this->saturation = value; this->update_csc = 1; break;
+    case VO_PROP_CONTRAST: this->contrast = value; this->update_csc = 1; break;
+    case VO_PROP_BRIGHTNESS: this->brightness = value; this->update_csc = 1; break;
     case VO_PROP_SHARPNESS: this->sharpness = value; vdpau_update_sharpness( this ); break;
     case VO_PROP_NOISE_REDUCTION: this->noise = value; vdpau_update_noise( this ); break;
   }
@@ -2221,13 +2225,13 @@ static void vdpau_get_property_min_max (vo_driver_t *this_gen, int property, int
 {
   switch ( property ) {
     case VO_PROP_HUE:
-      *max = 314; *min = -314; break;
+      *max = 127; *min = -128; break;
     case VO_PROP_SATURATION:
-      *max = 1000; *min = 0; break;
+      *max = 255; *min = 0; break;
     case VO_PROP_CONTRAST:
-      *max = 1000; *min = 0; break;
+      *max = 255; *min = 0; break;
     case VO_PROP_BRIGHTNESS:
-      *max = 100; *min = -100; break;
+      *max = 127; *min = -128; break;
     case VO_PROP_SHARPNESS:
       *max = 100; *min = -100; break;
     case VO_PROP_NOISE_REDUCTION:
@@ -2418,6 +2422,8 @@ static void vdpau_dispose (vo_driver_t *this_gen)
   vdpau_driver_t *this = (vdpau_driver_t *) this_gen;
   int i;
 
+  cm_close (this);
+
   if ( vdp_queue != VDP_INVALID_HANDLE )
     vdp_queue_destroy( vdp_queue );
 
@@ -2601,7 +2607,7 @@ static void vdpau_reinit( vo_driver_t *this_gen )
   vdpau_set_inverse_telecine( this_gen );
   vdpau_update_noise( this );
   vdpau_update_sharpness( this );
-  vdpau_update_csc( this );
+  this->update_csc = 1;
   vdpau_update_skip_chroma( this );
   vdpau_update_background( this );
 
@@ -3148,11 +3154,6 @@ static vo_driver_t *vdpau_open_plugin (video_driver_class_t *class_gen, const vo
         10, vdpau_set_skip_chroma, this );
   }
 
-  this->studio_levels = config->register_bool( config, "video.output.vdpau_studio_levels", 0,
-        _("vdpau: disable studio level"),
-        _("Setting to true enables studio levels (16-219) instead of PC levels (0-255) in RGB colors.\n\n"),
-        10, vdpau_set_studio_levels, this );
-
   if ( this->background_is_supported ) {
     this->background = config->register_num( config, "video.output.vdpau_background_color", 0,
         _("vdpau: color of none video area in output window"),
@@ -3235,13 +3236,19 @@ static vo_driver_t *vdpau_open_plugin (video_driver_class_t *class_gen, const vo
   for ( i=0; i<NUM_FRAMES_BACK; i++)
     this->back_frame[i] = NULL;
 
+  this->capabilities |= VO_CAP_COLOR_MATRIX | VO_CAP_FULLRANGE;
+
   this->hue = 0;
-  this->saturation = 100;
-  this->contrast = 100;
+  this->saturation = 128;
+  this->contrast = 128;
   this->brightness = 0;
   this->sharpness = 0;
   this->noise = 0;
   this->deinterlace = 0;
+
+  this->update_csc = 1;
+  this->color_matrix = 10;
+  cm_init (this);
 
   this->allocated_surfaces = 0;
 
