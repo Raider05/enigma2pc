@@ -330,6 +330,8 @@ typedef struct
   uint8_t flag_header;
   uint32_t frame_header_size;
 
+  int color_matrix;
+
 } sequence_t;
 
 

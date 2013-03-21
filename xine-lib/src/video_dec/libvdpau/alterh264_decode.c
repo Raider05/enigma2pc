@@ -601,6 +601,7 @@ static void
 vui_parameters (sequence_t * seq, vui_param_t * vui)
 {
   bits_reader_t *br = &seq->br;
+  int xine_color_matrix = 4; /* undefined, mpeg range */
 
   vui->aspect_ratio_info = read_bits (br, 1);
   lprintf ("aspect_ratio_info_present_flag = %d\n", vui->aspect_ratio_info);
@@ -621,27 +622,17 @@ vui_parameters (sequence_t * seq, vui_param_t * vui)
   if (read_bits (br, 1))
   {				/* video_signal_type_present_flag */
     skip_bits (br, 3);		/*video_format */
-    skip_bits (br, 1);		/*video_full_range_flag */
+    xine_color_matrix |= read_bits (br, 1);  /*video_full_range_flag */
     vui->colour_desc = read_bits (br, 1);
     lprintf ("colour_desc = %d\n", vui->colour_desc);
     if (vui->colour_desc)
     {
-      vui->colour_primaries = read_bits (br, 8);
-      lprintf ("colour_primaries = %d\n", vui->colour_primaries);
+      skip_bits (br, 8);        /* colour_primaries */
       skip_bits (br, 8);	/* transfer_characteristics */
-      skip_bits (br, 8);	/* matrix_coefficients */
-      switch (vui->colour_primaries)
-      {
-      case 1:
-	seq->color_standard = VDP_COLOR_STANDARD_ITUR_BT_709;
-	break;
-      case 6:
-      case 7:
-	seq->color_standard = VDP_COLOR_STANDARD_SMPTE_240M;
-	break;
-      }
+      xine_color_matrix = (xine_color_matrix & 1) | (read_bits (br, 8) << 1);  /* matrix_coefficients */
     }
   }
+  VO_SET_FLAGS_CM (xine_color_matrix, seq->color_matrix);
   if (read_bits (br, 1))
   {				/* chroma_loc_info_present_flag */
     read_exp_ue (br);		/* chroma_sample_loc_type_top_field */
@@ -1669,7 +1660,7 @@ decode_render (vdpau_h264_alter_decoder_t * vd, int bad_frame)
 					seq->coded_width, seq->coded_height,
 					seq->ratio, XINE_IMGFMT_VDPAU,
 					VO_BOTH_FIELDS | seq->chroma | seq->
-					reset);
+					reset | seq->color_matrix);
     seq->reset = 0;
     img->drawn = 0;
   }

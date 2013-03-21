@@ -196,6 +196,8 @@ typedef struct {
   int         last_non_b_time;
   int         t_frame;
 
+  int         color_matrix;
+
 } sequence_t;
 
 
@@ -343,6 +345,7 @@ static void visual_object( vdpau_mpeg4_decoder_t *this_gen, uint8_t *buf, int le
 {
   sequence_t *sequence = (sequence_t*)&this_gen->sequence;
   picture_t *picture = (picture_t*)&sequence->picture;
+  int xine_color_matrix = 4; /* undefined, mpeg range */
   bits_reader_set( &sequence->br, buf, len );
 
   if ( read_bits( &sequence->br, 1 ) ) {
@@ -352,16 +355,16 @@ static void visual_object( vdpau_mpeg4_decoder_t *this_gen, uint8_t *buf, int le
   }
   if ( read_bits( &sequence->br, 4 ) == 1 ) {
     if ( read_bits( &sequence->br, 1 ) ) {
-      skip_bits( &sequence->br, 4 );
+      skip_bits (&sequence->br, 3); /* video_format */
+      xine_color_matrix |= read_bits (&sequence->br, 1); /* full range */
       if ( read_bits( &sequence->br, 1 ) ) {
-        if ( read_bits( &sequence->br, 8 ) == 7 ) {
-          lprintf("color_standard: smpte_240M\n");
-          sequence->color_standard = VDP_COLOR_STANDARD_SMPTE_240M;
-        }
-        skip_bits( &sequence->br, 16 );
+        skip_bits (&sequence->br, 16);
+        xine_color_matrix = (xine_color_matrix & 1)
+          | (read_bits (&sequence->br, 8) << 1);  /* matrix_coefficients */
       }
     }
   }
+  VO_SET_FLAGS_CM (xine_color_matrix, sequence->color_matrix);
 }
 
 
@@ -910,7 +913,7 @@ static void decode_picture( vdpau_mpeg4_decoder_t *vd )
     }
   }
 
-  vo_frame_t *img = vd->stream->video_out->get_frame( vd->stream->video_out, seq->coded_width, seq->coded_height, seq->ratio, XINE_IMGFMT_VDPAU, VO_BOTH_FIELDS );
+  vo_frame_t *img = vd->stream->video_out->get_frame( vd->stream->video_out, seq->coded_width, seq->coded_height, seq->ratio, XINE_IMGFMT_VDPAU, VO_BOTH_FIELDS | seq->color_matrix );
   vdpau_accel_t *accel = (vdpau_accel_t*)img->accel_data;
   if ( !seq->accel_vdpau )
     seq->accel_vdpau = accel;

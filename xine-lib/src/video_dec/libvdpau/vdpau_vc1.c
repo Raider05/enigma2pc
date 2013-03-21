@@ -146,6 +146,7 @@ typedef struct {
 
   int         vdp_runtime_nr;
 
+  int         color_matrix;
 } sequence_t;
 
 
@@ -260,6 +261,7 @@ static void sequence_header_advanced( vdpau_vc1_decoder_t *this_gen, uint8_t *bu
 {
   lprintf( "sequence_header_advanced\n" );
   sequence_t *sequence = (sequence_t*)&this_gen->sequence;
+  int xine_color_matrix = 4; /* undefined, mpeg range */
 
   if ( len < 5 )
     return;
@@ -326,15 +328,11 @@ static void sequence_header_advanced( vdpau_vc1_decoder_t *this_gen, uint8_t *bu
       }
     }
     if ( read_bits( &sequence->br, 1 ) ) {
-#ifdef LOG
-	  int col = read_bits( &sequence->br, 8 );
-      lprintf("color_standard = %d\n", col);
       skip_bits( &sequence->br, 16 );
-#else
-      skip_bits( &sequence->br, 24 );
-#endif
+      xine_color_matrix = read_bits (&sequence->br, 8) << 1; /* VC1 is always mpeg range?? */
     }
   }
+  VO_SET_FLAGS_CM (xine_color_matrix, sequence->color_matrix);
   sequence->picture.hrd_param_flag = read_bits( &sequence->br, 1 );
   if ( sequence->picture.hrd_param_flag )
     sequence->picture.hrd_num_leaky_buckets = read_bits( &sequence->br, 5 );
@@ -376,6 +374,8 @@ static void sequence_header( vdpau_vc1_decoder_t *this_gen, uint8_t *buf, int le
   sequence->picture.vdp_infos.maxbframes = read_bits( &sequence->br, 3 );
   sequence->picture.vdp_infos.quantizer = read_bits( &sequence->br, 2 );
   sequence->picture.vdp_infos.finterpflag = read_bits( &sequence->br, 1 );
+
+  VO_SET_FLAGS_CM (4, sequence->color_matrix);
 
   update_metadata( this_gen );
 }
@@ -836,7 +836,7 @@ static void decode_picture( vdpau_vc1_decoder_t *vd )
   }
 
   vo_frame_t *img = vd->stream->video_out->get_frame( vd->stream->video_out, seq->coded_width, seq->coded_height,
-                                                      seq->ratio, XINE_IMGFMT_VDPAU, VO_BOTH_FIELDS );
+    seq->ratio, XINE_IMGFMT_VDPAU, VO_BOTH_FIELDS | seq->color_matrix );
   vdpau_accel_t *accel = (vdpau_accel_t*)img->accel_data;
   if ( !seq->accel_vdpau )
     seq->accel_vdpau = accel;
