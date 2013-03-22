@@ -103,7 +103,7 @@
 #endif
 
 /* AVFrame.age */
-#if !(LIBAVCODEC_VERSION_MAJOR >= 53 && LIBAVCODEC_VERSION_MAJOR >= 28 && LIBAVCODEC_VERSION_MICRO >= 1)
+#if LIBAVCODEC_VERSION_INT >= 0x351C01 && LIBAVCODEC_VERSION_INT < 0x360000 // not sure about this - original condition was broken
 #  define AVFRAMEAGE 1
 #endif
 

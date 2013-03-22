@@ -44,10 +44,13 @@
 #include "ffmpeg_decoder.h"
 #include "ff_mpeg_parser.h"
 
+#define FF_API_CODEC_ID 1
+
 #ifdef HAVE_FFMPEG_AVUTIL_H
 #  include <postprocess.h>
 #else
 #  include <libpostproc/postprocess.h>
+#  include <libavutil/mem.h>
 #endif
 
 #ifdef HAVE_VA_VA_X11_H

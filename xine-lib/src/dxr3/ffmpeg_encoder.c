@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#define FF_API_CODEC_ID 1
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/ioctl.h>
@@ -42,6 +44,7 @@
 #  include <avcodec.h>
 #else
 #  include <libavcodec/avcodec.h>
+#  include <libavutil/mem.h>
 #endif
 
 #include "../combined/ffmpeg/ffmpeg_compat.h"

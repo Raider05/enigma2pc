@@ -25,10 +25,13 @@
 #include "config.h"
 #endif
 
+#define FF_API_CODEC_ID 1
+
 #ifdef HAVE_FFMPEG_AVUTIL_H
 #  include <avcodec.h>
 #else
 #  include <libavcodec/avcodec.h>
+#  include <libavutil/mem.h>
 #endif
 
 typedef struct ff_codec_s {
