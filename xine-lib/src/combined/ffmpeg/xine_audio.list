@@ -41,10 +41,10 @@ WAVPACK			WAVPACK			WavPack
 AMR_NB			AMR_NB			AMR narrow band
 AMR_WB			AMR_WB			AMR wide band
 EAC3			EAC3			E-AC-3
-AAC			AAC			MPEG4
 AAC_LATM		AAC_LATM		AAC LATM
 
 # disabled codecs (ref. configure.ac)
+!			AAC
 !			AC3
 !			ADPCM_ADX
 !			ADPCM_G726
