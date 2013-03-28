@@ -581,14 +581,13 @@ static void ff_audio_decode_data (audio_decoder_t *this_gen, buf_element_t *buf)
           return;
         }
 
-        if (this->output_open) {
-          if (this->audio_bits        != this->context->bits_per_sample ||
-              this->audio_sample_rate != this->context->sample_rate ||
-              this->audio_channels    != this->context->channels) {
-            xprintf(this->stream->xine, XINE_VERBOSITY_LOG,
-                    _("ffmpeg_audio_dec: codec parameters changed\n"));
-            ff_audio_output_close(this);
-          }
+        if (this->audio_bits        != this->context->bits_per_sample ||
+            this->audio_sample_rate != this->context->sample_rate ||
+            this->audio_channels    != this->context->channels) {
+          xprintf(this->stream->xine, XINE_VERBOSITY_LOG,
+                  _("ffmpeg_audio_dec: codec parameters changed\n"));
+          /* close if it was open, and always trigger 1 new open attempt below */
+          ff_audio_output_close(this);
         }
 
 	if (!this->output_open) {
