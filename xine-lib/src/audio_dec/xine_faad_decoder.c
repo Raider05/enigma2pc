@@ -498,7 +498,7 @@ static const uint32_t audio_types[] = {
 
 static const decoder_info_t dec_info_audio = {
   audio_types,         /* supported types */
-  1                    /* priority        */
+  8                    /* priority        */
 };
 
 const plugin_info_t xine_plugin_info[] EXPORTED = {
