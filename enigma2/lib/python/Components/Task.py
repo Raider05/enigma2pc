@@ -368,14 +368,14 @@ class JobManager:
 			Notifications.AddNotificationWithCallback(self.errorCB, MessageBox, _("Error: %s\nRetry?") % (problems[0].getErrorMessage(task)))
 			return True
 		else:
-			Notifications.AddNotification(MessageBox, job.name + "\n" + _("Error") + (': %s') % (problems[0].getErrorMessage(task)), type = Me$
+			Notifications.AddNotification(MessageBox, job.name + "\n" + _("Error") + (': %s') % (problems[0].getErrorMessage(task)), type = MessageBox.TYPE_ERROR )
 			return False
 
 	def jobDone(self, job, task, problems):
 		print "job", job, "completed with", problems, "in", task
 		if problems:
 			if not job.onFail(job, task, problems):
-			self.errorCB(False)
+				self.errorCB(False)
 		else:
 			self.active_job = None
 			if job.onSuccess:
