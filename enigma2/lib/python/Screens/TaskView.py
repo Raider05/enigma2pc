@@ -109,8 +109,8 @@ class JobView(InfoBarNotifications, Screen, ConfigListScreen):
 	def ok(self):
 		if self.job.status in (self.job.FINISHED, self.job.FAILED):
 			self.close(False)
-	else:
-		self.background()
+		else:
+			self.background()
 
 	def abort(self):
 		if self.job.status == self.job.NOT_STARTED:
