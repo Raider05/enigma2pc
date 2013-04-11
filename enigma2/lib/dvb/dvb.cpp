@@ -1266,17 +1266,17 @@ int eDVBResourceManager::canAllocateFrontend(ePtr<iDVBFrontendParameters> &fepar
 	return bestval;
 }
 
-int tuner_type_channel_default(ePtr<iDVBChannelList> &channellist, const eDVBChannelID &chid)
+int tuner_type_channel_default(ePtr<iDVBChannelList> &channellist, const eDVBChannelID &chid, int &system)
 {
+	system = iDVBFrontend::feSatellite;
 	if (channellist)
 	{
 		ePtr<iDVBFrontendParameters> feparm;
 		if (!channellist->getChannelFrontendData(chid, feparm))
 		{
-			int system;
 			if (!feparm->getSystem(system))
 			{
-				switch(system)
+				switch (system)
 				{
 					case iDVBFrontend::feSatellite:
 						return 50000;
@@ -1293,15 +1293,16 @@ int tuner_type_channel_default(ePtr<iDVBChannelList> &channellist, const eDVBCha
 	return 0;
 }
 
-int eDVBResourceManager::canAllocateChannel(const eDVBChannelID &channelid, const eDVBChannelID& ignore, bool simulate)
+int eDVBResourceManager::canAllocateChannel(const eDVBChannelID &channelid, const eDVBChannelID& ignore, int &system, bool simulate)
 {
 	std::list<active_channel> &active_channels = simulate ? m_active_simulate_channels : m_active_channels;
-	int ret=0;
+	int ret = 0;
+	system = iDVBFrontend::feSatellite;
 	if (!simulate && m_cached_channel)
 	{
 		eDVBChannel *cache_chan = (eDVBChannel*)&(*m_cached_channel);
 		if(channelid==cache_chan->getChannelID())
-			return tuner_type_channel_default(m_list, channelid);
+			return tuner_type_channel_default(m_list, channelid, system);
 	}
 
 		/* first, check if a channel is already existing. */
@@ -1312,7 +1313,7 @@ int eDVBResourceManager::canAllocateChannel(const eDVBChannelID &channelid, cons
 		if (i->m_channel_id == channelid)
 		{
 //			eDebug("found shared channel..");
-			return tuner_type_channel_default(m_list, channelid);
+			return tuner_type_channel_default(m_list, channelid, system);
 		}
 	}
 
@@ -1392,6 +1393,7 @@ int eDVBResourceManager::canAllocateChannel(const eDVBChannelID &channelid, cons
 		eDebug("channel not found!");
 		goto error;
 	}
+	feparm->getSystem(system);
 
 	ret = canAllocateFrontend(feparm, simulate);
 
