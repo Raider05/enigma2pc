@@ -543,7 +543,7 @@ int eDVBTSTools::calcBitrate()
 }
 
 	/* pts, off */
-void eDVBTSTools::takeSamples()
+int eDVBTSTools::takeSamples()
 {
 	m_samples_taken = 1;
 	m_samples.clear();
@@ -573,6 +573,7 @@ void eDVBTSTools::takeSamples()
 	}
 	m_samples[0] = m_offset_begin;
 	m_samples[m_pts_end - m_pts_begin] = m_offset_end;
+	return 0;
 }
 
 	/* returns 0 when a sample was taken. */

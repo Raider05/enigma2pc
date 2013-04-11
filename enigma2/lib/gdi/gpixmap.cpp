@@ -674,9 +674,21 @@ static inline int sgn(int a)
 
 void gPixmap::line(const gRegion &clip, ePoint start, ePoint dst, gColor color)
 {
-	__u32 col = color;
-	if (surface->bpp != 8)
+	__u8 *srf8 = 0;
+	__u16 *srf16 = 0;
+	__u32 *srf32 = 0;
+	int stride = surface->stride;
+
+	if (clip.rects.empty())
+		return;
+
+	__u16 col16;
+	__u32 col = 0;
+	if (surface->bpp == 8)
+		srf8 = (__u8*)surface->data;
+	else
 	{
+		srf32 = (__u32*)surface->data;
 		if (surface->clut.data && color < surface->clut.colors)
 			col=(surface->clut.data[color].a<<24)|(surface->clut.data[color].r<<16)|(surface->clut.data[color].g<<8)|(surface->clut.data[color].b);
 		else
@@ -685,49 +697,12 @@ void gPixmap::line(const gRegion &clip, ePoint start, ePoint dst, gColor color)
 	}
 
 	if (surface->bpp == 16)
-	{
 #if BYTE_ORDER == LITTLE_ENDIAN
-		return bswap_16(((col & 0xFF) >> 3) << 11 | ((col & 0xFF00) >> 10) << 5 | (col & 0xFF0000) >> 19);
+		col16=bswap_16(((col & 0xFF) >> 3) << 11 | ((col & 0xFF00) >> 10) << 5 | (col & 0xFF0000) >> 19);
 #else
-		return ((col & 0xFF) >> 3) << 11 | ((col & 0xFF00) >> 10) << 5 | (col & 0xFF0000) >> 19;
+		col16=((col & 0xFF) >> 3) << 11 | ((col & 0xFF00) >> 10) << 5 | (col & 0xFF0000) >> 19;
 #endif
-	}
-	line(clip, start, dst, col);
-}
 
-void gPixmap::line(const gRegion &clip, ePoint start, ePoint dst, gRGB color)
-{
-	__u32 col;
-	col = color.argb();
-	col^=0xFF000000;
-	line(clip, start, dst, col);
-}
-
-void gPixmap::line(const gRegion &clip, ePoint start, ePoint dst, unsigned int color)
-{
-	if (clip.rects.empty())
-		return;
-
-	__u8 *srf8 = 0;
-	__u16 *srf16 = 0;
-	__u32 *srf32 = 0;
-	int stride = surface->stride;
-
-	switch (surface->bpp)
-	{
-		case 8:
-			srf8 = (__u8*)surface->data;
-			break;
-		case 16:
-			srf16 = (__u16*)surface->data;
-			stride /= 2;
-			break;
-		case 32:
-			srf32 = (__u32*)surface->data;
-			stride /= 4;
-			break;
-	}
-	
 	int xa = start.x(), ya = start.y(), xb = dst.x(), yb = dst.y();
 	int dx, dy, x, y, s1, s2, e, temp, swap, i;
 	dy=abs(yb-ya);
@@ -786,9 +761,9 @@ void gPixmap::line(const gRegion &clip, ePoint start, ePoint dst, unsigned int c
 		if (srf8)
 			srf8[y * stride + x] = color;
 		else if (srf16)
-			srf16[y * stride + x] = color;
+			srf16[y * stride/2 + x] = col16;
 		else
-			srf32[y * stride + x] = color;
+			srf32[y * stride/4 + x] = col;
 fail:
 		while (e>=0)
 		{

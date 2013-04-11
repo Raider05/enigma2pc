@@ -67,7 +67,7 @@ protected:
 	void calcEnd();
 	void calcBeginAndEnd();
 
-	void takeSamples();
+	int takeSamples();
 	int takeSample(off_t off, pts_t &p);
 
 private:
