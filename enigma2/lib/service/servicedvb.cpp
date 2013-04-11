@@ -577,8 +577,8 @@ RESULT eDVBPVRServiceOfflineOperations::reindex()
 			break;
 		if (r < 0)
 			return r;
-		offset += r;
 		parser.parseData(offset, &buffer[0], r);
+		offset += r;
 	}
 
 	parser.stopSave();
