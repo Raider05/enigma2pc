@@ -69,6 +69,7 @@
 			<item level="2" text="Yellow DVB subtitles">config.subtitles.dvb_subtitles_yellow</item>
 			<item level="2" text="Use DVB subtitles position">config.subtitles.dvb_subtitles_original_position</item>
 			<item level="2" text="Centered DVB subtitles">config.subtitles.dvb_subtitles_centered</item>
+			<item level="2" text="Subtitle delay when timing is bad" description="Configure an additional delay to improve subtitle synchronisation.">config.subtitles.subtitle_bad_timing_delay</item>
 			<item level="2" text="DVB subtitle black transparency">config.subtitles.dvb_subtitles_backtrans</item>
 			<item level="2" text="Yellow pango subtitles">config.subtitles.pango_subtitles_yellow</item>
 		</setup>
