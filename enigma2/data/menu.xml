@@ -34,7 +34,7 @@
 				<item text="Add to Bouquets"></item>
 				<item text="Edit Bouquets"></item>
 			</menu>-->
-			<menu weight="7" level="0" text="Service Searching" entryID="service_searching_selection">
+			<menu weight="7" level="0" text="Service searching" entryID="service_searching_selection">
 				<id val="scan" />
 				<item text="Tuner configuration" entryID="tuner_setup"><screen module="Satconfig" screen="NimSelection" /></item>
 				<!--<item text="Default services lists" entryID="default_lists"><screen module="ScanSetup" screen="DefaultSatLists" /></item>-->
