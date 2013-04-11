@@ -539,7 +539,7 @@ RESULT eDVBPVRServiceOfflineOperations::getListOfFilenames(std::list<std::string
 	return 0;
 }
 
-RESULT eDVBPVRServiceOfflineOperations::reindex()
+static int reindex_work(const std::string& filename)
 {
 	/* This does not work, need to call parser.setPid(pid, type) otherwise
 	 * the parser will not actually output any data! */
