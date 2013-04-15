@@ -337,6 +337,7 @@ class PluginDownloadBrowser(Screen):
 			self.startIpkgListAvailable()
 		else:
 			if len(self.pluginlist) > 0:
+				pluginlist.sort()
 				self.updateList()
 				self["list"].instance.show()
 			else:
