@@ -1489,8 +1489,12 @@ class InfoBarTimeshift:
 		self["SeekActions"].setEnabled(enabled)
 
 	def __serviceStarted(self):
+		if self.timeshift_enabled:
+			ts = self.getTimeshift()
+			if ts:
+				ts.stopTimeshift()
+			self.pvrStateDialog.hide()
 		self.timeshift_enabled = False
-		self.pvrStateDialog.hide()
 		self.__seekableStatusChanged()
 
 from Screens.PiPSetup import PiPSetup
