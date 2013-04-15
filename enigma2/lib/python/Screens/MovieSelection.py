@@ -88,12 +88,6 @@ def getPreferredTagEditor():
 	global preferredTagEditor
 	return preferredTagEditor
 
-def isTrashFolder(ref):
-	if not config.usage.movielist_trashcan.value or not ref.flags & eServiceReference.mustDescent:
-		return False
-	path = os.path.realpath(ref.getPath())
-	return path.endswith('.Trash') and path.startswith(Tools.Trashcan.getTrashFolder(path))
-
 def isSimpleFile(item):
 	if not item:
 		return False
@@ -424,10 +418,11 @@ class MovieSelectionSummary(Screen):
 			self["name"].text = ""
 
 class MovieSelection(Screen, HelpableScreen, SelectionEventInfo, InfoBarBase):
-	def __init__(self, session, selectedmovie = None):
+	def __init__(self, session, selectedmovie = None, timeshiftEnabled = False):
 		Screen.__init__(self, session)
 		HelpableScreen.__init__(self)
-		InfoBarBase.__init__(self) # For ServiceEventTracker
+		if not timeshiftEnabled:
+			InfoBarBase.__init__(self) # For ServiceEventTracker
 		self.initUserDefinedActions()
 		self.tags = {}
 		if selectedmovie:
@@ -1698,8 +1693,8 @@ class MovieSelection(Screen, HelpableScreen, SelectionEventInfo, InfoBarBase):
 			msg = "\n" + _("Recording(s) are in progress or coming up in few seconds!")
 		else:
 			msg = ""
-		self.session.openWithCallback(self.purgeConfirmed, MessageBox, _("Permanently delete all recordings in the trash can?") + msg)
-	
+		self.session.openWithCallback(self.purgeConfirmed, MessageBox, _("Permanently delete all recordings in the trash can?") + msg)	
+
 	def purgeConfirmed(self, confirmed):
 		if not confirmed:
 			return
