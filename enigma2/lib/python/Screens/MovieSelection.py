@@ -88,6 +88,12 @@ def getPreferredTagEditor():
 	global preferredTagEditor
 	return preferredTagEditor
 
+def isTrashFolder(ref):
+	if not config.usage.movielist_trashcan.value or not ref.flags & eServiceReference.mustDescent:
+		return False
+	path = os.path.realpath(ref.getPath())
+	return path.endswith('.Trash') and path.startswith(Tools.Trashcan.getTrashFolder(path))
+
 def isSimpleFile(item):
 	if not item:
 		return False
