@@ -1630,11 +1630,6 @@ class ChannelSelection(ChannelSelectionBase, ChannelSelectionEdit, ChannelSelect
 				lastservice = eServiceReference(self.lastservice.value)
 				if lastservice.valid() and self.getCurrentSelection() != lastservice:
 					self.setCurrentSelection(lastservice)
-		elif self.revertMode == MODE_TV:
-			self.setModeTv()
-		elif self.revertMode == MODE_RADIO:
-			self.setModeRadio()
-		self.revertMode = None
 		self.asciiOff()
 		self.zapBack()
 		self.close(None)
@@ -1653,6 +1648,11 @@ class ChannelSelection(ChannelSelectionBase, ChannelSelectionEdit, ChannelSelect
 
 	def setStartRoot(self, root):
 		if root:
+			if self.revertMode == MODE_TV:
+				self.setModeTv()
+			elif self.revertMode == MODE_RADIO:
+				self.setModeRadio()
+			self.revertMode = None
 			self.clearPath()
 			self.recallBouquetMode()
 			if self.bouquet_root:
