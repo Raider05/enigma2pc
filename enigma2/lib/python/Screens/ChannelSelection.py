@@ -368,6 +368,7 @@ class ChannelContextMenu(Screen):
 		self.close()
 
 	def showAlternativeServices(self):
+		self["Service"].editmode = True
 		self.csel.enterPath(self.csel.getCurrentSelection())
 		self.close()
 
@@ -655,6 +656,7 @@ class ChannelSelectionEdit:
 		for x in self.__marked:
 			self.servicelist.addMarked(eServiceReference(x))
 		self.showAllServices()
+		self["Service"].editmode = True
 
 	def endMarkedEdit(self, abort):
 		if not abort and self.mutableList is not None:
@@ -741,6 +743,7 @@ class ChannelSelectionEdit:
 			pos = self.saved_title.find(')')
 			new_title = self.saved_title[:pos+1] + ' ' + _("[move mode]") + self.saved_title[pos+1:]
 			self.setTitle(new_title);
+		self["Service"].editmode = True
 
 	def handleEditCancel(self):
 		if self.movemode: #movemode active?
