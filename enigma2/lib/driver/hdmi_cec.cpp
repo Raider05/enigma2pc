@@ -114,10 +114,11 @@ void eHdmiCEC::getAddressInfo()
 			{
 			case 0x1:
 			case 0x2:
+			case 0x9:
 				addressinfo.type = 1; /* recorder */
 				break;
 			case 0x3:
-			case 0x6
+			case 0x6:
 			case 0x7:
 			case 0xa:
 				addressinfo.type = 3; /* tuner */
@@ -127,6 +128,7 @@ void eHdmiCEC::getAddressInfo()
 			case 0xb:
 				addressinfo.type = 4; /* playback */
 				break;
+			}
 		}
 #else
 		struct
