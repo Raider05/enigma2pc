@@ -131,7 +131,10 @@ void eFilePushThread::thread()
 						continue;
 				}
 			}
-			
+
+			if (m_stop)
+				break;
+
 				/* in stream_mode, we are sending EOF events 
 				   over and over until somebody responds.
 				   
