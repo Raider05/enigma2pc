@@ -9,6 +9,7 @@ from Components.NimManager import nimmanager, getConfigSatlist
 from Components.Label import Label
 from Tools.Directories import resolveFilename, SCOPE_DEFAULTPARTITIONMOUNTDIR, SCOPE_DEFAULTDIR, SCOPE_DEFAULTPARTITION
 from Tools.HardwareInfo import HardwareInfo
+from Screens.InfoBar import InfoBar
 from Screens.MessageBox import MessageBox
 from enigma import eTimer, eDVBFrontendParametersSatellite, eComponentScan, \
 	eDVBSatelliteEquipmentControl, eDVBFrontendParametersTerrestrial, \
@@ -778,7 +779,10 @@ class ScanSetup(ConfigListScreen, Screen, CableTransponderSearchSupport):
 	def addTerTransponder(self, tlist, *args, **kwargs):
 		tlist.append(buildTerTransponder(*args, **kwargs))
 
-	def keyGo(self):
+	def keyGo(self, answer = True):
+		InfoBarInstance = InfoBar.instance
+		if not answer or (InfoBarInstance and InfoBarInstance.checkTimeshiftRunning(self.keyGo)):
+			return
 		if self.scan_nims.value == "":
 			return
 		tlist = []
@@ -995,7 +999,10 @@ class ScanSimple(ConfigListScreen, Screen, CableTransponderSearchSupport):
 		self.finished_cb = finished_cb
 		self.keyGo()
 
-	def keyGo(self):
+	def keyGo(self, answer = True):
+		InfoBarInstance = InfoBar.instance
+		if not answer or (InfoBarInstance and InfoBarInstance.checkTimeshiftRunning(self.keyGo)):
+			return
 		self.scanList = []
 		self.known_networks = set()
 		self.nim_iter=0
