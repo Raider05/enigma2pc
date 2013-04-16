@@ -132,7 +132,7 @@ class TryQuitMainloop(MessageBox):
 				pass
 			else:
 				MessageBox.__init__(self, session, reason+_("Really restart now?"), type = MessageBox.TYPE_YESNO, timeout = timeout, default = default_yes)
-			self.skinName = "MessageBox"
+			self.skinName = "MessageBoxSimple"
 			session.nav.record_event.append(self.getRecordEvent)
 			self.connected = True
 			self.onShow.append(self.__onShow)
