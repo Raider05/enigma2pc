@@ -49,8 +49,8 @@ eHdmiCEC::eHdmiCEC()
 	fixedAddress = false;
 	physicalAddress[0] = 0x10;
 	physicalAddress[1] = 0x00;
-	logicalAddress = 3;
-	deviceType = 3;
+	logicalAddress = 1;
+	deviceType = 1; /* default: recorder */
 #ifdef DREAMBOX
 	hdmiFd = ::open("/dev/misc/hdmi_cec0", O_RDWR | O_NONBLOCK);
 #else
@@ -109,7 +109,24 @@ void eHdmiCEC::getAddressInfo()
 		if (::ioctl(hdmiFd, 1, &addressinfo) >= 0)
 		{
 			hasdata = true;
-			addressinfo.type = 0;
+			/* we do not get the device type, check the logical address to determine the type */
+			switch (addressinfo.logical)
+			{
+			case 0x1:
+			case 0x2:
+				addressinfo.type = 1; /* recorder */
+				break;
+			case 0x3:
+			case 0x6
+			case 0x7:
+			case 0xa:
+				addressinfo.type = 3; /* tuner */
+				break;
+			case 0x4:
+			case 0x8:
+			case 0xb:
+				addressinfo.type = 4; /* playback */
+				break;
 		}
 #else
 		struct
@@ -188,7 +205,6 @@ void eHdmiCEC::hdmiEvent(int what)
 	{
 		getAddressInfo();
 	}
-
 
 	if (what & eSocketNotifier::Read)
 	{
@@ -383,19 +399,11 @@ void eHdmiCEC::sendMessage(struct cec_message &message)
 void eHdmiCEC::sendMessage(unsigned char address, unsigned char cmd, char *data, int length)
 {
 	struct cec_message message;
-#ifdef DREAMBOX
 	message.address = address;
 	if (length > (int)(sizeof(message.data) - 1)) length = sizeof(message.data) - 1;
 	message.length = length + 1;
 	message.data[0] = cmd;
 	memcpy(&message.data[1], data, length);
-#else
-	message.address = address;
-	if (length > (int)(sizeof(message.data) - 1)) length = sizeof(message.data) - 1;
-	message.length = length + 1;
-	memcpy(&message.data[1], data, length);
-	message.data[0] = cmd;
-#endif
 	sendMessage(message);
 }
 
