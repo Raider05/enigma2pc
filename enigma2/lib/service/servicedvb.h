@@ -163,8 +163,11 @@ public:
 	RESULT startTimeshift();
 	RESULT stopTimeshift(bool swToLive=true);
 	int isTimeshiftActive();
+	int isTimeshiftEnabled();
 	RESULT activateTimeshift();
 	RESULT setNextPlaybackFile(const char *fn);
+	RESULT saveTimeshiftFile();
+	std::string getTimeshiftFilename();
 
 		// iCueSheet
 	PyObject *getCutList();
@@ -215,7 +218,7 @@ protected:
 	int m_is_stream;
 
 		/* pvr */
-	int m_is_pvr, m_is_paused, m_timeshift_enabled, m_timeshift_active, m_timeshift_changed;
+	int m_is_pvr, m_is_paused, m_timeshift_enabled, m_timeshift_active, m_timeshift_changed, m_save_timeshift;
 	int m_first_program_info;
 	
 	std::string m_timeshift_file, m_timeshift_file_next;
