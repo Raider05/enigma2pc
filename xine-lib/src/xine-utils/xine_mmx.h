@@ -22,6 +22,14 @@
 
 #if defined(ARCH_X86) || defined(ARCH_X86_64)
 
+#include <xine/attributes.h>
+
+#if !defined(ATTRIBUTE_ALIGNED_MAX)
+#  warning ATTRIBUTE_ALIGNED_MAX undefined. Alignment of data structures does not work !
+#elif ATTRIBUTE_ALIGNED_MAX < 16
+#  warning Compiler does not support proper alignment for SSE2 !
+#endif
+
 typedef	union {
 	int64_t			q;	/* Quadword (64-bit) value */
 	uint64_t		uq;	/* Unsigned Quadword */
