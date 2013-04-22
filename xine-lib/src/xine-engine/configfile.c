@@ -1043,9 +1043,8 @@ void xine_config_save (xine_t *xine, const char *filename) {
 
       fclose(f_config);
       fclose(f_backup);
-      stat(temp, &backup_stat);
 
-      if (config_stat.st_size == backup_stat.st_size)
+      if (stat(temp, &backup_stat) == 0 && config_stat.st_size == backup_stat.st_size)
 	backup = 1;
       else
 	unlink(temp);
