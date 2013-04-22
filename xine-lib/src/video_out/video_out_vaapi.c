@@ -1134,7 +1134,11 @@ static uint32_t vaapi_get_capabilities (vo_driver_t *this_gen) {
 static const struct {
   int fmt;
   enum PixelFormat pix_fmt;
+#if defined LIBAVCODEC_VERSION_INT && LIBAVCODEC_VERSION_INT >= ((54<<16)|(25<<8))
+  enum AVCodecID codec_id;
+#else
   enum CodecID codec_id;
+#endif
 } conversion_map[] = {
   {IMGFMT_VAAPI_MPEG2,     PIX_FMT_VAAPI_VLD,  CODEC_ID_MPEG2VIDEO},
   {IMGFMT_VAAPI_MPEG2_IDCT,PIX_FMT_VAAPI_IDCT, CODEC_ID_MPEG2VIDEO},
