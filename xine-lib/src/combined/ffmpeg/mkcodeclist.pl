@@ -13,9 +13,13 @@ my $line;
 my %codecs;
 open LIST, "< $ffmpeg" or die $!;
 $line = <LIST>;
+my $ff_prefix = 'CODEC_ID_';
+if (substr ($line, 0, 12) eq 'AV_CODEC_ID_') {
+  $ff_prefix = 'AV_CODEC_ID_';
+}
 while (defined $line) {
   chomp $line;
-  $line =~ s/^CODEC_ID_//o;
+  $line =~ s/^$ff_prefix//o;
   $codecs{$line} = 0;
   $line = <LIST>;
 }
@@ -68,7 +72,7 @@ if ($w) {
   foreach $line (@known) {
     next if $line->[0] eq '!';
     next unless defined $codecs{$line->[1]};
-    print LIST "  { BUF_${Type}_$line->[0], CODEC_ID_$line->[1], \"$line->[2] (ffmpeg)\" },\n" or die $!;
+    print LIST "  { BUF_${Type}_$line->[0], $ff_prefix$line->[1], \"$line->[2] (ffmpeg)\" },\n" or die $!;
   }
   print LIST "};\n\nstatic uint32_t supported_${type}_types[] = {\n" or die $!;
   foreach $line (@known) {

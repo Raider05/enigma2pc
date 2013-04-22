@@ -36,7 +36,11 @@
 
 typedef struct ff_codec_s {
   uint32_t          type;
+#if defined LIBAVCODEC_VERSION_INT && LIBAVCODEC_VERSION_INT >= ((54<<16)|(25<<8))
+  enum AVCodecID    id;
+#else
   enum CodecID      id;
+#endif
   const char       *name;
 } ff_codec_t;
 
