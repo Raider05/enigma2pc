@@ -1106,7 +1106,7 @@ class InfoBarSeek:
 
 		self.checkSkipShowHideLock()
 
-		ScreenSaver.TimerStart(state[0] or not self.execing)
+		ScreenSaver.TimerStart(state[0])
 
 		return True
 
