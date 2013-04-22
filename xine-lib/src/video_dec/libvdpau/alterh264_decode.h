@@ -305,7 +305,6 @@ typedef struct
   uint16_t prevFrameNumOffset;
   uint8_t prevMMC5;
 
-  VdpColorStandard color_standard;
   int chroma;
   int top_field_first;
   VdpDecoderProfile profile;

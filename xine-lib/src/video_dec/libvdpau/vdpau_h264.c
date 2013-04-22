@@ -80,7 +80,6 @@ typedef struct vdpau_h264_decoder_s {
   int               decoder_started;
   int               progressive_cnt; /* count of progressive marked frames in line */
 
-  VdpColorStandard  color_standard;
   VdpDecoderProfile profile;
   vdpau_accel_t     *vdpau_accel;
 
@@ -845,7 +844,6 @@ static void vdpau_h264_reset (video_decoder_t *this_gen) {
   free_parser(this->nal_parser);
   this->nal_parser = init_parser(this->xine);
 
-  this->color_standard = VDP_COLOR_STANDARD_ITUR_BT_601;
   this->video_step = 0;
 
   if(this->codec_private_len > 0) {
@@ -954,7 +952,6 @@ static video_decoder_t *open_plugin (video_decoder_class_t *class_gen, xine_stre
 
   this->decoder                           = VDP_INVALID_HANDLE;
   this->vdp_runtime_nr                    = runtime_nr;
-  this->color_standard                    = VDP_COLOR_STANDARD_ITUR_BT_601;
   this->progressive_cnt                   = 0;
 
   this->reset = VO_NEW_SEQUENCE_FLAG;

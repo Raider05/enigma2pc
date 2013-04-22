@@ -383,7 +383,6 @@ reset_sequence (sequence_t * sequence)
   dpb_reset (sequence);
   memset (&sequence->cur_pic, 0, sizeof (dpb_frame_t));
   sequence->reset = VO_NEW_SEQUENCE_FLAG;
-  sequence->color_standard = VDP_COLOR_STANDARD_ITUR_BT_601;
 }
 
 
@@ -1853,8 +1852,6 @@ decode_render (vdpau_h264_alter_decoder_t * vd, int bad_frame)
 
     xine_event_send (vd->stream, &event);
   }
-
-  accel->color_standard = seq->color_standard;
 
   if (seq->cur_pic.completed == PICTURE_DONE)
   {

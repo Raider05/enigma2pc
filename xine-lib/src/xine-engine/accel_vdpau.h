@@ -50,8 +50,6 @@ typedef struct {
   VdpVideoSurface surface;
   VdpChromaType chroma;
 
-  VdpColorStandard color_standard;
-
   int vdp_runtime_nr; /* this is used to keep in sync on preemptions */
   int *current_vdp_runtime_nr;
 

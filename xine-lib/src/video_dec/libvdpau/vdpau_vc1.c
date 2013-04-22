@@ -882,7 +882,6 @@ static void decode_picture( vdpau_vc1_decoder_t *vd )
   img->pts = seq->seq_pts;
   img->bad_frame = 0;
   img->duration = seq->video_step;
-  accel->color_standard = VDP_COLOR_STANDARD_ITUR_BT_709;
 
   if ( pic->vdp_infos.picture_type<B_FRAME ) {
     if ( pic->vdp_infos.picture_type==I_FRAME && !seq->backward_ref ) {

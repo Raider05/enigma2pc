@@ -378,7 +378,6 @@ typedef struct {
   VdpChromaType        video_mixer_chroma;
   uint32_t             video_mixer_width;
   uint32_t             video_mixer_height;
-  VdpColorStandard     color_standard;
   VdpBool              temporal_spatial_is_supported;
   VdpBool              temporal_is_supported;
   VdpBool              noise_reduction_is_supported;
@@ -1077,7 +1076,6 @@ static vo_frame_t *vdpau_alloc_frame (vo_driver_t *this_gen)
   frame->vdpau_accel_data.vdp_device = vdp_device;
   frame->vdpau_accel_data.surface = VDP_INVALID_HANDLE;
   frame->vdpau_accel_data.chroma = VDP_CHROMA_TYPE_420;
-  frame->vdpau_accel_data.color_standard = this->color_standard;
   frame->vdpau_accel_data.vdp_decoder_create = vdp_decoder_create;
   frame->vdpau_accel_data.vdp_decoder_destroy = vdp_decoder_destroy;
   frame->vdpau_accel_data.vdp_decoder_render = vdp_decoder_render;
@@ -1182,8 +1180,6 @@ static void vdpau_duplicate_frame_data (vo_frame_t *this_gen, vo_frame_t *origin
   st = vdp_video_surface_putbits_ycbcr(this->vdpau_accel_data.surface, format, this->vo_frame.base, this->vo_frame.pitches);
   if (st != VDP_STATUS_OK)
     fprintf(stderr, "vo_vdpau: failed to put surface bits !! %s\n", vdp_get_error_string(st));
-
-  this->vdpau_accel_data.color_standard = orig->vdpau_accel_data.color_standard;
 
   av_freep (&this->vo_frame.base[0]);
   av_freep (&this->vo_frame.base[1]);
@@ -1319,7 +1315,6 @@ static void vdpau_update_frame_format (vo_driver_t *this_gen, vo_frame_t *frame_
       frame->surface_cleared_nr = this->surface_cleared_nr;
   }
 
-  frame->vdpau_accel_data.color_standard = VDP_COLOR_STANDARD_ITUR_BT_601;
   frame->ratio = ratio;
   frame->vo_frame.future_frame = NULL;
 }
@@ -1621,16 +1616,12 @@ static void vdpau_update_csc_matrix (vdpau_driver_t *that, vdpau_frame_t *frame)
 
     switch (color_matrix >> 1) {
       case 1:  kb = 0.0722; kr = 0.2126; /* ITU-R 709 */
-        that->color_standard = VDP_COLOR_STANDARD_ITUR_BT_709;
         break;
       case 4:  kb = 0.1100; kr = 0.3000; /* FCC */
-        that->color_standard = VDP_COLOR_STANDARD_ITUR_BT_601;
         break;
       case 7:  kb = 0.0870; kr = 0.2120; /* SMPTE 240 */
-        that->color_standard = VDP_COLOR_STANDARD_SMPTE_240M;
         break;
       default: kb = 0.1140; kr = 0.2990; /* ITU-R 601 */
-        that->color_standard = VDP_COLOR_STANDARD_ITUR_BT_601;
     }
     vr = 2.0 * (1.0 - kr);
     vg = -2.0 * kr * (1.0 - kr) / (1.0 - kb - kr);
@@ -1863,7 +1854,6 @@ static void vdpau_display_frame (vo_driver_t *this_gen, vo_frame_t *frame_gen)
   VdpStatus st;
   VdpVideoSurface surface;
   VdpChromaType chroma = this->video_mixer_chroma;
-  VdpColorStandard color_standard = this->color_standard;
   uint32_t mix_w = this->video_mixer_width;
   uint32_t mix_h = this->video_mixer_height;
   VdpTime stream_speed;
@@ -1927,7 +1917,6 @@ static void vdpau_display_frame (vo_driver_t *this_gen, vo_frame_t *frame_gen)
     mix_w = frame->width;
     mix_h = frame->height;
     chroma = (frame->vo_frame.flags & VO_CHROMA_422) ? VDP_CHROMA_TYPE_422 : VDP_CHROMA_TYPE_420;
-    color_standard = frame->vdpau_accel_data.color_standard;
   }
   else {
     /* unknown format */
@@ -1984,7 +1973,6 @@ static void vdpau_display_frame (vo_driver_t *this_gen, vo_frame_t *frame_gen)
     vdpau_set_inverse_telecine( this_gen );
     vdpau_update_noise( this );
     vdpau_update_sharpness( this );
-    this->color_standard = color_standard;
     this->update_csc = 1;
     vdpau_update_skip_chroma( this );
     vdpau_update_background( this );
@@ -3037,7 +3025,6 @@ static vo_driver_t *vdpau_open_plugin (video_driver_class_t *class_gen, const vo
   vdp_video_mixer_query_attribute_support( vdp_device, VDP_VIDEO_MIXER_ATTRIBUTE_SKIP_CHROMA_DEINTERLACE, &this->skip_chroma_is_supported );
   vdp_video_mixer_query_attribute_support( vdp_device, VDP_VIDEO_MIXER_ATTRIBUTE_BACKGROUND_COLOR, &this->background_is_supported );
 
-  this->color_standard = VDP_COLOR_STANDARD_ITUR_BT_601;
   this->video_mixer_chroma = chroma;
   this->video_mixer_width = this->soft_surface_width;
   this->video_mixer_height = this->soft_surface_height;

@@ -178,8 +178,6 @@ typedef struct {
 
   vdpau_accel_t *accel_vdpau;
 
-  VdpColorStandard  color_standard;
-
   bits_reader_t  br;
 
   int         vdp_runtime_nr;
@@ -282,7 +280,6 @@ static void reset_sequence( sequence_t *sequence, int free_refs )
   sequence->backward_ref = NULL;
   sequence->top_field_first = 0;
   sequence->reset = VO_NEW_SEQUENCE_FLAG;
-  sequence->color_standard = VDP_COLOR_STANDARD_ITUR_BT_709;
 
   sequence->last_time_base = 0;
   sequence->time_base = 0;
@@ -960,7 +957,6 @@ static void decode_picture( vdpau_mpeg4_decoder_t *vd )
   img->bad_frame = 0;
   if ( seq->video_step > 900 ) /* some buggy streams */
     img->duration = seq->video_step;
-  accel->color_standard = seq->color_standard;
 
   if ( pic->vdp_infos.vop_coding_type < B_FRAME ) {
     if ( pic->vdp_infos.vop_coding_type == I_FRAME && !seq->backward_ref ) {
