@@ -1095,6 +1095,12 @@ class InfoBarSeek:
 
 		self.checkSkipShowHideLock()
 
+		from Screens import ScreenSaver
+		if state [0]:
+			ScreenSaver.TimerStart()
+		else:
+			ScreenSaver.TimerStop()
+
 		return True
 
 	def playpauseService(self):
