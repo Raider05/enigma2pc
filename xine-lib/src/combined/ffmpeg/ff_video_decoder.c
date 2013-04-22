@@ -1138,9 +1138,9 @@ static void ff_handle_header_buffer (ff_video_decoder_t *this, buf_element_t *bu
       case BUF_VIDEO_RV40:
         this->bih.biWidth  = _X_BE_16(&this->buf[12]);
         this->bih.biHeight = _X_BE_16(&this->buf[14]);
-
+#ifdef AVCODEC_HAS_SUB_ID
         this->context->sub_id = _X_BE_32(&this->buf[30]);
-
+#endif
         this->context->slice_offset = calloc(SLICE_OFFSET_SIZE, sizeof(int));
         this->slice_offset_size = SLICE_OFFSET_SIZE;
 

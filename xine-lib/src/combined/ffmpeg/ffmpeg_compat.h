@@ -53,6 +53,11 @@
 # define AVCODEC_HAS_COLORSPACE
 #endif
 
+/* "unused" as of v54 */
+#if LIBAVCODEC_VERSION_MAJOR < 54
+# define AVCODEC_HAS_SUB_ID
+#endif
+
 /**/
 #if LIBAVCODEC_VERSION_MAJOR > 53 || (LIBAVCODEC_VERSION_MAJOR == 53 && LIBAVCODEC_VERSION_MINOR >= 8)
 #  define avcodec_init() do {} while(0)
