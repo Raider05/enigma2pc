@@ -559,10 +559,19 @@ static int vdpau_decoder_render(video_decoder_t *this_gen, VdpBitstreamBuffer *v
   this->decoder_started = 1;
 
   if(img == NULL) {
+    int frame_flags = VO_BOTH_FIELDS;
+    int color_matrix = 4; /* undefined, mpeg range */
+    if (sps->vui_parameters.video_signal_type_present_flag) {
+      if (sps->vui_parameters.colour_description_present)
+        color_matrix = sps->vui_parameters.matrix_coefficients << 1;
+      color_matrix |= sps->vui_parameters.video_full_range_flag;
+    }
+    VO_SET_FLAGS_CM (color_matrix, frame_flags);
+
     img = this->stream->video_out->get_frame (this->stream->video_out,
                                               this->width, this->height,
                                               this->ratio,
-                                              XINE_IMGFMT_VDPAU, VO_BOTH_FIELDS);
+                                              XINE_IMGFMT_VDPAU, frame_flags);
     this->vdpau_accel = (vdpau_accel_t*)img->accel_data;
 
     img->duration  = this->video_step;
@@ -620,22 +629,6 @@ static int vdpau_decoder_render(video_decoder_t *this_gen, VdpBitstreamBuffer *v
       img->repeat_first_field = 1;
     //else if(img->progressive_frame && this->nal_parser->current_nal->repeat_pic)
     //  img->duration *= this->nal_parser->current_nal->repeat_pic;
-
-    /* only bt601 and bt701 handled so far. others seem to be rarely used */
-    if(sps->vui_parameters.colour_description_present) {
-      switch (sps->vui_parameters.colour_primaries) {
-        case 1:
-          this->color_standard = VDP_COLOR_STANDARD_ITUR_BT_709;
-          break;
-        case 5:
-        case 6:
-        default:
-          this->color_standard = VDP_COLOR_STANDARD_ITUR_BT_601;
-          break;
-      }
-    }
-
-    this->vdpau_accel->color_standard = this->color_standard;
 
     struct decoded_picture *decoded_pic = NULL;
 
