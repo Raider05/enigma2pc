@@ -211,7 +211,7 @@ class InfoBarShowHide:
 		ScreenSaver.TimerStart(self.seekstate[0])
 
 	def __onExecEnd(self):
-		ScreenSaver.TimerStart(True)
+		ScreenSaver.ScreenSaverTimer.stop()
 
 	def connectShowHideNotifier(self, fnc):
 		if not fnc in self.onShowHideNotifiers:
