@@ -465,7 +465,6 @@ static enum PixelFormat get_format(struct AVCodecContext *context, const enum Pi
 
         context->draw_horiz_band = NULL;
         context->slice_flags = SLICE_FLAG_CODED_ORDER | SLICE_FLAG_ALLOW_FIELD;
-        context->dsp_mask = 0;
 
         this->vaapi_context.config_id    = va_context->va_config_id;
         this->vaapi_context.context_id   = va_context->va_context_id;
