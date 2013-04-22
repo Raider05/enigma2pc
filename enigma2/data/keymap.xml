@@ -251,6 +251,10 @@
 		<key id="KEY_PROGRAM" mapto="timerSelection" flags="m" />
 	</map>
 
+	<map context="InfobarVmodeButtonActions">
+		<key id="KEY_VMODE" mapto="vmodeSelection" flags="m" />
+	</map>
+
 	<map context="InfobarSubserviceQuickzapActions">
 		<key id="KEY_PREVIOUS" mapto="prevSubservice" flags="m" />
 		<key id="KEY_NEXT" mapto="nextSubservice" flags="m" />
