@@ -1004,6 +1004,10 @@ RESULT eTSMPEGDecoder::pause()
 
 RESULT eTSMPEGDecoder::setFastForward(int frames_to_skip)
 {
+	// fast forward is only possible if video data is present
+	if (!m_video)
+		return -1;
+
 	if ((m_state == stateDecoderFastForward) && (m_ff_sm_ratio == frames_to_skip))
 		return 0;
 
@@ -1017,6 +1021,10 @@ RESULT eTSMPEGDecoder::setFastForward(int frames_to_skip)
 
 RESULT eTSMPEGDecoder::setSlowMotion(int repeat)
 {
+	// slow motion is only possible if video data is present
+	if (!m_video)
+		return -1;
+
 	if ((m_state == stateSlowMotion) && (m_ff_sm_ratio == repeat))
 		return 0;
 
@@ -1028,6 +1036,10 @@ RESULT eTSMPEGDecoder::setSlowMotion(int repeat)
 
 RESULT eTSMPEGDecoder::setTrickmode()
 {
+	// trickmode is only possible if video data is present
+	if (!m_video)
+		return -1;
+
 	if (m_state == stateTrickmode)
 		return 0;
 
