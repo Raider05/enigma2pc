@@ -1595,7 +1595,8 @@ class InfoBarTimeshift:
 		if self.timeshift_enabled and config.usage.check_timeshift.value:
 			self.session.openWithCallback(boundFunction(self.checkTimeshiftRunningCallback, returnFunction), MessageBox, _("Stop timeshift?"), simple = True)
 		else:
-			self.checkTimeshiftRunningCallback(returnFunction, True)
+			self.timeshift_enabled = False
+			returnFunction(True)
 
 	def checkTimeshiftRunningCallback(self, returnFunction, answer):
 		if answer:
