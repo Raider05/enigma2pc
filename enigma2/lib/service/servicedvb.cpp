@@ -563,7 +563,7 @@ static int reindex_work(const std::string& filename)
 			return err;
 		}
 		eDebug("reindex: pcr_pid=0x%x", pcr_pid);
-		parser.setPid(pcr_pid, -1); /* -1 = automatic MPEG2/h264 detection */
+		parser.setPid(pcr_pid, iDVBTSRecorder::video_pid, -1); /* -1 = automatic MPEG2/h264 detection */
 	}
 
 	parser.startSave(filename);
@@ -2575,8 +2575,9 @@ void eDVBServicePlay::updateTimeshiftPids()
 		return;
 	else
 	{
-//		int timing_pid = -1;
-//		int timing_pid_type = -1;
+		int timing_pid = -1;
+		int timing_stream_type = -1;
+		iDVBTSRecorder::timing_pid_type timing_pid_type = iDVBTSRecorder::none;
 		std::set<int> pids_to_record;
 		pids_to_record.insert(0); // PAT
 		if (program.pmtPid != -1)
@@ -2588,26 +2589,28 @@ void eDVBServicePlay::updateTimeshiftPids()
 		for (std::vector<eDVBServicePMTHandler::videoStream>::const_iterator
 			i(program.videoStreams.begin());
 			i != program.videoStreams.end(); ++i)
-/*		{
+		{
 			if (timing_pid == -1)
 			{
 				timing_pid = i->pid;
-				timing_pid_type = i->type;
-			} */
+				timing_stream_type = i->type;
+				timing_pid_type = iDVBTSRecorder::video_pid;
+			}
 			pids_to_record.insert(i->pid);
-//		}
+		}
 
 		for (std::vector<eDVBServicePMTHandler::audioStream>::const_iterator
 			i(program.audioStreams.begin());
 			i != program.audioStreams.end(); ++i)
-/*		{
+		{
 			if (timing_pid == -1)
 			{
 				timing_pid = i->pid;
-				timing_pid_type = i->type;
-			} */
+				timing_stream_type = i->type;
+				timing_pid_type = iDVBTSRecorder::audio_pid;
+			}
 			pids_to_record.insert(i->pid);
-//		}
+		}
 
 		for (std::vector<eDVBServicePMTHandler::subtitleStream>::const_iterator
 			i(program.subtitleStreams.begin());
@@ -2626,7 +2629,7 @@ void eDVBServicePlay::updateTimeshiftPids()
 				std::inserter(new_pids, new_pids.begin())
 				);
 		/* openpliPC changed*/
-/*		for (std::set<int>::iterator i(new_pids.begin()); i != new_pids.end(); ++i)
+		for (std::set<int>::iterator i(new_pids.begin()); i != new_pids.end(); ++i)
     {
 			if (m_record)
 				m_record->addPID(*i);
@@ -2641,9 +2644,9 @@ void eDVBServicePlay::updateTimeshiftPids()
 			if (m_openpliPC_record)
 				m_openpliPC_record->removePID(*i);
     }
-*/
+
 		/* old Enigm2PC changed*/
-		if (m_record) {
+/*		if (m_record) {
 			for (std::set<int>::iterator i(new_pids.begin()); i != new_pids.end(); ++i)
 				m_record->addPID(*i);
 			for (std::set<int>::iterator i(obsolete_pids.begin()); i != obsolete_pids.end(); ++i)
@@ -2656,16 +2659,17 @@ void eDVBServicePlay::updateTimeshiftPids()
 			for (std::set<int>::iterator i(obsolete_pids.begin()); i != obsolete_pids.end(); ++i)
 				m_openpliPC_record->removePID(*i);
 		}
+*/
 
 /* old Enigma2PC it remove*/
 
-/*		if (timing_pid != -1)
-    {
+		if (timing_pid != -1)
+		{
 			if (m_record)
-				m_record->setTimingPID(timing_pid, timing_pid_type);
+				m_record->setTimingPID(timing_pid, timing_pid_type, timing_stream_type);
 			if (m_openpliPC_record)
-				m_openpliPC_record->setTimingPID(timing_pid, timing_pid_type);
-    } */
+				m_openpliPC_record->setTimingPID(timing_pid, timing_pid_type, timing_stream_type);
+		}
 	}
 }
 
