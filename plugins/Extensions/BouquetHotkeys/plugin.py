@@ -42,7 +42,7 @@ def keyNumberGlobal(instance, number):
 		else:
 			instance.servicelist.recallPrevService()
 	else:
-		if instance.has_key("TimeshiftActions") and not instance.timeshift_enabled:
+		if instance.has_key("TimeshiftActions") and not instance.timeshiftEnabled():
 			if config.usage.bouquethotkeys.value and config.usage.multibouquet.value:
 				refstr = eval("config.plugins.BouquetHotkeys.key"+str(number)).value
 				if not refstr in ("", "none"):
