@@ -1450,8 +1450,8 @@ class InfoBarTimeshift:
 
 		self.save_timeshift_file = False
 		self.save_timeshift_in_movie_dir = False
-		self.current_timeshift_filename = ""
-		self.new_timeshift_filename = ""
+		self.current_timeshift_filename = None
+		self.new_timeshift_filename = None
 
 		self["TimeshiftActivateActions"].setEnabled(False)
 		self.ts_rewind_timer = eTimer()
@@ -1496,6 +1496,8 @@ class InfoBarTimeshift:
 				self.__seekableStatusChanged()
 
 				# get current timeshift filename and calculate new
+				self.save_timeshift_file = False
+				self.save_timeshift_in_movie_dir = False
 				self.current_timeshift_filename = ts.getTimeshiftFilename()
 				self.new_timeshift_filename = self.generateNewTimeshiftFileName()
 			else:
@@ -1587,8 +1589,8 @@ class InfoBarTimeshift:
 		self.pvrStateDialog.hide()
 		self.save_timeshift_file = False
 		self.save_timeshift_in_movie_dir = False
-		self.current_timeshift_filename = ""
-		self.new_timeshift_filename = ""
+		self.current_timeshift_filename = None
+		self.new_timeshift_filename = None
 		self.__seekableStatusChanged()
 
 	def checkTimeshiftRunning(self, returnFunction):
@@ -1616,8 +1618,8 @@ class InfoBarTimeshift:
 		self.saveTimeshiftFiles()
 
 	def saveTimeshiftFiles(self):
-		if self.save_timeshift_file and self.current_timeshift_filename != "" and self.new_timeshift_filename != "":
-			if config.usage.timeshift_path.value is not None and not self.save_timeshift_in_movie_dir:
+		if self.save_timeshift_file and self.current_timeshift_filename and self.new_timeshift_filename:
+			if config.usage.timeshift_path.value and not self.save_timeshift_in_movie_dir:
 				dirname = config.usage.timeshift_path.value
 			else:
 				dirname = defaultMoviePath()
@@ -1631,7 +1633,6 @@ class InfoBarTimeshift:
 				fileList.append((self.current_timeshift_filename + ".cuts", filename + ".cuts"))
 
 			moveFiles(fileList)
-
 
 from Screens.PiPSetup import PiPSetup
 
