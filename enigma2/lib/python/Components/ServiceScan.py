@@ -30,7 +30,14 @@ class ServiceScan:
 				self.network.setText("")
 				self.transponder.setText("")
 			else:
-				self.text.setText(_("scan in progress - %d%% done!") % self.scan.getProgress() + ' ' + _("%d services found!") % (self.foundServices + self.scan.getNumServices()))
+				result = self.foundServices + self.scan.getNumServices()
+				percentage = self.scan.getProgress()
+				#TRANSLATORS: The stb is performing a channel scan, progress percentage is printed in '%d' (and '%%' will show a single '%' symbol)
+				message = ngettext("Scanning - %d%% completed", "Scanning - %d%% completed", percentage) % percentage
+				message += ", "
+				#TRANSLATORS: Intermediate scanning result, '%d' channel(s) have been found so far
+				message += ngettext("%d channel found", "%d channels found", result) % result
+				self.text.setText(message)
 				transponder = self.scan.getCurrentTransponder()
 				network = ""
 				tp_text = ""
@@ -102,10 +109,8 @@ class ServiceScan:
 				self.transponder.setText(tp_text)
 		
 		if self.state == self.Done:
-			if self.scan.getNumServices() == 0:
-				self.text.setText(_("scan done!") + ' ' + _("%d services found!") % 0 )
-			else:
-				self.text.setText(_("scan done!") + ' ' + _("%d services found!") % (self.foundServices + self.scan.getNumServices()))
+			result = self.foundServices + self.scan.getNumServices()
+			self.text.setText(ngettext("Scanning completed, %d channel found", "Scanning completed, %d channels found", result) % result)
 		
 		if self.state == self.Error:
 			self.text.setText(_("ERROR - failed to scan (%s)!") % (self.Errors[self.errorcode]) )

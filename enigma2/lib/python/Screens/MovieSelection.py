@@ -1625,7 +1625,6 @@ class MovieSelection(Screen, HelpableScreen, SelectionEventInfo, InfoBarBase):
 					else:
 						files += 1
 			if files or subdirs:
-#				self.session.openWithCallback(self.delete, MessageBox, _("Directory contains %d file(s) and %d sub-directories.\n") % (files,subdirs) + are_you_sure)
 				msg = _("Directory contains %s and %s.") % (ngettext("%d file", "%d files", files) % files, ngettext("%d subdirectory", "%d subdirectories", subdirs) %  subdirs) + '\n' + are_you_sure
 				if isInTrashFolder(current):
 					# Red button to empty trashcan item or subdir
@@ -1722,10 +1721,6 @@ class MovieSelection(Screen, HelpableScreen, SelectionEventInfo, InfoBarBase):
 		if not recordings:
 			next_rec_time = self.session.nav.RecordTimer.getNextRecordingTime()	
 		if recordings or (next_rec_time > 0 and (next_rec_time - time.time()) < 120):
-#			msg = "\n" + _("Recording(s) are in progress or coming up in few seconds!")
-#		else:
-#			msg = ""
-#		self.session.openWithCallback(self.purgeConfirmed, MessageBox, _("Permanently delete all recordings in the trash can?") + msg)	
 			msg += "\n" + _("Recording(s) are in progress or coming up in few seconds!")
 		self.session.openWithCallback(self.purgeConfirmed, MessageBox, msg)
 
