@@ -93,8 +93,9 @@ void eFilePushThread::thread()
 		{
 			buf_end = 0;
 			/* Check m_stop after interrupted syscall. */
-			if (m_stop)
+			if (m_stop) {
 				break;
+			}
 			if (errno == EINTR || errno == EBUSY || errno == EAGAIN)
 				continue;
 			if (errno == EOVERFLOW)
@@ -160,15 +161,19 @@ void eFilePushThread::thread()
 			/* Write data to mux */
 			int buf_start = 0;
 			filterRecordData(m_buffer, buf_end);
-			while (buf_start != buf_end)
+			while ((buf_start != buf_end) && !m_stop)
 			{
 				int w = write(m_fd_dest, m_buffer + buf_start, buf_end - buf_start);
 
 				if (w <= 0)
 				{
 					/* Check m_stop after interrupted syscall. */
-					if (m_stop)
+					if (m_stop) {
+						w = 0;
+						buf_start = 0;
+						buf_end = 0;
 						break;
+					}
 					if (w < 0 && (errno == EINTR || errno == EAGAIN || errno == EBUSY))
 						continue;
 					eDebug("eFilePushThread WRITE ERROR");
@@ -205,7 +210,7 @@ void eFilePushThread::stop()
 
 	m_stop = 1;
 
-	eDebug("stopping thread."); /* just do it ONCE. it won't help to do this more than once. */
+	eDebug("eFilePushThread stopping thread");
 	sendSignal(SIGUSR1);
 	kill(0);
 }
