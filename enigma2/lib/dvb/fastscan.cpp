@@ -617,9 +617,7 @@ void eFastScan::parseResult()
 		}
 	}
 
-	bool multibouquet = false;
-	std::string value;
-	multibouquet = (ePythonConfigQuery::getConfigValue("config.usage.multibouquet", value) >= 0 && value == "True");
+	bool multibouquet = eConfigManager::getConfigBoolValue("config.usage.multibouquet");
 
 	if (multibouquet)
 	{

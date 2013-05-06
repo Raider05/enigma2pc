@@ -333,12 +333,11 @@ eServiceMP3::eServiceMP3(eServiceReference ref)
 		CONNECT(m_streamingsrc_timeout->timeout, eServiceMP3::sourceTimeout);
 
 		std::string config_str;
-		if( ePythonConfigQuery::getConfigValue("config.mediaplayer.useAlternateUserAgent", config_str) == 0 )
+		if (eConfigManager::getConfigBoolValue("config.mediaplayer.useAlternateUserAgent"))
 		{
-			if ( config_str == "True" )
-				ePythonConfigQuery::getConfigValue("config.mediaplayer.alternateUserAgent", m_useragent);
+			m_useragent = eConfigManager::getConfigValue("config.mediaplayer.alternateUserAgent");
 		}
-		if ( m_useragent.length() == 0 )
+		if (m_useragent.empty())
 			m_useragent = "Enigma2 Mediaplayer";
 	}
 	else if ( m_sourceinfo.containertype == ctCDA )

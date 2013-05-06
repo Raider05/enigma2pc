@@ -1136,10 +1136,8 @@ void eDVBServicePlay::serviceEvent(int event)
 		/* fill now/next with info from the epg cache, will be replaced by EIT when it arrives */
 		updateEpgCacheNowNext();
 
-		std::string show_eit_nownext;
 		/* default behaviour is to start an eit reader, and wait for now/next info, unless this is disabled */
-		if (ePythonConfigQuery::getConfigValue("config.usage.show_eit_nownext", show_eit_nownext) < 0
-			|| show_eit_nownext != "False")
+		if (eConfigManager::getConfigBoolValue("config.usage.show_eit_nownext", true))
 		{
 			ePtr<iDVBDemux> m_demux;
 			if (!m_service_handler.getDataDemux(m_demux))
@@ -1733,8 +1731,9 @@ RESULT eDVBServicePlay::timeshift(ePtr<iTimeshiftService> &ptr)
 		if (!m_timeshift_enabled)
 		{
 			/* query config path */
-			std::string tspath;
-			if(ePythonConfigQuery::getConfigValue("config.usage.timeshift_path", tspath) == -1){
+			std::string tspath = eConfigManager::getConfigValue("config.usage.timeshift_path");
+			if(tspath == "")
+			{
 				eDebug("could not query ts path from config");
 				return -4;
 			}
@@ -2400,8 +2399,8 @@ RESULT eDVBServicePlay::startTimeshift()
 	if (!m_record)
 		return -3;
 
-	std::string tspath;
-	if(ePythonConfigQuery::getConfigValue("config.usage.timeshift_path", tspath) == -1)
+	std::string tspath = eConfigManager::getConfigValue("config.usage.timeshift_path");
+	if (tspath == "")
 	{
 		eDebug("could not query ts path");
 		return -5;
@@ -2951,12 +2950,12 @@ void eDVBServicePlay::updateDecoder(bool sendSeekableStateChanged)
 		else
 		{
 			std::string value;
-			bool showRadioBackground = (ePythonConfigQuery::getConfigValue("config.misc.showradiopic", value) < 0 || value == "True");
+			bool showRadioBackground = eConfigManager::getConfigBoolValue("config.misc.showradiopic", true);
 			std::string radio_pic;
 			if (showRadioBackground)
-				ePythonConfigQuery::getConfigValue("config.misc.radiopic", radio_pic);
+				radio_pic = eConfigManager::getConfigValue("config.misc.radiopic");
 			else
-				ePythonConfigQuery::getConfigValue("config.misc.blackradiopic", radio_pic);
+				radio_pic = eConfigManager::getConfigValue("config.misc.blackradiopic");
 			m_decoder->setRadioPic(radio_pic);
 		}
 
@@ -3270,11 +3269,7 @@ PyObject *eDVBServicePlay::getCachedSubtitle()
 		eDVBServicePMTHandler &h = m_timeshift_active ? m_service_handler_timeshift : m_service_handler;
 		if (!h.getProgramInfo(program))
 		{
-			bool usecache=false;
-			std::string configvalue;
-			if (!ePythonConfigQuery::getConfigValue("config.autolanguage.subtitle_usecache", configvalue))
-				usecache = configvalue == "True";
-
+			bool usecache = eConfigManager::getConfigBoolValue("config.autolanguage.subtitle_usecache");
 			int stream=program.defaultSubtitleStream;
 			int tmp = m_dvb_service->getCacheEntry(eDVBService::cSUBTITLE);
 
@@ -3414,18 +3409,12 @@ void eDVBServicePlay::newSubtitlePage(const eDVBTeletextSubtitlePage &page)
 		//if (m_decoder) // openpliPC
 		//	m_decoder->getPTS(0, pos);
 		xineLib->getPTS(pos);
+		int subtitledelay = 0;
 //		eDebug("got new subtitle page %lld %lld %d", pos, page.m_pts, page.m_have_pts);
 		if ( !page.m_have_pts && (m_is_pvr || m_timeshift_enabled))
 		{
 			eDebug("Subtitle without PTS and recording");
-
-			std::string configvalue;
-			int subtitledelay = 315000;
-			if (!ePythonConfigQuery::getConfigValue("config.subtitles.subtitle_noPTSrecordingdelay", configvalue))
-			{
-				subtitledelay = atoi(configvalue.c_str());
-			}
-
+			subtitledelay = eConfigManager::getConfigIntValue("config.subtitles.subtitle_noPTSrecordingdelay", 315000);
 			eDVBTeletextSubtitlePage tmppage;
 			tmppage = page;
 			tmppage.m_have_pts = true;
@@ -3434,12 +3423,7 @@ void eDVBServicePlay::newSubtitlePage(const eDVBTeletextSubtitlePage &page)
 		}
 		else
 		{
-			int subtitledelay = 0;
-			std::string configvalue;
-			if(!ePythonConfigQuery::getConfigValue("config.subtitles.subtitle_bad_timing_delay", configvalue))
-			{
-				subtitledelay = atoi(configvalue.c_str());
-			}
+			subtitledelay = eConfigManager::getConfigIntValue("config.subtitles.subtitle_bad_timing_delay", 0);
 			if (subtitledelay != 0)
 			{
 				eDVBTeletextSubtitlePage tmppage;
@@ -3524,13 +3508,7 @@ void eDVBServicePlay::newDVBSubtitlePage(const eDVBSubtitlePage &p)
 		if ( abs(pos-p.m_show_time)>1800000 && (m_is_pvr || m_timeshift_enabled))
 		{
 			eDebug("Subtitle without PTS and recording");
-
-			std::string configvalue;
-			int subtitledelay = 315000;
-			if (!ePythonConfigQuery::getConfigValue("config.subtitles.subtitle_noPTSrecordingdelay", configvalue))
-			{
-				subtitledelay = atoi(configvalue.c_str());
-			}
+			int subtitledelay = eConfigManager::getConfigIntValue("config.subtitles.subtitle_noPTSrecordingdelay", 315000);
 
 			eDVBSubtitlePage tmppage;
 			tmppage = p;
@@ -3539,12 +3517,7 @@ void eDVBServicePlay::newDVBSubtitlePage(const eDVBSubtitlePage &p)
 		}
 		else
 		{
-			int subtitledelay = 0;
-			std::string configvalue;
-			if(!ePythonConfigQuery::getConfigValue("config.subtitles.subtitle_bad_timing_delay", configvalue))
-			{
-				subtitledelay = atoi(configvalue.c_str());
-			}
+			int subtitledelay = eConfigManager::getConfigIntValue("config.subtitles.subtitle_bad_timing_delay", 0);
 			if (subtitledelay != 0)
 			{
 				eDVBSubtitlePage tmppage;
@@ -3583,12 +3556,9 @@ void eDVBServicePlay::setAC3Delay(int delay)
 {
 	if (m_dvb_service)
 		m_dvb_service->setCacheEntry(eDVBService::cAC3DELAY, delay ? delay : -1);
-	if (m_decoder) {
-		std::string config_delay;
-		int config_delay_int = 0;
-		if(ePythonConfigQuery::getConfigValue("config.av.generalAC3delay", config_delay) == 0)
-			config_delay_int = atoi(config_delay.c_str());
-		m_decoder->setAC3Delay(delay + config_delay_int);
+	if (m_decoder) 
+	{
+		m_decoder->setAC3Delay(delay + eConfigManager::getConfigIntValue("config.av.generalAC3delay"));
 	}
 }
 
@@ -3596,14 +3566,9 @@ void eDVBServicePlay::setPCMDelay(int delay)
 {
 	if (m_dvb_service)
 		m_dvb_service->setCacheEntry(eDVBService::cPCMDELAY, delay ? delay : -1);
-	if (m_decoder) {
-		std::string config_delay;
-		int config_delay_int = 0;
-		if(ePythonConfigQuery::getConfigValue("config.av.generalPCMdelay", config_delay) == 0)
-			config_delay_int = atoi(config_delay.c_str());
-		else
-			config_delay_int = 0;
-		m_decoder->setPCMDelay(delay + config_delay_int);
+	if (m_decoder) 
+	{
+		m_decoder->setPCMDelay(delay + eConfigManager::getConfigIntValue("config.av.generalPCMdelay"));
 	}
 }
 

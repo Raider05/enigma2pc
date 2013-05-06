@@ -41,7 +41,6 @@ is usually caused by not marking PSignals as immutable.
 #include <lib/base/eenv.h>
 #include <lib/base/eerror.h>
 #include <lib/base/etpm.h>
-#include <lib/base/nconfig.h>
 #include <lib/base/message.h>
 #include <lib/driver/rc.h>
 #include <lib/service/event.h>
@@ -71,6 +70,7 @@ is usually caused by not marking PSignals as immutable.
 #include <lib/gui/evideo.h>
 #include <lib/gui/ecanvas.h>
 #include <lib/python/connections.h>
+#include <lib/python/pythonconfig.h>
 #include <lib/gui/elistbox.h>
 #include <lib/gui/elistboxcontent.h>
 #include <lib/gui/esubtitle.h>
@@ -182,7 +182,6 @@ typedef long time_t;
 %immutable eTuxtxtApp::appClosed;
 %include <lib/base/message.h>
 %include <lib/base/etpm.h>
-%include <lib/base/nconfig.h>
 %include <lib/driver/rc.h>
 %include <lib/gdi/fb.h>
 %include <lib/gdi/font.h>
@@ -241,6 +240,7 @@ typedef long time_t;
 %include <lib/dvb_ci/dvbci_ui.h>
 %include <lib/dvb/db.h>
 %include <lib/python/python.h>
+%include <lib/python/pythonconfig.h>
 %include <lib/gdi/picload.h>
 /**************  eptr  **************/
 
