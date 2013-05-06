@@ -17,7 +17,6 @@
 #include <lib/base/estring.h>
 #include <lib/dvb/dvb.h>
 #include <lib/dvb/db.h>
-#include <lib/python/python.h>
 #include <errno.h>
 
 #define SCAN_eDebug(x...) do { if (m_scan_debug) eDebug(x); } while(0)
@@ -29,30 +28,16 @@ eDVBScan::eDVBScan(iDVBChannel *channel, bool usePAT, bool debug)
 	:m_channel(channel), m_channel_state(iDVBChannel::state_idle)
 	,m_ready(0), m_ready_all(usePAT ? (readySDT|readyPAT) : readySDT)
 	,m_pmt_running(false), m_abort_current_pmt(false), m_flags(0)
-	,m_usePAT(usePAT), m_scan_debug(debug), m_show_add_tsid_onid_check_failed_msg(true)
+	,m_usePAT(usePAT)
+	,m_scan_debug(debug)
 {
 	if (m_channel->getDemux(m_demux))
 		SCAN_eDebug("scan: failed to allocate demux!");
 	m_channel->connectStateChange(slot(*this, &eDVBScan::stateChange), m_stateChanged_connection);
-	std::string filename = eEnv::resolve("${sysconfdir}/scan_tp_valid_check.py");
-	FILE *f = fopen(filename.c_str(), "r");
-	if (f)
-	{
-		char code[16384];
-		size_t rd = fread(code, 1, 16383, f);
-		if (rd)
-		{
-			code[rd]=0;
-			m_additional_tsid_onid_check_func = Py_CompileString(code, filename.c_str(), Py_file_input);
-		}
-		fclose(f);
-	}
 }
 
 eDVBScan::~eDVBScan()
 {
-	if (m_additional_tsid_onid_check_func)
-		Py_DECREF(m_additional_tsid_onid_check_func);
 }
 
 int eDVBScan::isValidONIDTSID(int orbital_position, eOriginalNetworkID onid, eTransportStreamID tsid)
@@ -114,38 +99,6 @@ int eDVBScan::isValidONIDTSID(int orbital_position, eOriginalNetworkID onid, eTr
 	default:
 		ret = onid.get() < 0xFF00;
 		break;
-	}
-	if (ret && m_additional_tsid_onid_check_func)
-	{
-		bool failed = true;
-		ePyObject dict = PyDict_New();
-		extern void PutToDict(ePyObject &, const char *, long);
-		PyDict_SetItemString(dict, "__builtins__", PyEval_GetBuiltins());
-		PutToDict(dict, "orbpos", orbital_position);
-		PutToDict(dict, "tsid", tsid.get());
-		PutToDict(dict, "onid", onid.get());
-		ePyObject r = PyEval_EvalCode((PyCodeObject*)(PyObject*)m_additional_tsid_onid_check_func, dict, dict);
-		if (r)
-		{
-			ePyObject o = PyDict_GetItemString(dict, "ret");
-			if (o)
-			{
-				if (PyInt_Check(o))
-				{
-					ret = PyInt_AsLong(o);
-					failed = false;
-				}
-			}
-			Py_DECREF(r);
-		}
-		if (failed && m_show_add_tsid_onid_check_failed_msg)
-		{
-			eDebug("execing /etc/enigma2/scan_tp_valid_check failed!\n"
-				"usable global variables in scan_tp_valid_check.py are 'orbpos', 'tsid', 'onid'\n"
-				"the return value must be stored in a global var named 'ret'");
-			m_show_add_tsid_onid_check_failed_msg=false;
-		}
-		Py_DECREF(dict);
 	}
 	return ret;
 }
