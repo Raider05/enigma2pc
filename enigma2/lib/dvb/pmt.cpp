@@ -372,14 +372,6 @@ int eDVBServicePMTHandler::getProgramInfo(program &program)
 
 	eDVBPMTParser::clearProgramInfo(program);
 
-	if (m_demux)
-	{
-		m_demux->getCAAdapterID(adapter);
-		program.adapterId = adapter;
-		m_demux->getCADemuxID(demux);
-		program.demuxId = demux;
-	}
-
 	if ( m_service && !m_service->cacheEmpty() )
 	{
 		cached_vpid = m_service->getCacheEntry(eDVBService::cVPID);
@@ -627,6 +619,14 @@ int eDVBServicePMTHandler::getProgramInfo(program &program)
 		}
 		if ( cnt )
 			ret = 0;
+	}
+
+	if (m_demux)
+	{
+		m_demux->getCAAdapterID(adapter);
+		program.adapterId = adapter;
+		m_demux->getCADemuxID(demux);
+		program.demuxId = demux;
 	}
 
 	m_cached_program = program;
