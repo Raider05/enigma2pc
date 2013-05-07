@@ -410,6 +410,7 @@ public:
 	virtual std::string getInfoString(int w);
 	void getInfoObject() {}
 	virtual ePtr<iDVBTransponderData> getTransponderData();
+	virtual void getCaIds(std::vector<int> &caids, std::vector<int> &ecmpids);
 	virtual long long getFileSize();
 
 	virtual int setInfo(int w, int v);

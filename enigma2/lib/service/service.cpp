@@ -317,6 +317,10 @@ ePtr<iDVBTransponderData> iServiceInformation::getTransponderData()
 	return retval;
 }
 
+void iServiceInformation::getCaIds(std::vector<int> &caids, std::vector<int> &ecmpids)
+{
+}
+
 long long iServiceInformation::getFileSize()
 {
 	return 0;
