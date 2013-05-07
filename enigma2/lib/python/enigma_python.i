@@ -411,3 +411,6 @@ extern void quitMainloop(int exit_code);
 extern eApplication *getApplication();
 extern const char *getEnigmaVersionString();
 extern void dump_malloc_stats(void);
+
+%include <lib/python/python_console.i>
+%include <lib/python/python_base.i>
