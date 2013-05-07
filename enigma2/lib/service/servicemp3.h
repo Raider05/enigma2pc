@@ -45,25 +45,6 @@ public:
 	long long getFileSize(const eServiceReference &ref);
 };
 
-class eStreamBufferInfo: public iStreamBufferInfo
-{
-	DECLARE_REF(eStreamBufferInfo);
-	int bufferPercentage;
-	int inputRate;
-	int outputRate;
-	int bufferSpace;
-	int bufferSize;
-
-public:
-	eStreamBufferInfo(int percentage, int inputrate, int outputrate, int space, int size);
-
-	int getBufferPercentage() const;
-	int getAverageInputRate() const;
-	int getAverageOutputRate() const;
-	int getBufferSpace() const;
-	int getBufferSize() const;
-};
-
 typedef enum { atUnknown, atMPEG, atMP3, atAC3, atDTS, atAAC, atPCM, atOGG, atFLAC, atWMA } audiotype_t;
 typedef enum { stUnknown, stPlainText, stSSA, stASS, stSRT, stVOB, stPGS } subtype_t;
 typedef enum { ctNone, ctMPEGTS, ctMPEGPS, ctMKV, ctAVI, ctMP4, ctVCD, ctCDA, ctASF } containertype_t;
@@ -140,7 +121,7 @@ public:
 
 		// iStreamedService
 	RESULT streamed(ePtr<iStreamedService> &ptr);
-	ePtr<iStreamBufferInfo> getBufferCharge();
+	PyObject *getBufferCharge();
 	int setBufferSize(int size);
 
 		// iAudioDelay
