@@ -383,7 +383,9 @@ int eDVBVideo::setFastForward(int skip)
 
 int eDVBVideo::getPTS(pts_t &now)
 {
-	int ret = ::ioctl(m_fd, VIDEO_GET_PTS, &now);
+//	int ret = ::ioctl(m_fd, VIDEO_GET_PTS, &now);
+	cXineLib *xineLib = cXineLib::getInstance();
+	int ret = xineLib->getPTS(now);
 	if (ret < 0)
 		eDebug("VIDEO_GET_PTS failed(%m)");
 	return ret;
