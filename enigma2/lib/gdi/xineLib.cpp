@@ -523,7 +523,7 @@ int cXineLib::getVideoFrameRate()
 		int	d;
 		d = xine_get_stream_info(this->stream, XINE_STREAM_INFO_FRAME_DURATION);
 		if (d != 0) {
-			m_framerate = int(90000/d) ;
+			m_framerate = int(90000000/d) ;
 		}
 		printf("framerate : %d\n", m_framerate);
 	}
