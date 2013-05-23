@@ -1857,13 +1857,14 @@ int eDVBServicePlay::getInfo(int w)
 		return xineLib->getVideoWidth();
 		break;
 	case sFrameRate:
-		//if (m_decoder) // openpliPC
-		//	return m_decoder->getVideoFrameRate();
+//		if (m_decoder) // openpliPC
+//			return m_decoder->getVideoFrameRate();
 		return xineLib->getVideoFrameRate();
 		break;
 	case sProgressive:
-		if (m_decoder)
-			return m_decoder->getVideoProgressive();
+//		if (m_decoder)
+//			return m_decoder->getVideoProgressive();
+		return xineLib->getProgressive();
 		break;
 	case sAspect:
 	{

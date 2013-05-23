@@ -118,6 +118,7 @@ cXineLib::cXineLib(x11_visual_t *vis) : m_pump(eApp, 1) {
 	m_windowAspectRatio = 0;
 	m_policy43 = 0;
 	m_policy169 = 0;
+	m_progressive = -1;
 
 	m_sharpness = 0;
 	m_noise = 0;
@@ -518,7 +519,31 @@ int cXineLib::getVideoHeight()
 
 int cXineLib::getVideoFrameRate()
 {
+	if (stream) {
+		int	d;
+		d = xine_get_stream_info(this->stream, XINE_STREAM_INFO_FRAME_DURATION);
+		if (d != 0) {
+			m_framerate = int(90000/d) ;
+		}
+		printf("framerate : %d\n", m_framerate);
+	}
 	return m_framerate;
+}
+
+int cXineLib::getProgressive()
+{
+	if (stream) {
+		xine_current_frame_data_t  data;
+		memset(&data, 0, sizeof (data));
+		if (xine_get_current_frame_data(this->stream, &data, XINE_FRAME_DATA_ALLOCATE_IMG)) {
+			if (data.interlaced == 1)
+				m_progressive = 0;
+			else
+				m_progressive = 1;
+		}
+		printf("progressive : %d\n", m_progressive);
+	}
+	return m_progressive;
 }
 
 int cXineLib::getVideoAspect()

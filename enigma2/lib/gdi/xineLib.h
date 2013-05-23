@@ -88,6 +88,7 @@ public:
 	int getVideoHeight();
 	int getVideoFrameRate();
 	int getVideoAspect();
+	int getProgressive();
 	void adjust_policy();
 	RESULT getPTS(pts_t &pts);
 	void setVideoWindow(int window_x, int window_y, int window_width, int window_height);
