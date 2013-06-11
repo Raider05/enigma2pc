@@ -93,6 +93,8 @@ AC_DEFUN([XINE_DECODER_PLUGINS], [
 	dnl Check presence of ffmpeg/avutil.h to see if it's old or new
 	dnl style for headers. The new style would be preferred actually...
 	ac_save_CFLAGS="$CFLAGS" CFLAGS="$CFLAGS $FFMPEG_CFLAGS"
+	ac_save_CPPFLAGS="$CPPFLAGS"
+	CPPFLAGS="$CFLAGS $FFMPEG_CFLAGS $AVUTIL_CFLAGS"
 	AC_CHECK_HEADERS([ffmpeg/avutil.h])
 	AC_CHECK_HEADERS([libavutil/avutil.h])
 	AC_CHECK_HEADERS([libavutil/sha1.h])
@@ -100,6 +102,7 @@ AC_DEFUN([XINE_DECODER_PLUGINS], [
 	if test "$ac_cv_header_ffmpeg_avutil_h" = "yes" && test "$ac_cv_header_libavutil_avutil_h" = "yes"; then
 	    AC_MSG_ERROR([old & new ffmpeg headers found - you need to clean up!])
 	fi
+	CPPFLAGS="$ac_save_CPPFLAGS"
         CFLAGS="$ac_save_CFLAGS"
 
     dnl gdk-pixbuf (optional; enabled by default)
