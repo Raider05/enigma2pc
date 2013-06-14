@@ -134,9 +134,9 @@ void eDVBAudio::stop()
 	else
 		eDebug("ok");
 	eDebugNoNewLine("DEMUX_STOP - audio - ");
-	if (::ioctl(m_fd_demux, DMX_STOP) < 0)
-		eDebug("failed (%m)");
-	else
+//	if (::ioctl(m_fd_demux, DMX_STOP) < 0)
+//		eDebug("failed (%m)");
+//	else
 		eDebug("ok");
 }
 
@@ -313,9 +313,9 @@ int eDVBVideo::startPid(int pid, int type, bool is_pvr)
 void eDVBVideo::stop()
 {
 	eDebugNoNewLine("DEMUX_STOP - video - ");
-	if (::ioctl(m_fd_demux, DMX_STOP) < 0)
-		eDebug("failed (%m)");
-	else
+//	if (::ioctl(m_fd_demux, DMX_STOP) < 0)
+//		eDebug("failed (%m)");
+//	else
 		eDebug("ok");
 	eDebugNoNewLine("VIDEO_STOP - ");
 	if (::ioctl(m_fd, VIDEO_STOP, 1) < 0)

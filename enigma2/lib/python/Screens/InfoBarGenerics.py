@@ -1585,12 +1585,12 @@ class InfoBarTimeshift:
 			print "play, ..."
 			ts.activateTimeshift() # activate timeshift will automatically pause
 			self.setSeekState(self.SEEK_STATE_PAUSE)
-			seekable = self.getSeek()
-			if seekable is not None:
-				seekable.seekTo(-90000) # seek approx. 1 sec before end
+#			seekable = self.getSeek()
+#			if seekable is not None:
+#				seekable.seekTo(-90000) # seek approx. 1 sec before end
 			self.timeshift_was_activated = True
 		if back:
-			self.ts_rewind_timer.start(200, 1)
+			self.ts_rewind_timer.start(1500, 1)
 
 	def rewindService(self):
 		self.setSeekState(self.makeStateBackward(int(config.seek.enter_backward.value)))
