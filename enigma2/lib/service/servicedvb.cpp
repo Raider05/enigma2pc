@@ -2110,6 +2110,10 @@ int eDVBServicePlay::selectAudioStream(int i)
 		stream = program.defaultAudioStream;
 
 	int apid = -1, apidtype = -1;
+	bool amode = false;  // if == true, radio mode
+
+	if (program.videoStreams.empty())
+		amode = true;
 
 	if (((unsigned int)stream) < program.audioStreams.size())
 	{
@@ -2122,7 +2126,7 @@ int eDVBServicePlay::selectAudioStream(int i)
 
 	m_current_audio_pid = apid;
 
-	if (m_decoder->setAudioPID(apid, apidtype))
+	if (m_decoder->setAudioPID(apid, apidtype, amode))
 	{
 		eDebug("set audio pid failed");
 		return -4;

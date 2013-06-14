@@ -19,7 +19,7 @@ public:
 	enum { aMonoLeft, aStereo, aMonoRight };
 	void setChannel(int channel);
 	void stop();
-	int startPid(int pid, int type);
+	int startPid(int pid, int type, bool mode);
 	void flush();
 	void freeze();
 	void unfreeze();
@@ -98,7 +98,7 @@ private:
 	ePtr<eDVBPCR> m_pcr;
 	ePtr<eDVBTText> m_text;
 	int m_vpid, m_vtype, m_apid, m_atype, m_pcrpid, m_textpid, m_vstreamtype;
-	bool m_is_pvr;
+	bool m_is_pvr, m_is_radio;
 	enum
 	{
 		changeVideo = 1, 
@@ -128,7 +128,7 @@ public:
 	eTSMPEGDecoder(eDVBDemux *demux, int decoder);
 	virtual ~eTSMPEGDecoder();
 	RESULT setVideoPID(int vpid, int type, int streamtype);
-	RESULT setAudioPID(int apid, int type);
+	RESULT setAudioPID(int apid, int type, bool amode);
 	RESULT setAudioChannel(int channel);
 	int getAudioChannel();
 	RESULT setPCMDelay(int delay);

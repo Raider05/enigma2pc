@@ -44,7 +44,7 @@ eDVBAudio::eDVBAudio(eDVBDemux *demux, int dev)
 #define HDMV_AUDIO_86_DTS_HD_MA  0x86 /* DTS-HD Master audio */
 
 
-int eDVBAudio::startPid(int pid, int type)
+int eDVBAudio::startPid(int pid, int type, bool mode)
 {
 	cXineLib *xineLib = cXineLib::getInstance();
 
@@ -108,7 +108,9 @@ int eDVBAudio::startPid(int pid, int type)
 		break;
 	}
 	xineLib->setAudioType(pid, xine_type);
-//	xineLib->playVideo();
+	// Radio mode
+	if (mode)
+		xineLib->playVideo();
   
 	/*eDebugNoNewLine("AUDIO_SET_BYPASS(%d) - ", bypass);
 	if (::ioctl(m_fd, AUDIO_SET_BYPASS_MODE, bypass) < 0)
@@ -729,7 +731,7 @@ int eTSMPEGDecoder::setState()
 		if ((m_apid >= 0) && (m_apid < 0x1FFF) && !noaudio)
 		{
 			m_audio = new eDVBAudio(m_demux, m_decoder);
-			if (m_audio->startPid(m_apid, m_atype))
+			if (m_audio->startPid(m_apid, m_atype, m_is_radio))
 				res = -1;
 		}
 		m_changed &= ~changeAudio;
@@ -860,7 +862,7 @@ RESULT eTSMPEGDecoder::setAC3Delay(int delay)
 
 eTSMPEGDecoder::eTSMPEGDecoder(eDVBDemux *demux, int decoder)
 	: m_demux(demux), 
-		m_vpid(-1), m_vtype(-1), m_apid(-1), m_atype(-1), m_pcrpid(-1), m_textpid(-1),
+		m_vpid(-1), m_vtype(-1), m_apid(-1), m_atype(-1), m_pcrpid(-1), m_textpid(-1), m_vstreamtype(-1), m_is_pvr(false), m_is_radio(false),
 		m_changed(0), m_decoder(decoder), m_video_clip_fd(-1), m_showSinglePicTimer(eTimer::create(eApp))
 {
 	demux->connectEvent(slot(*this, &eTSMPEGDecoder::demux_event), m_demux_event_conn);
@@ -907,7 +909,7 @@ printf("eTSMPEGDecoder setVideoPID %d\n", vpid);
 	return 0;
 }
 
-RESULT eTSMPEGDecoder::setAudioPID(int apid, int type)
+RESULT eTSMPEGDecoder::setAudioPID(int apid, int type, bool amode)
 {
 	/* do not set an audio pid on decoders without audio support */
 	//if (!m_has_audio) apid = -1; openpliPC
@@ -918,6 +920,8 @@ RESULT eTSMPEGDecoder::setAudioPID(int apid, int type)
 		m_changed |= changeAudio;
 		m_atype = type;
 		m_apid = apid;
+		m_is_radio = amode;
+
 	}
 	return 0;
 }
