@@ -1625,6 +1625,12 @@ RESULT eDVBServicePlay::seekTo(pts_t to)
 	m_dvb_subtitle_pages.clear();
 	m_subtitle_pages.clear();
 
+	if (m_is_paused)
+	{
+		unpause();
+		pause();
+	}
+
 	return 0;
 }
 
@@ -1653,11 +1659,16 @@ RESULT eDVBServicePlay::seekRelative(int direction, pts_t to)
 
 	m_cue->seekTo(mode, to);
         cXineLib *xineLib = cXineLib::getInstance();
-//	xineLib->playVideo();
         xineLib->VideoGeriT(to/90*direction);
-//	xineLib->playVideo();
 	m_dvb_subtitle_pages.clear();
 	m_subtitle_pages.clear();
+
+	if (m_is_paused)
+	{
+		unpause();
+		pause();
+	}
+
 	return 0;
 }
 
@@ -2772,7 +2783,7 @@ void eDVBServicePlay::switchToTimeshift()
 	ePtr<iTsSource> source = createTsSource(r);
 	m_service_handler_timeshift.tuneExt(r, 1, source, m_timeshift_file.c_str(), m_cue, 0, m_dvb_service, eDVBServicePMTHandler::timeshift_playback, false); /* use the decoder demux for everything */
 
-// stop openpliPC
+/* stop openpliPC
 	if (m_openpliPC_record)
 	{
 		m_openpliPC_record->stop();
@@ -2783,10 +2794,23 @@ void eDVBServicePlay::switchToTimeshift()
 		close(m_openpliPC_fd);
 		m_openpliPC_fd = -1;
 	}
-//
+*/
 	eDebug("eDVBServicePlay::switchToTimeshift, in pause mode now.");
 	pause();
 	updateDecoder(true); /* mainly to switch off PCR, and to set pause */
+
+// stop openpliPC
+        if (m_openpliPC_record)
+        {
+                m_openpliPC_record->stop();
+                m_openpliPC_record = 0;
+        }
+        if (m_openpliPC_fd > 0) {
+                printf("Switch from Live TV to Timeshift, close(m_openpliPC_fd) %d\n", m_openpliPC_fd);
+                close(m_openpliPC_fd);
+                m_openpliPC_fd = -1;
+        }
+//
 }
 
 void eDVBServicePlay::updateDecoder(bool sendSeekableStateChanged)
@@ -2981,6 +3005,12 @@ void eDVBServicePlay::updateDecoder(bool sendSeekableStateChanged)
 
 	if (sendSeekableStateChanged)
 		m_event((iPlayableService*)this, evSeekableStatusChanged);
+
+	if (m_is_paused)
+	{
+		unpause();
+		pause();
+	}
 }
 
 void eDVBServicePlay::loadCuesheet()
