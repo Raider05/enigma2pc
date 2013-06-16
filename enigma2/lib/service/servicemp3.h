@@ -12,8 +12,6 @@
 
 class eStaticServiceMP3Info;
 
-class eSubtitleWidget;
-
 class eServiceFactoryMP3: public iServiceHandler
 {
 	DECLARE_REF(eServiceFactoryMP3);
@@ -114,10 +112,10 @@ public:
 	RESULT selectChannel(int i);
 
 		// iSubtitleOutput
-	RESULT enableSubtitles(eWidget *parent, SWIG_PYOBJECT(ePyObject) entry);
-	RESULT disableSubtitles(eWidget *parent);
-	PyObject *getSubtitleList();
-	PyObject *getCachedSubtitle();
+	RESULT enableSubtitles(iSubtitleUser *user, SubtitleTrack &track);
+	RESULT disableSubtitles();
+	RESULT getSubtitleList(std::vector<SubtitleTrack> &sublist);
+	RESULT getCachedSubtitle(SubtitleTrack &track);
 
 		// iStreamedService
 	RESULT streamed(ePtr<iStreamedService> &ptr);
@@ -155,7 +153,8 @@ private:
 	int m_currentSubtitleStream;
 	int m_cachedSubtitleStream;
 	int selectAudioStream(int i);
-	eSubtitleWidget *m_subtitle_widget;
+	iSubtitleUser *m_subtitle_widget;
+//	eSubtitleWidget *m_subtitle_widget;
 	gdouble m_currentTrickRatio;
 	friend class eServiceFactoryMP3;
 	eServiceReference m_ref;

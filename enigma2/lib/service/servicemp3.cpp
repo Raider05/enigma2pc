@@ -436,7 +436,8 @@ eServiceMP3::~eServiceMP3()
 		gst_object_unref(subsink);
 	}
 
-	delete m_subtitle_widget;
+	if (m_subtitle_widget) m_subtitle_widget->destroy();
+	m_subtitle_widget = 0;
 
 	// disconnect sync handler callback
 	gst_bus_set_sync_handler(gst_pipeline_get_bus (GST_PIPELINE (m_gst_playbin)), NULL, NULL);*/
@@ -831,29 +832,28 @@ void eServiceMP3::pushSubtitles()
 {
 }
 
-RESULT eServiceMP3::enableSubtitles(eWidget *parent, ePyObject tuple)
+RESULT eServiceMP3::enableSubtitles(iSubtitleUser *user, struct SubtitleTrack &track)
 {
   return 0;
 }
 
-RESULT eServiceMP3::disableSubtitles(eWidget *parent)
+RESULT eServiceMP3::disableSubtitles()
 {
 	return 0;
 }
 
-PyObject *eServiceMP3::getCachedSubtitle()
+RESULT eServiceMP3::getCachedSubtitle(struct SubtitleTrack &track)
 {
 // 	eDebug("eServiceMP3::getCachedSubtitle");
-	Py_RETURN_NONE;
+	return -1;
 }
 
-PyObject *eServiceMP3::getSubtitleList()
+RESULT eServiceMP3::getSubtitleList(std::vector<struct SubtitleTrack> &subtitlelist)
 {
 // 	eDebug("eServiceMP3::getSubtitleList");
-	ePyObject l = PyList_New(0);
 	int stream_idx = 0;
 	eDebug("eServiceMP3::getSubtitleList finished");
-	return l;
+	return 0;
 }
 
 RESULT eServiceMP3::streamed(ePtr<iStreamedService> &ptr)
