@@ -129,9 +129,13 @@ meta() {
 	for ts in $(find $DIR_TS -iname '*.ts')
 	do
         	if [ -f $ts".meta" ]; then
-                	echo "Meta file $ts is exist";
+			if [ $(grep -c $SERVICE_DATA $ts".meta") -ne 0 ]; then
+				echo "Meta file $ts is exist";
+			else
+			        create_mfile "$ts"
+			fi
 		else
-		        create_mfile "$ts"
+			create_mfile "$ts"
 		fi
 	done
 }
