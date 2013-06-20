@@ -68,10 +68,10 @@ create_mfile() {
 	elif [ $(grep Audio $TMP_FILE | grep $AUDIO_LANG  | grep -c mp2 ) -ne 0 ]; then
 		APID=`grep Audio $TMP_FILE | grep $AUDIO_LANG | grep  mp2 | head -1 | cut -d'x' -f2 | cut -d']' -f1`
 	elif [ $(grep Audio $TMP_FILE | grep "Stream #0.1" | grep -c ac3  ) -ne 0 ]; then
-		APID=`grep Audio $TMP_FILE | grep "Stream 0.1" | cut -d'x' -f2 | cut -d']' -f1`
+		APID=`grep Audio $TMP_FILE | grep "Stream #0.1" | cut -d'x' -f2 | cut -d']' -f1`
 		AAC3=$AAC3"1"
 	else
-		APID=`grep Audio $TMP_FILE | grep "Stream 0.1" | cut -d'x' -f2 | cut -d']' -f1`
+		APID=`grep Audio $TMP_FILE | grep "Stream #0.1" | cut -d'x' -f2 | cut -d']' -f1`
 	fi
 
 	count_apid=$((4-`echo -n $APID | sed s/*//g | wc -c`))
