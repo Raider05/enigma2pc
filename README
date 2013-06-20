@@ -247,6 +247,14 @@ http://openpli.org/forums/topic/20871-build-script-for-openpli-enigma2-on-ubuntu
 http://openpli.org/forums/topic/20871-build-script-for-openpli-enigma2-on-ubuntu-104-32-bit/page__view__findpost__p__239211
 
 
+8)
+For looking TS-files downloading from internet or recordings (VDR)
+use script e2pc_tslook.ts in the directory scripts.
+Start script in the directory with TS-files or change variable DIR_TS
+and wait while script create meta-files for TS-files.
+When launch 'e2pc_tslook.ts meta' or 'e2pc_tslook.ts start' create meta-files for enigma2pc
+When launch 'e2pc_tslook.ts clear' or 'e2pc_tslook.ts stop' remove meta-files
+Also change AUDIO_LANG='your_launguage'
 
 ------------------------------
 Thanks to
