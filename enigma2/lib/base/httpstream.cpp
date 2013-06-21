@@ -179,12 +179,12 @@ int eHttpStream::open(const char *url)
 	/* too many redirect / playlist levels (we accept one redirect + one playlist) */
 	return -1;
 }
-
+/*---
 off_t eHttpStream::lseek(off_t offset, int whence)
 {
 	return (off_t)-1;
 }
-
+*/
 int eHttpStream::close()
 {
 	int retval = -1;
