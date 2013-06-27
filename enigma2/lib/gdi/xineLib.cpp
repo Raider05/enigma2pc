@@ -234,32 +234,19 @@ void cXineLib::playVideo(void) {
 	if( !xine_play(stream, 0, 0) ) {
 		printf("Unable to play stream !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 	}
-	printf("XINE STARTED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-
-/*	if (xine_queue==0)
-	{
-		xine_queue = xine_event_new_queue (stream);
-		xine_event_create_listener_thread(xine_queue, xine_event_handler, this);
+	else {
+		printf("XINE STARTED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+		videoPlayed = true;
 	}
-*/
-	videoPlayed = true;
 }
 
 void cXineLib::stopVideo(void) {
-	xine_stop(stream);
-/*	if (this->postplugins) {
-		rewire_posts_unload();
+
+	if (videoPlayed) {
+		xine_stop(stream);
+		end_of_stream = true;
+		videoPlayed = false;
 	}
-*/
-//	xine_close (stream);
-/*	if (xine_queue)
-        {
-                xine_queue = xine_event_new_queue (stream);
-                xine_event_create_listener_thread(xine_queue, xine_event_handler, this);
-        }
-*/
-	end_of_stream = false;
-	videoPlayed = false;
 }
 
 void cXineLib::setStreamType(int video) {
