@@ -195,7 +195,7 @@ eDecryptRawFile::eDecryptRawFile(int packetsize)
  : eRawFile(packetsize)
 {
 	ringBuffer = new cRingBufferLinear(KILOBYTE(2024),TS_SIZE,true,"IN-TS");
-	ringBuffer->SetTimeouts(200,200);
+	ringBuffer->SetTimeouts(100,100);
 	bs_size = dvbcsa_bs_batch_size();
 	delivered=false;
 	lastPacketsCount = 0;

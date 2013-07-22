@@ -13,6 +13,7 @@ extern "C" {
 
 #define MAX_REL_WAIT 100 // time to wait if key in used on set
 #define MAX_KEY_WAIT 500 // time to wait if key not ready on change
+#define MAX_STALL_MS 70
 
 #define MAX_CSA_PIDS 8192
 #define MAX_CSA_IDX  16
@@ -28,10 +29,12 @@ private:
   unsigned int even_odd[MAX_CSA_IDX], flags[MAX_CSA_IDX], usedPids[MAX_CSA_IDX];
   cMutex mutex;
   cCondVar wait;
+  cTimeMs stall;
   int adapter, demux;
-  struct dvbcsa_bs_key_s* csa_bs_key_even[MAX_CSA_IDX];
-  struct dvbcsa_bs_key_s* csa_bs_key_odd[MAX_CSA_IDX];
-  struct dvbcsa_bs_batch_s *pcks;
+  struct dvbcsa_bs_key_s *cs_key_even[MAX_CSA_IDX];
+  struct dvbcsa_bs_key_s *cs_key_odd[MAX_CSA_IDX];
+  struct dvbcsa_bs_batch_s *cs_tsbbatch_even;
+  struct dvbcsa_bs_batch_s *cs_tsbbatch_odd;
 
   bool GetKeyStruct(int idx);
   void ResetState(void);
