@@ -578,4 +578,7 @@ Christoph Pfister <christophpfister@gmail.com>
 Albert Lee <trisk+xine@acm.jhu.edu>
   Solaris portability fixes (and other miscellaneous fixes)
 
+Edgar Hucek <gimli|@dark-green.com>
+   VAAPI Support
+
 (let us know if we've forgotten anyone)
