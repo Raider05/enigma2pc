@@ -79,8 +79,10 @@ AC_DEFUN([XINE_INPUT_PLUGINS], [
     dnl libsmbclient
     XINE_ARG_ENABLE([samba], [Enable support for the Samba plugin])
     if test x"$enable_samba" != x"no"; then
-        AC_CHECK_LIB([smbclient], [smbc_init],
-                     [AC_CHECK_HEADERS([libsmbclient.h], [have_samba=yes LIBSMBCLIENT_LIBS="-lsmbclient"])])
+        PKG_CHECK_MODULES([LIBSMBCLIENT], [smbclient],
+          [have_samba=yes],
+          AC_MSG_RESULT(*** All libsmbclient dependent parts will be disabled ***))
+        AC_SUBST(LIBSMBCLIENT_CFLAGS)
         AC_SUBST(LIBSMBCLIENT_LIBS)
         if test x"$hard_enable_samba" = x"yes" && test x"$have_samba" != x"yes"; then
             AC_MSG_ERROR([Samba support requested, but Samba not found])

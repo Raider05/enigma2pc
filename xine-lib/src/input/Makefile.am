@@ -152,6 +152,7 @@ xineplug_inp_gnome_vfs_la_CFLAGS = $(AM_CFLAGS) $(GNOME_VFS_CFLAGS)
 
 xineplug_inp_smb_la_SOURCES = input_smb.c
 xineplug_inp_smb_la_LIBADD = $(XINE_LIB) $(LIBSMBCLIENT_LIBS) $(LTLIBINTL)
+xineplug_inp_smb_la_CFLAGS = $(AM_CFLAGS) $(LIBSMBCLIENT_CFLAGS)
 
 xineplug_inp_pvr_la_SOURCES = input_pvr.c
 xineplug_inp_pvr_la_LIBADD = $(XINE_LIB) $(PTHREAD_LIBS) $(LTLIBINTL)
