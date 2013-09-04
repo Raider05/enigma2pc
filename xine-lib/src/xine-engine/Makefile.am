@@ -11,7 +11,7 @@ XINEUTILS_LIB = $(top_builddir)/src/xine-utils/libxineutils.la
 YUV_LIB = $(top_builddir)/src/video_out/libyuv2rgb.la
 
 # FIXME: these are currently unused:
-EXTRA_DIST = lrb.c lrb.h accel_vdpau.h accel_xvmc.h
+EXTRA_DIST = lrb.c lrb.h accel_vaapi.h accel_vdpau.h accel_xvmc.h
 
 if WIN32
 DEF_FILE = libxine-$(XINE_MAJOR).def

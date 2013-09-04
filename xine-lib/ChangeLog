@@ -1,3 +1,6 @@
+xine-lib (1.2.3.1) 2013-??-??
+  * Distribute one missing header file. No VAAPI plugin without this.
+
 xine-lib (1.2.3) 2013-05-29
   * Add VAAPI HW decoding support
   * Add OpenGL 2.0 output plugin
