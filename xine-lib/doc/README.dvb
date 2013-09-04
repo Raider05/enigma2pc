@@ -133,5 +133,20 @@ at any time by pressing MENU4 (F3 in xine-ui, F4 in gxine). An OSD in the
 top left hand corner will notify you of the status of the recording.
 Pressing MENU4 again will resume recording.
 
+
+Using the Kaffeine DVB frontend
+-------------------------------
+
+Kaffeine has a very nice DVB (digital TV) frontend. However,
+since Qt/KDE 4, Kaffeine no longer has a built-in configuration GUI.
+The defaults are not really optimal. A suggested quick solution is:
+  * close Kaffeine
+  * build/install xine-ui
+  * do your configuration with that
+  * make Kaffeine use it too:
+    $ ln -sf ~/.xine/config ~/.kde4/share/apps/kaffeine/xine-config
+A similar trick applies to previewing videos in Gwenview via phonon:
+    $ ln -sf ~/.xine/config ~/.config/kde.org/Phonon-Xine.xine.conf
+
 Have fun.
 
