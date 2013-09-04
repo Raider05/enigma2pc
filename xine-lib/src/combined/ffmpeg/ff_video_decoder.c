@@ -157,6 +157,8 @@ struct ff_video_decoder_s {
   uint8_t           set_stream_info;
 
 #ifdef ENABLE_VAAPI
+  int                   vaapi_width, vaapi_height;
+  int                   vaapi_profile;
   struct vaapi_context  vaapi_context;
   vaapi_accel_t         *accel;
   vo_frame_t            *accel_img;
@@ -256,6 +258,26 @@ static int get_buffer(AVCodecContext *context, AVFrame *av_frame){
     av_frame->age = 1;
 #endif
     av_frame->reordered_opaque = context->reordered_opaque;
+
+    /* reinitialize vaapi for new image size */
+    if (context->width != this->vaapi_width || context->height != this->vaapi_height) {
+      VAStatus status;
+
+      this->vaapi_width  = context->width;
+      this->vaapi_height = context->height;
+      status = this->accel->vaapi_init (this->accel_img, this->vaapi_profile,
+        context->width, context->height, 0);
+
+      if (status == VA_STATUS_SUCCESS) {
+        ff_vaapi_context_t *va_context = this->accel->get_context (this->accel_img);
+
+        if (va_context) {
+          this->vaapi_context.config_id  = va_context->va_config_id;
+          this->vaapi_context.context_id = va_context->va_context_id;
+          this->vaapi_context.display    = va_context->va_display;
+        }
+      }
+    }
 
     if(!this->accel->guarded_render(this->accel_img)) {
       img = this->stream->video_out->get_frame (this->stream->video_out,
@@ -436,9 +458,14 @@ static const int skip_loop_filter_enum_values[] = {
 };
 
 #ifdef ENABLE_VAAPI
+/* TJ. libavcodec calls this with a list of supported pixel formats and lets us choose 1.
+   Returning PIX_FMT_VAAPI_VLD enables VAAPI.
+   However, at this point we only got image width and height from container, being unreliable
+   or zero (MPEG-TS). Thus we repeat vaapi_context initialization in get_buffer when needed.
+   This should be OK since NAL unit parsing is always done in software. */
 static enum PixelFormat get_format(struct AVCodecContext *context, const enum PixelFormat *fmt)
 {
-  int i, profile;
+  int i;
   ff_video_decoder_t *this = (ff_video_decoder_t *)context->opaque;
 
   if(!this->class->enable_vaapi || !this->accel_img)
@@ -450,12 +477,21 @@ static enum PixelFormat get_format(struct AVCodecContext *context, const enum Pi
     if (fmt[i] != PIX_FMT_VAAPI_VLD)
       continue;
 
-    profile = accel->profile_from_imgfmt(this->accel_img, fmt[i], context->codec_id, this->class->vaapi_mpeg_softdec);
+    this->vaapi_profile = accel->profile_from_imgfmt (this->accel_img, fmt[i],
+      context->codec_id, this->class->vaapi_mpeg_softdec);
 
-    if (profile >= 0) {
+    if (this->vaapi_profile >= 0) {
+      int width  = context->width;
+      int height = context->height;
       VAStatus status;
 
-      status = accel->vaapi_init(this->accel_img, profile, context->width, context->height, 0);
+      if (!width || !height) {
+        width  = 1920;
+        height = 1080;
+      }
+      this->vaapi_width  = width;
+      this->vaapi_height = height;
+      status = accel->vaapi_init (this->accel_img, this->vaapi_profile, width, height, 0);
 
       if( status == VA_STATUS_SUCCESS ) {
         ff_vaapi_context_t *va_context = accel->get_context(this->accel_img);
