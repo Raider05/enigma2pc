@@ -234,13 +234,13 @@ static int get_buffer(AVCodecContext *context, AVFrame *av_frame){
   if (!this->bih.biWidth || !this->bih.biHeight) {
     this->bih.biWidth = width;
     this->bih.biHeight = height;
+  }
 
-    if (this->aspect_ratio_prio == 0) {
-      this->aspect_ratio = (double)width / (double)height;
-      this->aspect_ratio_prio = 1;
-      lprintf("default aspect ratio: %f\n", this->aspect_ratio);
-      this->set_stream_info = 1;
-    }
+  if (this->aspect_ratio_prio == 0) {
+    this->aspect_ratio = (double)width / (double)height;
+    this->aspect_ratio_prio = 1;
+    lprintf("default aspect ratio: %f\n", this->aspect_ratio);
+    this->set_stream_info = 1;
   }
 
   avcodec_align_dimensions(context, &width, &height);
