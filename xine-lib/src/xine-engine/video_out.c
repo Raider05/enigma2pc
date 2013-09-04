@@ -1384,21 +1384,11 @@ static void overlay_and_display_frame (vos_t *this,
     pthread_mutex_unlock( &img->stream->current_extra_info_lock );
   }
 
-  if (this->overlay_source) {
-    this->overlay_source->multiple_overlay_blend (this->overlay_source,
-						  vpts,
-						  this->driver, img,
-						  this->video_loop_running && this->overlay_enabled);
-  }
-
-  vo_grab_current_frame (this, img, vpts);
-
-  this->driver->display_frame (this->driver, img);
-
-  /*
-   * Wake up xine_play if it's waiting for a frame
+  /* xine_play() may be called from a thread that has the display device locked
+   * (eg an X window event handler). If it is waiting for a frame we better wake
+   * it up _before_ we start displaying, or the first 10 seconds of video are lost.
    */
-  if( this->last_frame->is_first ) {
+  if( img->is_first ) {
     pthread_mutex_lock(&this->streams_lock);
     for (ite = xine_list_front(this->streams); ite;
          ite = xine_list_next(this->streams, ite)) {
@@ -1413,6 +1403,17 @@ static void overlay_and_display_frame (vos_t *this,
     }
     pthread_mutex_unlock(&this->streams_lock);
   }
+
+  if (this->overlay_source) {
+    this->overlay_source->multiple_overlay_blend (this->overlay_source,
+						  vpts,
+						  this->driver, img,
+						  this->video_loop_running && this->overlay_enabled);
+  }
+
+  vo_grab_current_frame (this, img, vpts);
+
+  this->driver->display_frame (this->driver, img);
 
   this->redraw_needed = 0;
 }
