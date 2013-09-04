@@ -131,7 +131,7 @@ struct ff_video_decoder_s {
   double            aspect_ratio;
   int               aspect_ratio_prio;
   int               frame_flags;
-  int               crop_right, crop_bottom;
+  int               edge;
 
   int               output_format;
 
@@ -227,6 +227,7 @@ static int get_buffer(AVCodecContext *context, AVFrame *av_frame){
   vo_frame_t *img;
   int width  = context->width;
   int height = context->height;
+  int crop_right = 0, crop_bottom = 0;
   int guarded_render = 0;
 
   ff_check_colorspace (this);
@@ -327,6 +328,12 @@ static int get_buffer(AVCodecContext *context, AVFrame *av_frame){
     guarded_render = this->accel->guarded_render(this->accel_img);
 #endif /* ENABLE_VAAPI */
 
+  /* The alignment rhapsody */
+  width  += 2 * this->edge;
+  height += 2 * this->edge;
+  width   = (width + 15) & ~15;
+  height  = (height + 15) & ~15;
+
   if ((this->full2mpeg || (this->context->pix_fmt != PIX_FMT_YUV420P &&
 			   this->context->pix_fmt != PIX_FMT_YUVJ420P)) || guarded_render) {
     if (!this->is_direct_rendering_disabled) {
@@ -344,8 +351,8 @@ static int get_buffer(AVCodecContext *context, AVFrame *av_frame){
 
   if((width != this->bih.biWidth) || (height != this->bih.biHeight)) {
     if(this->stream->video_out->get_capabilities(this->stream->video_out) & VO_CAP_CROP) {
-      this->crop_right = width - this->bih.biWidth;
-      this->crop_bottom = height - this->bih.biHeight;
+      crop_right = width - this->bih.biWidth - this->edge;
+      crop_bottom = height - this->bih.biHeight - this->edge;
     } else {
       if (!this->is_direct_rendering_disabled) {
         xprintf(this->stream->xine, XINE_VERBOSITY_LOG,
@@ -371,6 +378,8 @@ static int get_buffer(AVCodecContext *context, AVFrame *av_frame){
 
   av_frame->opaque = img;
 
+  av_frame->extended_data = av_frame->data;
+
   av_frame->data[0]= img->base[0];
   av_frame->data[1]= img->base[1];
   av_frame->data[2]= img->base[2];
@@ -378,6 +387,16 @@ static int get_buffer(AVCodecContext *context, AVFrame *av_frame){
   av_frame->linesize[0] = img->pitches[0];
   av_frame->linesize[1] = img->pitches[1];
   av_frame->linesize[2] = img->pitches[2];
+
+  if (this->output_format == XINE_IMGFMT_YV12) {
+    av_frame->data[0] += (img->pitches[0] + 1) * this->edge;
+    av_frame->data[1] += (img->pitches[1] + 1) * this->edge / 2;
+    av_frame->data[2] += (img->pitches[2] + 1) * this->edge / 2;
+    img->crop_left   = this->edge;
+    img->crop_top    = this->edge;
+    img->crop_right  = crop_right;
+    img->crop_bottom = crop_bottom;
+  }
 
   /* We should really keep track of the ages of xine frames (see
    * avcodec_default_get_buffer in libavcodec/utils.c)
@@ -549,10 +568,20 @@ static void init_video_codec (ff_video_decoder_t *this, unsigned int codec_type)
     _x_stream_info_get(this->stream, XINE_STREAM_INFO_VIDEO_FOURCC);
 
 
-  /* Some codecs (eg rv10) copy flags in init so it's necessary to set
-   * this flag here in case we are going to use direct rendering */
+  this->stream->video_out->open (this->stream->video_out, this->stream);
+
+  this->edge = 0;
   if(this->codec->capabilities & CODEC_CAP_DR1 && this->class->enable_dri) {
-    this->context->flags |= CODEC_FLAG_EMU_EDGE;
+    if (this->stream->video_out->get_capabilities (this->stream->video_out) & VO_CAP_CROP) {
+      /* We can crop. Fine. Lets allow decoders to paint over the frame edges.
+         This will be slightly faster. And it is also a workaround for buggy
+         v54 who likes to ignore EMU_EDGE for wmv2 and xvid. */
+      this->edge = avcodec_get_edge_width ();
+    } else {
+      /* Some codecs (eg rv10) copy flags in init so it's necessary to set
+       * this flag here in case we are going to use direct rendering */
+      this->context->flags |= CODEC_FLAG_EMU_EDGE;
+    }
   }
 
   /* TJ. without this, it wont work at all on my machine */
@@ -611,6 +640,7 @@ static void init_video_codec (ff_video_decoder_t *this, unsigned int codec_type)
     free(this->context);
     this->context = NULL;
     _x_stream_info_set(this->stream, XINE_STREAM_INFO_VIDEO_HANDLED, 0);
+    this->stream->video_out->close (this->stream->video_out, this->stream);
     return;
   }
 
@@ -626,6 +656,7 @@ static void init_video_codec (ff_video_decoder_t *this, unsigned int codec_type)
       free(this->context);
       this->context = NULL;
       _x_stream_info_set(this->stream, XINE_STREAM_INFO_VIDEO_HANDLED, 0);
+      this->stream->video_out->close (this->stream->video_out, this->stream);
       return;
     }
   }
@@ -655,8 +686,6 @@ static void init_video_codec (ff_video_decoder_t *this, unsigned int codec_type)
 
     set_stream_info(this);
   }
-
-  (this->stream->video_out->open) (this->stream->video_out, this->stream);
 
   this->skipframes = 0;
 
@@ -1486,9 +1515,6 @@ static void ff_handle_mpeg12_buffer (ff_video_decoder_t *this, buf_element_t *bu
       else
         img->duration = this->video_step;
 
-      img->crop_right  = this->crop_right;
-      img->crop_bottom = this->crop_bottom;
-
 #ifdef ENABLE_VAAPI
       if( this->context->pix_fmt == PIX_FMT_VAAPI_VLD) {
         if(this->accel->guarded_render(this->accel_img)) {
@@ -1767,6 +1793,8 @@ static void ff_handle_buffer (ff_video_decoder_t *this, buf_element_t *buf) {
                                                     this->aspect_ratio,
                                                     this->output_format,
                                                     VO_BOTH_FIELDS|this->frame_flags);
+          img->crop_right  = img->width  - this->bih.biWidth;
+          img->crop_bottom = img->height - this->bih.biHeight;
           free_img = 1;
         } else {
           /* DR1 */
@@ -1781,19 +1809,22 @@ static void ff_handle_buffer (ff_video_decoder_t *this, buf_element_t *buf) {
         if(this->pp_available && this->pp_quality && this->context->pix_fmt != PIX_FMT_VAAPI_VLD) {
 
           if(this->av_frame->opaque) {
-            /* DR1 */
+            /* DR1: filter into a new frame. Same size to avoid reallcation, just move the
+               image to top left corner. */
             img = this->stream->video_out->get_frame (this->stream->video_out,
-                                                      (img->width  + 15) & ~15,
-                                                      (img->height + 15) & ~15,
+                                                      img->width,
+                                                      img->height,
                                                       this->aspect_ratio,
                                                       this->output_format,
                                                       VO_BOTH_FIELDS|this->frame_flags);
+            img->crop_right  = img->width  - this->bih.biWidth;
+            img->crop_bottom = img->height - this->bih.biHeight;
             free_img = 1;
           }
 
           pp_postprocess((const uint8_t **)this->av_frame->data, this->av_frame->linesize,
                         img->base, img->pitches,
-                        img->width, img->height,
+                        this->bih.biWidth, this->bih.biHeight,
                         this->av_frame->qscale_table, this->av_frame->qstride,
                         this->our_mode, this->our_context,
                         this->av_frame->pict_type);
@@ -1821,10 +1852,6 @@ static void ff_handle_buffer (ff_video_decoder_t *this, buf_element_t *buf) {
           img->duration = video_step_to_use * 3 / 2;
         else
           img->duration = video_step_to_use;
-
-        /* additionally crop away the extra pixels due to adjusting frame size above */
-        img->crop_right  = img->width  - this->bih.biWidth;
-        img->crop_bottom = img->height - this->bih.biHeight;
 
         /* transfer some more frame settings for deinterlacing */
         img->progressive_frame = !this->av_frame->interlaced_frame;

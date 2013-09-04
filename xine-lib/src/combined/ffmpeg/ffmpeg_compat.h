@@ -146,4 +146,8 @@
 #  define AVCODEC_MAX_AUDIO_FRAME_SIZE 192000
 #endif
 
+#if LIBAVCODEC_VERSION_INT < ((52<<16)|(66<<8))
+#  define avcodec_get_edge_width() (16)
+#endif
+
 #endif /* XINE_AVCODEC_COMPAT_H */
