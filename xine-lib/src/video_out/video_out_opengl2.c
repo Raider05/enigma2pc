@@ -1158,7 +1158,10 @@ static void opengl2_draw_video_bilinear( opengl2_driver_t *that, int guiw, int g
 
 static void opengl2_draw( opengl2_driver_t *that, opengl2_frame_t *frame )
 {
-  glXMakeCurrent( that->display, that->drawable, that->context );
+  if ( !glXMakeCurrent( that->display, that->drawable, that->context ) ) {
+    xprintf( that->xine, XINE_VERBOSITY_LOG, "video_out_opengl2: display unavailable for rendering\n" );
+    return;
+  }
 
   if ( !opengl2_check_textures_size( that, frame->width, frame->height ) ) {
     glXMakeCurrent( that->display, None, NULL );
