@@ -7,6 +7,7 @@
 
 #include <linux/kernel.h>
 #include "ca_netlink.h"
+#include <linux/version.h>
 
 // attribute policy 
 struct nla_policy ca_policy[ATTR_MAX + 1] = {
@@ -38,7 +39,11 @@ int reply_ca(struct sk_buff *skb_2, struct genl_info *info)
 	void *msg_head;
 	int ret;
 	
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,7,0)
 	printk("reply_ca %d\n", info->snd_pid);
+#else
+	printk("reply_ca %d\n", info->snd_portid);
+#endif
 
         if (!info)
                 goto out;
@@ -58,11 +63,19 @@ int reply_ca(struct sk_buff *skb_2, struct genl_info *info)
 	
 	genlmsg_end(skb, msg_head);
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,7,0)
 	ret = genlmsg_unicast(&init_net, skb, info->snd_pid );
+#else
+	ret = genlmsg_unicast(&init_net, skb, info->snd_portid );
+#endif
 	if (ret)
 		goto out;
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,7,0)
 	processPid = info->snd_pid;
+#else
+	processPid = info->snd_portid;
+#endif
 	return 0;
 
  out:

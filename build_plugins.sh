@@ -27,7 +27,7 @@ make
 sudo make install
 
 # Create symlink for Skin HD_LINE_TVPRO
-ln -s $INSTALL_E2DIR/lib/enigma2/python/Plugins/Extensions/BitrateViewer/bitratecalc.so $INSTALL_E2DIR/lib/enigma2/python/Components/Converter/bitratecalc.so
+sudo ln -s $INSTALL_E2DIR/lib/enigma2/python/Plugins/Extensions/BitrateViewer/bitratecalc.so $INSTALL_E2DIR/lib/enigma2/python/Components/Converter/bitratecalc.so
 
 #ln -s $INSTALL_E2DIR/bin/bitrate /usr/local/bin/bitrate
 
@@ -36,9 +36,9 @@ echo "Copy  plugins E2PC"
 echo "-----------------------------"
 
 cd ..
-cp -fR Extensions/* $INSTALL_E2DIR/lib/enigma2/python/Plugins/Extensions/
-cp -fR SystemPlugins/* $INSTALL_E2DIR/lib/enigma2/python/Plugins/SystemPlugins/
-cp -fR PLi/* $INSTALL_E2DIR/lib/enigma2/python/Plugins/PLi/
+sudo cp -fR Extensions/* $INSTALL_E2DIR/lib/enigma2/python/Plugins/Extensions/
+sudo cp -fR SystemPlugins/* $INSTALL_E2DIR/lib/enigma2/python/Plugins/SystemPlugins/
+sudo cp -fR PLi/* $INSTALL_E2DIR/lib/enigma2/python/Plugins/PLi/
 
 echo "-----------------Installed plugins:----------------------"
 echo " BouquetHotkeys, EPGSearch, OpenWebIf, OscamStatus, TMBD,"
@@ -46,7 +46,7 @@ echo " SimpleUmount, TMBD, xModem, SystemTime,  BitrateViewer, "
 echo " Filebrowser, PermanentClock, VirtualZap"
 
 cd ../skins
-cp -fR * $INSTALL_E2DIR/share/enigma2/
+sudo cp -fR * $INSTALL_E2DIR/share/enigma2/
 
 echo "-----------------Installed skins:----------------------" 
 echo "          HD_LINE_TVPRO, classplus_hd-Domica           "

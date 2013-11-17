@@ -42,7 +42,7 @@ echo "-----------------------------------------"
 sudo mkdir -p /etc/vdr/oscam
 sudo cp -fR conf/* /etc/vdr/oscam
 sudo cp -fRP softcam.oscam /etc/init.d/
-ln -s /etc/init.d/softcam.oscam /etc/init.d/softcam
+sudo ln -s /etc/init.d/softcam.oscam /etc/init.d/softcam
 
 echo "-----------------------------------------"
 echo "*** STARTING OCSCAM ... ***"

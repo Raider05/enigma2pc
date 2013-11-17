@@ -34,7 +34,12 @@
 #include <linux/cdev.h>
 #include <linux/platform_device.h>
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,7,0)
 #include "../drivers/media/dvb/dvb-core/dvbdev.h"
+#else
+#include "../drivers/media/dvb-core/dvbdev.h"
+#endif
+
 #include "dvb_softwareca.h"
 #include "ca_netlink.h"
 
