@@ -38,8 +38,8 @@ echo "Build and install $PKG"
 echo "-----------------------------------------"
 if [ -d $PKG ]; then
 	echo "Erasing older build dir"
-	rm -Rf $PKG
-	rm -f $PKG*
+	sudo rm -Rf $PKG
+	sudo rm -f $PKG*
 fi
 git clone git://git.opendreambox.org/git/obi/$PKG.git
 cd $PKG
@@ -54,8 +54,8 @@ echo "Build and install $PKG"
 echo "-----------------------------------------"
 if [ -d $PKG ]; then
 	echo "Erasing older build dir"
-	rm -Rf $PKG
-	rm -f $PKG*
+	sudo rm -Rf $PKG
+	sudo rm -f $PKG*
 fi
 git clone git://git.opendreambox.org/git/obi/$PKG.git
 cd $PKG
@@ -70,8 +70,8 @@ echo "Build and install $PKG"
 echo "-----------------------------------------"
 if [ -d $PKG ]; then
 	echo "Erasing older build dir"
-	rm -Rf $PKG
-	rm -f $PKG*
+	sudo rm -Rf $PKG
+	sudo rm -f $PKG*
 fi
 git clone git://schwerkraft.elitedvb.net/libdreamdvd/$PKG.git
 cd $PKG
@@ -86,8 +86,8 @@ echo "Build and install $PKG"
 echo "-----------------------------------------"
 if [ -d $PKG ]; then
 	echo "Erasing older build dir"
-	rm -Rf $PKG
-	rm -f $PKG*
+	sudo rm -Rf $PKG
+	sudo rm -f $PKG*
 fi
 svn co svn://svn.videolan.org/$PKG/trunk $PKG
 cd $PKG
@@ -105,8 +105,8 @@ echo "Build and install $PKG"
 echo "-----------------------------------------"
 if [ -d $PKG ]; then
 	echo "Erasing older build dir"
-	rm -Rf $PKG
-	rm -f $PKG*
+	sudo rm -Rf $PKG
+	sudo rm -f $PKG*
 fi
 git clone git://git.videolan.org/libbluray.git
 cd $PKG
@@ -124,8 +124,8 @@ echo "Build and install $PKG"
 echo "-----------------------------------------"
 if [ -d $PKG ]; then
 	echo "Erasing older build dir"
-	rm -Rf $PKG
-	rm -f $PKG*
+	sudo rm -Rf $PKG
+	sudo rm -f $PKG*
 fi
 git clone git://git.berlios.de/$PKG
 cd $PKG
