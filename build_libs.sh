@@ -13,7 +13,7 @@ REQPKG="autoconf automake automake1.10 build-essential debhelper gettext subvers
 	libtool libxml2-dev libxslt1-dev python-dev swig libssl-dev libssl0.9.8 \
 	libvdpau-dev vdpau-va-driver \
 	libcdio-dev libvcdinfo-dev \
-	libavcodec-dev libpostproc-dev libnl2-dev libnl-3-dev \
+	libavcodec-dev libpostproc-dev libnl2-dev \
 	python-setuptools \
 	libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev \
 	"
