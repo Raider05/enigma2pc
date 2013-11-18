@@ -237,7 +237,7 @@ echo "final step: installing E2 conf files"
 echo "--------------------------------------"
 
 #Create symlinks in /lib diectory post install enigma2
-sudo ln -sf /lib/i386-linux-gnu/libc-2.15.so  /lib/libc.so.6
+sudo ln -sf `ls /lib/i386-linux-gnu/libc-2.??.so`  /lib/libc.so.6
 
 #Create symlinks in /usr diectory post install enigma2
 sudo ln -sd $INSTALL_E2DIR/lib/enigma2 /usr/lib/enigma2

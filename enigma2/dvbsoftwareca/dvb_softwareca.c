@@ -35,9 +35,9 @@
 #include <linux/platform_device.h>
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3,7,0)
-#include "../drivers/media/dvb/dvb-core/dvbdev.h"
+	#include "dvbdev-3.6.h"
 #else
-#include "../drivers/media/dvb-core/dvbdev.h"
+	#include "dvbdev.h"
 #endif
 
 #include "dvb_softwareca.h"
