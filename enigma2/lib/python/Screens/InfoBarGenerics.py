@@ -44,7 +44,8 @@ from os import stat as os_stat
 from os import rename as os_rename
 import os
 from bisect import insort
-from sys import maxint
+#from sys import maxint
+maxint = 0x7FFFFFFF
 
 from RecordTimer import RecordTimerEntry, RecordTimer
 
@@ -134,8 +135,8 @@ class InfoBarUnhandledKey:
 		self.checkUnusedTimer = eTimer()
 		self.checkUnusedTimer.callback.append(self.checkUnused)
 		self.onLayoutFinish.append(self.unhandledKeyDialog.hide)
-		eActionMap.getInstance().bindAction('', -0x7FFFFFFF, self.actionA) #highest prio
-		eActionMap.getInstance().bindAction('', 0x7FFFFFFF, self.actionB) #lowest prio
+		eActionMap.getInstance().bindAction('', -maxint, self.actionA) #highest prio
+		eActionMap.getInstance().bindAction('', maxint, self.actionB) #lowest prio
 		self.flags = (1<<1)
 		self.uflags = 0
 
