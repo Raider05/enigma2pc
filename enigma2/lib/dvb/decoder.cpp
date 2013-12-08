@@ -104,7 +104,7 @@ int eDVBAudio::startPid(int pid, int type, bool mode)
 		break;
 	case aDDP:
 		bypass = 0x22;
-		xine_type = 0x22;
+		xine_type = HDMV_AUDIO_84_EAC3;
 		break;
 	}
 	xineLib->setAudioType(pid, xine_type);
