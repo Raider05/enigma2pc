@@ -73,8 +73,8 @@ class VideoHardware:
 		config.pc.sd_noise     = ConfigSelection(choices = {"0": _("Off"), "1": _("On")}, default="0")
 		config.pc.sd_sharpness.addNotifier(self.updateSDfeatures)
 		config.pc.sd_noise.addNotifier(self.updateSDfeatures)
-		config.pc.initial_window_width = ConfigSelection(choices = {"0": _("0"), "720": _("720"), "1280": _("1280"), "1366": _("1366"), "1920": _("1920")}, default="0")
-		config.pc.initial_window_height = ConfigSelection(choices = {"0": _("0"), "576": _("576"), "720": _("720"), "768": _("768"), "1080": _("1080")}, default="0")
+		config.pc.initial_window_width = ConfigSelection(choices = {"0": _("0"), "720": _("720"), "1280": _("1280"), "1366": _("1366"), "1600": _("1600"), "1680": _("1680"), "1920": _("1920")}, default="0")
+		config.pc.initial_window_height = ConfigSelection(choices = {"0": _("0"), "576": _("576"), "720": _("720"), "768": _("768"), "1050": _("1050"), "1080": _("1080"), "1200": _("1200")}, default="0")
 
 		# until we have the hotplug poll socket
 #		self.timer = eTimer()
