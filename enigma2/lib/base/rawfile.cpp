@@ -223,8 +223,8 @@ uint8_t* eDecryptRawFile::getPackets(int &packetsCount) {
 		return NULL;
 
 	uint8_t* p=ringBuffer->Get(Count);
-	if (Count>KILOBYTE(64))
-		Count = KILOBYTE(64);
+	if (Count>KILOBYTE(32))
+		Count = KILOBYTE(32);
 
 	if(p && Count>=TS_SIZE) {
 		if(*p!=TS_SYNC_BYTE) {
@@ -255,8 +255,8 @@ ssize_t eDecryptRawFile::read(off_t offset, void *buf, size_t count)
 	eSingleLocker l(m_lock);
 	int ret = 0;
 
-	while (ringBuffer->Available()<KILOBYTE(128)) {
-		ret = ringBuffer->Read(m_fd, KILOBYTE(64));
+	while (ringBuffer->Available()<KILOBYTE(64)) {
+		ret = ringBuffer->Read(m_fd, KILOBYTE(32));
 		if (ret<0)
 			break;
 	}
