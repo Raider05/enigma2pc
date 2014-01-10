@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2006 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -54,6 +54,8 @@
 #include <xine/xineutils.h>
 #include <xine/compat.h>
 #include <xine/audio_out.h>
+
+#include "speakers.h"
 
 /*
 #define ALSA_LOG
@@ -572,6 +574,10 @@ static int ao_alsa_open(ao_driver_t *this_gen, uint32_t bits, uint32_t rate, int
 	     "audio_alsa_out: Unable to determine current swparams: %s\n", snd_strerror(err));
     goto close;
   }
+
+#if defined(SND_LIB_VERSION) && SND_LIB_VERSION >= 0x010016
+  /* snd_pcm_sw_params_set_xfer_align() is deprecated, alignment is always 1 */
+#else
   /* align all transfers to 1 sample */
   err = snd_pcm_sw_params_set_xfer_align(this->audio_fd, swparams, 1);
   if (err < 0) {
@@ -579,6 +585,8 @@ static int ao_alsa_open(ao_driver_t *this_gen, uint32_t bits, uint32_t rate, int
 	     "audio_alsa_out: Unable to set transfer alignment: %s\n", snd_strerror(err));
     goto close;
   }
+#endif
+
   /* allow the transfer when at least period_size samples can be processed */
   err = snd_pcm_sw_params_set_avail_min(this->audio_fd, swparams, period_size);
   if (err < 0) {
@@ -1359,23 +1367,8 @@ static ao_driver_t *open_plugin (audio_driver_class_t *class_gen, const void *da
   int                  err;
   char                *pcm_device;
   snd_pcm_hw_params_t *params;
-  /* for usability reasons, keep this in sync with audio_oss_out.c */
-  static const char * const speaker_arrangement[] = {"Mono 1.0", "Stereo 2.0", "Headphones 2.0", "Stereo 2.1",
-    "Surround 3.0", "Surround 4.0", "Surround 4.1", "Surround 5.0", "Surround 5.1", "Surround 6.0",
-    "Surround 6.1", "Surround 7.1", "Pass Through", NULL};
-  #define MONO		0
-  #define STEREO	1
-  #define HEADPHONES	2
-  #define SURROUND21	3
-  #define SURROUND3	4
-  #define SURROUND4	5
-  #define SURROUND41	6
-  #define SURROUND5	7
-  #define SURROUND51	8
-  #define SURROUND6	9
-  #define SURROUND61	10
-  #define SURROUND71	11
-  #define A52_PASSTHRU	12
+
+  AUDIO_DEVICE_SPEAKER_ARRANGEMENT_TYPES;
   int speakers;
 
   this = calloc(1, sizeof (alsa_driver_t));
@@ -1494,36 +1487,9 @@ static ao_driver_t *open_plugin (audio_driver_class_t *class_gen, const void *da
 
   /* for usability reasons, keep this in sync with audio_oss_out.c */
   speakers = config->register_enum(config, "audio.output.speaker_arrangement", STEREO,
-			speaker_arrangement,
-			_("speaker arrangement"),
-			_("Select how your speakers are arranged, "
-			  "this determines which speakers xine uses for sound output. "
-			  "The individual values are:\n\n"
-			  "Mono 1.0: You have only one speaker.\n"
-			  "Stereo 2.0: You have two speakers for left and right channel.\n"
-			  "Headphones 2.0: You use headphones.\n"
-			  "Stereo 2.1: You have two speakers for left and right channel, and one "
-			  "subwoofer for the low frequencies.\n"
-			  "Surround 3.0: You have three speakers for left, right and rear channel.\n"
-			  "Surround 4.0: You have four speakers for front left and right and rear "
-			  "left and right channels.\n"
-			  "Surround 4.1: You have four speakers for front left and right and rear "
-			  "left and right channels, and one subwoofer for the low frequencies.\n"
-			  "Surround 5.0: You have five speakers for front left, center and right and "
-			  "rear left and right channels.\n"
-			  "Surround 5.1: You have five speakers for front left, center and right and "
-			  "rear left and right channels, and one subwoofer for the low frequencies.\n"
-			  "Surround 6.0: You have six speakers for front left, center and right and "
-			  "rear left, center and right channels.\n"
-			  "Surround 6.1: You have six speakers for front left, center and right and "
-			  "rear left, center and right channels, and one subwoofer for the low frequencies.\n"
-			  "Surround 7.1: You have seven speakers for front left, center and right, "
-			  "left and right and rear left and right channels, and one subwoofer for the "
-			  "low frequencies.\n"
-			  "Pass Through: Your sound system will receive undecoded digital sound from xine. "
-			  "You need to connect a digital surround decoder capable of decoding the "
-			  "formats you want to play to your sound card's digital output."),
-			0, alsa_speaker_arrangement_cb, this);
+                                   speaker_arrangement,
+                                   AUDIO_DEVICE_SPEAKER_ARRANGEMENT_HELP,
+                                   0, alsa_speaker_arrangement_cb, this);
 
   char *logmsg = strdup (_("audio_alsa_out : supported modes are"));
 

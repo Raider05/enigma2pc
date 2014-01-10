@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2003 the xine project
+ * Copyright (C) 2001-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -45,6 +45,8 @@
 #include <xine/metronom.h>
 #include <xine/xineutils.h>
 
+#include "ogg_combined.h"
+
 typedef struct theora_class_s {
   video_decoder_class_t   decoder_class;
 } theora_class_t;
@@ -82,9 +84,10 @@ static void readin_op (theora_decoder_t *this, unsigned char* src, int size) {
   this->done=this->done+size;
 }
 
-static void yuv2frame(yuv_buffer *yuv, vo_frame_t *frame, int offset_x, int offset_y) {
-  int i;
-  int crop_offset;
+static void yuv2frame(yuv_buffer *yuv, vo_frame_t *frame, int offset_x, int offset_y,
+                      unsigned pixel_format) {
+  int x, y;
+  int crop_offset_y, crop_offset_c;
 
   /* fixme - direct rendering (exchaning pointers) may be possible.
    * frame->base[0] = yuv->y could work if one could change the
@@ -99,21 +102,65 @@ static void yuv2frame(yuv_buffer *yuv, vo_frame_t *frame, int offset_x, int offs
    * in the theora header is carried out.
    */
 
-  crop_offset=offset_x+yuv->y_stride*offset_y;
-  for(i=0;i<frame->height;i++)
-    xine_fast_memcpy(frame->base[0]+frame->pitches[0]*i,
-		     yuv->y+crop_offset+yuv->y_stride*i,
-		     frame->width);
+  if (pixel_format == OC_PF_444) {
+    /* downsample */
 
-  crop_offset=(offset_x/2)+(yuv->uv_stride)*(offset_y/2);
-  for(i=0;i<frame->height/2;i++){
-    xine_fast_memcpy(frame->base[1]+frame->pitches[1]*i,
-		     yuv->u+crop_offset+yuv->uv_stride*i,
-		     frame->width/2);
-    xine_fast_memcpy(frame->base[2]+frame->pitches[2]*i,
-		     yuv->v+crop_offset+yuv->uv_stride*i,
-		     frame->width/2);
+    init_yuv_conversion();
 
+    crop_offset_y = offset_x + yuv->y_stride  * offset_y;
+    crop_offset_c = offset_x + yuv->uv_stride * offset_y;
+
+    yuv_planes_t yuv_planes;
+    yuv_planes.y = yuv->y + crop_offset_y;
+    yuv_planes.u = yuv->u + crop_offset_c;
+    yuv_planes.v = yuv->v + crop_offset_c;
+    yuv_planes.row_width = frame->width;
+    yuv_planes.row_count = 1;
+
+    for (y = 0; y < frame->height; y++) {
+      yuv444_to_yuy2(&yuv_planes, frame->base[0] + frame->pitches[0] * y, frame->pitches[0]);
+
+      yuv_planes.y += yuv->y_stride;
+      yuv_planes.u += yuv->uv_stride;
+      yuv_planes.v += yuv->uv_stride;
+    }
+  }
+  else if (pixel_format == OC_PF_422) {
+    /* interleave */
+
+    crop_offset_y = offset_x   + yuv->y_stride  * offset_y;
+    crop_offset_c = offset_x/2 + yuv->uv_stride * offset_y;
+
+    for (y = 0; y < frame->height; y++) {
+      uint8_t *dst = frame->base[0] + frame->pitches[0] * y;
+      uint8_t *src_y = yuv->y + crop_offset_y + yuv->y_stride * y;
+      uint8_t *src_u = yuv->u + crop_offset_c + yuv->uv_stride * y;
+      uint8_t *src_v = yuv->v + crop_offset_c + yuv->uv_stride * y;
+      for (x = 0; x < frame->width/2; x++) {
+        *dst++ = *src_y++;
+        *dst++ = *src_u++;
+        *dst++ = *src_y++;
+        *dst++ = *src_v++;
+      }
+    }
+  } else /*if (pixel_format == OC_PF_420)*/ {
+
+    crop_offset_y = offset_x   + yuv->y_stride  * offset_y;
+    crop_offset_c = offset_x/2 + yuv->uv_stride * (offset_y/2);
+
+    for (y = 0; y < frame->height; y++)
+      xine_fast_memcpy(frame->base[0] + frame->pitches[0] * y,
+                       yuv->y + crop_offset_y + yuv->y_stride * y,
+                       frame->width);
+
+    for(y = 0; y < frame->height/2; y++) {
+      xine_fast_memcpy(frame->base[1] + frame->pitches[1] * y,
+                       yuv->u + crop_offset_c + yuv->uv_stride * y,
+                       frame->width/2);
+      xine_fast_memcpy(frame->base[2] + frame->pitches[2] * y,
+                       yuv->v + crop_offset_c + yuv->uv_stride * y,
+                       frame->width/2);
+    }
   }
 }
 
@@ -239,16 +286,35 @@ static void theora_decode_data (video_decoder_t *this_gen, buf_element_t *buf) {
     if ( ret!=0) {
       xprintf(this->stream->xine, XINE_VERBOSITY_LOG, "libtheora:Received an bad packet\n");
     } else if (!this->skipframes) {
+      int format;
 
       theora_decode_YUVout(&this->t_state,&yuv);
+
+      /* pixel format */
+      switch (this->t_state.i->pixelformat) {
+        case OC_PF_444:
+          format = XINE_IMGFMT_YUY2;
+          break;
+        case OC_PF_422:
+          format = XINE_IMGFMT_YUY2;
+          break;
+        case OC_PF_420:
+          format = XINE_IMGFMT_YV12;
+          break;
+        default:
+          xprintf(this->stream->xine, XINE_VERBOSITY_LOG, "libtheora: unknown pixel format %u\n",
+                  (unsigned)this->t_state.i->pixelformat);
+          format = XINE_IMGFMT_YV12;
+          break;
+      }
 
       /*fixme - aspectratio from theora is not considered*/
       frame = this->stream->video_out->get_frame( this->stream->video_out,
 						  this->width, this->height,
 						  this->ratio,
-						  XINE_IMGFMT_YV12,
+						  format,
 						  VO_BOTH_FIELDS);
-      yuv2frame(&yuv, frame, this->offset_x, this->offset_y);
+      yuv2frame(&yuv, frame, this->offset_x, this->offset_y, this->t_state.i->pixelformat);
 
       frame->pts = buf->pts;
       frame->duration=this->frame_duration;

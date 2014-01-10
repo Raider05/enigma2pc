@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2004 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -70,6 +70,8 @@
 #include <xine/demux.h>
 #include "bswap.h"
 #include "flacutils.h"
+
+#include "ogg_combined.h"
 
 #define CHUNKSIZE                8500
 #define PACKET_TYPE_HEADER       0x01
@@ -2237,11 +2239,8 @@ static const demuxer_info_t demux_info_ogg = {
 };
 
 extern const demuxer_info_t dec_info_vorbis;
-void *vorbis_init_plugin (xine_t *xine, void *data);
 extern const demuxer_info_t dec_info_speex;
-void *speex_init_plugin (xine_t *xine, void *data);
 extern const demuxer_info_t dec_info_theora;
-void *theora_init_plugin (xine_t *xine, void *data);
 
 const plugin_info_t xine_plugin_info[] EXPORTED = {
   /* type, API, "name", version, special_info, init_function */

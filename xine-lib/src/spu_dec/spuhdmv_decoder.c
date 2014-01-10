@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2009 the xine project
+ * Copyright (C) 2000-2011 the xine project
  *
  * Copyright (C) 2009 Petri Hintukainen <phintuka@users.sourceforge.net>
  *

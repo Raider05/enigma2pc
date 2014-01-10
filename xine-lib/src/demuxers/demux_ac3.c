@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2005 the xine project
+ * Copyright (C) 2001-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -164,6 +164,7 @@ static int open_ac3_file(demux_ac3_t *this) {
 
   /* Check for wav header, as we'll handle AC3 with a wav header shoved
   * on the front for CD burning */
+  /* FIXME: This is risky. Real LPCM may contain anything, even sync words. */
   if ( memcmp(peak, "RIFF", 4) == 0 || memcmp(&peak[8], "WAVEfmt ", 8) == 0 ) {
     /* Check this looks like a cd audio wav */
     unsigned int audio_type;
@@ -189,7 +190,7 @@ static int open_ac3_file(demux_ac3_t *this) {
         lprintf("found the start of the data at offset %d\n", offset);
         break;
       } else
-        offset += chunk_size;
+        offset += 8 + chunk_size;
     }
   }
 

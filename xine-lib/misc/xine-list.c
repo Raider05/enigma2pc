@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 the xine-project
+ * Copyright (C) 2008-2012 the xine-project
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as

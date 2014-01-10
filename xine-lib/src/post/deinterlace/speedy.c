@@ -388,7 +388,7 @@ static unsigned int diff_factor_packed422_scanline_sse2_aligned( uint8_t *cur, u
 #if defined(ARCH_X86) || defined(ARCH_X86_64)
 static unsigned int diff_factor_packed422_scanline_sse2( uint8_t *cur, uint8_t *old, int width )
 {
-    if (0 == (((unsigned int)cur|(unsigned int)old) & 15)) {
+    if (0 == (((intptr_t)cur | (intptr_t)old) & 15)) {
         return diff_factor_packed422_scanline_sse2_aligned(cur, old, width);
     }
 
@@ -865,7 +865,7 @@ static void vfilter_chroma_332_packed422_scanline_sse2( uint8_t *output, int wid
 {
     int i;
 
-    if (0 == (((unsigned int)output|(unsigned int)m|(unsigned int)t|(unsigned int)b) & 15)) {
+    if (0 == (((intptr_t)output | (intptr_t)m | (intptr_t)t | (intptr_t)b) & 15)) {
       vfilter_chroma_332_packed422_scanline_sse2_aligned(output, width, m, t, b);
       return;
     }

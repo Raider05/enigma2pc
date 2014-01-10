@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2004 the xine project
+ * Copyright (C) 2001-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -29,6 +29,10 @@
 #include "ffmpeg_decoder.h"
 #include "ffmpeg_compat.h"
 
+#ifdef HAVE_AVFORMAT
+#include <libavformat/avformat.h> // av_register_all()
+#endif
+
 /*
  * common initialisation
  */
@@ -40,6 +44,11 @@ void init_once_routine(void) {
   pthread_mutex_init(&ffmpeg_lock, NULL);
   avcodec_init();
   avcodec_register_all();
+
+#ifdef HAVE_AVFORMAT
+  av_register_all();
+  avformat_network_init();
+#endif
 }
 
 /*
@@ -52,5 +61,10 @@ const plugin_info_t xine_plugin_info[] EXPORTED = {
   { PLUGIN_VIDEO_DECODER, 19, "ffmpeg-wmv8", XINE_VERSION_CODE, &dec_info_ffmpeg_wmv8, init_video_plugin },
   { PLUGIN_VIDEO_DECODER, 19, "ffmpeg-wmv9", XINE_VERSION_CODE, &dec_info_ffmpeg_wmv9, init_video_plugin },
   { PLUGIN_AUDIO_DECODER, 16, "ffmpegaudio", XINE_VERSION_CODE, &dec_info_ffmpeg_audio, init_audio_plugin },
+#ifdef HAVE_AVFORMAT
+  { PLUGIN_INPUT,         18, INPUT_AVIO_ID,     XINE_VERSION_CODE, &input_info_avio,     init_avio_input_plugin },
+  { PLUGIN_INPUT,         18, DEMUX_AVFORMAT_ID, XINE_VERSION_CODE, &input_info_avformat, init_avformat_input_plugin },
+  { PLUGIN_DEMUX,         27, DEMUX_AVFORMAT_ID, XINE_VERSION_CODE, &demux_info_avformat, init_avformat_demux_plugin },
+#endif
   { PLUGIN_NONE, 0, "", 0, NULL, NULL }
 };

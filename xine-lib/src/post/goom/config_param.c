@@ -26,7 +26,7 @@ PluginParam goom_secure_param() {
   return p;
 }
 
-PluginParam goom_secure_f_param(char *name) {
+PluginParam goom_secure_f_param(const char *name) {
   PluginParam p = secure_param();
   p.name = name;
   p.type = PARAM_FLOATVAL;
@@ -37,13 +37,13 @@ PluginParam goom_secure_f_param(char *name) {
   return p;
 }
 
-PluginParam goom_secure_f_feedback(char *name) {
+PluginParam goom_secure_f_feedback(const char *name) {
   PluginParam p = secure_f_param(name);
   p.rw = 0;
   return p;
 }
 
-PluginParam goom_secure_s_param(char *name) {
+PluginParam goom_secure_s_param(const char *name) {
     PluginParam p = secure_param();
     p.name = name;
     p.type = PARAM_STRVAL;
@@ -51,7 +51,7 @@ PluginParam goom_secure_s_param(char *name) {
     return p;
 }
 
-PluginParam goom_secure_b_param(char *name, int value) {
+PluginParam goom_secure_b_param(const char *name, int value) {
   PluginParam p = secure_param();
   p.name = name;
   p.type = PARAM_BOOLVAL;
@@ -59,7 +59,7 @@ PluginParam goom_secure_b_param(char *name, int value) {
   return p;
 }
 
-PluginParam goom_secure_i_param(char *name) {
+PluginParam goom_secure_i_param(const char *name) {
   PluginParam p = secure_param();
   p.name = name;
   p.type = PARAM_INTVAL;
@@ -70,7 +70,7 @@ PluginParam goom_secure_i_param(char *name) {
   return p;
 }
 
-PluginParam goom_secure_i_feedback(char *name) {
+PluginParam goom_secure_i_feedback(const char *name) {
   PluginParam p = secure_i_param(name);
   p.rw = 0;
   return p;
@@ -78,7 +78,7 @@ PluginParam goom_secure_i_feedback(char *name) {
 
 PluginParameters goom_plugin_parameters(const char *name, int nb) {
   PluginParameters p;
-  p.name = (char *)name;
+  p.name = name;
   p.desc = "";
   p.nbParams = nb;
   p.params = (PluginParam**)malloc(nb*sizeof(PluginParam*));

@@ -29,6 +29,12 @@ xineplug_decode_ff_la_LIBADD = $(XINE_LIB) $(MLIB_LIBS) -lm $(ZLIB_LIBS) \
 	$(FFMPEG_LIBS) $(AVUTIL_LIBS) $(FFMPEG_POSTPROC_LIBS) $(PTHREAD_LIBS) $(LTLIBINTL)
 xineplug_decode_ff_la_LDFLAGS = $(AM_LDFLAGS) $(IMPURE_TEXT_LDFLAGS)
 
+if ENABLE_AVFORMAT
+xineplug_decode_ff_la_SOURCES += input_avio.c demux_avformat.c
+xineplug_decode_ff_la_CFLAGS += $(AVFORMAT_CFLAGS)
+xineplug_decode_ff_la_LIBADD += $(AVFORMAT_LIBS)
+endif
+
 # Generation of ffmpeg->xine codec mapping lists (see xine_*.list).
 
 AV_CPP = $(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AVUTIL_CFLAGS)
@@ -37,7 +43,10 @@ AV_CPP = $(CPP) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAG
 avcodec_audio.list: AV_CODECS:=/CODEC_ID_PCM_S16LE/,/CODEC_ID_DVD_SUBTITLE/
 avcodec_video.list: AV_CODECS:=/CODEC_ID_MPEG1VIDEO/,/CODEC_ID_PCM_S16LE/
 
-avcodec_audio.list avcodec_video.list:
+# that weird shell call just yields full path of the avcodec.h file
+avcodec_audio.list avcodec_video.list: $(shell \
+ echo '#include "$(srcdir)/ffmpeg_decoder.h"' | $(AV_CPP) -M - |\
+ sed -e '/avcodec\.h/! d; s%^.* \([^ ]*/avcodec\.h\) .*%\1%')
 	$(AM_V_GEN)echo '#include "$(srcdir)/ffmpeg_decoder.h"' | $(AV_CPP) - |\
 	  sed -e $(AV_CODECS)'! d; s/^[ \t]*//; s/[=,].*//; /^$$/ d' >$@
 

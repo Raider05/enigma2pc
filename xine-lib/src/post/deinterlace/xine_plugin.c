@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2004 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -688,7 +688,7 @@ static int deinterlace_draw(vo_frame_t *frame, xine_stream_t *stream)
   vo_frame_t *orig_frame;
   vo_frame_t *yuy2_frame;
   int i, skip = 0, progressive = 0;
-  int fields[2];
+  int fields[2] = {0, 0};
   int framerate_mode;
 
   orig_frame = frame;

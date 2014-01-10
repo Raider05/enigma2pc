@@ -19,7 +19,7 @@ if (substr ($line, 0, 12) eq 'AV_CODEC_ID_') {
 }
 while (defined $line) {
   chomp $line;
-  $line =~ s/^$ff_prefix//o;
+  $line =~ s/^$ff_prefix|\s+$//g;
   $codecs{$line} = 0;
   $line = <LIST>;
 }

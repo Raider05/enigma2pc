@@ -138,16 +138,16 @@ AC_DEFUN([XINE_DECODER_PLUGINS], [
                 [AS_HELP_STRING([--with-imagemagick], [Enable ImageMagick image decoder support (default: enabled)])],
                 [test x"$withval" != x"no" && with_imagemagick="yes"])
     if test x"$with_imagemagick" != x"no"; then
-        PKG_CHECK_MODULES([WAND], [Wand], [have_imagemagick=yes], [AC_MSG_RESULT([no]); have_imagemagick=no])
+        PKG_CHECK_MODULES([WAND], [Wand], [have_imagemagick=yes], [have_imagemagick=no])
         if test "x$have_imagemagick" = 'xno'; then
-            PKG_CHECK_MODULES([MAGICKWAND], [MagickWand], [have_imagemagick=yes], [AC_MSG_RESULT([no]); have_imagemagick=no])
+            PKG_CHECK_MODULES([MAGICKWAND], [MagickWand], [have_imagemagick=yes], [have_imagemagick=no])
             dnl Avoid $(WAND_FLAGS) $(MAGICKWAND_FLAGS) ...
             WAND_CFLAGS="$MAGICKWAND_CFLAGS"
             WAND_LIBS="$MAGICKWAND_LIBS"
         fi
         if test "x$have_imagemagick" = 'xno'; then
-            PKG_CHECK_MODULES([GRAPHICSMAGICK], [ImageMagick], [have_imagemagick=yes], [AC_MSG_RESULT([no]); have_imagemagick=no])
-            PKG_CHECK_MODULES([GRAPHICSMAGICKWAND], [GraphicsMagickWand], [have_imagemagick=yes], [AC_MSG_RESULT([no]); have_imagemagick=no])
+            PKG_CHECK_MODULES([GRAPHICSMAGICK], [ImageMagick], [have_imagemagick=yes], [have_imagemagick=no])
+            PKG_CHECK_MODULES([GRAPHICSMAGICKWAND], [GraphicsMagickWand], [have_imagemagick=yes], [have_imagemagick=no])
             dnl The following assignments are safe, since they include
             dnl the flags for plain GraphicsMagick
             WAND_CFLAGS="$GRAPHICSMAGICKWAND_CFLAGS"
@@ -534,6 +534,20 @@ AC_DEFUN([XINE_DECODER_PLUGINS], [
     fi
     AM_CONDITIONAL([ENABLE_WAVPACK], [test x"$have_wavpack" = x"yes"])
 
+    dnl libvpx decoder plugin
+    AC_ARG_ENABLE([vpx],
+                  [AS_HELP_STRING([--enable-vpx], [Enable libvpx VP8/VP9 decoder support (default: enabled)])],
+                  [test x"$enableval" != x"no" && enable_vpx="yes"])
+    if test x"$enable_vpx" != x"no"; then
+        PKG_CHECK_MODULES([VPX], [vpx] , [have_vpx=yes], [have_vpx=no])
+        if test x"$enable_vpx" = x"yes" && test x"$have_vpx" != x"yes"; then
+            AC_MSG_ERROR([VP8/VP9 support requested, but libvpx not found])
+        fi
+        AC_CHECK_LIB([vpx],[vpx_codec_vp9_dx], [
+                AC_DEFINE([HAVE_VPX_VP9_DECODER], 1, [Define this if you have VP9 support in libvpx])
+            ], [], [${VPX_LIBS}])
+    fi
+    AM_CONDITIONAL([ENABLE_VPX], [test x"$have_vpx" = x"yes"])
 
     dnl Only enable building dmx image if either gdk_pixbuf or ImageMagick are enabled
     AM_CONDITIONAL([BUILD_DMX_IMAGE], [test x"$have_imagemagick" = x"yes" -o x"$have_gdkpixbuf" = x"yes"])

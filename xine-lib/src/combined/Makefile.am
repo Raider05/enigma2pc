@@ -41,7 +41,7 @@ xineplug_nsf_la_LIBADD = $(XINE_LIB) $(top_builddir)/contrib/nosefart/libnosefar
 xineplug_nsf_la_CFLAGS = $(AM_CFLAGS) -fno-strict-aliasing
 xineplug_nsf_la_CPPFLAGS = $(AM_CPPFLAGS) -DNSF_PLAYER -I$(top_srcdir)/contrib/nosefart -I$(top_srcdir)/src/demuxers
 
-xineplug_xiph_la_SOURCES = xine_ogg_demuxer.c
+xineplug_xiph_la_SOURCES = xine_ogg_demuxer.c ogg_combined.h
 xineplug_xiph_la_LIBADD = $(XINE_LIB) $(LTLIBINTL)
 xineplug_xiph_la_CFLAGS = $(AM_CFLAGS)
 xineplug_xiph_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(top_srcdir)/src/demuxers

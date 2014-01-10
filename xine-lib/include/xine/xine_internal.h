@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2005 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -467,6 +467,11 @@ void _x_demux_send_mrl_reference (xine_stream_t *stream, int alternative,
  * MRL escaped-character decoding (overwrites the source string)
  */
 void _x_mrl_unescape(char *mrl) XINE_PROTECTED;
+
+/*
+ * Return a copy of mrl without authentication credentials
+ */
+char *_x_mrl_remove_auth(const char *mrl) XINE_PROTECTED;
 
 /*
  * plugin_loader functions

@@ -1034,11 +1034,31 @@ static int demux_flv_get_stream_length (demux_plugin_t *this_gen) {
 }
 
 static uint32_t demux_flv_get_capabilities(demux_plugin_t *this_gen) {
-  return DEMUX_CAP_NOCAP;
+  return DEMUX_CAP_AUDIOLANG;
 }
 
 static int demux_flv_get_optional_data(demux_plugin_t *this_gen,
                                        void *data, int data_type) {
+  demux_flv_t *this = (demux_flv_t *) this_gen;
+
+  /* be a bit paranoid */
+  if (this == NULL || this->stream == NULL)
+    return DEMUX_OPTIONAL_UNSUPPORTED;
+
+  switch (data_type) {
+    case DEMUX_OPTIONAL_DATA_AUDIOLANG: {
+      char *str   = data;
+      int channel = *((int *)data);
+      if (channel != 0) {
+        strcpy (str, "none");
+      } else {
+        strcpy (str, "und");
+        return DEMUX_OPTIONAL_SUCCESS;
+      }
+    }
+    break;
+    default: ;
+  }
   return DEMUX_OPTIONAL_UNSUPPORTED;
 }
 

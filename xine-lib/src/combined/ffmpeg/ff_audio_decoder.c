@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2008 the xine project
+ * Copyright (C) 2001-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -177,8 +177,12 @@ static void ff_audio_init_codec(ff_audio_decoder_t *this, unsigned int codec_typ
     return;
   }
 
+#if AVAUDIO < 4
   /* Try to make the following true */
   this->context->request_sample_fmt = AV_SAMPLE_FMT_S16;
+  /* For lavc v54+, we have our channel mixer that wants default float samples to fix
+    oversaturation via audio gain. */
+#endif
 
   /* Current ffmpeg audio decoders usually use 16 bits/sample
    * buf->decoder_info[2] can't be used as it doesn't refer to the output
@@ -275,85 +279,106 @@ static void ff_handle_header_buffer(ff_audio_decoder_t *this, buf_element_t *buf
       }
     }
   } else {
-    short *ptr;
+    switch (codec_type) {
 
-    switch(codec_type) {
-    case BUF_AUDIO_14_4:
-      this->ff_sample_rate = 8000;
-      this->ff_channels    = 1;
+      case BUF_AUDIO_14_4:
+        this->ff_sample_rate = 8000;
+        this->ff_channels    = 1;
 
-      this->context->block_align = 240;
-      break;
-    case BUF_AUDIO_28_8:
-      this->ff_sample_rate = _X_BE_16(&this->buf[0x30]);
-      this->ff_channels    = this->buf[0x37];
-      /* this->ff_bits = buf->content[0x35] */
-
-      this->context->block_align = _X_BE_32(&this->buf[0x18]);
-
-      this->context->extradata_size = 5*sizeof(short);
-      this->context->extradata      = malloc(this->context->extradata_size);
-
-      ptr = (short *) this->context->extradata;
-
-      ptr[0] = _X_BE_16(&this->buf[0x2C]); /* subpacket size */
-      ptr[1] = _X_BE_16(&this->buf[0x28]); /* subpacket height */
-      ptr[2] = _X_BE_16(&this->buf[0x16]); /* subpacket flavour */
-      ptr[3] = _X_BE_32(&this->buf[0x18]); /* coded frame size */
-      ptr[4] = 0;                          /* codec's data length  */
-
-      xprintf(this->stream->xine, XINE_VERBOSITY_LOG,
-              "ffmpeg_audio_dec: 28_8 audio channels %d bits %d sample rate %d block align %d\n",
-              this->ff_channels, this->ff_bits, this->ff_sample_rate,
-              this->context->block_align);
-      break;
-    case BUF_AUDIO_COOK:
-      {
-        int version;
-        int data_len;
-        int extradata;
-
-        version = _X_BE_16 (this->buf+4);
-        if (version == 4) {
-          this->ff_sample_rate = _X_BE_16 (this->buf+48);
-          this->ff_bits = _X_BE_16 (this->buf+52);
-          this->ff_channels = _X_BE_16 (this->buf+54);
-          data_len = _X_BE_32 (this->buf+67);
-          extradata = 71;
-        } else {
-          this->ff_sample_rate = _X_BE_16 (this->buf+54);
-          this->ff_bits = _X_BE_16 (this->buf+58);
-          this->ff_channels = _X_BE_16 (this->buf+60);
-          data_len = _X_BE_32 (this->buf+74);
-          extradata = 78;
-        }
-        this->context->block_align = _X_BE_16 (this->buf+44);
-
-        xprintf(this->stream->xine, XINE_VERBOSITY_LOG,
-                "ffmpeg_audio_dec: cook audio channels %d bits %d sample rate %d block align %d\n",
-                this->ff_channels, this->ff_bits, this->ff_sample_rate,
-                this->context->block_align);
-
-        if (extradata + data_len > this->size)
-          break; /* abort early - extradata length is bad */
-        if (extradata > INT_MAX - data_len)
-          break;/*integer overflow*/
-
-        this->context->extradata_size = data_len;
-        this->context->extradata      = malloc(this->context->extradata_size +
-                                               FF_INPUT_BUFFER_PADDING_SIZE);
-        xine_fast_memcpy (this->context->extradata, this->buf + extradata,
-                          this->context->extradata_size);
+        this->context->block_align = 240;
         break;
-      }
 
-    case BUF_AUDIO_EAC3:
-      break;
+      case BUF_AUDIO_28_8:
+        {
+          uint16_t *ptr;
 
-    default:
-      xprintf(this->stream->xine, XINE_VERBOSITY_LOG,
-              "ffmpeg_audio_dec: unknown header with buf type 0x%X\n", codec_type);
-      break;
+          this->ff_sample_rate = _X_BE_16 (&this->buf[0x30]);
+          this->ff_channels    = this->buf[0x37];
+          /* this->ff_bits = buf->content[0x35] */
+
+          this->context->block_align = _X_BE_32 (&this->buf[0x18]);
+
+          this->context->extradata_size = 5 * sizeof (uint16_t);
+          this->context->extradata      = malloc (this->context->extradata_size);
+
+          ptr = (uint16_t *)this->context->extradata;
+
+          ptr[0] = _X_BE_16 (&this->buf[0x2C]); /* subpacket size */
+          ptr[1] = _X_BE_16 (&this->buf[0x28]); /* subpacket height */
+          ptr[2] = _X_BE_16 (&this->buf[0x16]); /* subpacket flavour */
+          ptr[3] = _X_BE_32 (&this->buf[0x18]); /* coded frame size */
+          ptr[4] = 0;                           /* codec's data length */
+
+          xprintf (this->stream->xine, XINE_VERBOSITY_DEBUG,
+            "ffmpeg_audio_dec: 28_8 audio channels %d bits %d sample rate %d block align %d\n",
+            this->ff_channels, this->ff_bits, this->ff_sample_rate, this->context->block_align);
+          break;
+        }
+
+      case BUF_AUDIO_COOK:
+      case BUF_AUDIO_ATRK:
+        {
+          int version, subpacket_size = 0, coded_frame_size = 0, intl = 0;
+          int data_len;
+          uint8_t *p, *e;
+          p = this->buf;
+          e = p + this->size;
+          if (p + 6 > e) break;
+          version = p[5];
+          if (version == 3) {
+            this->ff_sample_rate = 8000;
+            this->ff_bits = 16;
+            this->ff_channels = 1;
+            data_len = 0;
+          } else if (version == 4) {
+            if (p + 73 > e) break;
+            coded_frame_size = _X_BE_32 (p + 24);
+            subpacket_size = _X_BE_16 (p + 44);
+            this->ff_sample_rate = _X_BE_16 (p + 48);
+            this->ff_bits = _X_BE_16 (p + 52);
+            this->ff_channels = _X_BE_16 (p + 54);
+            if (p[56] != 4) break;
+            intl = 57;
+            if (p[61] != 4) break;
+            data_len = _X_BE_32 (p + 69);
+            p += 73;
+          } else {
+            if (p + 78 > e) break;
+            coded_frame_size = _X_BE_32 (p + 24);
+            subpacket_size = _X_BE_16 (p + 44);
+            this->ff_sample_rate = _X_BE_16 (p + 54);
+            this->ff_bits = _X_BE_16 (p + 58);
+            this->ff_channels = _X_BE_16 (p + 60);
+            intl = 62;
+            data_len = _X_BE_32 (p + 74);
+            p += 78;
+          }
+          this->context->block_align = intl && !memcmp (this->buf + intl, "genr", 4) ?
+            subpacket_size : coded_frame_size;
+          if (p + data_len > e) break;
+          if (p > e - data_len) break;
+          xprintf (this->stream->xine, XINE_VERBOSITY_DEBUG,
+            "ffmpeg_audio_dec: %s audio channels %d bits %d sample rate %d block align %d\n",
+            codec_type == BUF_AUDIO_COOK ? "cook" : "atrac 3",
+            this->ff_channels, this->ff_bits, this->ff_sample_rate,
+            this->context->block_align);
+          if (!data_len) break;
+          e = malloc (data_len + FF_INPUT_BUFFER_PADDING_SIZE);
+          if (!e) break;
+          xine_fast_memcpy (e, p, data_len);
+          memset (e + data_len, 0, FF_INPUT_BUFFER_PADDING_SIZE);
+          this->context->extradata = e;
+          this->context->extradata_size = data_len;
+          break;
+        }
+
+      case BUF_AUDIO_EAC3:
+        break;
+
+      default:
+        xprintf (this->stream->xine, XINE_VERBOSITY_LOG,
+          "ffmpeg_audio_dec: unknown header with buf type 0x%X\n", codec_type);
+        break;
     }
   }
 

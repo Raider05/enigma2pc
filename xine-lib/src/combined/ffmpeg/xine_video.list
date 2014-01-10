@@ -34,6 +34,7 @@ VP5			VP5			On2 VP5
 VP6			VP6			On2 VP6
 VP6F			VP6F			On2 VP6
 VP8			VP8			On2 VP8
+VP9			VP9			VP9
 4XM			4XM			4X Video
 CINEPAK			CINEPAK			Cinepak
 MSVC			MSVIDEO1		Microsoft Video 1
@@ -83,6 +84,7 @@ CAVS			CAVS			Chinese AVS
 VMNC			VMNC			VMware Screen Codec
 THEORA_RAW		THEORA			Theora
 SNOW			SNOW			Snow
+HEVC			HEVC			HEVC/H.265
 
 # disabled codecs (ref. configure.ac)
 !			BMP

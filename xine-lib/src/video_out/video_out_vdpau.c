@@ -1,6 +1,6 @@
 /*
  * kate: space-indent on; indent-width 2; mixedindent off; indent-mode cstyle; remove-trailing-space on;
- * Copyright (C) 2008 the xine project
+ * Copyright (C) 2008-2013 the xine project
  * Copyright (C) 2008 Christophe Thommeret <hftom@free.fr>
  *
  * This file is part of xine, a free video player.
@@ -59,9 +59,9 @@
 
 #define NUM_FRAMES_BACK 1
 
+#ifndef HAVE_THREAD_SAFE_X11
 #define LOCKDISPLAY /*define this if you have a buggy libX11/xcb*/
-//#undef LOCKDISPLAY 
-
+#endif
 
 #define DEINT_BOB                    1
 #define DEINT_HALF_TEMPORAL          2
@@ -429,6 +429,7 @@ typedef struct {
 } vdpau_driver_t;
 
 /* import common color matrix stuff */
+#define CM_HAVE_YCGCO_SUPPORT 1
 #define CM_DRIVER_T vdpau_driver_t
 #include "color_matrix.c"
 
@@ -1014,7 +1015,7 @@ static void vdpau_process_overlays (vdpau_driver_t *this)
 
 static void vdpau_frame_proc_slice (vo_frame_t *vo_img, uint8_t **src)
 {
-  vdpau_frame_t  *frame = (vdpau_frame_t *) vo_img ;
+  /*vdpau_frame_t  *frame = (vdpau_frame_t *) vo_img;*/
 
   vo_img->proc_called = 1;
 }
@@ -1545,8 +1546,8 @@ static void vdpau_update_noise( vdpau_driver_t *this_gen )
     fprintf(stderr, "vo_vdpau: enable noise reduction.\n" );
   }
 
-  VdpVideoMixerAttribute attributes [] = { VDP_VIDEO_MIXER_ATTRIBUTE_NOISE_REDUCTION_LEVEL };
-  void* attribute_values[] = { &value };
+  const VdpVideoMixerAttribute attributes [] = { VDP_VIDEO_MIXER_ATTRIBUTE_NOISE_REDUCTION_LEVEL };
+  const void * const attribute_values[] = { &value };
   VdpStatus st = vdp_video_mixer_set_attribute_values( this_gen->video_mixer, 1, attributes, attribute_values );
   if ( st != VDP_STATUS_OK )
     fprintf(stderr, "vo_vdpau: error, can't set noise reduction level !!\n" );
@@ -1574,8 +1575,8 @@ static void vdpau_update_sharpness( vdpau_driver_t *this_gen )
     fprintf(stderr, "vo_vdpau: enable sharpness.\n" );
   }
 
-  VdpVideoMixerAttribute attributes [] = { VDP_VIDEO_MIXER_ATTRIBUTE_SHARPNESS_LEVEL };
-  void* attribute_values[] = { &value };
+  const VdpVideoMixerAttribute attributes [] = { VDP_VIDEO_MIXER_ATTRIBUTE_SHARPNESS_LEVEL };
+  const void * const attribute_values[] = { &value };
   VdpStatus st = vdp_video_mixer_set_attribute_values( this_gen->video_mixer, 1, attributes, attribute_values );
   if ( st != VDP_STATUS_OK )
     fprintf(stderr, "vo_vdpau: error, can't set sharpness level !!\n" );
@@ -1609,56 +1610,72 @@ static void vdpau_update_csc_matrix (vdpau_driver_t *that, vdpau_frame_t *frame)
     float brightness = that->brightness;
     float uvcos = saturation * cos( hue );
     float uvsin = saturation * sin( hue );
-    float kb, kr;
-    float vr, vg, ug, ub;
-    float ygain, yoffset;
     int i;
 
-    switch (color_matrix >> 1) {
-      case 1:  kb = 0.0722; kr = 0.2126; /* ITU-R 709 */
-        break;
-      case 4:  kb = 0.1100; kr = 0.3000; /* FCC */
-        break;
-      case 7:  kb = 0.0870; kr = 0.2120; /* SMPTE 240 */
-        break;
-      default: kb = 0.1140; kr = 0.2990; /* ITU-R 601 */
-    }
-    vr = 2.0 * (1.0 - kr);
-    vg = -2.0 * kr * (1.0 - kr) / (1.0 - kb - kr);
-    ug = -2.0 * kb * (1.0 - kb) / (1.0 - kb - kr);
-    ub = 2.0 * (1.0 - kb);
-
-    if (color_matrix & 1) {
-      /* fullrange mode */
-      yoffset = brightness;
-      ygain = contrast;
-      uvcos *= contrast * 255.0 / 254.0;
-      uvsin *= contrast * 255.0 / 254.0;
+    if ((color_matrix >> 1) == 8) {
+      /* YCgCo. This is really quite simple. */
+      uvsin *= contrast;
+      uvcos *= contrast;
+      /* matrix[rgb][yuv1] */
+      matrix[0][1] = -1.0 * uvcos - 1.0 * uvsin;
+      matrix[0][2] =  1.0 * uvcos - 1.0 * uvsin;
+      matrix[1][1] =  1.0 * uvcos;
+      matrix[1][2] =                1.0 * uvsin;
+      matrix[2][1] = -1.0 * uvcos + 1.0 * uvsin;
+      matrix[2][2] = -1.0 * uvcos - 1.0 * uvsin;
+      for (i = 0; i < 3; i++) {
+        matrix[i][0] = contrast;
+        matrix[i][3] = (brightness * contrast - 128.0 * (matrix[i][1] + matrix[i][2])) / 255.0;
+      }
     } else {
-      /* mpeg range */
-      yoffset = brightness - 16.0;
-      ygain = contrast * 255.0 / 219.0;
-      uvcos *= contrast * 255.0 / 224.0;
-      uvsin *= contrast * 255.0 / 224.0;
-    }
+      /* YCbCr */
+      float kb, kr;
+      float vr, vg, ug, ub;
+      float ygain, yoffset;
 
-    /* matrix[rgb][yuv1] */
-    matrix[0][1] = -uvsin * vr;
-    matrix[0][2] = uvcos * vr;
-    matrix[1][1] = uvcos * ug - uvsin * vg;
-    matrix[1][2] = uvcos * vg + uvsin * ug;
-    matrix[2][1] = uvcos * ub;
-    matrix[2][2] = uvsin * ub;
-    for (i = 0; i < 3; i++) {
-      matrix[i][0] = ygain;
-      matrix[i][3] = (yoffset * ygain - 128.0 * (matrix[i][1] + matrix[i][2])) / 255.0;
+      switch (color_matrix >> 1) {
+        case 1:  kb = 0.0722; kr = 0.2126; break; /* ITU-R 709 */
+        case 4:  kb = 0.1100; kr = 0.3000; break; /* FCC */
+        case 7:  kb = 0.0870; kr = 0.2120; break; /* SMPTE 240 */
+        default: kb = 0.1140; kr = 0.2990;        /* ITU-R 601 */
+      }
+      vr = 2.0 * (1.0 - kr);
+      vg = -2.0 * kr * (1.0 - kr) / (1.0 - kb - kr);
+      ug = -2.0 * kb * (1.0 - kb) / (1.0 - kb - kr);
+      ub = 2.0 * (1.0 - kb);
+
+      if (color_matrix & 1) {
+        /* fullrange mode */
+        yoffset = brightness;
+        ygain = contrast;
+        uvcos *= contrast * 255.0 / 254.0;
+        uvsin *= contrast * 255.0 / 254.0;
+      } else {
+        /* mpeg range */
+        yoffset = brightness - 16.0;
+        ygain = contrast * 255.0 / 219.0;
+        uvcos *= contrast * 255.0 / 224.0;
+        uvsin *= contrast * 255.0 / 224.0;
+      }
+
+      /* matrix[rgb][yuv1] */
+      matrix[0][1] = -uvsin * vr;
+      matrix[0][2] = uvcos * vr;
+      matrix[1][1] = uvcos * ug - uvsin * vg;
+      matrix[1][2] = uvcos * vg + uvsin * ug;
+      matrix[2][1] = uvcos * ub;
+      matrix[2][2] = uvsin * ub;
+      for (i = 0; i < 3; i++) {
+        matrix[i][0] = ygain;
+        matrix[i][3] = (yoffset * ygain - 128.0 * (matrix[i][1] + matrix[i][2])) / 255.0;
+      }
     }
 
     that->color_matrix = color_matrix;
     that->update_csc = 0;
 
-    VdpVideoMixerAttribute attributes [] = {VDP_VIDEO_MIXER_ATTRIBUTE_CSC_MATRIX};
-    void* attribute_values[] = {&matrix};
+    const VdpVideoMixerAttribute attributes [] = {VDP_VIDEO_MIXER_ATTRIBUTE_CSC_MATRIX};
+    const void * const attribute_values[] = {&matrix};
     st = vdp_video_mixer_set_attribute_values (that->video_mixer, 1, attributes, attribute_values);
     if (st != VDP_STATUS_OK)
       fprintf (stderr, "vo_vdpau: error, can't set csc matrix !!\n");
@@ -1675,8 +1692,8 @@ static void vdpau_update_skip_chroma( vdpau_driver_t *this_gen )
   if ( !this_gen->skip_chroma_is_supported )
     return;
 
-  VdpVideoMixerAttribute attributes [] = { VDP_VIDEO_MIXER_ATTRIBUTE_SKIP_CHROMA_DEINTERLACE };
-  void* attribute_values[] = { &(this_gen->skip_chroma) };
+  const VdpVideoMixerAttribute attributes [] = { VDP_VIDEO_MIXER_ATTRIBUTE_SKIP_CHROMA_DEINTERLACE };
+  const void* attribute_values[] = { &(this_gen->skip_chroma) };
   VdpStatus st = vdp_video_mixer_set_attribute_values( this_gen->video_mixer, 1, attributes, attribute_values );
   if ( st != VDP_STATUS_OK )
     fprintf(stderr, "vo_vdpau: error, can't set skip_chroma !!\n" );
@@ -1701,8 +1718,8 @@ static void vdpau_update_background( vdpau_driver_t *this_gen )
     return;
 
   VdpVideoMixerAttribute attributes [] = { VDP_VIDEO_MIXER_ATTRIBUTE_BACKGROUND_COLOR };
-  VdpColor bg = { (this_gen->background >> 16) / 255.f, ((this_gen->background >> 8) & 0xff) / 255.f, (this_gen->background & 0xff) / 255.f, 1 };
-  void* attribute_values[] = { &bg };
+  const VdpColor bg = { (this_gen->background >> 16) / 255.f, ((this_gen->background >> 8) & 0xff) / 255.f, (this_gen->background & 0xff) / 255.f, 1 };
+  const void* attribute_values[] = { &bg };
   VdpStatus st = vdp_video_mixer_set_attribute_values( this_gen->video_mixer, 1, attributes, attribute_values );
   if ( st != VDP_STATUS_OK )
     printf( "vo_vdpau: error, can't set background_color !!\n" );

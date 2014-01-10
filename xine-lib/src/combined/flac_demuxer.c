@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2006 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -96,6 +96,8 @@ typedef struct demux_flac_class_s {
   config_values_t  *config;
 
 } demux_flac_class_t;
+
+void *demux_flac_init_class (xine_t *xine, void *data);
 
 /* FLAC Callbacks */
 static
@@ -226,6 +228,10 @@ flac_length_callback (const FLAC__SeekableStreamDecoder *decoder,
     lprintf("flac_length_callback\n");
 
     offset = input->get_length (input);
+
+    if (offset > 0) {
+      *stream_length = offset;
+    }
 
     /* FIXME, can flac handle -1 as offset ? */
 #ifdef LEGACY_FLAC

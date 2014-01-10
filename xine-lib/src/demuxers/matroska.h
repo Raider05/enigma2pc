@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2009 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -315,6 +315,8 @@ struct matroska_track_s {
 #define MATROSKA_CODEC_ID_V_MJPEG        "V_MJPEG"
 #define MATROSKA_CODEC_ID_V_THEORA       "V_THEORA"
 #define MATROSKA_CODEC_ID_V_VP8          "V_VP8"
+#define MATROSKA_CODEC_ID_V_VP9          "V_VP9"
+#define MATROSKA_CODEC_ID_V_HEVC         "V_MPEGH/ISO/HEVC"
 
 #define MATROSKA_CODEC_ID_A_MPEG1_L1     "A_MPEG/L1"
 #define MATROSKA_CODEC_ID_A_MPEG1_L2     "A_MPEG/L2"

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2003 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -458,12 +458,9 @@ static int demux_nsv_send_chunk(demux_plugin_t *this_gen) {
   demux_nsv_t *this = (demux_nsv_t *) this_gen;
 
   uint8_t  buffer[15];
-  off_t    current_file_pos;
   int      video_size;
   int      audio_size;
   int      chunk_type;
-
-  current_file_pos = this->input->get_current_pos(this->input);
 
   lprintf("dispatching video & audio chunks...\n");
 

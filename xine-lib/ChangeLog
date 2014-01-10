@@ -1,5 +1,53 @@
-xine-lib (1.2.3.1) 2013-??-??
-  * Distribute one missing header file. No VAAPI plugin without this.
+xine-lib (1.2.5) 201?-??-??
+  * Add experimental YCgCo colorspace support.
+  * FFmpeg compatibility fixes.
+  * Add avformat demux plugin.
+    - Support for new formats and protocols.
+    - Proper rtsp support (with avformat+rtsp://, rtsp+tcp:// and rtsp+http:// mrls).
+    - by default native xine demux plugins are probed first.
+      This can be overridden in config, by selecting demuxer in mrl (#demux:avformat),
+      or by using "avformat+" mrl prefix.
+  * Add avio (libavformat) input plugin:
+    - Support for new protocols (https://, ftp://, sftp://, ...).
+    - Support for seekable http streams (with "avio+http://" mrl).
+    - By default native xine input plugins are used. This can be overridden in config or by using "avio+" mrl prefix.
+  * Recognise & use HEVC/H.265. (ffmpeg)
+  * Add support for HEVC/H.265 to the mpeg-ts demuxer.
+  * Add support for HEVC/H.265 and VP9 to the matroska demuxer.
+  * Add VP8/VP9 decoder using libvpx.
+  * Add support for multiple audio traks to the Quicktime demuxer.
+  * Add support for AC3 and EAC3 to the Quicktime demuxer.
+  * Recognise & use ADPCM G.726 and ATRAC3. (ffmpeg/libva)
+  * Some colour format conversion fixes.
+  * Fix RealVideo re-ordered PTS: pass through, let the decoder re-order it.
+  * Fix some problems with COOK audio.
+
+xine-lib (1.2.4) 2013-09-24
+  * Some VAAPI plugin fixes (build, image size changes).
+  * ffmpeg multi-channel playback fixes:
+    - Handle channel configuration changes sooner.
+    - Generic layout if none provided; follow user changes.
+    - Defer opening output if nothing to play.
+    - Don't re-open with identical settings.
+    - Don't use the bits-per-sample value (may not match decoder output).
+  * ffmpeg video fixes:
+    - Default to square pixels, avoiding black bars & unnecessary scaling.
+    - Avoid CODEC_FLAG_EMU_EDGE (and some possible segfaults).
+    - Use MPEG2VIDEO.
+  * OpenGL2 output: don't render into invalid drawable.
+  * Fix a possible xine_play() hang related to display locking.
+  * FLV demuxer rewrite:
+    - Improved metadata parsing.
+    - PTS/DTS fixes.
+    - Large file support on 32-bit.
+    - Much improved seeking.
+    - Much optimisation.
+    - More codecs supported.
+  * audio_out speed control fixes.
+  * Optimised RGB→YUY2 conversion.
+  * Avoid a possible performance penalty where AVX-optimised memcpy is used.
+  * Add BD-J (BluRay Java) support with ARGB overlay capable video drivers (opengl2, vaapi, vdpau)
+  * Add support for theora 4:2:2 and 4:4:4 pixel formats
 
 xine-lib (1.2.3) 2013-05-29
   * Add VAAPI HW decoding support

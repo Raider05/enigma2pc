@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2007 the xine project and Fredrik Noring
+ * Copyright (C) 2000-2012 the xine project and Fredrik Noring
  *
  * This file is part of xine, a free video player.
  *

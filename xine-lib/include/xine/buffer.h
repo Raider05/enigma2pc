@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2008 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -192,6 +192,8 @@ extern "C" {
 #define BUF_VIDEO_VMNC		0x02660000
 #define BUF_VIDEO_SNOW		0x02670000
 #define BUF_VIDEO_VP8		0x02680000
+#define BUF_VIDEO_VP9		0x02690000
+#define BUF_VIDEO_HEVC		0x026A0000
 /*@}*/
 
 /**
@@ -269,6 +271,7 @@ extern "C" {
 #define BUF_AUDIO_AMR_WB	0x03400000
 #define BUF_AUDIO_EAC3		0x03410000
 #define BUF_AUDIO_AAC_LATM	0x03420000
+#define BUF_AUDIO_ADPCM_G726	0x03430000
 /*@}*/
 
 /**

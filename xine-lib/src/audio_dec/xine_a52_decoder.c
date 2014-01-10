@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2003 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -381,16 +381,16 @@ static void a52dec_decode_frame (a52dec_decoder_t *this, int64_t pts, int previe
       /* SPDIF Passthrough
        * Build SPDIF Header and encaps the A52 audio data in it.
        */
-      uint32_t syncword, crc1, fscod,frmsizecod,bsid,bsmod,frame_size;
+      uint32_t /*syncword, crc1,*/ fscod,frmsizecod,/*bsid,*/bsmod,frame_size;
       uint8_t *data_out,*data_in;
       audio_buffer_t *buf = this->stream->audio_out->get_buffer (this->stream->audio_out);
       data_in=(uint8_t *) this->frame_buffer;
       data_out=(uint8_t *) buf->mem;
-      syncword = data_in[0] | (data_in[1] << 8);
-      crc1 = data_in[2] | (data_in[3] << 8);
+      /*syncword = data_in[0] | (data_in[1] << 8);*/
+      /*crc1 = data_in[2] | (data_in[3] << 8);*/
       fscod = (data_in[4] >> 6) & 0x3;
       frmsizecod = data_in[4] & 0x3f;
-      bsid = (data_in[5] >> 3) & 0x1f;
+      /*bsid = (data_in[5] >> 3) & 0x1f;*/
       bsmod = data_in[5] & 0x7;		/* bsmod, stream = 0 */
       frame_size = frmsizecod_tbl[frmsizecod].frm_size[fscod] ;
 

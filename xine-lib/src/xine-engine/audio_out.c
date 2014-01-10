@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2006 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -250,8 +250,6 @@ typedef struct {
   int64_t         last_audio_vpts;
   pthread_mutex_t current_speed_lock;
   uint32_t        current_speed;        /* the current playback speed */
-  /* FIXME: replace all this->clock->speed with this->current_speed. we should make
-   * sure nobody will change speed without going through xine.c:set_speed_internal */
   int             slow_fast_audio;      /* play audio even on slow/fast speeds */
 
   int16_t	  last_sample[RESAMPLE_MAX_CHANNELS];
@@ -1045,6 +1043,12 @@ static void *ao_loop (void *this_gen) {
     }
     pthread_mutex_unlock(&this->flush_audio_driver_lock);
 
+    /* Paranoia? */
+    {
+      int new_speed = this->clock->speed;
+      if (new_speed != this->current_speed)
+        ao_set_property (&this->ao, AO_PROP_CLOCK_SPEED, new_speed);
+    }
 
     /*
      * wait until user unpauses stream
@@ -1054,11 +1058,11 @@ static void *ao_loop (void *this_gen) {
 
     pthread_mutex_lock(&this->current_speed_lock);
     if ( this->audio_loop_running &&
-         (this->clock->speed == XINE_SPEED_PAUSE ||
-          (this->clock->speed != XINE_FINE_SPEED_NORMAL &&
+         (this->current_speed == XINE_SPEED_PAUSE ||
+          (this->current_speed != XINE_FINE_SPEED_NORMAL &&
            !this->slow_fast_audio) ) )  {
 
-      if (this->clock->speed != XINE_SPEED_PAUSE) {
+      if (this->current_speed != XINE_SPEED_PAUSE) {
 
 	cur_time = this->clock->get_current_time (this->clock);
 	if (in_buf->vpts < cur_time ) {
@@ -1640,8 +1644,8 @@ static void ao_close(xine_audio_port_t *this_gen, xine_stream_t *stream) {
 
     if (this->audio_loop_running) {
       /* make sure there are no more buffers on queue */
-      if (this->clock->speed == XINE_SPEED_PAUSE ||
-          (this->clock->speed != XINE_FINE_SPEED_NORMAL && !this->slow_fast_audio)) {
+      if (this->current_speed == XINE_SPEED_PAUSE ||
+          (this->current_speed != XINE_FINE_SPEED_NORMAL && !this->slow_fast_audio)) {
         int discard = ao_get_property(this_gen, AO_PROP_DISCARD_BUFFERS);
         /* discard buffers while waiting, otherwise we'll wait forever */
         ao_set_property(this_gen, AO_PROP_DISCARD_BUFFERS, 1);
@@ -1948,6 +1952,14 @@ static int ao_set_property (xine_audio_port_t *this_gen, int property, int value
     break;
 
   case AO_PROP_CLOCK_SPEED:
+    /* something to do? */
+    if (value == this->current_speed)
+      break;
+    /* TJ. pthread mutex implementation on my multicore AMD box is somewhat buggy.
+       When fed by a fast single threaded decoder like mad, audio out loop does
+       not release current speed lock long enough to wake us up here.
+       So tell loop to enter unpause waiting _before_ we wait. */
+    this->current_speed = value;
     /*
      * slow motion / fast forward does not play sound, drop buffered
      * samples from the sound driver (check slow_fast_audio flag)
@@ -1964,7 +1976,6 @@ static int ao_set_property (xine_audio_port_t *this_gen, int property, int value
     } else {
       this->ao.control(&this->ao, AO_CTRL_PLAY_RESUME, NULL);
     }
-    this->current_speed = value;
     if( this->slow_fast_audio )
       ao_update_resample_factor(this);
     break;
@@ -2016,7 +2027,7 @@ static void ao_flush (xine_audio_port_t *this_gen) {
     this->flush_audio_driver++;
 
     /* do not try this in paused mode */
-    while( this->flush_audio_driver && this->clock->speed != XINE_SPEED_PAUSE) {
+    while( this->flush_audio_driver && this->current_speed != XINE_SPEED_PAUSE) {
       struct timeval  tv;
       struct timespec ts;
 

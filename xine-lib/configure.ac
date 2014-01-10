@@ -994,6 +994,17 @@ AC_DEFINE_UNQUOTED([LIBX11_SO], "${x_lib_location:-libX11.$acl_cv_shlibext}", [T
 x_lib_location="`ls -1 "${x_libraries:-/usr/local/lib}/libXv.$acl_cv_shlibext"*  "${x_libraries:-/usr/lib}/libXv.$acl_cv_shlibext"*  2>/dev/null | sed -e \"${soname_script}\"`"
 AC_DEFINE_UNQUOTED([LIBXV_SO],  "${x_lib_location:-libXv.$acl_cv_shlibext}",  [The soname of libXv, needed for dlopen()])
 
+dnl Does X11 need XLockDisplay () to prevent deadlocks?
+AC_MSG_CHECKING([for thread safe X11])
+x_is_thread_safe=no
+if test -n "$PKG_CONFIG" ; then
+    if "$PKG_CONFIG" --atleast-version 1.9 xcb && "$PKG_CONFIG" --atleast-version 1.4.99.901 x11 ; then
+        x_is_thread_safe=yes
+        AC_DEFINE([HAVE_THREAD_SAFE_X11], [1], [Define this if x11 does without XLockDisplay ().])
+    fi
+fi
+AC_MSG_RESULT([$x_is_thread_safe])
+
 dnl _FILE_OFFSET_BITS   (AC_SYS_LARGEFILE; ac_cv_sys_file_offset_bits)
 dnl _LARGE_FILES        (AC_SYS_LARGEFILE; ac_cv_sys_large_files)
 dnl _LARGEFILE_SOURCE   (AC_FUNC_SEEKO; ac_cv_sys_largfile_source)

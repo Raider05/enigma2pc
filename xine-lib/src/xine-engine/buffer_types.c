@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2008 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -799,6 +799,25 @@ static const video_db_t video_db[] = {
   BUF_VIDEO_VP8,
   "On2 VP8"
 },
+
+{
+  {
+    ME_FOURCC('V','P','9','0'),
+    0
+  },
+  BUF_VIDEO_VP9,
+  "VP9"
+},
+{
+  {
+    ME_FOURCC('h','e','v','c'),
+    0
+  },
+  BUF_VIDEO_HEVC,
+  "HEVC"
+},
+
+
 { { 0 }, 0, "last entry" }
 };
 
@@ -808,6 +827,7 @@ static const audio_db_t audio_db[] = {
   {
     0x2000,
     ME_FOURCC('m', 's', 0x20, 0x00),
+    ME_FOURCC('a', 'c', '-', '3'),
     0
   },
   BUF_AUDIO_A52,
@@ -1203,6 +1223,13 @@ static const audio_db_t audio_db[] = {
   },
   BUF_AUDIO_AAC_LATM,
   "AAC LATM"
+},
+{
+  {
+    0
+  },
+  BUF_AUDIO_ADPCM_G726,
+  "ADPCM G.726"
 },
 { { 0 }, 0, "last entry" }
 };

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2006 the xine project and Claudio Ciccani
+ * Copyright (C) 2000-2011 the xine project and Claudio Ciccani
  *
  * This file is part of xine, a free video player.
  *

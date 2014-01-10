@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2003 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -39,6 +39,8 @@
 
 #include <ogg/ogg.h>
 #include <vorbis/codec.h>
+
+#include "ogg_combined.h"
 
 #define MAX_NUM_SAMPLES 4096
 #define INIT_BUFSIZE    8192
@@ -156,6 +158,34 @@ static void vorbis_check_bufsize (vorbis_decoder_t *this, int size) {
 static void vorbis_decode_data (audio_decoder_t *this_gen, buf_element_t *buf) {
 
   vorbis_decoder_t *this = (vorbis_decoder_t *) this_gen;
+
+  /* Disassemble a regular decoder configuration packet.
+    Calm down, there is only 1 level of recursion ;-) */
+  if ((buf->decoder_flags & BUF_FLAG_SPECIAL) && (buf->decoder_info[1] == BUF_SPECIAL_DECODER_CONFIG)) {
+    uint8_t *head = buf->decoder_info_ptr[2], *data, *olddata = buf->content;
+    int       len = buf->decoder_info[2], part, i, oldsize = buf->size, oldflags = buf->decoder_flags;
+    if (!head || (--len < 0))
+      return;
+    i = *head++;
+    if ((len -= i) < 0)
+      return;
+    data = head + i;
+    buf->decoder_flags = BUF_FLAG_HEADER | BUF_FLAG_FRAME_END;
+    for (; i >= 0; i--) {
+      part = i ? *head++ : len;
+      if (part > len)
+        part = len;
+      buf->content = data;
+      buf->size    = part;
+      vorbis_decode_data (this_gen, buf);
+      data += part;
+      len  -= part;
+    }
+    buf->decoder_flags = oldflags;
+    buf->content = olddata;
+    buf->size    = oldsize;
+    return;
+  }
 
   memset( &this->op, 0, sizeof(this->op) );
 

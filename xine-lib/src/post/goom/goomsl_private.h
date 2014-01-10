@@ -196,7 +196,7 @@ struct _GoomSL { /* {{{ */
 extern GoomSL *currentGoomSL;
 
 Instruction *gsl_instr_init(GoomSL *parent, const char *name, int id, int nb_param, int line_number);
-void gsl_instr_add_param(Instruction *_this, char *param, int type);
+void gsl_instr_add_param(Instruction *_this, const char *param, int type);
 void gsl_instr_set_namespace(Instruction *_this, GoomHash *ns);
 
 void gsl_declare_task(const char *name);

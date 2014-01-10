@@ -9,7 +9,7 @@ Cygwin license.  Please consult the file "CYGWIN_LICENSE" for
 details. */
 
 /*
- * Copyright (C) 2000-2004 the xine project
+ * Copyright (C) 2000-2009 the xine project
  *
  * This file is part of xine, a free video player.
  *

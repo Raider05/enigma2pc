@@ -472,7 +472,7 @@ static int asf_header_parse_stream_extended_properties(asf_header_t *header, uin
 static int asf_header_parse_stream_bitrate_properties(asf_header_t *header_pub, uint8_t *buffer, int buffer_len) {
   asf_header_internal_t *header = (asf_header_internal_t *)header_pub;
   asf_reader_t reader;
-  uint16_t bitrate_count;
+  uint16_t bitrate_count = 0;
   int i;
   int stream_id;
 
@@ -513,7 +513,7 @@ static int asf_header_parse_metadata(asf_header_t *header_pub, uint8_t *buffer, 
 {
   asf_header_internal_t *header = (asf_header_internal_t *)header_pub;
   asf_reader_t reader;
-  uint16_t i, records_count;
+  uint16_t i, records_count = 0;
   iconv_t iconv_cd;
 
   if (buffer_len < 2)
@@ -631,7 +631,7 @@ static int asf_header_parse_content_description(asf_header_t *header_pub, uint8_
   asf_header_internal_t *header = (asf_header_internal_t *)header_pub;
   asf_reader_t reader;
   asf_content_t *content;
-  uint16_t title_length, author_length, copyright_length, description_length, rating_length;
+  uint16_t title_length = 0, author_length = 0, copyright_length = 0, description_length = 0, rating_length = 0;
   iconv_t iconv_cd;
 
   if (buffer_len < 10)

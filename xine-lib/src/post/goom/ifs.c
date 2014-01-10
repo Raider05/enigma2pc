@@ -481,7 +481,7 @@ static void ifs_update (PluginInfo *goomInfo, Pixel * data, Pixel * back, int in
 	static int cycle = 0;
 	int     cycle10;
 
-	int     nbpt;
+	int     nbpt = 0;
 	IFSPoint *points;
 	int     i;
 

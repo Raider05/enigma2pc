@@ -64,7 +64,7 @@ static void compute_tables(VisualFX *_this, PluginInfo *info)
   }
 }
 
-static void set_motif(ConvData *data, Motif motif)
+static void set_motif(ConvData *data, const Motif motif)
 {
   int i,j;
   for (i=0;i<CONV_MOTIF_W;++i) for (j=0;j<CONV_MOTIF_W;++j)
@@ -100,7 +100,7 @@ static void convolve_init(VisualFX *_this, PluginInfo *info) {
   data->theta = 0;
   data->ftheta = 0.0;
   data->visibility = 1.0;
-  set_motif(data, CONV_MOTIF2);
+  set_motif(data, CONV_MOTIF2.motif);
   data->inverse_motif = 0;
 
   _this->params = &data->params;
@@ -296,9 +296,9 @@ static void convolve_apply(VisualFX *_this, Pixel *src, Pixel *dest, PluginInfo 
     switch (goom_irand(info->gRandom, 300))
     {
       case 1:
-        set_motif(data, CONV_MOTIF1); data->inverse_motif = 1; break;
+        set_motif(data, CONV_MOTIF1.motif); data->inverse_motif = 1; break;
       case 2:
-        set_motif(data, CONV_MOTIF2); data->inverse_motif = 0; break;
+        set_motif(data, CONV_MOTIF2.motif); data->inverse_motif = 0; break;
     }
   }
 

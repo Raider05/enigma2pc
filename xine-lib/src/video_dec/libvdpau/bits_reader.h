@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 the xine project
+ * Copyright (C) 2008-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -24,13 +24,13 @@
 
 
 typedef struct {
-  uint8_t *buffer, *start;
+  const uint8_t *buffer, *start;
   int      offbits, length, oflow;
 } bits_reader_t;
 
 
 
-static void bits_reader_set( bits_reader_t *br, uint8_t *buf, int len )
+static void bits_reader_set( bits_reader_t *br, const uint8_t *buf, int len )
 {
   br->buffer = br->start = buf;
   br->offbits = 0;
@@ -56,7 +56,7 @@ static uint32_t get_bits( bits_reader_t *br, int nbits )
 {
   int i, nbytes;
   uint32_t ret = 0;
-  uint8_t *buf;
+  const uint8_t *buf;
 
   buf = br->buffer;
   nbytes = (br->offbits + nbits)/8;

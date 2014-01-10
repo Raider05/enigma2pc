@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2008 the xine project
+ * Copyright (C) 2000-2009 the xine project
  *
  * Copyright (C) Christian Vogler
  *               cvogler@gradient.cis.upenn.edu - December 2001

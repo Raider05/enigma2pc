@@ -1,6 +1,6 @@
 
 /*
- * Copyright (C) 2000-2003 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -242,6 +242,8 @@
       ISO_14496_PART2_VIDEO = 0x10,     /* ISO/IEC 14496-2 Visual (MPEG-4) */
       ISO_14496_PART3_AUDIO = 0x11,     /* ISO/IEC 14496-3 Audio with LATM transport syntax */
       ISO_14496_PART10_VIDEO = 0x1b,    /* ISO/IEC 14496-10 Video (MPEG-4 part 10/AVC, aka H.264) */
+      STREAM_VIDEO_HEVC = 0x24,
+
       STREAM_VIDEO_MPEG      = 0x80,
       STREAM_AUDIO_AC3       = 0x81,
 
@@ -1073,6 +1075,11 @@ static int demux_ts_parse_pes_header (xine_t *xine, demux_ts_media *m,
     return header_len;
   }
 
+  if (m->descriptor_tag == STREAM_VIDEO_HEVC) {
+    m->type      = BUF_VIDEO_HEVC;
+    return header_len;
+  }
+
   if (m->descriptor_tag == HDMV_SPU_BITMAP) {
     m->type |= BUF_SPU_HDMV;
     m->buf->decoder_info[2] = m->pes_bytes_left;
@@ -1335,6 +1342,35 @@ static void demux_ts_buffer_pes(demux_ts_t*this, unsigned char *ts,
       demux_ts_flush_media(m);
       /* skip rest data - there shouldn't be any */
       m->corrupted_pes = 1;
+    } else {
+
+      /* If video data ends to sequence end code, flush buffer. */
+      /* (there won't be any more data -> no pusi -> last buffer is never flushed) */
+      if (m->pid == this->videoPid && m->buf->size > 4 && m->buf->mem[m->buf->size-4] == 0) {
+
+        if (m->type == BUF_VIDEO_MPEG) {
+          if (!memcmp(&m->buf->mem[m->buf->size-4], "\x00\x00\x01\xb7", 4)) {
+            xprintf(this->stream->xine, XINE_VERBOSITY_DEBUG,
+                    "demux_ts: PID 0x%.4x: flushing after MPEG end of sequence code\n", m->pid);
+            demux_ts_flush_media(m);
+          }
+
+        } else if (m->type == BUF_VIDEO_H264) {
+          if ((!memcmp(&m->buf->mem[m->buf->size-4], "\x00\x00\x01\x0a", 4)) ||
+              (m->buf->size > 5 &&
+               !memcmp(&m->buf->mem[m->buf->size-5], "\x00\x00\x01\x0a", 4))) {
+            xprintf(this->stream->xine, XINE_VERBOSITY_DEBUG,
+                    "demux_ts: PID 0x%.4x: flushing after H.264 end of sequence code\n", m->pid);
+            demux_ts_flush_media(m);
+          }
+        } else if (m->type == BUF_VIDEO_VC1) {
+          if (!memcmp(&m->buf->mem[m->buf->size-4], "\x00\x00\x01\x0a", 4)) {
+            xprintf(this->stream->xine, XINE_VERBOSITY_DEBUG,
+                    "demux_ts: PID 0x%.4x: flushing after VC-1 end of sequence code\n", m->pid);
+            demux_ts_flush_media(m);
+          }
+        }
+      }
     }
   }
 }
@@ -1617,6 +1653,7 @@ printf("Program Number is %i, looking for %i\n",program_number,this->program_num
     case ISO_13818_VIDEO:
     case ISO_14496_PART2_VIDEO:
     case ISO_14496_PART10_VIDEO:
+    case STREAM_VIDEO_HEVC:
     case STREAM_VIDEO_VC1:
       if (this->videoPid == INVALID_PID) {
 #ifdef TS_PMT_LOG
@@ -1664,6 +1701,19 @@ printf("Program Number is %i, looking for %i\n",program_number,this->program_num
 #endif
       break;
     case ISO_13818_PES_PRIVATE:
+      {
+        uint32_t format_identifier=0;
+        demux_ts_get_reg_desc(this, &format_identifier, stream + 5, stream_info_length);
+        if (format_identifier == 0x48455643 /* HEVC */ ) {
+          mi = demux_ts_dynamic_pmt_find (this, pid, BUF_VIDEO_BASE, STREAM_VIDEO_HEVC);
+          if (mi >= 0) {
+            this->videoMedia = mi;
+            this->videoPid = pid;
+          }
+          break;
+        }
+      }
+
       for (i = 5; i < coded_length; i += stream[i+1] + 2) {
 
         if ((stream[i] == DESCRIPTOR_AC3) || (stream[i] == DESCRIPTOR_EAC3) || (stream[i] == DESCRIPTOR_DTS)) {
@@ -1805,6 +1855,11 @@ printf("Program Number is %i, looking for %i\n",program_number,this->program_num
           }
         }
       }
+
+      xprintf(this->stream->xine, XINE_VERBOSITY_DEBUG,
+              "demux_ts: PMT unknown stream_type: 0x%.2x pid: 0x%.4x\n",
+              stream[0], pid);
+
 #ifdef TS_PMT_LOG
       printf ("demux_ts: PMT unknown stream_type: 0x%.2x pid: 0x%.4x\n",
               stream[0], pid);

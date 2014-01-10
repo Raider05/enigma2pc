@@ -51,8 +51,8 @@ uint8_t default_8x8_inter[64] = { 9, 13, 13, 15, 13, 15, 17, 17, 17, 17, 19,
 
 struct buf_reader
 {
-  uint8_t *buf;
-  uint8_t *cur_pos;
+  const uint8_t *buf;
+  const uint8_t *cur_pos;
   int len;
   int cur_offset;
 };
@@ -210,9 +210,9 @@ static inline uint32_t read_bits(struct buf_reader *buf, int len)
 }
 
 /* determines if following bits are rtsb_trailing_bits */
-static inline int rbsp_trailing_bits(uint8_t *buf, int buf_len)
+static inline int rbsp_trailing_bits(const uint8_t *buf, int buf_len)
 {
-  uint8_t *cur_buf = buf+(buf_len-1);
+  const uint8_t *cur_buf = buf+(buf_len-1);
   uint8_t cur_val;
   int parsed_bits = 0;
   int i;
@@ -1600,7 +1600,7 @@ void free_parser(struct h264_parser *parser)
   free(parser);
 }
 
-void parse_codec_private(struct h264_parser *parser, uint8_t *inbuf, int inbuf_len)
+void parse_codec_private(struct h264_parser *parser, const uint8_t *inbuf, int inbuf_len)
 {
   struct buf_reader bufr;
 
@@ -1807,7 +1807,7 @@ int parse_frame(struct h264_parser *parser, uint8_t *inbuf, int inbuf_len,
  *         1: NAL is the beginning of a new coded picture
  *         3: NAL is marked as END_OF_SEQUENCE
  */
-int parse_nal(uint8_t *buf, int buf_len, struct h264_parser *parser,
+int parse_nal(const uint8_t *buf, int buf_len, struct h264_parser *parser,
     struct coded_picture **completed_picture)
 {
   int ret = 0;

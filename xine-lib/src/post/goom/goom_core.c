@@ -823,6 +823,9 @@ choose_a_goom_line (PluginInfo *goomInfo, float *param1, float *param2, int *cou
                 *amplitude = 1.5f;
             }
             break;
+        default:
+            *param1 = *param2 = 0;
+            break;
     }
     
     *couleur = goom_irand(goomInfo->gRandom,6);

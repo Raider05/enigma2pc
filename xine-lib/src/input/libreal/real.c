@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2002-2003 the xine project
+ * Copyright (C) 2002-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -538,7 +538,9 @@ int real_get_rdt_chunk(rtsp_t *rtsp_session, unsigned char **buffer) {
   rmff_pheader_t ph;
   int size;
   int flags1;
+#ifdef LOG
   int unknown1;
+#endif
   uint32_t ts;
 
   n=rtsp_read_data(rtsp_session, header, 8);
@@ -572,7 +574,9 @@ int real_get_rdt_chunk(rtsp_t *rtsp_session, unsigned char **buffer) {
     flags1=header[4];
     size-=9;
   }
+#ifdef LOG
   unknown1=(header[5]<<16)+(header[6]<<8)+(header[7]);
+#endif
   n=rtsp_read_data(rtsp_session, header, 6);
   if (n<6) return 0;
   ts=_X_BE_32(header);

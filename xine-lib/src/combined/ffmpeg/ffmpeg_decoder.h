@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2005 the xine project
+ * Copyright (C) 2001-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -25,8 +25,6 @@
 #include "config.h"
 #endif
 
-#define FF_API_CODEC_ID 1
-
 #ifdef HAVE_FFMPEG_AVUTIL_H
 #  include <avcodec.h>
 #else
@@ -46,11 +44,25 @@ typedef struct ff_codec_s {
 
 void *init_audio_plugin (xine_t *xine, void *data);
 void *init_video_plugin (xine_t *xine, void *data);
+void *init_avio_input_plugin (xine_t *xine, void *data);
+void *init_avformat_input_plugin (xine_t *xine, void *data);
+void *init_avformat_demux_plugin (xine_t *xine, void *data);
 
 extern decoder_info_t dec_info_ffmpeg_video;
 extern decoder_info_t dec_info_ffmpeg_wmv8;
 extern decoder_info_t dec_info_ffmpeg_wmv9;
 extern decoder_info_t dec_info_ffmpeg_audio;
+extern demuxer_info_t demux_info_avformat;
+extern input_info_t   input_info_avformat;
+extern input_info_t   input_info_avio;
+
+/* communication between avio/avformat input and avformat demux plugins */
+#define INPUT_OPTIONAL_DATA_pb         0x1000
+#define INPUT_OPTIONAL_DATA_fmt_ctx    0x1001
+
+/* plugin ids */
+#define INPUT_AVIO_ID     "avio"
+#define DEMUX_AVFORMAT_ID "avformat"
 
 extern pthread_once_t once_control;
 void init_once_routine(void);

@@ -19,6 +19,7 @@ AC_DEFUN([XINE_INPUT_PLUGINS], [
     default_enable_vcdo=no
     default_enable_vdr=yes
     default_enable_bluray=yes
+    default_enable_avformat=yes
     default_with_external_dvdnav=no
 
     case "$host_os" in
@@ -183,5 +184,18 @@ AC_DEFUN([XINE_INPUT_PLUGINS], [
         AC_SUBST(LIBBLURAY_LIBS)
     fi
     AM_CONDITIONAL(ENABLE_BLURAY, test "x$have_libbluray" = "xyes")
+
+    dnl libavformat
+    XINE_ARG_ENABLE([avformat], [Enable libavformat support])
+    if test "x$enable_avformat" != "xno"; then
+        PKG_CHECK_MODULES([AVFORMAT], [libavformat >= 55.19.0], [have_avformat=yes], [have_avformat=no])
+        if test x"$hard_enable_avformat" = x"yes" && test x"$have_avformat" != x"yes"; then
+            AC_MSG_ERROR([libavformat support requested, but library not found])
+        fi
+        if test x"$have_avformat" = x"yes"; then
+            AC_DEFINE([HAVE_AVFORMAT], 1, [Define this if you have libavformat installed])
+        fi
+    fi
+    AM_CONDITIONAL([ENABLE_AVFORMAT], [test x"$have_avformat" = x"yes"])
 
 ])

@@ -24,10 +24,15 @@ if ENABLE_LIBJPEG
 libjpeg_module = xineplug_decode_libjpeg.la
 endif
 
+if ENABLE_VPX
+libvpx_module = xineplug_decode_libvpx.la
+endif
+
 xineplug_LTLIBRARIES = $(image_module) \
 	$(gdkpixbuf_module) \
 	$(libjpeg_module) \
 	$(theora_module) \
+	$(libvpx_module) \
 	xineplug_decode_bitplane.la \
 	xineplug_decode_rgb.la \
 	xineplug_decode_yuv.la
@@ -52,3 +57,7 @@ xineplug_decode_gdk_pixbuf_la_CFLAGS = $(AM_CFLAGS) $(GDK_PIXBUF_CFLAGS)
 xineplug_decode_libjpeg_la_SOURCES = libjpeg.c
 xineplug_decode_libjpeg_la_LIBADD = $(XINE_LIB) $(JPEG_LIBS)
 xineplug_decode_libjpeg_la_CFLAGS = $(AM_CFLAGS) $(JPEG_CFLAGS)
+
+xineplug_decode_libvpx_la_SOURCES = libvpx.c
+xineplug_decode_libvpx_la_LIBADD = $(XINE_LIB) $(VPX_LIBS)
+xineplug_decode_libvpx_la_CFLAGS = $(AM_CFLAGS) $(VPX_CFLAGS)

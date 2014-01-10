@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2008 the xine project
+ * Copyright (C) 2003-2011 the xine project
  * Copyright (C) 2003 J.Asselman <j.asselman@itsec-ps.nl>
  *
  * This file is part of xine, a free video player.

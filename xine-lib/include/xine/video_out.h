@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2004 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -296,10 +296,10 @@ struct xine_video_port_s {
 #define VO_CHROMA_422        32 /* used by VDPAU, default is chroma_420 */
 #define VO_STILL_IMAGE       64
 
-/* ((mpeg_color_matrix << 1) | color_range) inside frame.flags bits 11-8 */
+/* ((mpeg_color_matrix << 1) | color_range) inside frame.flags bits 12-8 */
 #define VO_FULLRANGE 0x100
-#define VO_GET_FLAGS_CM(flags) ((flags >> 8) & 15)
-#define VO_SET_FLAGS_CM(cm,flags) flags = ((flags) & ~0xf00) | (((cm) & 15) << 8)
+#define VO_GET_FLAGS_CM(flags) ((flags >> 8) & 31)
+#define VO_SET_FLAGS_CM(cm,flags) flags = ((flags) & ~0x1f00) | (((cm) & 31) << 8)
 
 /* video driver capabilities */
 #define VO_CAP_YV12                   0x00000001 /* driver can handle YUV 4:2:0 pictures */

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 the xine project
+ * Copyright (C) 2008-2009 the xine project
  * Copyright (C) 2008 Christophe Thommeret <hftom@free.fr>
  *
  * This file is part of xine, a free video player.

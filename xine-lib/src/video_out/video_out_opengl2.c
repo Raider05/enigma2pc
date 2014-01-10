@@ -168,6 +168,7 @@ typedef struct {
 } opengl2_driver_t;
 
 /* import common color matrix stuff */
+#define CM_HAVE_YCGCO_SUPPORT 1
 #define CM_DRIVER_T opengl2_driver_t
 #include "color_matrix.c"
 
@@ -815,47 +816,67 @@ static void opengl2_update_csc_matrix (opengl2_driver_t *that, opengl2_frame_t *
     float brightness = that->brightness;
     float uvcos = saturation * cos( hue );
     float uvsin = saturation * sin( hue );
-    float kb, kr;
-    float vr, vg, ug, ub;
-    float ygain, yoffset;
     int i;
 
-    switch (color_standard >> 1) {
-      case 1:  kb = 0.0722; kr = 0.2126; break; /* ITU-R 709 */
-      case 4:  kb = 0.1100; kr = 0.3000; break; /* FCC */
-      case 7:  kb = 0.0870; kr = 0.2120; break; /* SMPTE 240 */
-      default: kb = 0.1140; kr = 0.2990;        /* ITU-R 601 */
-    }
-    vr = 2.0 * (1.0 - kr);
-    vg = -2.0 * kr * (1.0 - kr) / (1.0 - kb - kr);
-    ug = -2.0 * kb * (1.0 - kb) / (1.0 - kb - kr);
-    ub = 2.0 * (1.0 - kb);
-
-    if (color_standard & 1) {
-      /* fullrange mode */
-      yoffset = brightness;
-      ygain = contrast;
-      uvcos *= contrast * 255.0 / 254.0;
-      uvsin *= contrast * 255.0 / 254.0;
+    if ((color_standard >> 1) == 8) {
+      /* YCgCo. This is really quite simple. */
+      uvsin *= contrast;
+      uvcos *= contrast;
+      /* csc_matrix[rgb][yuv1] */
+      that->csc_matrix[1] = -1.0 * uvcos - 1.0 * uvsin;
+      that->csc_matrix[2] =  1.0 * uvcos - 1.0 * uvsin;
+      that->csc_matrix[5] =  1.0 * uvcos;
+      that->csc_matrix[6] =                1.0 * uvsin;
+      that->csc_matrix[9] = -1.0 * uvcos + 1.0 * uvsin;
+      that->csc_matrix[10] = -1.0 * uvcos - 1.0 * uvsin;
+      for (i = 0; i < 12; i += 4) {
+        that->csc_matrix[i] = contrast;
+        that->csc_matrix[i + 3] = (brightness * contrast
+          - 128.0 * (that->csc_matrix[i + 1] + that->csc_matrix[i + 2])) / 255.0;
+      }
     } else {
-      /* mpeg range */
-      yoffset = brightness - 16.0;
-      ygain = contrast * 255.0 / 219.0;
-      uvcos *= contrast * 255.0 / 224.0;
-      uvsin *= contrast * 255.0 / 224.0;
-    }
+      /* YCbCr */
+      float kb, kr;
+      float vr, vg, ug, ub;
+      float ygain, yoffset;
 
-    /* csc_matrix[rgb][yuv1] */
-    that->csc_matrix[1] = -uvsin * vr;
-    that->csc_matrix[2] = uvcos * vr;
-    that->csc_matrix[5] = uvcos * ug - uvsin * vg;
-    that->csc_matrix[6] = uvcos * vg + uvsin * ug;
-    that->csc_matrix[9] = uvcos * ub;
-    that->csc_matrix[10] = uvsin * ub;
-    for (i = 0; i < 12; i += 4) {
-      that->csc_matrix[i] = ygain;
-      that->csc_matrix[i + 3] = (yoffset * ygain
-        - 128.0 * (that->csc_matrix[i + 1] + that->csc_matrix[i + 2])) / 255.0;
+      switch (color_standard >> 1) {
+        case 1:  kb = 0.0722; kr = 0.2126; break; /* ITU-R 709 */
+        case 4:  kb = 0.1100; kr = 0.3000; break; /* FCC */
+        case 7:  kb = 0.0870; kr = 0.2120; break; /* SMPTE 240 */
+        default: kb = 0.1140; kr = 0.2990;        /* ITU-R 601 */
+      }
+      vr = 2.0 * (1.0 - kr);
+      vg = -2.0 * kr * (1.0 - kr) / (1.0 - kb - kr);
+      ug = -2.0 * kb * (1.0 - kb) / (1.0 - kb - kr);
+      ub = 2.0 * (1.0 - kb);
+
+      if (color_standard & 1) {
+        /* fullrange mode */
+        yoffset = brightness;
+        ygain = contrast;
+        uvcos *= contrast * 255.0 / 254.0;
+        uvsin *= contrast * 255.0 / 254.0;
+      } else {
+        /* mpeg range */
+        yoffset = brightness - 16.0;
+        ygain = contrast * 255.0 / 219.0;
+        uvcos *= contrast * 255.0 / 224.0;
+        uvsin *= contrast * 255.0 / 224.0;
+      }
+
+      /* csc_matrix[rgb][yuv1] */
+      that->csc_matrix[1] = -uvsin * vr;
+      that->csc_matrix[2] = uvcos * vr;
+      that->csc_matrix[5] = uvcos * ug - uvsin * vg;
+      that->csc_matrix[6] = uvcos * vg + uvsin * ug;
+      that->csc_matrix[9] = uvcos * ub;
+      that->csc_matrix[10] = uvsin * ub;
+      for (i = 0; i < 12; i += 4) {
+        that->csc_matrix[i] = ygain;
+        that->csc_matrix[i + 3] = (yoffset * ygain
+          - 128.0 * (that->csc_matrix[i + 1] + that->csc_matrix[i + 2])) / 255.0;
+      }
     }
 
     that->color_standard = color_standard;

@@ -84,6 +84,8 @@ xineplug_dmx_qt_la_SOURCES = demux_qt.c
 xineplug_dmx_qt_la_LIBADD = $(XINE_LIB) $(LTLIBINTL) $(ZLIB_LIBS)
 xineplug_dmx_qt_la_CPPFLAGS = $(AM_CPPFLAGS) $(ZLIB_CPPFLAGS)
 
+# note: asfheader.c also used from ../input
+# is safe given same compiler options
 xineplug_dmx_asf_la_SOURCES = demux_asf.c asfheader.c
 xineplug_dmx_asf_la_LIBADD = $(XINE_LIB) $(LTLIBINTL) $(LTLIBICONV)
 xineplug_dmx_asf_la_CFLAGS = $(AM_CFLAGS) -fno-strict-aliasing

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2004 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -517,11 +517,28 @@ static int vo_grab_grab_video_frame (xine_grab_video_frame_t *frame_gen) {
     }
   }
 
+  /* get pixel aspect ratio */
+  double sar = 1.0;
+  {
+    int sarw = vo_frame->width  - vo_frame->crop_left - vo_frame->crop_right;
+    int sarh = vo_frame->height - vo_frame->crop_top  - vo_frame->crop_bottom;
+    if ((vo_frame->ratio > 0.0) && (sarw > 0) && (sarh > 0))
+      sar = vo_frame->ratio * sarh / sarw;
+  }
+
   /* if caller does not specify frame size we return the actual size of grabbed frame */
-  if (frame->grab_frame.width <= 0)
-    frame->grab_frame.width = width;
-  if (frame->grab_frame.height <= 0)
-    frame->grab_frame.height = height;
+  if ((frame->grab_frame.width <= 0) && (frame->grab_frame.height <= 0)) {
+    if (sar > 1.0) {
+      frame->grab_frame.width  = sar * width + 0.5;
+      frame->grab_frame.height = height;
+    } else {
+      frame->grab_frame.width  = width;
+      frame->grab_frame.height = (double)height / sar + 0.5;
+    }
+  } else if (frame->grab_frame.width <= 0)
+    frame->grab_frame.width = frame->grab_frame.height * width * sar / height + 0.5;
+  else if (frame->grab_frame.height <= 0)
+    frame->grab_frame.height = (frame->grab_frame.width * height) / (sar * width) + 0.5;
 
   /* allocate grab frame image buffer */
   if (frame->grab_frame.width != frame->grab_width || frame->grab_frame.height != frame->grab_height) {
@@ -579,9 +596,8 @@ static int vo_grab_grab_video_frame (xine_grab_video_frame_t *frame_gen) {
   }
 
   /* convert YUV to RGB image taking possible scaling into account */
-  /* FIXME: have to swap U and V planes to get correct colors for YV12 frames?? */
   if(format == XINE_IMGFMT_YV12)
-    frame->yuv2rgb->yuv2rgb_fun(frame->yuv2rgb, frame->grab_frame.img, base[0], base[2], base[1]);
+    frame->yuv2rgb->yuv2rgb_fun(frame->yuv2rgb, frame->grab_frame.img, base[0], base[1], base[2]);
   else
     frame->yuv2rgb->yuy22rgb_fun(frame->yuv2rgb, frame->grab_frame.img, base[0]);
 

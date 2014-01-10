@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2005 the xine project
+ * Copyright (C) 2003-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -102,12 +102,14 @@ static void image_decode_data (video_decoder_t *this_gen, buf_element_t *buf) {
   this->index += buf->size;
 
   if (buf->decoder_flags & BUF_FLAG_FRAME_END) {
-    int                width, height, i, x, y, img_stride;
+    int                width, height, img_stride;
     int                status;
     MagickWand        *wand;
-    uint8_t           *img_buf, *img_buf_ptr;
-    yuv_planes_t       yuv_planes;
+    uint8_t           *img_buf;
     vo_frame_t        *img;
+
+    void              *rgb2yuy2;
+    int                frame_flags, cm;
 
     /*
      * this->image -> rgb data
@@ -135,8 +137,8 @@ static void image_decode_data (video_decoder_t *this_gen, buf_element_t *buf) {
 
     width = MagickGetImageWidth(wand);
     height = MagickGetImageHeight(wand);
-    img_buf = malloc(width * height * 3);
     img_stride = 3 * width;
+    img_buf = malloc (img_stride * height);
 #if MAGICK_VERSION < 0x671
     MagickGetImagePixels(wand, 0, 0, width, height, "RGB", CharPixel, img_buf);
     DestroyMagickWand(wand);
@@ -152,13 +154,19 @@ static void image_decode_data (video_decoder_t *this_gen, buf_element_t *buf) {
 
     lprintf("image loaded successfully\n");
 
+    frame_flags = VO_BOTH_FIELDS;
+    cm = 10; /* mpeg range ITU-R 601 */
+    if (this->stream->video_out->get_capabilities (this->stream->video_out) & VO_CAP_FULLRANGE)
+      cm = 11; /* full range */
+    VO_SET_FLAGS_CM (cm, frame_flags);
+
     /*
      * alloc video frame and set cropping
      */
     img = this->stream->video_out->get_frame (this->stream->video_out, width, height,
 					      (double)width / (double)height,
 					      XINE_IMGFMT_YUY2,
-					      VO_BOTH_FIELDS);
+					      frame_flags);
 
     if (width > img->width)
       width = img->width;
@@ -169,25 +177,10 @@ static void image_decode_data (video_decoder_t *this_gen, buf_element_t *buf) {
     /*
      * rgb data -> yuv_planes
      */
-    width &= ~1; /* must be even for init_yuv_planes */
-    init_yuv_planes(&yuv_planes, width, height);
-
-    img_buf_ptr = img_buf;
-    i = 0;
-    for (y = 0; y < height; y++) {
-    for (x = 0; x < width; x++) {
-      uint8_t r = *(img_buf_ptr++);
-      uint8_t g = *(img_buf_ptr++);
-      uint8_t b = *(img_buf_ptr++);
-
-      yuv_planes.y[i] = COMPUTE_Y(r, g, b);
-      yuv_planes.u[i] = COMPUTE_U(r, g, b);
-      yuv_planes.v[i] = COMPUTE_V(r, g, b);
-      i++;
-    }
-    img_buf_ptr += img_stride - 3 * width;
-    }
-    free(img_buf);
+    rgb2yuy2 = rgb2yuy2_alloc (cm, "rgb");
+    rgb2yuy2_slice (rgb2yuy2, img_buf, img_stride, img->base[0], img->pitches[0], width, height);
+    rgb2yuy2_free (rgb2yuy2);
+    free (img_buf);
 
     /*
      * draw video frame
@@ -195,9 +188,6 @@ static void image_decode_data (video_decoder_t *this_gen, buf_element_t *buf) {
     img->pts = buf->pts;
     img->duration = 3600;
     img->bad_frame = 0;
-
-    yuv444_to_yuy2(&yuv_planes, img->base[0], img->pitches[0]);
-    free_yuv_planes(&yuv_planes);
 
     _x_stream_info_set(this->stream, XINE_STREAM_INFO_FRAME_DURATION, img->duration);
 

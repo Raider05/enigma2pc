@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2004 the xine project
+ * Copyright (C) 2003-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -498,9 +498,9 @@ static off_t vdr_execute_rpc_command(vdr_input_plugin_t *this)
 
   case func_osd_flush:
     {
-      double _t1, _t2;
+      double _t1/*, _t2*/;
       int _n = 0;
-      int _to = 0;
+      /*int _to = 0;*/
       int r = 0;
 
       READ_DATA_OR_FAIL(osd_flush, LOG_OSD(lprintf("got OSDFLUSH\n")));
@@ -514,7 +514,7 @@ static off_t vdr_execute_rpc_command(vdr_input_plugin_t *this)
 break;
         if ((_now() - _t1) > 200)
         {
-          _to = 1;
+          /*_to = 1;*/
           break;
         }
 /*
@@ -524,9 +524,9 @@ break;
         xine_usec_sleep(5000);
         _n++;
       }
-
-      _t2 = _now();
 /*
+      _t2 = _now();
+
       fprintf(stderr, "vdr: osdflush: n: %d, %.1lf, timeout: %d, result: %d\n", _n, _t2 - _t1, _to, r);
 */
 /*
@@ -883,7 +883,7 @@ break;
       }
 
       {
-        double _t1, _t2;
+        /*double _t1, _t2*/;
         int _n = 0;
 
         int vb = -1, ab = -1, vf = -1, af = -1;
@@ -912,7 +912,7 @@ break;
           then.tv_sec  = 0;
         }
 
-        _t1 = _now();
+        /*_t1 = _now();*/
 
         while (1)
         {
@@ -936,7 +936,7 @@ break;
             gettimeofday(&now, 0);
         }
 
-        _t2 = _now();
+        /*_t2 = _now();*/
         /* fprintf(stderr, "vdr: flush: n: %d, %.1lf\n", _n, _t2 - _t1); */
 
         xprintf(this->stream->xine
@@ -972,9 +972,9 @@ break;
 
   case func_set_volume:
     {
-double t3, t2, t1, t0;
+/*double t3, t2, t1, t0;*/
       READ_DATA_OR_FAIL(set_volume, lprintf("got SETVOLUME\n"));
-t0 = _now();
+/*t0 = _now();*/
       {
         int change_volume = (this->volume_mode != XINE_VDR_VOLUME_IGNORE);
         int do_mute   = (this->last_volume != 0 && 0 == data->volume);
@@ -1007,14 +1007,14 @@ t0 = _now();
             return -1;
           };
         }
-t1 = _now();
+/*t1 = _now();*/
 
         if (change_volume)
         {
           report_change = 1;
           xine_set_param(this->stream, param_volume, this->last_volume);
         }
-t2 = _now();
+/*t2 = _now();*/
 
         if (report_change && this->volume_mode != XINE_VDR_VOLUME_CHANGE_SW)
         {
@@ -1026,7 +1026,7 @@ t2 = _now();
             = xine_get_param(this->stream, param_volume);
           data.mute
             = xine_get_param(this->stream, param_mute);
-t3 = _now();
+/*t3 = _now();*/
 
           event.type        = XINE_EVENT_AUDIO_LEVEL;
           event.data        = &data;
@@ -1315,7 +1315,7 @@ fprintf(stderr, "C =============================================\n");
 
   case func_reset_audio:
     {
-      double _t1, _t2;
+      /*double _t1, _t2;*/
       int _n = 0;
 
       READ_DATA_OR_FAIL(reset_audio, lprintf("got RESET AUDIO\n"));
@@ -1325,7 +1325,7 @@ fprintf(stderr, "C =============================================\n");
         xine_set_param(this->stream, XINE_PARAM_IGNORE_AUDIO, 1);
         xine_set_param(this->stream, XINE_PARAM_AUDIO_CHANNEL_LOGICAL, -2);
 
-        _t1 = _now();
+        /*_t1 = _now();*/
 
         while (1)
         {
@@ -1353,7 +1353,7 @@ fprintf(stderr, "C =============================================\n");
           _n++;
         }
 
-        _t2 = _now();
+        /*_t2 = _now();*/
         /* fprintf(stderr, "vdr: reset_audio: n: %d, %.1lf\n", _n, _t2 - _t1); */
 
         xine_set_param(this->stream, XINE_PARAM_AUDIO_CHANNEL_LOGICAL, -1);
@@ -1953,7 +1953,12 @@ static int vdr_plugin_open_fifo_mrl(input_plugin_t *this_gen)
   /* eat initial handshake byte */
   {
     char b;
-    read(this->fh, &b, 1);
+    if (1 != read(this->fh, &b, 1)) {
+      xprintf(this->stream->xine, XINE_VERBOSITY_LOG,
+	      _("%s: failed to read '%s' (%s)\n"), LOG_MODULE,
+	      filename,
+	      strerror(errno));
+    }
   }
 
   {

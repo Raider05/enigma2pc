@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006 the xine project
+ * Copyright (C) 2006-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -175,7 +175,7 @@ static void image_decode_data (video_decoder_t *this_gen, buf_element_t *buf) {
       }
     }
     rgb2yuy2_free (rgb2yuy2);
-    gdk_pixbuf_unref (pixbuf);
+    g_object_unref (pixbuf);
 
     /*
      * draw video frame
@@ -255,7 +255,9 @@ static video_decoder_t *open_plugin (video_decoder_class_t *class_gen,
 
   lprintf("opened\n");
 
+#if (GLIB_MAJOR_VERSION < 2 || (GLIB_MAJOR_VERSION == 2 && GLIB_MINOR_VERSION <= 35))
   g_type_init ();
+#endif
 
   this = (image_decoder_t *) calloc(1, sizeof(image_decoder_t));
 

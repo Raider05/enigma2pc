@@ -22,7 +22,7 @@ struct GOOM_HASH {
   int number_of_puts;
 };
 
-GoomHash *goom_hash_new();
+GoomHash *goom_hash_new(void);
 void      goom_hash_free(GoomHash *gh);
 
 void goom_hash_put(GoomHash *gh, const char *key, HashValue value);

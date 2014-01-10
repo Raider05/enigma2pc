@@ -593,6 +593,8 @@ int yy_flex_debug = 0;
 static yy_state_type *yy_state_buf=0, *yy_state_ptr=0;
 static char *yy_full_match;
 static int yy_lp;
+
+#if 0
 #define REJECT \
 { \
 *yy_cp = (yy_hold_char); /* undo effects of setting up yytext */ \
@@ -600,11 +602,12 @@ yy_cp = (yy_full_match); /* restore poss. backed-over text */ \
 ++(yy_lp); \
 goto find_rule; \
 }
+#endif
 
 static int yy_more_offset = 0;
 static int yy_prev_more_offset = 0;
-#define yymore() ((yy_more_offset) = yy_flex_strlen( yytext ))
-#define YY_NEED_STRLEN
+//#define yymore() ((yy_more_offset) = yy_flex_strlen( yytext ))
+//#define YY_NEED_STRLEN
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET \
 	{ \
@@ -626,7 +629,7 @@ char *yytext_ptr;
 #include "goomsl.h"
 #include "goomsl_private.h"
 #include "goomsl_yacc.h"
-void yyerror(char *);
+void yyerror(const char *);
 void yyparse(void);
 
 GoomSL *currentGoomSL;
@@ -861,7 +864,9 @@ yy_match:
 yy_find_action:
 		yy_current_state = *--(yy_state_ptr);
 		(yy_lp) = yy_accept[yy_current_state];
+#if 0
 find_rule: /* we branch to this label when backing up */
+#endif
 		for ( ; ; ) /* until we find what rule we matched */
 			{
 			if ( (yy_lp) && (yy_lp) < yy_accept[yy_current_state + 1] )
@@ -1944,15 +1949,18 @@ static void yy_fatal_error (yyconst char* msg )
 /** Get the current line number.
  * 
  */
+#if 0
 int yyget_lineno  (void)
 {
         
     return yylineno;
 }
+#endif
 
 /** Get the input stream.
  * 
  */
+#if 0
 FILE *yyget_in  (void)
 {
         return yyin;
@@ -1987,6 +1995,7 @@ char *yyget_text  (void)
  * @param line_number
  * 
  */
+
 void yyset_lineno (int  line_number )
 {
     
@@ -1999,6 +2008,7 @@ void yyset_lineno (int  line_number )
  * 
  * @see yy_switch_to_buffer
  */
+
 void yyset_in (FILE *  in_str )
 {
         yyin = in_str ;
@@ -2018,7 +2028,9 @@ void yyset_debug (int  bdebug )
 {
         yy_flex_debug = bdebug ;
 }
+#endif
 
+#if 0
 /* yylex_destroy is for both reentrant and non-reentrant scanners. */
 int yylex_destroy  (void)
 {
@@ -2038,6 +2050,7 @@ int yylex_destroy  (void)
 
     return 0;
 }
+#endif
 
 /*
  * Internal utility routines.

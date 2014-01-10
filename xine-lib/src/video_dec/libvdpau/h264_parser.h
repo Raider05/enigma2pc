@@ -88,7 +88,7 @@ struct h264_parser {
     xine_t *xine;
 };
 
-int parse_nal(uint8_t *buf, int buf_len, struct h264_parser *parser,
+int parse_nal(const uint8_t *buf, int buf_len, struct h264_parser *parser,
     struct coded_picture **completed_picture);
 
 int seek_for_nal(uint8_t *buf, int buf_len, struct h264_parser *parser);
@@ -105,6 +105,6 @@ int parse_frame(struct h264_parser *parser, uint8_t *inbuf, int inbuf_len,
  */
 void process_mmc_operations(struct h264_parser *parser, struct coded_picture *picture);
 
-void parse_codec_private(struct h264_parser *parser, uint8_t *inbuf, int inbuf_len);
+void parse_codec_private(struct h264_parser *parser, const uint8_t *inbuf, int inbuf_len);
 
 #endif

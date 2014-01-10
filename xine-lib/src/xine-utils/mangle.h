@@ -1,6 +1,6 @@
 /*
  * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
- * copyright (c) 2008 the xine-project
+ * copyright (c) 2008-2010 the xine-project
  *
  * This file is part of FFmpeg.
  *

@@ -728,7 +728,7 @@ static void vdpau_h264_decode_data (video_decoder_t *this_gen,
     this->have_frame_boundary_marks = 0;
 
     if(buf->decoder_info[1] == BUF_SPECIAL_DECODER_CONFIG) {
-      uint8_t *codec_private = buf->decoder_info_ptr[2];
+      const uint8_t *codec_private = buf->decoder_info_ptr[2];
       uint32_t codec_private_len = buf->decoder_info[2];
       this->codec_private_len = codec_private_len;
       this->codec_private = malloc(codec_private_len);

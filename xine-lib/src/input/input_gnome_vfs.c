@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2003 the xine project
+ * Copyright (C) 2000-2009 the xine project
  * 2002 Bastien Nocera <hadess@hadess.net>
  *
  * This file is part of totem,

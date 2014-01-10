@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2005 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -508,7 +508,7 @@ void xine_usec_sleep(unsigned usec) {
   struct timeval tm;
   tm.tv_sec  = usec / 1000000;
   tm.tv_usec = usec % 1000000;
-  select(0, 0, 0, 0, &tm);
+  select(0, 0, 0, 0, &tm); /* FIXME: EINTR? */
 #  endif
 #endif
 }

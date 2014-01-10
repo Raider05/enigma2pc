@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2008 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -1092,6 +1092,28 @@ static void handle_vobsub (demux_plugin_t *this_gen, matroska_track_t *track,
     free(data);
 }
 
+static void fill_extra_data(matroska_track_t *track, uint32_t fourcc) {
+
+  xine_bmiheader *bih;
+
+  if (track->codec_private_len > 0x7fffffff - sizeof(xine_bmiheader))
+    track->codec_private_len = 0x7fffffff - sizeof(xine_bmiheader);
+
+  /* create a bitmap info header struct */
+  bih = calloc(1, sizeof(xine_bmiheader) + track->codec_private_len);
+  bih->biSize = sizeof(xine_bmiheader) + track->codec_private_len;
+  bih->biCompression = fourcc;
+  bih->biWidth = track->video_track->pixel_width;
+  bih->biHeight = track->video_track->pixel_height;
+  _x_bmiheader_le2me(bih);
+
+  /* add bih extra data */
+  memcpy(bih + 1, track->codec_private, track->codec_private_len);
+  free(track->codec_private);
+  track->codec_private = (uint8_t *)bih;
+  track->codec_private_len = bih->biSize;
+}
+
 static int parse_track_entry(demux_matroska_t *this, matroska_track_t *track) {
   ebml_parser_t *ebml = this->ebml;
   int next_level = 3;
@@ -1334,27 +1356,19 @@ static int parse_track_entry(demux_matroska_t *this, matroska_track_t *track) {
       track->buf_type = BUF_VIDEO_MPEG;
       init_codec = init_codec_video;
     } else if (!strcmp(track->codec_id, MATROSKA_CODEC_ID_V_VP8)) {
-      xine_bmiheader *bih;
-
       lprintf("MATROSKA_CODEC_ID_V_VP8\n");
-      if (track->codec_private_len > 0x7fffffff - sizeof(xine_bmiheader))
-        track->codec_private_len = 0x7fffffff - sizeof(xine_bmiheader);
-
-      /* create a bitmap info header struct for vp8 */
-      bih = calloc(1, sizeof(xine_bmiheader) + track->codec_private_len);
-      bih->biSize = sizeof(xine_bmiheader) + track->codec_private_len;
-      bih->biCompression = ME_FOURCC('v', 'p', '8', '0');
-      bih->biWidth = track->video_track->pixel_width;
-      bih->biHeight = track->video_track->pixel_height;
-      _x_bmiheader_le2me(bih);
-
-      /* add bih extra data */
-      memcpy(bih + 1, track->codec_private, track->codec_private_len);
-      free(track->codec_private);
-      track->codec_private = (uint8_t *)bih;
-      track->codec_private_len = bih->biSize;
+      fill_extra_data(track, ME_FOURCC('v', 'p', '8', '0'));
       track->buf_type = BUF_VIDEO_VP8;
-
+      init_codec = init_codec_video;
+    } else if (!strcmp(track->codec_id, MATROSKA_CODEC_ID_V_VP9)) {
+      lprintf("MATROSKA_CODEC_ID_V_VP9\n");
+      fill_extra_data(track, ME_FOURCC('v', 'p', '9', '0'));
+      track->buf_type = BUF_VIDEO_VP9;
+      init_codec = init_codec_video;
+    } else if (!strcmp(track->codec_id, MATROSKA_CODEC_ID_V_HEVC)) {
+      lprintf("MATROSKA_CODEC_ID_V_HEVC\n");
+      fill_extra_data(track, ME_FOURCC('h', 'e', 'v', 'c'));
+      track->buf_type = BUF_VIDEO_HEVC;
       init_codec = init_codec_video;
     } else if (!strcmp(track->codec_id, MATROSKA_CODEC_ID_V_REAL_RV10)) {
     } else if (!strcmp(track->codec_id, MATROSKA_CODEC_ID_V_REAL_RV20)) {

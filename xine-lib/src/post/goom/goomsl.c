@@ -133,7 +133,7 @@ void gsl_instr_set_namespace(Instruction *_this, GoomHash *ns)
   _this->vnamespace[_this->cur_param-1] = ns;
 } /* }}} */
 
-void gsl_instr_add_param(Instruction *instr, char *param, int type)
+void gsl_instr_add_param(Instruction *instr, const char *param, int type)
 { /* {{{ */
   int len;
   if (instr==NULL)
@@ -915,6 +915,7 @@ static void calculate_labels(InstructionFlow *iflow)
   }
 } /* }}} */
 
+#ifdef USE_JITC_X86
 static int powerOfTwo(int i)
 {
   int b;
@@ -923,6 +924,7 @@ static int powerOfTwo(int i)
       return b;
   return 0;
 }
+#endif
 
 /* Cree un flow d'instruction optimise */
 static void gsl_create_fast_iflow(void)
@@ -1456,7 +1458,10 @@ static char *gsl_read_file(const char *fname)
   fsize = ftell(f);
   rewind(f);
   buffer = (char*)malloc(fsize+512);
-  fread(buffer,1,fsize,f);
+  if (fread(buffer,1,fsize,f) != fsize) {
+    fprintf(stderr, "ERROR: Could not read file %s\n", fname);
+    exit(1);
+  }
   fclose(f);
   buffer[fsize]=0;
   return buffer;

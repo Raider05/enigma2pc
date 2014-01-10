@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 the xine project
+ * Copyright (C) 2010-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -498,15 +498,15 @@ static void set_clut(dvb_spu_decoder_t *this,int CLUT_id,int CLUT_entry_id,int Y
 }
 
 static void process_CLUT_definition_segment(dvb_spu_decoder_t *this) {
-  int page_id,
+  int /*page_id,*/
       segment_length,
-      CLUT_id,
-      CLUT_version_number;
+      CLUT_id/*,
+      CLUT_version_number*/;
 
   int CLUT_entry_id,
-      CLUT_flag_8_bit,
-      CLUT_flag_4_bit,
-      CLUT_flag_2_bit,
+      /*CLUT_flag_8_bit,*/
+      /*CLUT_flag_4_bit,*/
+      /*CLUT_flag_2_bit,*/
       full_range_flag,
       Y_value,
       Cr_value,
@@ -516,20 +516,20 @@ static void process_CLUT_definition_segment(dvb_spu_decoder_t *this) {
 
   int j;
 
-  page_id=(dvbsub->buf[dvbsub->i]<<8)|dvbsub->buf[dvbsub->i+1]; dvbsub->i+=2;
+  /*page_id=(dvbsub->buf[dvbsub->i]<<8)|dvbsub->buf[dvbsub->i+1];*/ dvbsub->i+=2;
   segment_length=(dvbsub->buf[dvbsub->i]<<8)|dvbsub->buf[dvbsub->i+1]; dvbsub->i+=2;
   j=dvbsub->i+segment_length;
 
   CLUT_id=dvbsub->buf[dvbsub->i++];
-  CLUT_version_number=(dvbsub->buf[dvbsub->i]&0xf0)>>4;
+  /*CLUT_version_number=(dvbsub->buf[dvbsub->i]&0xf0)>>4;*/
   dvbsub->i++;
 
   while (dvbsub->i < j) {
     CLUT_entry_id=dvbsub->buf[dvbsub->i++];
 
-    CLUT_flag_2_bit=(dvbsub->buf[dvbsub->i]&0x80)>>7;
-    CLUT_flag_4_bit=(dvbsub->buf[dvbsub->i]&0x40)>>6;
-    CLUT_flag_8_bit=(dvbsub->buf[dvbsub->i]&0x20)>>5;
+    /*CLUT_flag_2_bit=(dvbsub->buf[dvbsub->i]&0x80)>>7;*/
+    /*CLUT_flag_4_bit=(dvbsub->buf[dvbsub->i]&0x40)>>6;*/
+    /*CLUT_flag_8_bit=(dvbsub->buf[dvbsub->i]&0x20)>>5;*/
     full_range_flag=dvbsub->buf[dvbsub->i]&1;
     dvbsub->i++;
 
@@ -653,8 +653,9 @@ static void process_region_composition_segment (dvb_spu_decoder_t * this)
   int segment_length,
     region_id,
     region_version_number,
-    region_fill_flag, region_width, region_height, region_level_of_compatibility, region_depth, CLUT_id, region_8_bit_pixel_code, region_4_bit_pixel_code, region_2_bit_pixel_code;
-  int object_id, object_type, object_provider_flag, object_x, object_y, foreground_pixel_code, background_pixel_code;
+    region_fill_flag, region_width, region_height, region_level_of_compatibility, region_depth, CLUT_id,
+    /*region_8_bit_pixel_code,*/ region_4_bit_pixel_code /*, region_2_bit_pixel_code*/;
+  int object_id, object_type, /*object_provider_flag,*/ object_x, object_y /*, foreground_pixel_code, background_pixel_code*/;
   int j;
   int o;
   dvbsub_func_t *dvbsub = this->dvbsub;
@@ -678,9 +679,9 @@ static void process_region_composition_segment (dvb_spu_decoder_t * this)
   dvbsub->compat_depth = region_level_of_compatibility << 3 | region_depth;
   dvbsub->i++;
   CLUT_id = dvbsub->buf[dvbsub->i++];
-  region_8_bit_pixel_code = dvbsub->buf[dvbsub->i++];
+  /*region_8_bit_pixel_code = dvbsub->buf[*/dvbsub->i++/*]*/;
   region_4_bit_pixel_code = (dvbsub->buf[dvbsub->i] & 0xf0) >> 4;
-  region_2_bit_pixel_code = (dvbsub->buf[dvbsub->i] & 0x0c) >> 2;
+  /*region_2_bit_pixel_code = (dvbsub->buf[dvbsub->i] & 0x0c) >> 2;*/
   dvbsub->i++;
 
   if(region_id>=MAX_REGIONS)
@@ -707,7 +708,7 @@ static void process_region_composition_segment (dvb_spu_decoder_t * this)
     object_id = (dvbsub->buf[dvbsub->i] << 8) | dvbsub->buf[dvbsub->i + 1];
     dvbsub->i += 2;
     object_type = (dvbsub->buf[dvbsub->i] & 0xc0) >> 6;
-    object_provider_flag = (dvbsub->buf[dvbsub->i] & 0x30) >> 4;
+    /*object_provider_flag = (dvbsub->buf[dvbsub->i] & 0x30) >> 4;*/
     object_x = ((dvbsub->buf[dvbsub->i] & 0x0f) << 8) | dvbsub->buf[dvbsub->i + 1];
     dvbsub->i += 2;
     object_y = ((dvbsub->buf[dvbsub->i] & 0x0f) << 8) | dvbsub->buf[dvbsub->i + 1];
@@ -716,8 +717,8 @@ static void process_region_composition_segment (dvb_spu_decoder_t * this)
     dvbsub->regions[region_id].object_pos[object_id] = (object_x << 16) | object_y;
 
     if ((object_type == 0x01) || (object_type == 0x02)) {
-      foreground_pixel_code = dvbsub->buf[dvbsub->i++];
-      background_pixel_code = dvbsub->buf[dvbsub->i++];
+      /*foreground_pixel_code = dvbsub->buf[*/dvbsub->i++/*]*/;
+      /*background_pixel_code = dvbsub->buf[*/dvbsub->i++/*]*/;
     }
   }
 
@@ -725,7 +726,7 @@ static void process_region_composition_segment (dvb_spu_decoder_t * this)
 
 static void process_object_data_segment (dvb_spu_decoder_t * this)
 {
-  int segment_length, object_id, object_version_number, object_coding_method, non_modifying_colour_flag;
+  int /*segment_length,*/ object_id/*, object_version_number*/, object_coding_method/*, non_modifying_colour_flag*/;
 
   int top_field_data_block_length, bottom_field_data_block_length;
 
@@ -736,15 +737,15 @@ static void process_object_data_segment (dvb_spu_decoder_t * this)
 
   dvbsub->page.page_id = (dvbsub->buf[dvbsub->i] << 8) | dvbsub->buf[dvbsub->i + 1];
   dvbsub->i += 2;
-  segment_length = (dvbsub->buf[dvbsub->i] << 8) | dvbsub->buf[dvbsub->i + 1];
+  /*segment_length = (dvbsub->buf[dvbsub->i] << 8) | dvbsub->buf[dvbsub->i + 1];*/
   dvbsub->i += 2;
 
   object_id = (dvbsub->buf[dvbsub->i] << 8) | dvbsub->buf[dvbsub->i + 1];
   dvbsub->i += 2;
   dvbsub->curr_obj = object_id;
-  object_version_number = (dvbsub->buf[dvbsub->i] & 0xf0) >> 4;
+  /*object_version_number = (dvbsub->buf[dvbsub->i] & 0xf0) >> 4;*/
   object_coding_method = (dvbsub->buf[dvbsub->i] & 0x0c) >> 2;
-  non_modifying_colour_flag = (dvbsub->buf[dvbsub->i] & 0x02) >> 1;
+  /*non_modifying_colour_flag = (dvbsub->buf[dvbsub->i] & 0x02) >> 1;*/
   dvbsub->i++;
 
   old_i = dvbsub->i;
@@ -922,11 +923,11 @@ static void draw_subtitles (dvb_spu_decoder_t * this)
 static void spudec_decode_data (spu_decoder_t * this_gen, buf_element_t * buf)
 {
   dvb_spu_decoder_t *this = (dvb_spu_decoder_t *) this_gen;
-      int new_i;
-      int data_identifier, subtitle_stream_id;
-      int segment_length, segment_type;
-      int PES_packet_length;
-      int i;
+  int new_i;
+  /*int data_identifier, subtitle_stream_id;*/
+  int segment_length, segment_type;
+  int PES_packet_length;
+  int i;
 
   if((buf->type & 0xffff0000)!=BUF_SPU_DVB)
     return;
@@ -996,8 +997,8 @@ static void spudec_decode_data (spu_decoder_t * this_gen, buf_element_t * buf)
 
       this->dvbsub->i = 0;
 
-      data_identifier = this->dvbsub->buf[this->dvbsub->i++];
-      subtitle_stream_id = this->dvbsub->buf[this->dvbsub->i++];
+      /*data_identifier = this->dvbsub->buf[*/this->dvbsub->i++/*]*/;
+      /*subtitle_stream_id = this->dvbsub->buf[*/this->dvbsub->i++/*]*/;
 
       while (this->dvbsub->i <= (PES_packet_length)) {
 	/* SUBTITLING SEGMENT */

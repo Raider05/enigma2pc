@@ -115,7 +115,7 @@
 /* #define VERBOSE  */
 
     int yylex(void);
-    void yyerror(char *);
+    void yyerror(const char *);
     extern GoomSL *currentGoomSL;
 
     static NodeType *nodeNew(const char *str, int type, int line_number);
@@ -133,10 +133,10 @@
     static NodeType *new_nop(const char *str);
     static NodeType *new_op(const char *str, int type, int nbOp);
 
-    static int  allocateLabel();
-    static int  allocateTemp();
+    static int  allocateLabel(void);
+    static int  allocateTemp(void);
     static void releaseTemp(int n);
-    static void releaseAllTemps();
+    static void releaseAllTemps(void);
 
     static int is_tmp_expr(NodeType *node) {
         if (node->str) {
@@ -173,7 +173,7 @@
       gsl_instr_add_param(currentGoomSL->instr, name, TYPE_LABEL);
     } /* }}} */
 
-    static void GSL_PUT_JXXX(char *name, char *iname, int instr_id, int line_number)
+    static void GSL_PUT_JXXX(const char *name, const char *iname, int instr_id, int line_number)
     { /* {{{ */
 #ifdef VERBOSE
       printf("%s %s\n", iname, name);
@@ -181,11 +181,11 @@
       currentGoomSL->instr = gsl_instr_init(currentGoomSL, iname, instr_id, 1, line_number);
       gsl_instr_add_param(currentGoomSL->instr, name, TYPE_LABEL);
     } /* }}} */
-    static void GSL_PUT_JZERO(char *name,int line_number)
+    static void GSL_PUT_JZERO(const char *name,int line_number)
     { /* {{{ */
       GSL_PUT_JXXX(name,"jzero.i",INSTR_JZERO,line_number);
     } /* }}} */
-    static void GSL_PUT_JNZERO(char *name, int line_number)
+    static void GSL_PUT_JNZERO(const char *name, int line_number)
     { /* {{{ */
       GSL_PUT_JXXX(name,"jnzero.i",INSTR_JNZERO,line_number);
     } /* }}} */
@@ -199,7 +199,7 @@
    }}
 
     /* */
-    void gsl_prepare_struct(GSL_Struct *s, int s_align, int i_align, int f_align)
+    static void gsl_prepare_struct(GSL_Struct *s, int s_align, int i_align, int f_align)
     {
       int i;
       int consumed = 0;
@@ -291,7 +291,7 @@
     }
 
     /* Returns the ID of a struct from its name */
-    int gsl_get_struct_id(const char *name) /* {{{ */
+    static int gsl_get_struct_id(const char *name) /* {{{ */
     {
       HashValue *ret = goom_hash_get(currentGoomSL->structIDS, name);
       if (ret != NULL) return ret->i;
@@ -299,7 +299,7 @@
     } /* }}} */
 
     /* Adds the definition of a struct */
-    void gsl_add_struct(const char *name, GSL_Struct *gsl_struct) /* {{{ */
+    static void gsl_add_struct(const char *name, GSL_Struct *gsl_struct) /* {{{ */
     {
       /* Prepare the struct: ie calculate internal storage format */
       gsl_prepare_struct(gsl_struct, STRUCT_ALIGNMENT, STRUCT_ALIGNMENT, STRUCT_ALIGNMENT);
@@ -320,7 +320,7 @@
     } /* }}} */
     
     /* Creates a field for a struct */
-    GSL_StructField *gsl_new_struct_field(const char *name, int type)
+    static GSL_StructField *gsl_new_struct_field(const char *name, int type)
     {
       GSL_StructField *field = (GSL_StructField*)malloc(sizeof(GSL_StructField));
       strcpy(field->name, name);
@@ -329,7 +329,7 @@
     }
     
     /* Create as field for a struct which will be a struct itself */
-    GSL_StructField *gsl_new_struct_field_struct(const char *name, const char *type)
+    static GSL_StructField *gsl_new_struct_field_struct(const char *name, const char *type)
     {
       GSL_StructField *field = gsl_new_struct_field(name, gsl_get_struct_id(type));
       if (field->type < 0) {
@@ -341,7 +341,7 @@
     }
 
     /* Creates a Struct */
-    GSL_Struct *gsl_new_struct(GSL_StructField *field)
+    static GSL_Struct *gsl_new_struct(GSL_StructField *field)
     {
       GSL_Struct *s = (GSL_Struct*)malloc(sizeof(GSL_Struct));
       s->nbFields = 1;
@@ -350,7 +350,7 @@
     }
 
     /* Adds a field to a struct */
-    void gsl_add_struct_field(GSL_Struct *s, GSL_StructField *field)
+    static void gsl_add_struct_field(GSL_Struct *s, GSL_StructField *field)
     {
       s->fields[s->nbFields++] = field;
     }
@@ -1097,16 +1097,16 @@
     } /* }}} */
 
 #if 1
-    int allocateTemp() {
+    int allocateTemp(void) {
       return allocateLabel();
     }
-    void releaseAllTemps() {}
+    void releaseAllTemps(void) {}
     void releaseTemp(int n) {}
 #else
     static int nbTemp = 0;
     static int *tempArray = 0;
     static int tempArraySize = 0;
-    int allocateTemp() { /* TODO: allocateITemp, allocateFTemp */
+    int allocateTemp(void) { /* TODO: allocateITemp, allocateFTemp */
         int i = 0; /* {{{ */
         if (tempArray == 0) {
           tempArraySize = 256;
@@ -1128,7 +1128,7 @@
           i++;
         }
     } /* }}} */
-    void releaseAllTemps() {
+    void releaseAllTemps(void) {
       nbTemp = 0; /* {{{ */
     } /* }}} */
     void releaseTemp(int n) {
@@ -1143,7 +1143,7 @@
 #endif
 
     static int lastLabel = 0;
-    int allocateLabel() {
+    int allocateLabel(void) {
         return ++lastLabel; /* {{{ */
     } /* }}} */
 
@@ -1281,7 +1281,7 @@
     } /* }}} */
 
 
-    void gsl_declare_global_variable(int type, char *name) {
+    static void gsl_declare_global_variable(int type, char *name) {
       switch(type){
         case -1: break;
         case FLOAT_TK:gsl_float_decl_global(name);break;
@@ -2986,7 +2986,7 @@ yyreturn:
 
 
 
-void yyerror(char *str)
+void yyerror(const char *str)
 { /* {{{ */
     fprintf(stderr, "ERROR: Line %d, %s\n", currentGoomSL->num_lines, str);
     currentGoomSL->compilationOK = 0;

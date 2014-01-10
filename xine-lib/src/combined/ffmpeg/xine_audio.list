@@ -33,6 +33,7 @@ SHORTEN			SHORTEN			Shorten
 ALAC			ALAC			ALAC
 QDESIGN2		QDM2			QDesign
 COOK			COOK			RealAudio Cooker
+ATRK			ATRAC3			ATRAC 3
 TRUESPEECH		TRUESPEECH		TrueSpeech
 TTA			TTA			True Audio Lossless
 SMACKER			SMACKAUDIO		Smacker
@@ -43,6 +44,7 @@ AMR_WB			AMR_WB			AMR wide band
 EAC3			EAC3			E-AC-3
 AAC			AAC			MPEG4
 AAC_LATM		AAC_LATM		AAC LATM
+ADPCM_G726		ADPCM_G726		ADPCM G726
 
 # disabled codecs (ref. configure.ac)
 !			AC3

@@ -32,6 +32,7 @@ AC_DEFUN([XINE_LIB_SUMMARY], [
     test x"$have_v4l2" = x"yes"     && echo "   - v4l2"
     echo "   - cdda"
     test x"$have_libbluray" = x"yes" && echo "   - bluray"
+    test x"$have_avformat" = x"yes"  && echo "   - avio (libavformat)"
     echo "   - test"
     echo ""
 
@@ -70,6 +71,7 @@ AC_DEFUN([XINE_LIB_SUMMARY], [
     test x"$have_libflac" = x"yes"   && echo "   - FLAC (with libFLAC)"
     test x"$have_vorbis" = x"yes"    && echo "   - ogg"
     test x"$have_wavpack" = x"yes"   && echo "   - WavPack"
+    test x"$have_avformat" = x"yes"  && echo "   - avformat (with libavformat)"
     echo ""
 
     dnl video decoders
@@ -83,6 +85,7 @@ AC_DEFUN([XINE_LIB_SUMMARY], [
     test x"$have_theora" = x"yes"      && echo "   - theora"
     test x"$have_w32dll" = x"yes"      && echo "   - w32dll"
     test x"$have_vdpau" = x"yes"       && echo "   - vdpau"
+    test x"$have_vpx" = x"yes"         && echo "   - libvpx (VP8/VP9)"
     if test x"$with_external_ffmpeg" != x"no"; then
         echo "   - ffmpeg (external library)"
     else

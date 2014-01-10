@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2008 the xine project
+ * Copyright (C) 2012 Edgar Hucek <gimli|@dark-green.com>
+ * Copyright (C) 2012-2013 xine developers
  *
  * This file is part of xine, a free video player.
  *
@@ -42,13 +43,7 @@ extern "C" {
 #  include <libavcodec/avcodec.h>
 #endif
 
-#if LIBAVCODEC_VERSION_MAJOR >= 53 || (LIBAVCODEC_VERSION_MAJOR == 52 && LIBAVCODEC_VERSION_MINOR >= 32)
-#  define AVVIDEO 2
-#else
-#  define AVVIDEO 1
-#  define pp_context	pp_context_t
-#  define pp_mode	pp_mode_t
-#endif
+#include "../combined/ffmpeg/ffmpeg_compat.h"
 
 #define NUM_OUTPUT_SURFACES 22
 

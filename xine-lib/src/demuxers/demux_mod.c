@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2004 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -46,7 +46,7 @@
 #include <xine/xineutils.h>
 #include <xine/compat.h>
 #include <xine/demux.h>
-#include "modplug.h"
+#include <libmodplug/modplug.h>
 #include "bswap.h"
 
 #define MOD_SAMPLERATE 44100

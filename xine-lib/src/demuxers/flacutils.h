@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006 the xine project
+ * Copyright (C) 2006-2007 the xine project
  * Based on the FLAC File Demuxer by Mike Melanson
  *
  * This file is part of xine, a free video player.

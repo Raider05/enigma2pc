@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2007 the xine project
+ * Copyright (C) 2001-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -91,7 +91,7 @@ static int open_aac_file(demux_aac_t *this) {
     return 0;
 
   /* Check for an ADIF header - should be at the start of the file */
-  if (_x_is_fourcc(peak, "ADIF")) {
+  if (_x_is_fourcc(&signature, "ADIF")) {
     lprintf("found ADIF header\n");
     return 1;
   }

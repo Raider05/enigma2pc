@@ -1,5 +1,5 @@
 /* kate: space-indent on; indent-width 2; mixedindent off; indent-mode cstyle; remove-trailing-space on;
- * Copyright (C) 2008 the xine project
+ * Copyright (C) 2008-2013 the xine project
  * Copyright (C) 2008 Christophe Thommeret <hftom@free.fr>
  *
  * This file is part of xine, a free video player.
@@ -2009,12 +2009,12 @@ parse_startcodes (vdpau_h264_alter_decoder_t * this_gen, uint8_t * buf,
 
 
 static void
-parse_codec_private (vdpau_h264_alter_decoder_t * this_gen, uint8_t * buf,
+parse_codec_private (vdpau_h264_alter_decoder_t * this_gen, const uint8_t * buf,
 		     uint32_t len)
 {
   sequence_t *sequence = (sequence_t *) & this_gen->sequence;
   bits_reader_set (&sequence->br, buf, len);
-  uint8_t *buffer = buf;
+  const uint8_t *buffer = buf;
   int i;
 
   lprintf ("parse_codec_private\n");
@@ -2127,7 +2127,7 @@ vdpau_h264_alter_decode_data (video_decoder_t * this_gen, buf_element_t * buf)
     {
       lprintf ("BUF_SPECIAL_DECODER_CONFIG\n");
       seq->flag_header = 1;
-      uint8_t *codec_private = buf->decoder_info_ptr[2];
+      const uint8_t *codec_private = buf->decoder_info_ptr[2];
       uint32_t codec_private_len = buf->decoder_info[2];
       if (codec_private_len > 0)
 	parse_codec_private (this, codec_private, codec_private_len);

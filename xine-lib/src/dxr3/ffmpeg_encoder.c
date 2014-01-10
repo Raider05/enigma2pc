@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2004 the xine project
+ * Copyright (C) 2000-2014 the xine project
  *
  * This file is part of xine, a unix video player.
  *
@@ -23,8 +23,6 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
-
-#define FF_API_CODEC_ID 1
 
 #include <stdio.h>
 #include <stdlib.h>

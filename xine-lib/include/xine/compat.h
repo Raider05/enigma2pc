@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2001 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a unix video player.
  *
@@ -47,6 +47,9 @@ extern "C" {
 #define XINE_PATH_MAX   PATH_MAX
 #endif
 
+#if !defined offsetof && defined __GNUC__
+#define offsetof(type, member)  __builtin_offsetof(type, member)
+#endif
 
 #ifdef __cplusplus
 }

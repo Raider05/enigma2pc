@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2006 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -141,6 +141,16 @@ void xine_profiler_print_results (void) XINE_PROTECTED;
 void *xine_xmalloc(size_t size) XINE_MALLOC XINE_DEPRECATED XINE_PROTECTED;
 
 void *xine_xcalloc(size_t nmemb, size_t size) XINE_MALLOC XINE_PROTECTED;
+
+/*
+ * Free allocated memory and set pointer to NULL
+ * @param ptr Pointer to the pointer to the memory block which should be freed.
+ */
+static inline void _x_freep(void *ptr) {
+  void **p = (void **)ptr;
+  free (*p);
+  *p = NULL;
+}
 
 /*
  * Copy blocks of memory.

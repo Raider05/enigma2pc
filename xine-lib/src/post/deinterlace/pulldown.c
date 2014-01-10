@@ -302,7 +302,7 @@ int determine_pulldown_offset_history_new( int top_repeat, int bot_repeat, int t
     int minbotpos = -1;
     int min2botval = -1;
     int min2botpos = -1;
-    int predicted_pos = 0;
+    /*int predicted_pos = 0;*/
 
     tophistory[ histpos ] = top_repeat;
     bothistory[ histpos ] = bot_repeat;
@@ -314,7 +314,7 @@ int determine_pulldown_offset_history_new( int top_repeat, int bot_repeat, int t
     avgtop /= 5;
     avgbot /= 5;
 
-    for( i = 0; i < 5; i++ ) { if( (1<<i) == predicted ) { predicted_pos = i; break; } }
+    for( i = 0; i < 5; i++ ) { if( (1<<i) == predicted ) { /*predicted_pos = i;*/ break; } }
 
     /*
     printf(top: %8d bot: %8d\ttop-avg: %8d bot-avg: %8d (%d)\n", top_repeat, bot_repeat, top_repeat - avgtop, bot_repeat - avgbot, (5 + predicted_pos - reference) % 5 );
@@ -410,7 +410,7 @@ int determine_pulldown_offset_short_history_new( int top_repeat, int bot_repeat,
     int minbotpos = -1;
     int min2botval = -1;
     int min2botpos = -1;
-    int predicted_pos = 0;
+    /*int predicted_pos = 0;*/
 
     tophistory[ histpos ] = top_repeat;
     bothistory[ histpos ] = bot_repeat;
@@ -422,7 +422,7 @@ int determine_pulldown_offset_short_history_new( int top_repeat, int bot_repeat,
     avgtop /= 3;
     avgbot /= 3;
 
-    for( i = 0; i < 5; i++ ) { if( (1<<i) == predicted ) { predicted_pos = i; break; } }
+    for( i = 0; i < 5; i++ ) { if( (1<<i) == predicted ) { /*predicted_pos = i;*/ break; } }
 
     /*
     printf( "top: %8d bot: %8d\ttop-avg: %8d bot-avg: %8d (%d)\n",

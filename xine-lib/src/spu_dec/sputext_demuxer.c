@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2003 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -103,6 +103,8 @@ typedef struct demux_sputext_class_s {
   int                max_timeout;  /* default timeout of hidding subtitles */
 
 } demux_sputext_class_t;
+
+void *init_sputext_demux_class (xine_t *xine, void *data);
 
 /*
  * Demuxer code start

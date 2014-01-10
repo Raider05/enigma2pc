@@ -8,7 +8,7 @@ AUTOMAKE_OPTIONS = 1.9 no-dist-gzip dist-bzip2
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = doc m4 po misc include lib src win32 contrib
+SUBDIRS = doc m4 po include lib src win32 contrib misc
 
 DEBFILES = debian/README.Debian debian/changelog debian/control \
 	debian/copyright debian/rules debian/compat \

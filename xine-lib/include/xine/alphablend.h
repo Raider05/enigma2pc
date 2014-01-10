@@ -106,7 +106,7 @@ void _x_dispose_xx44_palette(xx44_palette_t *p) XINE_PROTECTED;
 
 void _x_xx44_to_xvmc_palette(const xx44_palette_t *p,unsigned char *xvmc_palette,
 			  unsigned first_xx44_entry, unsigned num_xx44_entries,
-			  unsigned num_xvmc_components, char *xvmc_components) XINE_PROTECTED;
+			  unsigned num_xvmc_components, const char *xvmc_components) XINE_PROTECTED;
 
 
 #endif

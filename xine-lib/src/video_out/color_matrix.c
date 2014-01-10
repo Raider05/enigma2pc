@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 the xine project
+ * Copyright (C) 2012-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -26,6 +26,7 @@
   This file must be included after declaration of xxxx_driver_t,
   and #define'ing CM_DRIVER_T to it.
   That struct must contain the integer value cm_state.
+  Also #define CM_HAVE_YCGCO_SUPPORT if you already handle that.
 
   cm_from_frame () returns current (color_matrix << 1) | color_range control value.
   Having only 1 var simplifies change event handling and avoids unecessary vo
@@ -52,9 +53,8 @@
   So I decided to provide functionality, and let the user decide if and how
   to actually use it.
 
-  BTW. VDPAU already has its own matrix switch based on stream info.
-  Rumour has it that proprietory ATI drivers auto switch their xv ports
-  based on video size. Both not user configurable, and both not tested...
+  BTW. Rumour has it that proprietory ATI drivers auto switch their xv ports
+  based on video size. not user configurable, and not tested...
 */
 
 /* eveybody gets these */
@@ -88,6 +88,25 @@ static const char * const cm_names[] = {
   "full range SMPTE 170M",
   "SMPTE 240M",
   "full range SMPTE 240M"
+#ifdef CM_HAVE_YCGCO_SUPPORT
+  ,
+  "YCgCo",
+  "YCgCo", /* this is always fullrange */
+  "#9",
+  "fullrange #9",
+  "#10",
+  "fullrange #10",
+  "#11",
+  "fullrange #11",
+  "#12",
+  "fullrange #12",
+  "#13",
+  "fullrange #13",
+  "#14",
+  "fullrange #14",
+  "#15",
+  "fullrange #15"
+#endif
 };
 
 #ifdef CM_DRIVER_T
@@ -117,7 +136,7 @@ static void cm_init (CM_DRIVER_T *this) {
   this->cm_state = this->xine->config->register_enum (
     this->xine->config,
     CM_CONFIG_NAME,
-    CM_CONFIG_SD,
+    CM_CONFIG_SIZE,
     (char **)cm_conf_labels,
     _("Output color matrix"),
     _("Tell how output colors should be calculated.\n\n"
@@ -153,10 +172,10 @@ static void cm_init (CM_DRIVER_T *this) {
 }
 
 static uint8_t cm_m[] = {
-  5, 1, 5, 3, 4, 5, 6, 7, /* SIGNAL */
-  5, 1, 5, 3, 4, 5, 6, 7, /* SIZE */
-  5, 5, 5, 5, 5, 5, 5, 5, /* SD */
-  5, 1, 1, 1, 1, 1, 1, 1  /* HD */
+  5, 1, 5, 3, 4, 5, 6, 7, 8, 5, 5, 5, 5, 5, 5, 5, /* SIGNAL */
+  5, 1, 5, 3, 4, 5, 6, 7, 8, 5, 5, 5, 5, 5, 5, 5, /* SIZE */
+  5, 5, 5, 5, 5, 5, 5, 5, 8, 5, 5, 5, 5, 5, 5, 5, /* SD */
+  5, 1, 1, 1, 1, 1, 1, 1, 8, 1, 1, 1, 1, 1, 1, 1  /* HD */
 };
 
 static uint8_t cm_r[] = {0, 0, 1, 0}; /* AUTO, MPEG, FULL, safety */
@@ -166,10 +185,14 @@ static int cm_from_frame (vo_frame_t *frame) {
   int cm = VO_GET_FLAGS_CM (frame->flags);
   int cf = this->cm_state;
 
-  cm_m[10] = (frame->height - frame->crop_top - frame->crop_bottom >= 720) ||
+  cm_m[18] = (frame->height - frame->crop_top - frame->crop_bottom >= 720) ||
              (frame->width - frame->crop_left - frame->crop_right >= 1280) ? 1 : 5;
   cm_r[0] = cm & 1;
-  return ((cm_m[((cf >> 2) << 3) | (cm >> 1)] << 1) | cm_r[cf & 2]);
+#ifdef CM_HAVE_YCGCO_SUPPORT
+  return ((cm_m[((cf >> 2) << 4) | (cm >> 1)] << 1) | cm_r[cf & 2]);
+#else
+  return ((cm_m[((cf >> 2) << 4) | (cm >> 1)] << 1) | cm_r[cf & 2]) & 15;
+#endif
 }
 
 static void cm_close (CM_DRIVER_T *this) {

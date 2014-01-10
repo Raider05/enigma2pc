@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005 the xine project
+ * Copyright (C) 2005-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -102,8 +102,13 @@ typedef struct mpc_decoder_s {
  *************************************************************************/
 
 /* Reads size bytes of data into buffer at ptr. */
+#ifndef HAVE_MPC_MPCDEC_H
 static int32_t mpc_reader_read(void *const data, void *const ptr, int size) {
   mpc_decoder_t *const this = (mpc_decoder_t *) data;
+#else
+static int32_t mpc_reader_read(mpc_reader *data, void *ptr, int32_t size) {
+  mpc_decoder_t *const this = (mpc_decoder_t *) data->data;
+#endif
 
   lprintf("mpc_reader_read: size=%d\n", size);
 

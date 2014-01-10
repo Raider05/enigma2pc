@@ -1,22 +1,3 @@
-project leaders
-===============
-
-Miguel Freitas <miguel@cetuc.puc-rio.br>
-  many bug and deadlock fixes, engine maintenance, soft deinterlacer,
-  massive libwin32 updates
-
-Michael Roitzsch <mroi@users.sourceforge.net>
-  several dxr3 fixes, massive engine contributions, multistream and
-  post plugin architecture, DVD navigation
-
-Mike Melanson <melanson@pcisys.net>
-  a whole bunch of file demuxers, lots of audio and video decoders,
-  assorted other input sources and utilities
-
-Thibaut Mattern <tmattern@noos.fr>
-  demuxer cleanups and fixes, mms input plugin fixes, xml parser,
-  mmsh protocol support
-
 project administrator
 =====================
 
@@ -36,6 +17,25 @@ Darren Salt <linux@youmustbejoking.demon.co.uk>
 
 developers
 ==========
+
+Petri Hintukainen <phintuka@users.sourceforge.net>
+  maintenance, fixes, OpenGL2 output
+
+Miguel Freitas <miguel@cetuc.puc-rio.br>
+  many bug and deadlock fixes, engine maintenance, soft deinterlacer,
+  massive libwin32 updates, 'former' project leader
+
+Michael Roitzsch <mroi@users.sourceforge.net>
+  several dxr3 fixes, massive engine contributions, multistream and
+  post plugin architecture, DVD navigation, 'former' project leader
+
+Mike Melanson <melanson@pcisys.net>
+  a whole bunch of file demuxers, lots of audio and video decoders,
+  assorted other input sources and utilities, 'former' project leader
+
+Thibaut Mattern <tmattern@noos.fr>
+  demuxer cleanups and fixes, mms input plugin fixes, xml parser,
+  mmsh protocol support, 'former' project leader
 
 Guenter Bartsch <guenter@users.sourceforge.net>
   xine founder, former project leader
@@ -577,6 +577,11 @@ Christoph Pfister <christophpfister@gmail.com>
 
 Albert Lee <trisk+xine@acm.jhu.edu>
   Solaris portability fixes (and other miscellaneous fixes)
+
+Torsten Jager <t.jager@gmx.de>
+  Test card input plugin, color matrix and fullrange video support,
+  rgb to yuy2 converter, ffmpeg audio channel mixer, demux improvements,
+  german translation, optimizations, bugfixes
 
 Christophe Thommeret <hftom@free.fr>
   OpenGL 2.0 video out plugin, new VDPAU h264 decoder,

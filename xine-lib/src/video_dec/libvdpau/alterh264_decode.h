@@ -1,6 +1,6 @@
 /* kate: tab-indent on; indent-width 4; mixedindent off; indent-mode cstyle; remove-trailing-space on; */
 /*
- * Copyright (C) 2008 the xine project
+ * Copyright (C) 2008-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *

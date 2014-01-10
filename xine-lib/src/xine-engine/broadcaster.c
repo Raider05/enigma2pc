@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2004 the xine project
+ * Copyright (C) 2000-2013 the xine project
  * May 2003 - Miguel Freitas
  * This feature was sponsored by 1Control
  *
@@ -113,10 +113,10 @@ static int sock_check_opened(int socket) {
 /*
  * Write to socket.
  */
-static int sock_data_write(xine_t *xine, int socket, void *buf_gen, int len) {
+static int sock_data_write(xine_t *xine, int socket, const void *buf_gen, int len) {
   ssize_t  size;
   int      wlen = 0;
-  uint8_t *buf = buf_gen;
+  const uint8_t *buf = buf_gen;
 
   if((socket < 0) || (buf == NULL))
     return -1;
@@ -160,7 +160,7 @@ sock_string_write(xine_t *xine, int socket, const char *msg, ...) {
  * this is the most important broadcaster function.
  * it sends data to every connected client (slaves).
  */
-static void broadcaster_data_write(broadcaster_t *this, void *buf, int len) {
+static void broadcaster_data_write(broadcaster_t *this, const void *buf, int len) {
   xine_list_iterator_t ite;
 
   ite = xine_list_front (this->connections);

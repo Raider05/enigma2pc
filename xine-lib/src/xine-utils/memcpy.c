@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2004 the xine project
+ * Copyright (C) 2001-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -342,6 +342,7 @@ static void * avx_memcpy(void * to, const void * from, size_t len)
     /* since movntq is weakly-ordered, a "sfence"
      * is needed to become ordered again. */
     __asm__ __volatile__ ("sfence":::"memory");
+    __asm__ __volatile__ ("vzeroupper");
   }
   /*
    *	Now do the tail of the block

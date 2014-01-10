@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2004 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -155,7 +155,7 @@ typedef struct sputext_decoder_s {
   subtitle_size      subtitle_size;   /* size of subtitles */
   int                vertical_offset;
   char               font[FILENAME_MAX]; /* subtitle font */
-  char              *buf_encoding;    /* encoding of subtitle buffer */
+  const char         *buf_encoding;    /* encoding of subtitle buffer */
 
   int                width;          /* frame width                */
   int                height;         /* frame height               */

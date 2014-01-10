@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2005 the xine project,
+ * Copyright (C) 2000-2012 the xine project,
  *                         Rich Wareham <richwareham@users.sourceforge.net>
  *
  * This file is part of xine, a free video player.

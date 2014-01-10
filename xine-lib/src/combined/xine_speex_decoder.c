@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2003 the xine project
+ * Copyright (C) 2000-2013 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -44,6 +44,8 @@
 #include <speex/speex_header.h>
 #include <speex/speex_callbacks.h>
 #include <speex/speex_stereo.h>
+
+#include "ogg_combined.h"
 
 #define MAX_FRAME_SIZE 2000
 

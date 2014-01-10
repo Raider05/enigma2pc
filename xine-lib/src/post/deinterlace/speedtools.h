@@ -31,16 +31,21 @@
         prefetchnta( pfetcha + 128 ); \
         prefetchnta( pfetcha + 192 ); }
 
+static inline unsigned int read_pf(volatile unsigned int *addr)
+{
+    return *addr;
+}
+
 #define READ_PREFETCH_2048(x) \
-    { int *pfetcha = (int *) x; int pfetchtmp; \
-        pfetchtmp = pfetcha[ 0 ] + pfetcha[ 16 ] + pfetcha[ 32 ] + pfetcha[ 48 ] + \
-            pfetcha[ 64 ] + pfetcha[ 80 ] + pfetcha[ 96 ] + pfetcha[ 112 ] + \
-            pfetcha[ 128 ] + pfetcha[ 144 ] + pfetcha[ 160 ] + pfetcha[ 176 ] + \
-            pfetcha[ 192 ] + pfetcha[ 208 ] + pfetcha[ 224 ] + pfetcha[ 240 ]; \
-        pfetcha += 256; \
-        pfetchtmp = pfetcha[ 0 ] + pfetcha[ 16 ] + pfetcha[ 32 ] + pfetcha[ 48 ] + \
-            pfetcha[ 64 ] + pfetcha[ 80 ] + pfetcha[ 96 ] + pfetcha[ 112 ] + \
-            pfetcha[ 128 ] + pfetcha[ 144 ] + pfetcha[ 160 ] + pfetcha[ 176 ] + \
-            pfetcha[ 192 ] + pfetcha[ 208 ] + pfetcha[ 224 ] + pfetcha[ 240 ]; }
+    { int * pfetcha = (int *) x; \
+        read_pf(pfetcha);       read_pf(pfetcha + 16);  read_pf(pfetcha + 32);  read_pf(pfetcha + 48); \
+        read_pf(pfetcha + 64);  read_pf(pfetcha + 80);  read_pf(pfetcha + 96);  read_pf(pfetcha + 112); \
+        read_pf(pfetcha + 128); read_pf(pfetcha + 144); read_pf(pfetcha + 160); read_pf(pfetcha + 176); \
+        read_pf(pfetcha + 192); read_pf(pfetcha + 208); read_pf(pfetcha + 224); read_pf(pfetcha + 240); \
+        pfetcha += 256;                                                 \
+        read_pf(pfetcha);       read_pf(pfetcha + 16);  read_pf(pfetcha + 32);  read_pf(pfetcha + 48); \
+        read_pf(pfetcha + 64);  read_pf(pfetcha + 80);  read_pf(pfetcha + 96);  read_pf(pfetcha + 112); \
+        read_pf(pfetcha + 128); read_pf(pfetcha + 144); read_pf(pfetcha + 160); read_pf(pfetcha + 176); \
+        read_pf(pfetcha + 192); read_pf(pfetcha + 208); read_pf(pfetcha + 224); read_pf(pfetcha + 240); }
 
 #endif /* SPEEDTOOLS_H_INCLUDED */
