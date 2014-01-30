@@ -97,6 +97,12 @@ class VideoSetup(Screen, ConfigListScreen):
 				getConfigListEntry(_("General PCM Delay"), config.av.generalPCMdelay)
 			))
 
+		self.list.append(getConfigListEntry(_("Sound mode"), config.av.sound_mode))
+		if config.av.sound_mode.value == "1":
+			self.list.append(getConfigListEntry(_("Sound card"), config.av.sound_card))
+			self.list.append(getConfigListEntry(_("Sound device"), config.av.sound_device))
+			self.list.append(getConfigListEntry(_("Sound output"), config.av.sound_output))
+
 		if SystemInfo["CanChangeOsdAlpha"]:
 			self.list.append(getConfigListEntry(_("OSD visibility"), config.av.osd_alpha))
 

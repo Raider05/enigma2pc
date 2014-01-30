@@ -1,6 +1,133 @@
 #include <fstream>
 #include <lib/gdi/xineLib.h>
 #include <lib/base/eenv.h>
+#include <sstream>
+
+static const std::string getConfigString(const std::string &key, const std::string &defaultValue)
+{
+        std::string value = defaultValue;
+
+        // get value from enigma2 settings file
+        std::ifstream in(eEnv::resolve("${sysconfdir}/enigma2/settings").c_str());
+        if (in.good()) {
+                do {
+                        std::string line;
+                        std::getline(in, line);
+                        size_t size = key.size();
+                        if (!line.compare(0, size, key) && line[size] == '=') {
+                                value = line.substr(size + 1);
+                                break;
+                        }
+                } while (in.good());
+                in.close();
+        }
+
+        return value;
+}
+
+static int getConfigInt(const std::string &key)
+{
+  std::string value = getConfigString(key, "0");
+        return atoi(value.c_str());
+}
+
+static void config_change_sound(xine_t *xine, int m_sound_card, int m_sound_device, int m_sound_output)
+{
+		std::ostringstream a_line;
+		a_line << "hw:" << m_sound_card << "," << m_sound_device;
+		std::string         s = a_line.str();
+		const char  *hw_audio = s.c_str();
+
+		printf("Sound card:device - %s\n", hw_audio);
+
+		xine_config_register_string(xine,
+		"audio.device.alsa_default_device",
+		"default",
+		_("device used for mono output"),
+		_("xine will use this alsa device "
+		"to output mono sound.\n"
+		"See the alsa documentation "
+		"for information on alsa devices."),
+		10, NULL, NULL);
+
+		xine_config_register_string(xine,
+		"audio.device.alsa_front_device",
+		"plug:front:default",
+		_("device used for stereo output"),
+		_("xine will use this alsa device "
+		"to output stereo sound.\n"
+		"See the alsa documentation "
+		"for information on alsa devices."),
+		10, NULL, NULL);
+
+		xine_config_register_string(xine,
+		"audio.device.alsa_surround51_device",
+		"plug:surround51:0",
+		_("device used for 5.1-channel output"),
+		_("xine will use this alsa device to output "
+		"5 channel plus LFE (5.1) surround sound.\n"
+		"See the alsa documentation for information "
+		"on alsa devices."),
+		10,  NULL, NULL);
+
+		xine_config_register_string(xine,
+		"audio.device.alsa_passthrough_device",
+		"iec958:AES0=0x6,AES1=0x82,AES2=0x0,AES3=0x2",
+		_("device used for 5.1-channel output"),
+		_("xine will use this alsa device to output "
+		"undecoded digital surround sound. This can "
+		"be used be external surround decoders.\nSee the "
+		"alsa documentation for information on alsa "
+		"devices."),
+		10, NULL, NULL);
+
+		xine_config_register_string(xine,"audio.output.speaker_arrangement",
+		"Stereo 2.0",
+               _("speaker arrangement"),
+               _("Select how your speakers are arranged, "
+                 "this determines which speakers xine uses for sound output. "
+                 "The individual values are:\n\n"
+                 "Mono 1.0: You have only one speaker.\n"
+                 "Stereo 2.0: You have two speakers for left and right channel.\n"
+                 "Headphones 2.0: You use headphones.\n"
+                 "Stereo 2.1: You have two speakers for left and right channel, and one "
+                 "subwoofer for the low frequencies.\n"
+                 "Surround 3.0: You have three speakers for left, right and rear channel.\n"
+                 "Surround 4.0: You have four speakers for front left and right and rear "
+                 "left and right channels.\n"
+                 "Surround 4.1: You have four speakers for front left and right and rear "
+                 "left and right channels, and one subwoofer for the low frequencies.\n"
+                 "Surround 5.0: You have five speakers for front left, center and right and "
+                 "rear left and right channels.\n"
+                 "Surround 5.1: You have five speakers for front left, center and right and "
+                 "rear left and right channels, and one subwoofer for the low frequencies.\n"
+                 "Surround 6.0: You have six speakers for front left, center and right and "
+                 "rear left, center and right channels.\n"
+                 "Surround 6.1: You have six speakers for front left, center and right and "
+                 "rear left, center and right channels, and one subwoofer for the low frequencies.\n"
+                 "Surround 7.1: You have seven speakers for front left, center and right, "
+                 "left and right and rear left and right channels, and one subwoofer for the "
+                 "low frequencies.\n"
+                 "Pass Through: Your sound system will receive undecoded digital sound from xine. "
+                 "You need to connect a digital surround decoder capable of decoding the "
+                 "formats you want to play to your sound card's digital output."),
+		10, NULL, NULL);
+
+
+		xine->config->update_string(xine->config, "audio.device.alsa_default_device", hw_audio);
+		xine->config->update_string(xine->config, "audio.device.alsa_front_device", hw_audio);
+		xine->config->update_string(xine->config, "audio.device.alsa_passthrough_device", hw_audio);
+		xine->config->update_string(xine->config, "audio.device.alsa_surround51_device", hw_audio);
+
+		if (m_sound_output == 1)
+			xine->config->update_string(xine->config, "audio.output.speaker_arrangement", "Stereo 2.0");
+		else if (m_sound_output == 8)
+			xine->config->update_string(xine->config, "audio.output.speaker_arrangement", "Surround 5.1");
+		else if (m_sound_output == 11)
+			xine->config->update_string(xine->config, "audio.output.speaker_arrangement", "Surround 7.1");
+		else if (m_sound_output == 12)
+			xine->config->update_string(xine->config, "audio.output.speaker_arrangement", "Pass Through");
+}
 
 /*
  * list available plugins
@@ -45,6 +172,16 @@ cXineLib::cXineLib(x11_visual_t *vis) : m_pump(eApp, 1) {
 	strcpy(configfile, eEnv::resolve("${datadir}/enigma2/xine.conf").c_str());
 	printf("configfile  %s\n", configfile);
 	xine_config_load(xine, configfile);
+	sound_mode = sound_card = sound_device = 0;
+	sound_output = 1;
+	sound_mode = getConfigInt("config.av.sound_mode");
+	if (sound_mode > 0)
+	{
+		sound_card   = getConfigInt("config.av.sound_card");
+		sound_device = getConfigInt("config.av.sound_device");
+		sound_output = getConfigInt("config.av.sound_output");
+		config_change_sound(xine, sound_card, sound_device, sound_output);
+	}
 	xine_init(xine);
 	xine_engine_set_param(xine, XINE_ENGINE_PARAM_VERBOSITY, XINE_VERBOSITY_LOG);
 	list_plugins_type(xine, "Available post plugins: ", xine_list_post_plugins); 

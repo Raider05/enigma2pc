@@ -225,41 +225,6 @@
  #endif
 --- a/enigma2pc/enigma2/lib/gdi/xineLib.cpp	2013-09-04 13:13:39.000000000 +0400
 +++ b/enigma2pc/enigma2/lib/gdi/xineLib.cpp	2013-12-05 19:30:38.000000000 +0400
-@@ -2,6 +2,34 @@
- #include <lib/gdi/xineLib.h>
- #include <lib/base/eenv.h>
- 
-+static const std::string getConfigString(const std::string &key, const std::string &defaultValue)
-+{
-+        std::string value = defaultValue;
-+
-+        // get value from enigma2 settings file
-+        std::ifstream in(eEnv::resolve("${sysconfdir}/enigma2/settings").c_str());
-+        if (in.good()) {
-+                do {
-+                        std::string line;
-+                        std::getline(in, line);
-+                        size_t size = key.size();
-+                        if (!line.compare(0, size, key) && line[size] == '=') {
-+                                value = line.substr(size + 1);
-+                                break;
-+                        }
-+                } while (in.good());
-+                in.close();
-+        }
-+
-+        return value;
-+}
-+
-+static int getConfigInt(const std::string &key)
-+{
-+  std::string value = getConfigString(key, "0");
-+        return atoi(value.c_str());
-+}
-+
- /*
-  * list available plugins
-  */
 @@ -30,13 +58,14 @@
  	char        configfile[150];
  	char        *vo_driver = "auto";

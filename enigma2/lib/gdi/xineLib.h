@@ -29,6 +29,7 @@ private:
 	int                     windowWidth, windowHeight;
 
 	int m_width, m_height, m_framerate, m_aspect, m_progressive;
+	int sound_mode, sound_card, sound_device, sound_output;
 	int m_windowAspectRatio, m_policy43, m_policy169;
 	int m_zoom43_x, m_zoom43_y, m_zoom169_x, m_zoom169_y;
 	int m_sharpness, m_noise;
