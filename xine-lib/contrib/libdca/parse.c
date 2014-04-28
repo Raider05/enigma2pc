@@ -666,7 +666,7 @@ static int dca_subframe_header (dca_state_t * state)
                 state->joint_scale_factor[j][k] = scale;/*joint_scale_table[scale];*/
             }
 
-            if (!state->debug_flag & 0x02)
+            if (!(state->debug_flag & 0x02))
             {
                 fprintf (stderr, "Joint stereo coding not supported\n");
                 state->debug_flag |= 0x02;

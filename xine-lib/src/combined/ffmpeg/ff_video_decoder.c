@@ -1711,6 +1711,30 @@ static void ff_handle_mpeg12_buffer (ff_video_decoder_t *this, buf_element_t *bu
   }
 }
 
+static void ff_postprocess (ff_video_decoder_t *this, vo_frame_t *img) {
+  int qstride, qtype;
+  int8_t *qtable;
+#ifdef AV_BUFFER
+# if LIBAVUTIL_VERSION_MAJOR < 53
+  qtable = av_frame_get_qp_table (this->av_frame, &qstride, &qtype);
+# else
+  /* Why should they keep these long deprecated fields, and remove
+    their safe accessor av_frame_get_qp_table () instead?? */
+  qtable  = this->av_frame->qscale_table;
+  qstride = this->av_frame->qstride;
+  qtype   = this->av_frame->qscale_type;
+# endif
+#else
+  qtable  = this->av_frame->qscale_table;
+  qstride = this->av_frame->qstride;
+  qtype   = 0;
+#endif
+  pp_postprocess ((const uint8_t **)this->av_frame->data, this->av_frame->linesize,
+                  img->base, img->pitches, this->bih.biWidth, this->bih.biHeight,
+                  qtable, qstride, this->our_mode, this->our_context,
+                  this->av_frame->pict_type | (qtype ? PP_PICT_TYPE_QP2 : 0));
+}
+
 static void ff_handle_buffer (ff_video_decoder_t *this, buf_element_t *buf) {
   uint8_t *chunk_buf = this->buf;
   AVRational avr00 = {0, 1};
@@ -1980,24 +2004,7 @@ static void ff_handle_buffer (ff_video_decoder_t *this, buf_element_t *buf) {
             img->crop_bottom = img->height - this->bih.biHeight;
             free_img = 1;
           }
-#ifdef AV_BUFFER
-          {
-            int qstride, qtype;
-            int8_t *qtable = av_frame_get_qp_table (this->av_frame, &qstride, &qtype);
-            
-            pp_postprocess ((const uint8_t **)this->av_frame->data, this->av_frame->linesize,
-              img->base, img->pitches, this->bih.biWidth, this->bih.biHeight,
-              qtable, qstride, this->our_mode, this->our_context,
-              this->av_frame->pict_type | (qtype ? PP_PICT_TYPE_QP2 : 0));
-          }
-#else
-          pp_postprocess((const uint8_t **)this->av_frame->data, this->av_frame->linesize,
-                        img->base, img->pitches,
-                        this->bih.biWidth, this->bih.biHeight,
-                        this->av_frame->qscale_table, this->av_frame->qstride,
-                        this->our_mode, this->our_context,
-                        this->av_frame->pict_type);
-#endif
+          ff_postprocess (this, img);
         } else if (!this->av_frame->opaque) {
 	  /* colorspace conversion or copy */
           if( this->context->pix_fmt != PIX_FMT_VAAPI_VLD)
@@ -2230,22 +2237,7 @@ static void ff_flush_internal (ff_video_decoder_t *this, int display) {
         img->crop_bottom = img->height - this->bih.biHeight;
         free_img = 1;
       }
-#ifdef AV_BUFFER
-      {
-        int qstride, qtype;
-        int8_t *qtable = av_frame_get_qp_table (this->av_frame, &qstride, &qtype);
-            
-        pp_postprocess ((const uint8_t **)this->av_frame->data, this->av_frame->linesize,
-          img->base, img->pitches, this->bih.biWidth, this->bih.biHeight,
-          qtable, qstride, this->our_mode, this->our_context,
-          this->av_frame->pict_type | (qtype ? PP_PICT_TYPE_QP2 : 0));
-      }
-#else
-      pp_postprocess ((const uint8_t **)this->av_frame->data, this->av_frame->linesize,
-        img->base, img->pitches, this->bih.biWidth, this->bih.biHeight,
-        this->av_frame->qscale_table, this->av_frame->qstride,
-        this->our_mode, this->our_context, this->av_frame->pict_type);
-#endif
+      ff_postprocess (this, img);
     } else if (!this->av_frame->opaque) {
       /* colorspace conversion or copy */
       if (this->context->pix_fmt != PIX_FMT_VAAPI_VLD)
@@ -2627,17 +2619,17 @@ static const uint32_t wmv9_video_types[] = {
   0
 };
 
-decoder_info_t dec_info_ffmpeg_video = {
+const decoder_info_t dec_info_ffmpeg_video = {
   supported_video_types,   /* supported types */
   6                        /* priority        */
 };
 
-decoder_info_t dec_info_ffmpeg_wmv8 = {
+const decoder_info_t dec_info_ffmpeg_wmv8 = {
   wmv8_video_types,        /* supported types */
   0                        /* priority        */
 };
 
-decoder_info_t dec_info_ffmpeg_wmv9 = {
+const decoder_info_t dec_info_ffmpeg_wmv9 = {
   wmv9_video_types,        /* supported types */
   0                        /* priority        */
 };

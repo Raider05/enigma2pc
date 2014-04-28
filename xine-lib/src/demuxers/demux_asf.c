@@ -929,8 +929,11 @@ static int asf_parse_packet_align(demux_asf_t *this) {
 static int asf_parse_packet_ecd(demux_asf_t *this, uint32_t  *p_hdr_size) {
 
   uint8_t   ecd_flags;
-  uint8_t   buf[16];
   int       invalid_packet;
+  union {
+    uint8_t  u8[16];
+    GUID     guid;
+  } buf;
 
   do {
     ecd_flags = get_byte(this); *p_hdr_size = 1;
@@ -952,7 +955,7 @@ static int asf_parse_packet_ecd(demux_asf_t *this, uint32_t  *p_hdr_size) {
       if (ecd_present && !ecd_opaque && !ecd_len_type) {
         int read_size;
 
-        read_size = this->input->read (this->input, buf, ecd_len);
+        read_size = this->input->read (this->input, buf.u8, ecd_len);
         if (read_size != ecd_len) {
           this->status = DEMUX_FINISHED;
           return 1;
@@ -960,19 +963,18 @@ static int asf_parse_packet_ecd(demux_asf_t *this, uint32_t  *p_hdr_size) {
         *p_hdr_size += read_size;
 
       } else {
-        GUID *guid = (GUID *)buf;
 
         /* check if it's a new stream */
-        buf[0] = ecd_flags;
-        if (this->input->read (this->input, buf + 1, 15) != 15) {
+        buf.u8[0] = ecd_flags;
+        if (this->input->read (this->input, buf.u8 + 1, 15) != 15) {
           this->status = DEMUX_FINISHED;
           return 1;
         }
         *p_hdr_size += 15;
-        guid->Data1 = _X_LE_32(buf);
-        guid->Data2 = _X_LE_16(buf + 4);
-        guid->Data3 = _X_LE_16(buf + 6);
-        if (get_guid_id(this, guid) == GUID_ASF_HEADER) {
+        buf.guid.Data1 = _X_LE_32(buf.u8);
+        buf.guid.Data2 = _X_LE_16(buf.u8 + 4);
+        buf.guid.Data3 = _X_LE_16(buf.u8 + 6);
+        if (get_guid_id(this, &buf.guid) == GUID_ASF_HEADER) {
           lprintf("new asf header detected\n");
           _x_demux_control_end(this->stream, 0);
           if (demux_asf_send_headers_common(this))

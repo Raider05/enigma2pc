@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2013 the xine project
+ * Copyright (C) 2000-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -265,9 +265,10 @@ static long ao_alsa_get_volume_from_percent(int val, long min, long max) {
 /*
  * Error callback, we need to control this,
  * error message should be printed only in DEBUG mode.
+ * XINE_FORMAT_PRINTF(5, 6) is true but useless here,
+ * as alsa delivers "fmt" at runtime only.
  */
-static void XINE_FORMAT_PRINTF(5, 6)
-	    error_callback(const char *file, int line,
+static void error_callback(const char *file, int line,
 			   const char *function, int err, const char *fmt, ...) {
 #ifdef DEBUG
   va_list   args;
@@ -1487,7 +1488,7 @@ static ao_driver_t *open_plugin (audio_driver_class_t *class_gen, const void *da
 
   /* for usability reasons, keep this in sync with audio_oss_out.c */
   speakers = config->register_enum(config, "audio.output.speaker_arrangement", STEREO,
-                                   speaker_arrangement,
+                                   (char **)speaker_arrangement,
                                    AUDIO_DEVICE_SPEAKER_ARRANGEMENT_HELP,
                                    0, alsa_speaker_arrangement_cb, this);
 
@@ -1693,3 +1694,4 @@ const plugin_info_t xine_plugin_info[] EXPORTED = {
   { PLUGIN_AUDIO_OUT, AO_OUT_ALSA_IFACE_VERSION, "alsa", XINE_VERSION_CODE, &ao_info_alsa, init_class },
   { PLUGIN_NONE, 0, "", 0, NULL, NULL }
 };
+

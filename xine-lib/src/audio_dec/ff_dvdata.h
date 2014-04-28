@@ -28,12 +28,18 @@
 #define FFMPEG_DVDATA_H
 
 #ifdef HAVE_FFMPEG_AVUTIL_H
-#  include <avcodec.h>
 #  include <rational.h>
 #else
-#  include <libavcodec/avcodec.h>
 #  include <libavutil/rational.h>
 #endif
+
+/* TJ. This is a fairly old snapshot. Dont mess it up by including
+   a recent avcodec.h, and put a little outtake from it here. */
+enum PixelFormat {
+  PIX_FMT_YUV420P = 0,
+  PIX_FMT_YUV422P = 4,
+  PIX_FMT_YUV411P = 7
+};
 
 /*
  * DVprofile is used to express the differences between various
@@ -2686,6 +2692,7 @@ static inline const DVprofile* dv_frame_profile(uint8_t* frame)
     }
 }
 
+#if 0 /* not used in xine DV audio */
 static inline const DVprofile* dv_codec_profile(AVCodecContext* codec)
 {
     int i;
@@ -2699,6 +2706,7 @@ static inline const DVprofile* dv_codec_profile(AVCodecContext* codec)
 
     return NULL;
 }
+#endif
 
 static inline int dv_write_dif_id(enum dv_section_type t, uint8_t chan_num, uint8_t seq_num,
                                   uint8_t dif_num, uint8_t* buf)
@@ -2735,3 +2743,5 @@ static inline int dv_write_ssyb_id(uint8_t syb_num, uint8_t fr, uint8_t* buf)
 }
 
 #endif /* FFMPEG_DVDATA_H */
+
+

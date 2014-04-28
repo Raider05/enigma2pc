@@ -5,7 +5,7 @@ typedef struct _DMO_VideoDecoder DMO_VideoDecoder;
 
 int DMO_VideoDecoder_GetCapabilities(DMO_VideoDecoder *this);
 
-DMO_VideoDecoder * DMO_VideoDecoder_Open(char* dllname, GUID* guid, BITMAPINFOHEADER * format, int flip, int maxauto);
+DMO_VideoDecoder * DMO_VideoDecoder_Open(const char* dllname, GUID* guid, BITMAPINFOHEADER * format, int flip, int maxauto);
 
 void DMO_VideoDecoder_Destroy(DMO_VideoDecoder *this);
 

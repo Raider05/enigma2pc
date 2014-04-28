@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2012 the xine project
+ * Copyright (C) 2000-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -532,7 +532,7 @@ static void xshm_update_frame_format (vo_driver_t *this_gen,
 				      uint32_t width, uint32_t height,
 				      double ratio, int format, int flags) {
   xshm_frame_t   *frame = (xshm_frame_t *) frame_gen;
-  int             j, pitch;
+  int             j, y_pitch, uv_pitch;
 
   flags &= VO_BOTH_FIELDS;
 
@@ -551,23 +551,38 @@ static void xshm_update_frame_format (vo_driver_t *this_gen,
 
     /* bottom black pad for certain crop_top > crop_bottom cases */
     if (format == XINE_IMGFMT_YV12) {
-      pitch = (width + 7) & ~7;
-      frame->vo_frame.pitches[0] = pitch;
-      frame->vo_frame.base[0] = av_malloc (pitch * (height + 16));
-      memset (frame->vo_frame.base[0] + pitch * height, 0, pitch * 16);
-      pitch = ((width + 15) & ~15) >> 1;
-      frame->vo_frame.pitches[1] = pitch;
-      frame->vo_frame.pitches[2] = pitch;
-      frame->vo_frame.base[1] = av_malloc (pitch * ((height + 17) / 2));
-      memset (frame->vo_frame.base[1] + pitch * height / 2, 128, pitch * 8);
-      frame->vo_frame.base[2] = av_malloc (pitch * ((height + 17) / 2));
-      memset (frame->vo_frame.base[2] + pitch * height / 2, 128, pitch * 8);
+      y_pitch = (width + 7) & ~7;
+      frame->vo_frame.pitches[0] = y_pitch;
+      frame->vo_frame.base[0] = av_malloc (y_pitch * (height + 16));
+      uv_pitch = ((width + 15) & ~15) >> 1;
+      frame->vo_frame.pitches[1] = uv_pitch;
+      frame->vo_frame.pitches[2] = uv_pitch;
+      frame->vo_frame.base[1] = av_malloc (uv_pitch * ((height + 17) / 2));
+      frame->vo_frame.base[2] = av_malloc (uv_pitch * ((height + 17) / 2));
+      if (!frame->vo_frame.base[0] || !frame->vo_frame.base[1] || !frame->vo_frame.base[2]) {
+        av_freep (&frame->vo_frame.base[0]);
+        av_freep (&frame->vo_frame.base[1]);
+        av_freep (&frame->vo_frame.base[2]);
+        frame->sc.delivered_width = 0;
+        frame->vo_frame.width = 0;
+      } else {
+        memset (frame->vo_frame.base[0], 0, y_pitch * (height + 16));
+        memset (frame->vo_frame.base[1], 128, uv_pitch * (height + 16) / 2);
+        memset (frame->vo_frame.base[2], 128, uv_pitch * (height + 16) / 2);
+      }
     } else {
-      pitch = ((width + 3) & ~3) << 1;
-      frame->vo_frame.pitches[0] = pitch;
-      frame->vo_frame.base[0] = av_malloc (pitch * (height + 16));
-      for (j = pitch * height; j < pitch * (height + 16); j++)
-        (frame->vo_frame.base[0])[j] = (j & 1) << 7;
+      y_pitch = ((width + 3) & ~3) << 1;
+      frame->vo_frame.pitches[0] = y_pitch;
+      frame->vo_frame.base[0] = av_malloc (y_pitch * (height + 16));
+      if (frame->vo_frame.base[0]) {
+        const union {uint8_t bytes[4]; uint32_t word;} black = {{0, 128, 0, 128}};
+        uint32_t *q = (uint32_t *)frame->vo_frame.base[0];
+        for (j = y_pitch * (height + 16) / 4; j > 0; j--)
+          *q++ = black.word;
+      } else {
+        frame->sc.delivered_width = 0;
+        frame->vo_frame.width = 0;
+      }
     }
 
     /* defer the rest to xshm_frame_proc_setup () */
@@ -588,23 +603,23 @@ static void xshm_update_frame_format (vo_driver_t *this_gen,
 
 static void xshm_overlay_clut_yuv2rgb(xshm_driver_t  *this, vo_overlay_t *overlay,
 				      xshm_frame_t *frame) {
-  size_t  i;
-  clut_t* clut = (clut_t*) overlay->color;
+  int i;
+  uint32_t *rgb;
 
   if (!overlay->rgb_clut) {
-    for (i = 0; i < sizeof(overlay->color)/sizeof(overlay->color[0]); i++) {
-      *((uint32_t *)&clut[i]) =
-	frame->yuv2rgb->yuv2rgb_single_pixel_fun (frame->yuv2rgb,
-						  clut[i].y, clut[i].cb, clut[i].cr);
+    rgb = overlay->color;
+    for (i = sizeof (overlay->color) / sizeof (overlay->color[0]); i > 0; i--) {
+      clut_t *yuv = (clut_t *)rgb;
+      *rgb++ = frame->yuv2rgb->yuv2rgb_single_pixel_fun (frame->yuv2rgb, yuv->y, yuv->cb, yuv->cr);
     }
     overlay->rgb_clut++;
   }
+
   if (!overlay->hili_rgb_clut) {
-    clut = (clut_t*) overlay->hili_color;
-    for (i = 0; i < sizeof(overlay->color)/sizeof(overlay->color[0]); i++) {
-      *((uint32_t *)&clut[i]) =
-	frame->yuv2rgb->yuv2rgb_single_pixel_fun(frame->yuv2rgb,
-						 clut[i].y, clut[i].cb, clut[i].cr);
+    rgb = overlay->hili_color;
+    for (i = sizeof (overlay->color) / sizeof (overlay->color[0]); i > 0; i--) {
+      clut_t *yuv = (clut_t *)rgb;
+      *rgb++ = frame->yuv2rgb->yuv2rgb_single_pixel_fun (frame->yuv2rgb, yuv->y, yuv->cb, yuv->cr);
     }
     overlay->hili_rgb_clut++;
   }

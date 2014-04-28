@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 the xine project
+ * Copyright (C) 2010-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -22,7 +22,7 @@
 int dxr3_compat_ioctl (int fd, int rq, void *arg)
 {
   int ret = ioctl (fd, rq, arg);
-  if (ret < 0 && errno == EINVAL || errno == ENOTTY)
+  if (ret < 0 && (errno == EINVAL || errno == ENOTTY))
     ret = ioctl (fd, rq & 0xFF, arg);
   return ret;
 }

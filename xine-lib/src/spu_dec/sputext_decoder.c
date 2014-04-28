@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2013 the xine project
+ * Copyright (C) 2000-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -1133,7 +1133,7 @@ static void *init_spu_decoder_plugin (xine_t *xine, void *data) {
   this->subtitle_size  = xine->config->register_enum(xine->config,
 			      "subtitles.separate.subtitle_size",
 			       1,
-			       subtitle_size_strings,
+			       (char **)subtitle_size_strings,
 			       _("subtitle size"),
 			       _("You can adjust the subtitle size here. The setting will "
 			         "be evaluated relative to the window size."),

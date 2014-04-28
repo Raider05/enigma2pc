@@ -82,7 +82,7 @@ static ct check[] = {
 	    };
 
 
-DS_VideoDecoder * DS_VideoDecoder_Open(char* dllname, GUID* guid, BITMAPINFOHEADER * format, int flip, int maxauto)
+DS_VideoDecoder * DS_VideoDecoder_Open(const char* dllname, GUID* guid, BITMAPINFOHEADER * format, int flip, int maxauto)
 {
     DS_VideoDecoder *this;
     HRESULT result;

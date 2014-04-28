@@ -473,26 +473,31 @@ void xcbosd_blend(xcbosd *osd, vo_overlay_t *overlay)
 
         if (overlay->rle[i].color > max_palette_colour[use_clip_palette]) {
           int j;
-          clut_t *src_clut;
+          uint32_t *src_color;
           uint8_t *src_trans;
 
           if (use_clip_palette) {
-            src_clut = (clut_t *)&overlay->hili_color;
+            src_color = overlay->hili_color;
             src_trans = (uint8_t *)&overlay->hili_trans;
           }
           else {
-            src_clut = (clut_t *)&overlay->color;
+            src_color = overlay->color;
             src_trans = (uint8_t *)&overlay->trans;
           }
           for (j=max_palette_colour[use_clip_palette]+1; j<=overlay->rle[i].color; j++) {
             if (src_trans[j]) {
+              union {
+                uint32_t u32;
+                clut_t   c;
+              } tmp = { src_color[j] };
+
               if (1) {
                 int red, green, blue;
                 int y, u, v, r, g, b;
 
-                y = saturate(src_clut[j].y, 16, 235);
-                u = saturate(src_clut[j].cb, 16, 240);
-                v = saturate(src_clut[j].cr, 16, 240);
+                y = saturate(tmp.c.y, 16, 235);
+                u = saturate(tmp.c.cb, 16, 240);
+                v = saturate(tmp.c.cr, 16, 240);
                 y = (9 * y) / 8;
                 r = y + (25 * v) / 16 - 218;
                 red = (65536 * saturate(r, 0, 255)) / 256;
@@ -508,7 +513,7 @@ void xcbosd_blend(xcbosd *osd, vo_overlay_t *overlay)
                 free(alloc_color_reply);
               }
               else {
-                if (src_clut[j].y > 127) {
+                if (tmp.c.y > 127) {
                   palette[use_clip_palette][j] = osd->screen->white_pixel;
                 }
                 else {

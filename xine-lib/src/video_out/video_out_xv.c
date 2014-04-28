@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2012 the xine project
+ * Copyright (C) 2000-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -160,7 +160,7 @@ struct xv_driver_s {
 
   /* color matrix switching */
   int                cm_active, cm_state;
-  Atom               cm_atom;
+  Atom               cm_atom, cm_atom2;
   int                fullrange_mode;
 };
 
@@ -413,8 +413,13 @@ static XvImage *create_ximage (xv_driver_t *this, XShmSegmentInfo *shminfo,
       _x_abort();
     }
 
-    image = XvCreateImage (this->display, this->xv_port,
-			   xv_format, data, width, height);
+    if (data) {
+      image = XvCreateImage (this->display, this->xv_port, xv_format, data, width, height);
+      if (!image)
+        free (data);
+    } else
+      image = NULL;
+
     shminfo->shmaddr = 0;
   }
   return image;
@@ -472,10 +477,26 @@ static void xv_update_frame_format (vo_driver_t *this_gen,
     }
 
     frame->image = create_ximage (this, &frame->shminfo, width, height, format);
+    if (!frame->image) {
+      UNLOCK_DISPLAY (this);
+      frame->vo_frame.base[0] = NULL;
+      frame->vo_frame.base[1] = NULL;
+      frame->vo_frame.base[2] = NULL;
+      frame->req_width = 0;
+      frame->vo_frame.width = 0;
+      return;
+    }
 
     if(format == XINE_IMGFMT_YUY2) {
       frame->vo_frame.pitches[0] = frame->image->pitches[0];
       frame->vo_frame.base[0] = frame->image->data + frame->image->offsets[0];
+      {
+        const union {uint8_t bytes[4]; uint32_t word;} black = {{0, 128, 0, 128}};
+        uint32_t *q = (uint32_t *)frame->vo_frame.base[0];
+        int i;
+        for (i = frame->vo_frame.pitches[0] * frame->image->height / 4; i > 0; i--)
+          *q++ = black.word;
+      }
     }
     else {
       frame->vo_frame.pitches[0] = frame->image->pitches[0];
@@ -484,6 +505,9 @@ static void xv_update_frame_format (vo_driver_t *this_gen,
       frame->vo_frame.base[0] = frame->image->data + frame->image->offsets[0];
       frame->vo_frame.base[1] = frame->image->data + frame->image->offsets[2];
       frame->vo_frame.base[2] = frame->image->data + frame->image->offsets[1];
+      memset (frame->vo_frame.base[0], 0, frame->vo_frame.pitches[0] * frame->image->height);
+      memset (frame->vo_frame.base[1], 128, frame->vo_frame.pitches[1] * frame->image->height / 2);
+      memset (frame->vo_frame.base[2], 128, frame->vo_frame.pitches[2] * frame->image->height / 2);
     }
 
     /* allocated frame size may not match requested size */
@@ -716,13 +740,21 @@ static void xv_new_color (xv_driver_t *this, int cm) {
     XvSetPortAttribute (this->display, this->xv_port, atom, satu);
   UNLOCK_DISPLAY(this);
 
-  /* so far only binary nvidia drivers support this. why not nuveau? */
   if (this->cm_atom != None) {
+    /* 0 = 601 (SD), 1 = 709 (HD) */
+    /* so far only binary nvidia drivers support this. why not nuveau? */
     cm2 = (0xc00c >> cm) & 1;
     LOCK_DISPLAY(this);
     XvSetPortAttribute (this->display, this->xv_port, this->cm_atom, cm2);
     UNLOCK_DISPLAY(this);
     cm2 = cm2 ? 2 : 10;
+  } else if (this->cm_atom2 != None) {
+    /* radeonhd: 0 = size based auto, 1 = 601 (SD), 2 = 709 (HD) */
+    cm2 = ((0xc00c >> cm) & 1) + 1;
+    LOCK_DISPLAY(this);
+    XvSetPortAttribute (this->display, this->xv_port, this->cm_atom2, cm2);
+    UNLOCK_DISPLAY(this);
+    cm2 = cm2 == 2 ? 2 : 10;
   } else {
     cm2 = 10;
   }
@@ -1370,7 +1402,7 @@ static vo_driver_t *open_plugin_2 (video_driver_class_t *class_gen, const void *
 				  VIDEO_DEVICE_XV_PORT_HELP,
 				  20, NULL, NULL);
   prefer_type = config->register_enum (config, "video.device.xv_preferred_method", 0,
-				       prefer_labels, VIDEO_DEVICE_XV_PREFER_TYPE_HELP,
+				       (char **)prefer_labels, VIDEO_DEVICE_XV_PREFER_TYPE_HELP,
 				       10, NULL, NULL);
 
   if (xv_port != 0) {
@@ -1431,6 +1463,7 @@ static vo_driver_t *open_plugin_2 (video_driver_class_t *class_gen, const void *
   this->xine                    = class->xine;
 
   this->cm_atom                 = None;
+  this->cm_atom2                = None;
 
   LOCK_DISPLAY(this);
   XAllocNamedColor (this->display,
@@ -1518,12 +1551,21 @@ static vo_driver_t *open_plugin_2 (video_driver_class_t *class_gen, const void *
 	  xv_check_capability (this, VO_PROP_GAMMA, attr[k],
 			       adaptor_info[adaptor_num].base_id,
 			       NULL, NULL, NULL);
-	} else if(!strcmp(name, "XV_ITURBT_709")) {
+	} else if(!strcmp(name, "XV_ITURBT_709")) { /* nvidia */
 	  LOCK_DISPLAY(this);
 	  this->cm_atom = XInternAtom (this->display, name, False);
 	  if (this->cm_atom != None) {
 	    XvGetPortAttribute (this->display, this->xv_port, this->cm_atom, &this->cm_active);
 	    this->cm_active = this->cm_active ? 2 : 10;
+	    this->capabilities |= VO_CAP_COLOR_MATRIX;
+	  }
+	  UNLOCK_DISPLAY(this);
+	} else if(!strcmp(name, "XV_COLORSPACE")) { /* radeonhd */
+	  LOCK_DISPLAY(this);
+	  this->cm_atom2 = XInternAtom (this->display, name, False);
+	  if (this->cm_atom2 != None) {
+	    XvGetPortAttribute (this->display, this->xv_port, this->cm_atom2, &this->cm_active);
+	    this->cm_active = this->cm_active == 2 ? 2 : (this->cm_active == 1 ? 10 : 0);
 	    this->capabilities |= VO_CAP_COLOR_MATRIX;
 	  }
 	  UNLOCK_DISPLAY(this);
@@ -1569,7 +1611,7 @@ static vo_driver_t *open_plugin_2 (video_driver_class_t *class_gen, const void *
 	} else if(!strcmp(name, "XV_BICUBIC")) {
 	  int xv_bicubic =
 	    config->register_enum (config, "video.device.xv_bicubic", 2,
-				   bicubic_types, VIDEO_DEVICE_XV_BICUBIC_HELP,
+				   (char **)bicubic_types, VIDEO_DEVICE_XV_BICUBIC_HELP,
 				   20, xv_update_XV_BICUBIC, this);
 	  config->update_num(config,"video.device.xv_bicubic",xv_bicubic);
 	}

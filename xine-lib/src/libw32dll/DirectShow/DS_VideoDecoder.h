@@ -5,7 +5,7 @@ typedef struct _DS_VideoDecoder DS_VideoDecoder;
 
 int DS_VideoDecoder_GetCapabilities(DS_VideoDecoder *this);
 
-DS_VideoDecoder * DS_VideoDecoder_Open(char* dllname, GUID* guid, BITMAPINFOHEADER * format, int flip, int maxauto);
+DS_VideoDecoder * DS_VideoDecoder_Open(const char* dllname, GUID* guid, BITMAPINFOHEADER * format, int flip, int maxauto);
 
 void DS_VideoDecoder_Destroy(DS_VideoDecoder *this);
 

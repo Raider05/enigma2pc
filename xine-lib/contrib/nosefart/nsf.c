@@ -348,6 +348,7 @@ void nsf_frame(nsf_t *nsf)
 }
 
 /* Deallocate memory */
+void nes_shutdown(nsf_t *nsf);
 void nes_shutdown(nsf_t *nsf)
 {
    int i;
@@ -652,13 +653,13 @@ static int nfs_skip_mem(struct nsf_loader_t *loader, int n)
   mloader->cur = (goal > mloader->len) ? mloader->len : goal;
   return goal - mloader->cur;
 }
-
+/*
 static const char * nfs_fname_mem(struct nsf_loader_t *loader)
 {
   struct nsf_mem_loader_t * mloader = (struct nsf_mem_loader_t *)loader;
   return mloader->fname;
 }
-
+*/
 static struct nsf_mem_loader_t nsf_mem_loader = {
   { nfs_open_mem, nfs_close_mem, nfs_read_mem, nfs_length_mem, nfs_skip_mem },
   0,0,0
@@ -694,7 +695,7 @@ nsf_t * nsf_load_extended(struct nsf_loader_t * loader)
 #if 0
   if (length <= NSF_HEADER_SIZE) {
     log_printf("nsf : [%s] not an NSF format file\n",
-	       loader->fname);
+	       loader->fname(loader));
     goto error;
   }
 #endif
@@ -702,14 +703,14 @@ nsf_t * nsf_load_extended(struct nsf_loader_t * loader)
   /* Read magic */
   if (loader->read(loader, id, 5)) {
     log_printf("nsf : [%s] error reading magic number\n",
-	       loader->fname);
+	       loader->fname(loader));
     goto error;
   }
 
   /* Check magic */
   if (memcmp(id, NSF_MAGIC, 5)) {
     log_printf("nsf : [%s] is not an NSF format file\n",
-	       loader->fname);
+	       loader->fname(loader));
     goto error;
   }
 
@@ -720,7 +721,7 @@ nsf_t * nsf_load_extended(struct nsf_loader_t * loader)
   
   if (NULL == temp_nsf) {
     log_printf("nsf : [%s] error allocating nsf header\n",
-	       loader->fname);
+	       loader->fname(loader));
     goto error;
   }
   /* $$$ ben : safety net */
@@ -731,7 +732,7 @@ nsf_t * nsf_load_extended(struct nsf_loader_t * loader)
   /* Read header (without MAGIC) */
   if (loader->read(loader, (int8 *)temp_nsf+5, NSF_HEADER_SIZE - 5)) {
     log_printf("nsf : [%s] error reading nsf header\n",
-	       loader->fname);
+	       loader->fname(loader));
     goto error;
   }
 
@@ -764,7 +765,7 @@ nsf_t * nsf_load_extended(struct nsf_loader_t * loader)
 
   if (temp_nsf->length <= 0) {
     log_printf("nsf : [%s] not an NSF format file (missing data)\n",
-	       loader->fname);
+	       loader->fname(loader));
     goto error;
   }
 
@@ -779,14 +780,14 @@ nsf_t * nsf_load_extended(struct nsf_loader_t * loader)
   }
   if (NULL == temp_nsf->data) {
     log_printf("nsf : [%s] error allocating nsf data\n",
-	       loader->fname);
+	       loader->fname(loader));
     goto error;
   }
 
   /* Read data */
   if (loader->read(loader, temp_nsf->data, temp_nsf->length)) {
     log_printf("nsf : [%s] error reading NSF data\n",
-	       loader->fname);
+	       loader->fname(loader));
     goto error;
   }
 
@@ -806,7 +807,7 @@ nsf_t * nsf_load_extended(struct nsf_loader_t * loader)
 
     if (size < sizeof(nsf_file_ext)) {
       log_printf("nsf : [%s] corrupt extension size (%d)\n",
-		 loader->fname, size);
+		 loader->fname(loader), size);
       /* Not a fatal error here. Just skip extension loading. */
       break;
     }
@@ -828,7 +829,7 @@ nsf_t * nsf_load_extended(struct nsf_loader_t * loader)
 
       if (loader->read(loader, tmp_time, size)) {
 	log_printf("nsf : [%s] missing extension data\n",
-		   loader->fname);
+		   loader->fname(loader));
 	/* Not a fatal error here. Just skip extension loading. */
 	break;
       }
@@ -836,7 +837,7 @@ nsf_t * nsf_load_extended(struct nsf_loader_t * loader)
       temp_nsf->song_frames = malloc(sizeof(*temp_nsf->song_frames) * songs);
       if (!temp_nsf->song_frames) {
 	log_printf("nsf : [%s] extension alloc failed\n",
-		   loader->fname);
+		   loader->fname(loader));
 	/* Not a fatal error here. Just skip extension loading. */
 	break;
       }
@@ -859,7 +860,7 @@ nsf_t * nsf_load_extended(struct nsf_loader_t * loader)
       }
     } else if (loader->skip(loader, size)) {
 	log_printf("nsf : [%s] extension skip failed\n",
-		   loader->fname);
+		   loader->fname(loader));
 	/* Not a fatal error here. Just skip extension loading. */
 	break;
     }

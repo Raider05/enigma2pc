@@ -45,6 +45,7 @@ EAC3			EAC3			E-AC-3
 AAC			AAC			MPEG4
 AAC_LATM		AAC_LATM		AAC LATM
 ADPCM_G726		ADPCM_G726		ADPCM G726
+QCLP			QCELP			QualComm Purevoice
 
 # disabled codecs (ref. configure.ac)
 !			AC3

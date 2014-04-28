@@ -1,6 +1,7 @@
-xine-lib (1.2.5) 201?-??-??
+xine-lib (1.2.5) 2014-04-08
+  * Update german translation.
+  * Add bass downmix support to AC3 decoder.
   * Add experimental YCgCo colorspace support.
-  * FFmpeg compatibility fixes.
   * Add avformat demux plugin.
     - Support for new formats and protocols.
     - Proper rtsp support (with avformat+rtsp://, rtsp+tcp:// and rtsp+http:// mrls).
@@ -15,9 +16,16 @@ xine-lib (1.2.5) 201?-??-??
   * Add support for HEVC/H.265 to the mpeg-ts demuxer.
   * Add support for HEVC/H.265 and VP9 to the matroska demuxer.
   * Add VP8/VP9 decoder using libvpx.
-  * Add support for multiple audio traks to the Quicktime demuxer.
-  * Add support for AC3 and EAC3 to the Quicktime demuxer.
+  * Modernise Quicktime demuxer:
+    - Multiple user selectable audio traks.
+    - Support AC3, EAC3, vorbis, Purevoice audio.
+    - Support ISO fragment media files.
+    - More safety on broken files.
+    - Slightly faster.
   * Recognise & use ADPCM G.726 and ATRAC3. (ffmpeg/libva)
+  * Build fixes.
+  * Fix HDMV subtitle channel.
+  * FFmpeg compatibility fixes.
   * Some colour format conversion fixes.
   * Fix RealVideo re-ordered PTS: pass through, let the decoder re-order it.
   * Fix some problems with COOK audio.

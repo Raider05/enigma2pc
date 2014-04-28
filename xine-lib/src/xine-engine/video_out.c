@@ -715,45 +715,57 @@ static vo_frame_t *vo_get_frame (xine_video_port_t *this_gen,
 
   lprintf ("get_frame (%d x %d)\n", width, height);
 
-  while (!(img = vo_remove_from_img_buf_queue_nonblock (this->free_img_buf_queue,
-                 width, height, ratio, format, flags)))
-    if (this->xine->port_ticket->ticket_revoked)
-      this->xine->port_ticket->renew(this->xine->port_ticket, 1);
+  while (1) {
 
-  lprintf ("got a frame -> pthread_mutex_lock (&img->mutex)\n");
+    while (!(img = vo_remove_from_img_buf_queue_nonblock (this->free_img_buf_queue,
+                   width, height, ratio, format, flags)))
+      if (this->xine->port_ticket->ticket_revoked)
+        this->xine->port_ticket->renew(this->xine->port_ticket, 1);
 
-  /* some decoders report strange ratios */
-  if (ratio <= 0.0)
-    ratio = (double)width / (double)height;
+    lprintf ("got a frame -> pthread_mutex_lock (&img->mutex)\n");
 
-  pthread_mutex_lock (&img->mutex);
-  img->lock_counter   = 1;
-  img->width          = width;
-  img->height         = height;
-  img->ratio          = ratio;
-  img->format         = format;
-  img->flags          = flags;
-  img->proc_called    = 0;
-  img->bad_frame      = 0;
-  img->progressive_frame  = 0;
-  img->repeat_first_field = 0;
-  img->top_field_first    = 1;
-  img->crop_left      = 0;
-  img->crop_right     = 0;
-  img->crop_top       = 0;
-  img->crop_bottom    = 0;
-  img->overlay_offset_x = 0;
-  img->overlay_offset_y = 0;
-  img->stream         = NULL;
+    /* some decoders report strange ratios */
+    if (ratio <= 0.0)
+      ratio = (double)width / (double)height;
 
-  _x_extra_info_reset ( img->extra_info );
+    pthread_mutex_lock (&img->mutex);
+    img->lock_counter   = 1;
+    img->width          = width;
+    img->height         = height;
+    img->ratio          = ratio;
+    img->format         = format;
+    img->flags          = flags;
+    img->proc_called    = 0;
+    img->bad_frame      = 0;
+    img->progressive_frame  = 0;
+    img->repeat_first_field = 0;
+    img->top_field_first    = 1;
+    img->crop_left      = 0;
+    img->crop_right     = 0;
+    img->crop_top       = 0;
+    img->crop_bottom    = 0;
+    img->overlay_offset_x = 0;
+    img->overlay_offset_y = 0;
+    img->stream         = NULL;
 
-  /* let driver ensure this image has the right format */
+    _x_extra_info_reset ( img->extra_info );
 
-  this->driver->update_frame_format (this->driver, img, width, height,
-				     ratio, format, flags);
+    /* let driver ensure this image has the right format */
 
-  pthread_mutex_unlock (&img->mutex);
+    this->driver->update_frame_format (this->driver, img, width, height,
+                                       ratio, format, flags);
+
+    pthread_mutex_unlock (&img->mutex);
+
+    if (!width || img->width)
+      break;
+
+    xprintf (this->xine, XINE_VERBOSITY_LOG,
+      _("video_out: found an unusable frame (%dx%d, format %0x08x) - no memory??\n"),
+      width, height, img->format);
+    vo_append_to_img_buf_queue (this->free_img_buf_queue, img);
+
+  }
 
   lprintf ("get_frame (%d x %d) done\n", width, height);
 
@@ -1084,6 +1096,20 @@ static vo_frame_t * duplicate_frame( vos_t *this, vo_frame_t *img ) {
 				     dupl->ratio, dupl->format, dupl->flags);
 
   pthread_mutex_unlock (&dupl->mutex);
+
+  if (img->width && !dupl->width) {
+    /* driver failed to set up render space */
+    if (this->free_img_buf_queue->last)
+      this->free_img_buf_queue->last->next = dupl;
+    this->free_img_buf_queue->last = dupl;
+    if (this->free_img_buf_queue->first)
+      this->free_img_buf_queue->num_buffers++;
+    else {
+      this->free_img_buf_queue->first = dupl;
+      this->free_img_buf_queue->num_buffers = 1;
+    }
+    return NULL;
+  }
 
   if (dupl->proc_duplicate_frame_data) {
     dupl->proc_duplicate_frame_data(dupl,img);

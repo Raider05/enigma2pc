@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2002-2009 the xine project
+ * Copyright (C) 2002-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -471,7 +471,7 @@ static void *init_class (xine_t *xine, void *data) {
   this->input_class.eject_media        = NULL;
 
   xine->config->register_enum(xine->config, "media.network.bandwidth", 10,
-			      mms_bandwidth_strs,
+			      (char **)mms_bandwidth_strs,
 			      _("network bandwidth"),
 			      _("Specify the bandwidth of your internet connection here. "
 			        "This will be used when streaming servers offer different versions "
@@ -481,7 +481,7 @@ static void *init_class (xine_t *xine, void *data) {
   this->protocol = xine->config->register_enum(xine->config,
     "media.network.mms_protocol",
     0,
-    mms_protocol_strs,
+    (char **)mms_protocol_strs,
     _("MMS protocol"),
     _("Select the protocol to encapsulate MMS.\nTCP is better but you may need HTTP behind a firewall."),
      20,

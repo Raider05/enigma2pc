@@ -212,7 +212,7 @@ FARPROC PE_FindExportedFunction(
             FARPROC proc = RVA(addr);
             if (snoop)
             {
-                if (!ename) ename = "@";
+//                if (!ename) ename = "@";
 //                proc = SNOOP_GetProcAddress(wm->module,ename,ordinal,proc);
 		TRACE("SNOOP_GetProcAddress n/a\n");
 		
@@ -245,7 +245,7 @@ static DWORD fixup_imports( WINE_MODREF *wm )
     PE_MODREF			*pem;
     unsigned int load_addr	= wm->module;
     int				i,characteristics_detection=1;
-    char			*modname;
+    const char			*modname;
     
     assert(wm->type==MODULE32_PE);
     pem = &(wm->binfmt.pe);

@@ -155,7 +155,7 @@ void (*yuy2_to_yv12)
  * and height passed to it. The width must be divisible by 2.
  */
 void init_yuv_planes(yuv_planes_t *yuv_planes, int width, int height) {
-  memset (yuv_planes, 0, sizeof (yuv_planes));
+  memset (yuv_planes, 0, sizeof (*yuv_planes));
 
   yuv_planes->row_width = width;
   yuv_planes->row_count = height;

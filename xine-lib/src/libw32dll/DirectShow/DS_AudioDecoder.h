@@ -4,7 +4,7 @@
 typedef struct _DS_AudioDecoder DS_AudioDecoder;
 
 //DS_AudioDecoder * DS_AudioDecoder_Create(const CodecInfo * info, const WAVEFORMATEX* wf);
-DS_AudioDecoder * DS_AudioDecoder_Open(char* dllname, GUID* guid, WAVEFORMATEX* wf);
+DS_AudioDecoder * DS_AudioDecoder_Open(const char* dllname, GUID* guid, WAVEFORMATEX* wf);
 
 void DS_AudioDecoder_Destroy(DS_AudioDecoder *this);
 

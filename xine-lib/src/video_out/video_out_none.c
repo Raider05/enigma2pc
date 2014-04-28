@@ -135,8 +135,17 @@ static void none_update_frame_format(vo_driver_t *vo_driver, vo_frame_t *vo_fram
 	uv_size = frame->vo_frame.pitches[1] * ((height+1)/2);
 
 	frame->vo_frame.base[0] = malloc (y_size + 2*uv_size);
-	frame->vo_frame.base[1] = frame->vo_frame.base[0]+y_size+uv_size;
-	frame->vo_frame.base[2] = frame->vo_frame.base[0]+y_size;
+        if (frame->vo_frame.base[0]) {
+          frame->vo_frame.base[1] = frame->vo_frame.base[0] + y_size;
+          frame->vo_frame.base[2] = frame->vo_frame.base[0] + y_size + uv_size;
+        } else {
+          frame->vo_frame.base[1] = NULL;
+          frame->vo_frame.base[2] = NULL;
+          xprintf (this->xine, XINE_VERBOSITY_DEBUG,
+            "video_out_none: error. (framedata allocation failed: out of memory)\n");
+          frame->width = 0;
+          frame->vo_frame.width = 0;
+        }
       }
       break;
 
@@ -145,22 +154,18 @@ static void none_update_frame_format(vo_driver_t *vo_driver, vo_frame_t *vo_fram
       frame->vo_frame.base[0] = malloc(frame->vo_frame.pitches[0] * height);
       frame->vo_frame.base[1] = NULL;
       frame->vo_frame.base[2] = NULL;
+      if (!frame->vo_frame.base[0]) {
+        xprintf (this->xine, XINE_VERBOSITY_DEBUG,
+          "video_out_none: error. (framedata allocation failed: out of memory)\n");
+        frame->width = 0;
+        frame->vo_frame.width = 0;
+      }
       break;
 
     default:
       xprintf (this->xine, XINE_VERBOSITY_DEBUG, "video_out_none: unknown frame format %04x)\n", format);
       break;
 
-    }
-
-    if((format == XINE_IMGFMT_YV12
-	&& (frame->vo_frame.base[0] == NULL
-	    || frame->vo_frame.base[1] == NULL
-	    || frame->vo_frame.base[2] == NULL))
-       || (format == XINE_IMGFMT_YUY2 && frame->vo_frame.base[0] == NULL)) {
-      xprintf (this->xine, XINE_VERBOSITY_DEBUG,
-	       "video_out_none: error. (framedata allocation failed: out of memory)\n");
-      free_framedata(frame);
     }
   }
 

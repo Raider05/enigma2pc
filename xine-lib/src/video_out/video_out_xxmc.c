@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2012 the xine project
+ * Copyright (C) 2000-2014 the xine project
  * Copyright (C) 2004 the Unichrome project
  *
  * This file is part of xine, a free video player.
@@ -2496,7 +2496,7 @@ static vo_driver_t *open_plugin (video_driver_class_t *class_gen, const void *vi
 				  VIDEO_DEVICE_XV_PORT_HELP,
 				  20, NULL, NULL);
   prefer_type = config->register_enum (config, "video.device.xv_preferred_method", 0,
-				       prefer_labels, VIDEO_DEVICE_XV_PREFER_TYPE_HELP,
+				       (char **)prefer_labels, VIDEO_DEVICE_XV_PREFER_TYPE_HELP,
 				       10, NULL, NULL);
 
   if (xv_port != 0) {
@@ -2667,7 +2667,7 @@ static vo_driver_t *open_plugin (video_driver_class_t *class_gen, const void *vi
 	} else if(!strcmp(name, "XV_BICUBIC")) {
 	  int xv_bicubic =
 	    config->register_enum (config, "video.device.xv_bicubic", 2,
-				   bicubic_types, VIDEO_DEVICE_XV_BICUBIC_HELP,
+				   (char **)bicubic_types, VIDEO_DEVICE_XV_BICUBIC_HELP,
 				   20, xxmc_update_XV_BICUBIC, this);
 	  config->update_num(config,"video.device.xv_bicubic",xv_bicubic);
 	}

@@ -434,7 +434,7 @@ AC_DEFUN([XINE_VIDEO_OUT_PLUGINS], [
             AC_MSG_RESULT([])
             LIBS="$XXMC_LIBS $X_LIBS $XV_LIBS $LIBS"
             AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[XvMCPutSlice()]])], [have_xxmc=yes],
-                           [LIBS="$XXMC_LIBS -lXvMC $X_LIBS $XV_LIBS $LIBS"
+                           [LIBS="$XXMC_LIBS -lXvMC $X_LIBS $XV_LIBS $LIBS $DYNAMIC_LD_LIBS"
                             AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[XvMCPutSlice()]])],
                                            [have_xxmc=yes XXMC_LIBS="$XXMC_LIBS -lXvMC"])])
             if test x"$have_xxmc" = x"yes"; then
@@ -459,7 +459,7 @@ AC_DEFUN([XINE_VIDEO_OUT_PLUGINS], [
             AC_MSG_RESULT([])
             LIBS="$XVMC_LIBS $X_LIBS $XV_LIBS $LIBS"
             AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[XvMCCreateContext()]])], [have_xvmc=yes],
-                           [LIBS="$XVMC_LIBS -lXvMC $X_LIBS $XV_LIBS $LIBS"
+                           [LIBS="$XVMC_LIBS -lXvMC $X_LIBS $XV_LIBS $LIBS $DYNAMIC_LD_LIBS"
                             AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[XvMCCreateContext()]])],
                                            [have_xvmc=yes XVMC_LIBS="$XVMC_LIBS -lXvMC"])])
             if test x"$have_xvmc" = x"yes"; then

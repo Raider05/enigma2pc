@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2012 the xine project
+ * Copyright (C) 2000-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -1675,23 +1675,23 @@ static void opengl_update_frame_format (vo_driver_t *this_gen,
 
 static void opengl_overlay_clut_yuv2rgb(opengl_driver_t  *this, vo_overlay_t *overlay,
 				      opengl_frame_t *frame) {
-  int     i;
-  clut_t* clut = (clut_t*) overlay->color;
+  int i;
+  uint32_t *rgb;
 
   if (!overlay->rgb_clut) {
-    for (i = 0; i < sizeof(overlay->color)/sizeof(overlay->color[0]); i++) {
-      *((uint32_t *)&clut[i]) =
-	frame->yuv2rgb->yuv2rgb_single_pixel_fun (frame->yuv2rgb, clut[i].y,
-						  clut[i].cb, clut[i].cr);
+    rgb = overlay->color;
+    for (i = sizeof (overlay->color) / sizeof (overlay->color[0]); i > 0; i--) {
+      clut_t *yuv = (clut_t *)rgb;
+      *rgb++ = frame->yuv2rgb->yuv2rgb_single_pixel_fun (frame->yuv2rgb, yuv->y, yuv->cb, yuv->cr);
     }
     overlay->rgb_clut++;
   }
+
   if (!overlay->hili_rgb_clut) {
-    clut = (clut_t*) overlay->hili_color;
-    for (i = 0; i < sizeof(overlay->color)/sizeof(overlay->color[0]); i++) {
-      *((uint32_t *)&clut[i]) =
-	frame->yuv2rgb->yuv2rgb_single_pixel_fun(frame->yuv2rgb, clut[i].y,
-						 clut[i].cb, clut[i].cr);
+    rgb = overlay->hili_color;
+    for (i = sizeof (overlay->color) / sizeof (overlay->color[0]); i > 0; i--) {
+      clut_t *yuv = (clut_t *)rgb;
+      *rgb++ = frame->yuv2rgb->yuv2rgb_single_pixel_fun (frame->yuv2rgb, yuv->y, yuv->cb, yuv->cr);
     }
     overlay->hili_rgb_clut++;
   }
@@ -2191,7 +2191,7 @@ static vo_driver_t *opengl_open_plugin (video_driver_class_t *class_gen, const v
     render_fun_names[i] = opengl_rb[i].name;
   render_fun_names[i] = NULL;
   this->render_fun_id = config->register_enum (config, "video.output.opengl_renderer",
-					       0, render_fun_names,
+					       0, (char **)render_fun_names,
 					       _("OpenGL renderer"),
 					       _("The OpenGL plugin provides several render modules:\n\n"
 						 "2D_Tex_Fragprog\n"

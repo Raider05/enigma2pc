@@ -1534,6 +1534,15 @@ static int get_disc_info(bluray_input_plugin_t *this)
                 "Some titles can't be played in navigation mode", NULL);
   }
 
+  if (this->nav_mode && disc_info->num_bdj_titles > 0) {
+    if (!(this->stream->video_out->get_capabilities(this->stream->video_out) & VO_CAP_ARGB_LAYER_OVERLAY)) {
+      _x_message (this->stream, XINE_MSG_GENERAL_WARNING,
+                  "BD-J titles found. Current video driver does not support ARGB graphics.",
+                  "Try another video driver (ex. --video opengl2) or play this disc without menus.",
+                  NULL);
+    }
+  }
+
   this->num_titles = disc_info->num_hdmv_titles + disc_info->num_bdj_titles;
   this->disc_info  = disc_info;
 

@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2002-2012 the xine project
+ *  Copyright (C) 2002-2014 the xine project
  *
  *  This file is part of xine, a free video player.
  *
@@ -220,7 +220,7 @@ static xml_node_t *xml_parser_append_text (xml_node_t *node, xml_node_t *subnode
     } else {
       /* most recent node is not CDATA - add a sibling */
       subnode->next = new_xml_node ();
-      subnode->next->name = cdata;
+      subnode->next->name = (char *)cdata;
       subnode->next->data = strdup (text);
       subnode = subnode->next;
     }
@@ -677,7 +677,7 @@ static int xml_parser_get_node (xml_parser_t *xml_parser, xml_node_t *current_no
   char *pname_buffer = calloc(1, pname_buffer_size);
   char *nname_buffer = calloc(1, nname_buffer_size);
   char *root_names[MAX_RECURSION + 1];
-  root_names[0] = "";
+  root_names[0] = (char *)"";
 
   res = xml_parser_get_node_internal (xml_parser,
 			     &token_buffer, &token_buffer_size,

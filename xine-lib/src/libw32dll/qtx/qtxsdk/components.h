@@ -673,12 +673,12 @@ static inline void dump_ImageDescription(void* xxx){
     printf("=========================================================\n");
 }
 
-static inline void dump_Rect(char* title,Rect *r){
+static inline void dump_Rect(const char* title,Rect *r){
     printf("%s: %d;%d - %d;%d\n",title,
         (int)r->top,(int)r->left,(int)r->bottom,(int)r->right);
 }
 
-static inline void dump_MatrixRecord(char* title, MatrixRecord *m){
+static inline void dump_MatrixRecord(const char* title, MatrixRecord *m){
     printf("%s: [%ld %ld %ld][%ld %ld %ld][%ld %ld %ld]\n",title,
 	m->matrix[0][0],m->matrix[0][1],m->matrix[0][2],
 	m->matrix[1][0],m->matrix[1][1],m->matrix[1][2],

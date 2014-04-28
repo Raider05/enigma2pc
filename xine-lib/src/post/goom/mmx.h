@@ -724,14 +724,12 @@ void zoom_filter_xmmx (int prevX, int prevY, Pixel *expix1, Pixel *expix2,
 #define	emms() \
 	{ \
 		printf("emms()\n"); \
-		__asm__ __volatile__ ("emms" \
-                        "st(1)","st(2)","st(3)","st(4)","st(5)","st(6)","st(7)"); \
+		__asm__ __volatile__ ("emms");
 	}
 
 #else
 
-#define	emms() __asm__ __volatile__ ("emms"::: \
-                      "st(1)","st(2)","st(3)","st(4)","st(5)","st(6)","st(7)")
+#define	emms() __asm__ __volatile__ ("emms")
 
 #endif
 

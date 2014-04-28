@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2012 the xine project,
+ * Copyright (C) 2000-2014 the xine project,
  *                         Rich Wareham <richwareham@users.sourceforge.net>
  *
  * This file is part of xine, a free video player.
@@ -1805,7 +1805,7 @@ static void *init_class (xine_t *xine, void *data) {
     if (raw_device) xine_setenv("DVDCSS_RAW_DEVICE", raw_device, 0);
 
     mode = config->register_enum(config, "media.dvd.css_decryption_method", 0,
-				 decrypt_modes, _("CSS decryption method"),
+				 (char **)decrypt_modes, _("CSS decryption method"),
 				 _("Selects the decryption method libdvdcss will use to descramble "
 				   "copy protected DVDs. Try the various methods, if you have problems "
 				   "playing scrambled DVDs."), 20, NULL, NULL);
@@ -1841,7 +1841,7 @@ static void *init_class (xine_t *xine, void *data) {
 			  "of the DVD layer change on faster drives."),
 			10, read_ahead_cb, this);
   config->register_enum(config, "media.dvd.skip_behaviour", 0,
-			skip_modes,
+			(char **)skip_modes,
 			_("unit for the skip action"),
 			_("You can configure the behaviour when issuing a skip command (using the skip "
 			  "buttons for example). The individual values mean:\n\n"
@@ -1857,7 +1857,7 @@ static void *init_class (xine_t *xine, void *data) {
 			  "features on the DVD"),
 			20, NULL, NULL);
   config->register_enum(config, "media.dvd.seek_behaviour", 0,
-			seek_modes,
+			(char **)seek_modes,
 			_("unit for seeking"),
 			_("You can configure the domain spanned by the seek slider. The individual "
 			  "values mean:\n\n"
@@ -1869,7 +1869,7 @@ static void *init_class (xine_t *xine, void *data) {
 			  "a chapter of the current feature"),
 			20, seek_mode_cb, this);
   config->register_enum(config, "media.dvd.play_single_chapter", 0,
-			play_single_chapter_modes,
+			(char **)play_single_chapter_modes,
 			_("play mode when title/chapter is given"),
 			_("You can configure the behaviour when playing a dvd from a given "
 			  "title/chapter (eg. using MRL 'dvd:/1.2'). The individual values mean:\n\n"

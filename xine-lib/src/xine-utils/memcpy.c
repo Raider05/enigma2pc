@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2013 the xine project
+ * Copyright (C) 2001-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -589,7 +589,7 @@ void xine_probe_fast_memcpy(xine_t *xine)
   config_flags = xine_mm_accel();
 
   best = xine->config->register_enum (xine->config, "engine.performance.memcpy_method", 0,
-				      memcpy_methods,
+				      (char **)memcpy_methods,
 				      _("memcopy method used by xine"),
 				      _("The copying of large memory blocks is one of the most "
 					"expensive operations on todays computers. Therefore xine "

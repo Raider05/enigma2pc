@@ -283,15 +283,19 @@ int ebml_read_float (ebml_parser_t *ebml, ebml_elem_t *elem, double *num) {
   }
 
   if (size == 4) {
-    float f;
-
-    *((uint32_t *) &f) = _X_BE_32(data);
-    *num = f;
+    union {
+      float f;
+      uint32_t u32;
+    } tmp;
+    tmp.u32 = _X_BE_32(data);
+    *num = tmp.f;
   } else {
-    double d;
-
-    *((uint64_t *) &d) = _X_BE_64(data);
-    *num = d;
+    union {
+      double d;
+      uint64_t u64;
+    } tmp;
+    tmp.u64 = _X_BE_64(data);
+    *num = tmp.d;
   }
   return 1;
 }

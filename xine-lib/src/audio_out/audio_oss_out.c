@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2013 the xine project
+ * Copyright (C) 2000-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -726,7 +726,7 @@ static ao_driver_t *open_plugin (audio_driver_class_t *class_gen, const void *da
 
   /* devname_val is offset used to select auto, /dev/dsp, or /dev/sound/dsp */
   devname_val = config->register_enum (config, "audio.device.oss_device_name", 0,
-				       devname_opts,
+				       (char **)devname_opts,
 				       _("OSS audio device name"),
 				       _("Specifies the base part of the audio device name, "
 					 "to which the OSS device number is appended to get the "
@@ -790,7 +790,7 @@ static ao_driver_t *open_plugin (audio_driver_class_t *class_gen, const void *da
    */
 
   this->sync_method = config->register_enum (config, "audio.oss_sync_method", OSS_SYNC_AUTO_DETECT,
-					     sync_methods,
+					     (char **)sync_methods,
 					     _("a/v sync method to use by OSS"),
 					     _("xine can use different methods to keep audio and video "
 					       "synchronized. Which setting works best depends on the "
@@ -908,7 +908,7 @@ static ao_driver_t *open_plugin (audio_driver_class_t *class_gen, const void *da
 
   /* for usability reasons, keep this in sync with audio_alsa_out.c */
   speakers = config->register_enum(config, "audio.output.speaker_arrangement", STEREO,
-                                   speaker_arrangement,
+                                   (char **)speaker_arrangement,
                                    AUDIO_DEVICE_SPEAKER_ARRANGEMENT_HELP,
                                    0, oss_speaker_arrangement_cb, this);
 

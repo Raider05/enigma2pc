@@ -107,6 +107,13 @@
 #  define AVAUDIO 2
 #endif
 
+/* avcodec_encode_video(), av_packet_unref */
+#if LIBAVCODEC_VERSION_INT >= ((55<<16)|(25<<8)|100)
+#  define AVENCVIDEO 2
+#else
+#  define AVENCVIDEO 1
+#endif
+
 /* AVFrame.age */
 #if LIBAVCODEC_VERSION_INT >= 0x351C01 && LIBAVCODEC_VERSION_INT < 0x360000 // not sure about this - original condition was broken
 #  define AVFRAMEAGE 1
@@ -157,8 +164,21 @@
 #  define CODEC_ID_H263       AV_CODEC_ID_H263
 #  define CODEC_ID_H264       AV_CODEC_ID_H264
 #  define CODEC_ID_WMV3       AV_CODEC_ID_WMV3
+/* video_out/video_out_vaapi, ff_video_decoder */
 #  define CODEC_ID_VC1        AV_CODEC_ID_VC1
-/* ff_*_decoder is already handled by mkcodeclists.pl */
+/* ff_video_decoder */
+#  define CODEC_ID_SVQ3       AV_CODEC_ID_SVQ3
+#  define CODEC_ID_MSMPEG4V1  AV_CODEC_ID_MSMPEG4V1
+#  define CODEC_ID_MSMPEG4V2  AV_CODEC_ID_MSMPEG4V2
+#  define CODEC_ID_MSMPEG4V3  AV_CODEC_ID_MSMPEG4V3
+#  define CODEC_ID_WMV1       AV_CODEC_ID_WMV1
+#  define CODEC_ID_WMV2       AV_CODEC_ID_WMV2
+/* demux_avformat */
+#  define CODEC_ID_PCM_S16LE  AV_CODEC_ID_PCM_S16LE
+#  define CODEC_ID_PCM_S16BE  AV_CODEC_ID_PCM_S16BE
+#  define CODEC_ID_MP2        AV_CODEC_ID_MP2
+#  define CODEC_ID_AC3        AV_CODEC_ID_AC3
+/* ff_*_decoder mapping is already handled by mkcodeclists.pl */
 #endif
 
 #ifndef AVCODEC_MAX_AUDIO_FRAME_SIZE

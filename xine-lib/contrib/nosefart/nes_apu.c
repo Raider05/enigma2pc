@@ -1036,12 +1036,14 @@ void apu_process(void *buffer, int num_samples)
 
       /* signed 16-bit output, unsigned 8-bit */
       if (16 == apu->sample_bits) {
-         *(int16 *)(buffer) = (int16) accum;
-         buffer += sizeof(int16);
+         int16 *q = buffer;
+         *q++ = accum;
+         buffer = q;
       }
       else {
-         *(uint8 *)(buffer) = (accum >> 8) ^ 0x80;
-         buffer += sizeof(uint8);
+         uint8 *q = buffer;
+         *q++ = (accum >> 8) ^ 0x80;
+         buffer = q;
       }
    }
 
@@ -1090,6 +1092,7 @@ void apu_reset(void)
       apu->ext->reset();
 }
 
+void apu_build_luts(int num_samples);
 void apu_build_luts(int num_samples)
 {
    int i;

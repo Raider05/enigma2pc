@@ -50,11 +50,14 @@ in_smb = xineplug_inp_smb.la
 endif
 
 if WITH_EXTERNAL_DVDNAV
-DVD_CFLAGS  = $(DVDNAV_CFLAGS)
-link_dvdnav = $(DVDNAV_LIBS)
+DVD_CFLAGS  = $(DVDNAV_CFLAGS) $(DVDREAD_CFLAGS)
+link_dvdnav = $(DVDNAV_LIBS) $(DVDREAD_LIBS)
 else
 DVD_CFLAGS  = -I$(top_srcdir)/src/input/libdvdnav
 link_dvdnav = libdvdnav/libdvdnav.la
+
+$(link_dvdnav):
+	$(MAKE) -C libdvdnav libdvdnav.la
 endif
 
 # not ported to native Windows
@@ -115,7 +118,6 @@ xineplug_inp_stdin_fifo_la_SOURCES = input_stdin_fifo.c net_buf_ctrl.c
 xineplug_inp_stdin_fifo_la_LIBADD = $(XINE_LIB) $(PTHREAD_LIBS) $(LTLIBINTL)
 
 xineplug_inp_rtp_la_SOURCES = input_rtp.c net_buf_ctrl.c
-xineplug_inp_rtp_la_CFLAGS = $(AM_CFLAGS) -fno-strict-aliasing
 xineplug_inp_rtp_la_LIBADD = $(XINE_LIB) $(NET_LIBS) $(PTHREAD_LIBS) $(LTLIBINTL)
 
 xineplug_inp_http_la_SOURCES = input_http.c net_buf_ctrl.c http_helper.c

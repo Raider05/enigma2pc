@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2009 the xine project
+ * Copyright (C) 2000-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -91,7 +91,7 @@ rtsp_session_t *rtsp_session_start(xine_stream_t *stream, char *mrl) {
   uint32_t bandwidth;
 
   bandwidth_id = xine->config->register_enum(xine->config, "media.network.bandwidth", 10,
-			      rtsp_bandwidth_strs,
+			      (char **)rtsp_bandwidth_strs,
 			      _("network bandwidth"),
 			      _("Specify the bandwidth of your internet connection here. "
 			        "This will be used when streaming servers offer different versions "

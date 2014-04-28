@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2012 the xine project
+ * Copyright (C) 2000-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -149,7 +149,7 @@ struct xv_driver_s {
 
   /* color matrix switching */
   int                cm_active, cm_state;
-  xcb_atom_t         cm_atom;
+  xcb_atom_t         cm_atom, cm_atom2;
   int                fullrange_mode;
 };
 
@@ -387,10 +387,25 @@ static void xv_update_frame_format (vo_driver_t *this_gen,
       dispose_ximage(this, frame);
 
     create_ximage(this, frame, width, height, format);
+    if (!frame->image) {
+      frame->vo_frame.base[0] = NULL;
+      frame->vo_frame.base[1] = NULL;
+      frame->vo_frame.base[2] = NULL;
+      frame->req_width = 0;
+      frame->vo_frame.width = 0;
+      return;
+    }
 
     if(format == XINE_IMGFMT_YUY2) {
       frame->vo_frame.pitches[0] = frame->xv_pitches[0];
       frame->vo_frame.base[0] = frame->image + frame->xv_offsets[0];
+      {
+        const union {uint8_t bytes[4]; uint32_t word;} black = {{0, 128, 0, 128}};
+        uint32_t *q = (uint32_t *)frame->vo_frame.base[0];
+        int i;
+        for (i = frame->vo_frame.pitches[0] * frame->xv_height / 4; i > 0; i--)
+          *q++ = black.word;
+      }
     }
     else {
       frame->vo_frame.pitches[0] = frame->xv_pitches[0];
@@ -399,6 +414,9 @@ static void xv_update_frame_format (vo_driver_t *this_gen,
       frame->vo_frame.base[0] = frame->image + frame->xv_offsets[0];
       frame->vo_frame.base[1] = frame->image + frame->xv_offsets[2];
       frame->vo_frame.base[2] = frame->image + frame->xv_offsets[1];
+      memset (frame->vo_frame.base[0], 0, frame->vo_frame.pitches[0] * frame->xv_height);
+      memset (frame->vo_frame.base[1], 128, frame->vo_frame.pitches[1] * frame->xv_height / 2);
+      memset (frame->vo_frame.base[2], 128, frame->vo_frame.pitches[2] * frame->xv_height / 2);
     }
 
     /* allocated frame size may not match requested size */
@@ -628,13 +646,21 @@ static void xv_new_color (xv_driver_t *this, int cm) {
     xcb_xv_set_port_attribute (this->connection, this->xv_port, atom, satu);
   pthread_mutex_unlock(&this->main_mutex);
 
-  /* so far only binary nvidia drivers support this. why not nuveau? */
   if (this->cm_atom != XCB_NONE) {
+    /* 0 = 601 (SD), 1 = 709 (HD) */
+    /* so far only binary nvidia drivers support this. why not nuveau? */
     cm2 = (0xc00c >> cm) & 1;
     pthread_mutex_lock(&this->main_mutex);
     xcb_xv_set_port_attribute (this->connection, this->xv_port, this->cm_atom, cm2);
     pthread_mutex_unlock(&this->main_mutex);
     cm2 = cm2 ? 2 : 10;
+  } else if (this->cm_atom2 != XCB_NONE) {
+    /* radeonhd: 0 = size based auto, 1 = 601 (SD), 2 = 709 (HD) */
+    cm2 = ((0xc00c >> cm) & 1) + 1;
+    pthread_mutex_lock(&this->main_mutex);
+    xcb_xv_set_port_attribute (this->connection, this->xv_port, this->cm_atom2, cm2);
+    pthread_mutex_unlock(&this->main_mutex);
+    cm2 = cm2 == 2 ? 2 : 10;
   } else {
     cm2 = 10;
   }
@@ -1324,7 +1350,7 @@ static vo_driver_t *open_plugin(video_driver_class_t *class_gen, const void *vis
 				  VIDEO_DEVICE_XV_PORT_HELP,
 				  20, NULL, NULL);
   prefer_type = config->register_enum (config, "video.device.xv_preferred_method", 0,
-				       prefer_labels, VIDEO_DEVICE_XV_PREFER_TYPE_HELP,
+				       (char **)prefer_labels, VIDEO_DEVICE_XV_PREFER_TYPE_HELP,
 				       10, NULL, NULL);
 
   if (xv_port != 0) {
@@ -1383,6 +1409,7 @@ static vo_driver_t *open_plugin(video_driver_class_t *class_gen, const void *vis
   this->ovl_changed             = 0;
   this->xine                    = class->xine;
   this->cm_atom                 = XCB_NONE;
+  this->cm_atom2                = XCB_NONE;
 
   this->vo_driver.get_capabilities     = xv_get_capabilities;
   this->vo_driver.alloc_frame          = xv_alloc_frame;
@@ -1465,7 +1492,7 @@ static vo_driver_t *open_plugin(video_driver_class_t *class_gen, const void *vis
 	  xv_check_capability (this, VO_PROP_GAMMA, attribute_it.data,
 			       adaptor_it.data->base_id,
 			       NULL, NULL, NULL);
-	} else if(!strcmp(name, "XV_ITURBT_709")) {
+	} else if(!strcmp(name, "XV_ITURBT_709")) { /* nvidia */
 	  xcb_xv_get_port_attribute_cookie_t get_attribute_cookie;
 	  xcb_xv_get_port_attribute_reply_t *get_attribute_reply;
 	  xcb_intern_atom_cookie_t atom_cookie;
@@ -1484,6 +1511,30 @@ static vo_driver_t *open_plugin(video_driver_class_t *class_gen, const void *vis
 	      get_attribute_cookie, NULL);
 	    if (get_attribute_reply) {
 	      this->cm_active = get_attribute_reply->value ? 2 : 10;
+	      free(get_attribute_reply);
+	      this->capabilities |= VO_CAP_COLOR_MATRIX;
+	    }
+	  }
+	  pthread_mutex_unlock(&this->main_mutex);
+	} else if(!strcmp(name, "XV_COLORSPACE")) { /* radeonhd */
+	  xcb_xv_get_port_attribute_cookie_t get_attribute_cookie;
+	  xcb_xv_get_port_attribute_reply_t *get_attribute_reply;
+	  xcb_intern_atom_cookie_t atom_cookie;
+	  xcb_intern_atom_reply_t *atom_reply;
+	  pthread_mutex_lock(&this->main_mutex);
+	  atom_cookie = xcb_intern_atom (this->connection, 0, 13, name);
+	  atom_reply = xcb_intern_atom_reply (this->connection, atom_cookie, NULL);
+	  if (atom_reply) {
+	    this->cm_atom2 = atom_reply->atom;
+	    free (atom_reply);
+	  }
+	  if (this->cm_atom2 != XCB_NONE) {
+	    get_attribute_cookie = xcb_xv_get_port_attribute (this->connection,
+	      this->xv_port, this->cm_atom2);
+	    get_attribute_reply = xcb_xv_get_port_attribute_reply (this->connection,
+	      get_attribute_cookie, NULL);
+	    if (get_attribute_reply) {
+	      this->cm_active = get_attribute_reply->value == 2 ? 2 : (get_attribute_reply->value == 1 ? 10 : 0);
 	      free(get_attribute_reply);
 	      this->capabilities |= VO_CAP_COLOR_MATRIX;
 	    }
@@ -1531,7 +1582,7 @@ static vo_driver_t *open_plugin(video_driver_class_t *class_gen, const void *vis
 	} else if(!strcmp(name, "XV_BICUBIC")) {
 	  int xv_bicubic =
 	    config->register_enum (config, "video.device.xv_bicubic", 2,
-				   bicubic_types, VIDEO_DEVICE_XV_BICUBIC_HELP,
+				   (char **)bicubic_types, VIDEO_DEVICE_XV_BICUBIC_HELP,
 				   20, xv_update_XV_BICUBIC, this);
 	  config->update_num(config,"video.device.xv_bicubic",xv_bicubic);
 	}

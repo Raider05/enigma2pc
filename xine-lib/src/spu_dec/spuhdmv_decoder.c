@@ -969,6 +969,9 @@ static void spudec_decode_data (spu_decoder_t * this_gen, buf_element_t * buf)
   if ((buf->type & 0xffff0000) != BUF_SPU_HDMV)
     return;
 
+  if ((this->stream->spu_channel & 0x1f) != (buf->type & 0x1f))
+    return;
+
   if (buf->size < 1)
     return;
 

@@ -90,7 +90,7 @@ static ct check[] = {
     {0},
 };
 
-DMO_VideoDecoder * DMO_VideoDecoder_Open(char* dllname, GUID* guid, BITMAPINFOHEADER * format, int flip, int maxauto)
+DMO_VideoDecoder * DMO_VideoDecoder_Open(const char* dllname, GUID* guid, BITMAPINFOHEADER * format, int flip, int maxauto)
 {
     DMO_VideoDecoder *this;
     HRESULT result;

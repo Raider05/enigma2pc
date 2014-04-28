@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2011 the xine project
+ * Copyright (C) 2000-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -213,8 +213,8 @@ static vo_driver_t *dxr3_vo_open_plugin(video_driver_class_t *class_gen, const v
   char tmpstr[100];
   const char *confstr;
   int encoder, confnum;
-  static char *available_encoders[SUPPORTED_ENCODER_COUNT + 2];
-  plugin_node_t *node;
+  static const char *available_encoders[SUPPORTED_ENCODER_COUNT + 2];
+  plugin_node_t *node = NULL; /* unused inside dxr3_lavc_init () anyway... */
 
   static const char *const videoout_modes[] = {
     "letterboxed tv", "widescreen tv",
@@ -224,9 +224,10 @@ static vo_driver_t *dxr3_vo_open_plugin(video_driver_class_t *class_gen, const v
     NULL
   };
   static const char *const tv_modes[] = { "ntsc", "pal", "pal60" , "default", NULL };
+  /*
   int list_id, list_size;
   xine_sarray_t *plugin_list;
-
+  */
   if (class->instance) return NULL;
 
   this = calloc(1, sizeof(dxr3_driver_t));
@@ -315,7 +316,7 @@ static vo_driver_t *dxr3_vo_open_plugin(video_driver_class_t *class_gen, const v
 #endif
   if (encoder) {
     encoder = config->register_enum(config, "dxr3.encoding.encoder", 0,
-      available_encoders, _("encoder for non mpeg content"),
+      (char **) available_encoders, _("encoder for non mpeg content"),
       _("Content other than MPEG has to pass an additional reencoding stage, "
 	"because the dxr3 handles only MPEG.\nDepending on what is supported by your xine, "
 	"this setting can be \"fame\", \"rte\", \"libavcodec\" or \"none\".\n"
@@ -366,7 +367,7 @@ static vo_driver_t *dxr3_vo_open_plugin(video_driver_class_t *class_gen, const v
   dxr3_set_property(&this->vo_driver, VO_PROP_SATURATION, 500);
 
   /* overlay or tvout? */
-  confnum = config->register_enum(config, "dxr3.output.mode", 0, videoout_modes,
+  confnum = config->register_enum(config, "dxr3.output.mode", 0, (char **)videoout_modes,
     _("video output mode (TV or overlay)"),
     _("The way the DXR3 outputs the final video can be set here. The individual values are:\n\n"
       "letterboxed tv\n"
@@ -440,7 +441,7 @@ static vo_driver_t *dxr3_vo_open_plugin(video_driver_class_t *class_gen, const v
   }
 
   /* init tvmode */
-  confnum = config->register_enum(config, "dxr3.output.tvmode", 3, tv_modes,
+  confnum = config->register_enum(config, "dxr3.output.tvmode", 3, (char **)tv_modes,
     _("preferred tv mode"), _("Selects the TV mode to be used by the DXR3. The values mean:\n\n"
     "ntsc: NTSC at 60Hz\npal: PAL at 50Hz\npal60: PAL at 60Hz\ndefault: keep the card's setting"),
     0, NULL, NULL);
@@ -1286,7 +1287,7 @@ static void gather_screen_vars(dxr3_driver_t *this, const x11_visual_t *vis)
 #define TYPE_FLOAT 4
 
 struct lut_entry {
-    char *name;
+    const char *name;
     int type;
     void *ptr;
 };

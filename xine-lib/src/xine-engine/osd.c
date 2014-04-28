@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2012 the xine project
+ * Copyright (C) 2000-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -532,7 +532,7 @@ static int _osd_hide (osd_object_t *osd, int64_t vpts) {
   this->event.object.handle = osd->handle;
 
   /* not really needed this, but good pratice to clean it up */
-  memset( this->event.object.overlay, 0, sizeof(this->event.object.overlay) );
+  memset( this->event.object.overlay, 0, sizeof(*this->event.object.overlay) );
 
   this->event.event_type = OVERLAY_EVENT_HIDE;
   this->event.vpts = vpts;
@@ -1694,7 +1694,7 @@ static void osd_free_object (osd_object_t *osd_to_close) {
     this->event.object.handle = osd_to_close->handle;
 
     /* not really needed this, but good pratice to clean it up */
-    memset( this->event.object.overlay, 0, sizeof(this->event.object.overlay) );
+    memset( this->event.object.overlay, 0, sizeof(*this->event.object.overlay) );
     this->event.event_type = OVERLAY_EVENT_FREE_HANDLE;
     this->event.vpts = 0;
 
@@ -1890,7 +1890,7 @@ osd_renderer_t *_x_osd_renderer_init( xine_stream_t *stream ) {
 
   this->textpalette = this->stream->xine->config->register_enum (this->stream->xine->config,
                                              "ui.osd.text_palette", 0,
-                                             textpalettes_str,
+                                             (char **)textpalettes_str,
                                              _("palette (foreground-border-background) to use for subtitles and OSD"),
                                              _("The palette for on-screen-display and some subtitle formats that do "
 					       "not specify any colouring themselves. The palettes are listed in the "

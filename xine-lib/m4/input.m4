@@ -129,10 +129,11 @@ AC_DEFUN([XINE_INPUT_PLUGINS], [
     dnl XXX: This could be cleaned up so that code does not have to ifdef so much
     XINE_ARG_WITH([external-dvdnav], [Use external dvdnav library (not recommended)])
     if test x"$with_external_dvdnav" != x"no"; then
-        ACX_PACKAGE_CHECK([DVDNAV], [0.1.9], [dvdnav-config],
-                          [AC_DEFINE([HAVE_DVDNAV], 1, [Define this if you have a suitable version of libdvdnav])],
-                          [AC_MSG_RESULT([*** no usable version of libdvdnav found, using internal copy ***])])
-        AC_CHECK_LIB([dvdread], [navRead_DSI], [DVDNAV_LIBS="$DVDNAV_LIBS -ldvdread"], [])
+        PKG_CHECK_MODULES([DVDREAD], [dvdread],
+                          [PKG_CHECK_MODULES([DVDNAV], [dvdnav],
+                                             [AC_DEFINE([HAVE_DVDNAV], 1, [Define this if you have a suitable version of libdvdnav])],
+                                             [AC_MSG_RESULT([*** no usable version of libdvdnav found, using internal copy ***])])],
+                          [AC_MSG_RESULT([*** no usable version of libdvdread found, using internal libdvdnav ***])])
     else
         AC_MSG_RESULT([Using included DVDNAV support])
     fi
@@ -188,7 +189,7 @@ AC_DEFUN([XINE_INPUT_PLUGINS], [
     dnl libavformat
     XINE_ARG_ENABLE([avformat], [Enable libavformat support])
     if test "x$enable_avformat" != "xno"; then
-        PKG_CHECK_MODULES([AVFORMAT], [libavformat >= 55.19.0], [have_avformat=yes], [have_avformat=no])
+        PKG_CHECK_MODULES([AVFORMAT], [libavformat >= 53.21.1], [have_avformat=yes], [have_avformat=no])
         if test x"$hard_enable_avformat" = x"yes" && test x"$have_avformat" != x"yes"; then
             AC_MSG_ERROR([libavformat support requested, but library not found])
         fi

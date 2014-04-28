@@ -88,7 +88,6 @@ xineplug_dmx_qt_la_CPPFLAGS = $(AM_CPPFLAGS) $(ZLIB_CPPFLAGS)
 # is safe given same compiler options
 xineplug_dmx_asf_la_SOURCES = demux_asf.c asfheader.c
 xineplug_dmx_asf_la_LIBADD = $(XINE_LIB) $(LTLIBINTL) $(LTLIBICONV)
-xineplug_dmx_asf_la_CFLAGS = $(AM_CFLAGS) -fno-strict-aliasing
 
 xineplug_dmx_fli_la_SOURCES = demux_fli.c
 xineplug_dmx_fli_la_LIBADD = $(XINE_LIB)
@@ -114,7 +113,6 @@ xineplug_dmx_games_la_SOURCES = group_games.c demux_eawve.c \
 				demux_vqa.c demux_wc3movie.c demux_str.c \
 				demux_film.c demux_smjpeg.c demux_4xm.c \
 				demux_vmd.c
-xineplug_dmx_games_la_CFLAGS = $(AM_CFLAGS) -fno-strict-aliasing
 xineplug_dmx_games_la_LIBADD = $(XINE_LIB) $(LTLIBINTL)
 
 xineplug_dmx_audio_la_SOURCES = group_audio.c demux_aud.c demux_aiff.c \
@@ -144,7 +142,6 @@ xineplug_dmx_nsv_la_LIBADD = $(XINE_LIB)
 
 xineplug_dmx_matroska_la_SOURCES = demux_matroska.c demux_matroska-chapters.c ebml.c
 xineplug_dmx_matroska_la_LIBADD = $(XINE_LIB) $(LTLIBINTL) $(ZLIB_LIBS)
-xineplug_dmx_matroska_la_CFLAGS = $(AM_CFLAGS) -fno-strict-aliasing
 xineplug_dmx_matroska_la_CPPFLAGS = $(AM_CPPFLAGS) $(ZLIB_CPPFLAGS)
 
 xineplug_dmx_iff_la_SOURCES = demux_iff.c

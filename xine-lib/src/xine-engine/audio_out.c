@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2013 the xine project
+ * Copyright (C) 2000-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -2160,7 +2160,7 @@ xine_audio_port_t *_x_ao_new_port (xine_t *xine, ao_driver_t *driver,
     this->gap_tolerance          = driver->get_gap_tolerance (this->driver);
 
   this->av_sync_method_conf = config->register_enum(config, "audio.synchronization.av_sync_method", 0,
-                                                    av_sync_methods,
+                                                    (char **)av_sync_methods,
                                                     _("method to sync audio and video"),
 						    _("When playing audio and video, there are at least "
 						      "two clocks involved: The system clock, to which "
@@ -2189,7 +2189,7 @@ xine_audio_port_t *_x_ao_new_port (xine_t *xine, ao_driver_t *driver,
   config->update_num(config,"audio.synchronization.av_sync_method",this->av_sync_method_conf);
 
   this->resample_conf = config->register_enum (config, "audio.synchronization.resample_mode", 0,
-					       resample_modes,
+					       (char **)resample_modes,
 					       _("enable resampling"),
 					       _("When the sample rate of the decoded audio does not "
 						 "match the capabilities of your sound hardware, an "

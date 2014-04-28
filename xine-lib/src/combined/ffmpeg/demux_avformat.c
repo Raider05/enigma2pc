@@ -46,6 +46,7 @@
 #include "ff_video_list.h"
 #include "ff_audio_list.h"
 
+#include "ffmpeg_compat.h"
 /*
  * avformat dummy input plugin
  */
@@ -230,7 +231,7 @@ void *init_avformat_input_plugin (xine_t *xine, void *data) {
   return this;
 }
 
-input_info_t input_info_avformat = {
+const input_info_t input_info_avformat = {
   -2   /* priority */
 };
 
@@ -305,17 +306,35 @@ static uint32_t audio_codec_lookup(avformat_demux_plugin_t *this, int id) {
   }
 
   switch (id) {
-    case AV_CODEC_ID_PCM_S16LE:
+    case CODEC_ID_PCM_S16LE:
       return BUF_AUDIO_LPCM_LE;
-    case AV_CODEC_ID_PCM_S16BE:
+    case CODEC_ID_PCM_S16BE:
       return BUF_AUDIO_LPCM_BE;
-    case AV_CODEC_ID_MP2:
+    case CODEC_ID_MP2:
       return BUF_AUDIO_MPEG;
-    case AV_CODEC_ID_AC3:
+    case CODEC_ID_AC3:
       return BUF_AUDIO_A52;
   }
 
   return 0;
+}
+
+/* copied from libavformat/utils.c (not available in recent libav API) */
+static AVProgram *_find_program_from_stream(AVFormatContext *ic, AVProgram *last, int s)
+{
+  int i, j;
+
+  for (i = 0; i < ic->nb_programs; i++) {
+    if (ic->programs[i] == last) {
+      last = NULL;
+    } else {
+      if (!last)
+        for (j = 0; j < ic->programs[i]->nb_stream_indexes; j++)
+          if (ic->programs[i]->stream_index[j] == s)
+            return ic->programs[i];
+    }
+  }
+  return NULL;
 }
 
 static int find_avformat_streams(avformat_demux_plugin_t *this) {
@@ -359,7 +378,7 @@ static int find_avformat_streams(avformat_demux_plugin_t *this) {
   /* get audio tracks of the program */
 
   if (this->video_stream_idx >= 0) {
-    p = av_find_program_from_stream(this->fmt_ctx, NULL, this->video_stream_idx);
+    p = _find_program_from_stream(this->fmt_ctx, NULL, this->video_stream_idx);
   }
   nb_streams = p ? p->nb_stream_indexes : this->fmt_ctx->nb_streams;
 
@@ -816,6 +835,6 @@ void *init_avformat_demux_plugin (xine_t *xine, void *data) {
   return this;
 }
 
-demuxer_info_t demux_info_avformat = {
+const demuxer_info_t demux_info_avformat = {
   -1                       /* priority */
 };

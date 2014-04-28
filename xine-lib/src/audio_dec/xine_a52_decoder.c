@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2013 the xine project
+ * Copyright (C) 2000-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -75,6 +75,8 @@ typedef struct {
   int              disable_dynrng_compress;
   int              enable_surround_downmix;
 
+  sample_t         lfe_level;
+
   const AVCRC     *av_crc;
 } a52dec_class_t;
 
@@ -100,7 +102,9 @@ typedef struct a52dec_decoder_s {
   int              have_lfe;
 
   int              a52_flags_map[11];
+  int              a52_flags_map_lfe[11];
   int              ao_flags_map[11];
+  int              ao_flags_map_lfe[11];
 
   int              audio_caps;
   int              bypass_mode;
@@ -159,6 +163,7 @@ static const struct frmsize_s frmsizecod_tbl[64] =
 };
 
 /* config callbacks */
+static void lfe_level_change_cb(void *this_gen, xine_cfg_entry_t *entry);
 static void a52_level_change_cb(void *this_gen, xine_cfg_entry_t *entry);
 static void dynrng_compress_change_cb(void *this_gen, xine_cfg_entry_t *entry);
 static void surround_downmix_change_cb(void *this_gen, xine_cfg_entry_t *entry);
@@ -182,6 +187,24 @@ static void a52dec_discontinuity (audio_decoder_t *this_gen) {
   this->pts               = 0;
   this->pts_list[0]       = 0;
   this->pts_list_position = 0;
+}
+
+/* Note we write to the samples array here.
+   This seems OK since liba52 itself does so when downmixing non-lfe channels. */
+
+static inline void downmix_lfe_1 (sample_t *target, sample_t *lfe, sample_t gain) {
+  int i;
+  for (i = 0; i < 256; i++)
+    target[i] += (lfe[i] - 384.0) * gain;
+}
+
+static inline void downmix_lfe_2 (sample_t *target1, sample_t *target2, sample_t *lfe, sample_t gain) {
+  int i;
+  for (i = 0; i < 256; i++) {
+    sample_t v = (lfe[i] - 384.0) * gain;
+    target1[i] += v;
+    target2[i] += v;
+  }
 }
 
 static inline int16_t blah (int32_t i) {
@@ -235,7 +258,9 @@ static void a52dec_decode_frame (a52dec_decoder_t *this, int64_t pts, int previe
 
     /* determine output mode */
 
-    a52_output_flags = this->a52_flags_map[this->a52_flags & A52_CHANNEL_MASK];
+    a52_output_flags = this->a52_flags & A52_LFE ?
+      this->a52_flags_map_lfe[this->a52_flags & A52_CHANNEL_MASK] :
+      this->a52_flags_map[this->a52_flags];
 
     if (a52_frame (this->a52_state,
 		   this->frame_buffer,
@@ -249,16 +274,10 @@ static void a52dec_decode_frame (a52dec_decoder_t *this, int64_t pts, int previe
       a52_dynrng (this->a52_state, NULL, NULL);
 
     this->have_lfe = a52_output_flags & A52_LFE;
-    if (this->have_lfe)
-      if (this->audio_caps & AO_CAP_MODE_5_1CHANNEL) {
-        output_mode = AO_CAP_MODE_5_1CHANNEL;
-      } else if (this->audio_caps & AO_CAP_MODE_4_1CHANNEL) {
-        output_mode = AO_CAP_MODE_4_1CHANNEL;
-      } else {
-        xprintf(this->stream->xine, XINE_VERBOSITY_DEBUG, "liba52: WHAT DO I DO!!!\n");
-        output_mode = this->ao_flags_map[a52_output_flags];
-      }
-    else
+    if (this->have_lfe) {
+      output_mode = this->ao_flags_map_lfe[a52_output_flags & A52_CHANNEL_MASK];
+      samples += 256;
+    } else
       output_mode = this->ao_flags_map[a52_output_flags];
     /*
      * (re-)open output device
@@ -307,29 +326,45 @@ static void a52dec_decode_frame (a52dec_decoder_t *this, int64_t pts, int previe
 	break;
       }
 
+      /* We now have up to 6 groups of 256 samples each, in the order
+         LFE L C R RL RR. Channels not present and/or not requested
+         are simply left out (no gaps). Downmixing had only been applied
+         to non-LFE stuff, so we need to do that one ourselves. */
+
       switch (output_mode) {
       case AO_CAP_MODE_MONO:
+	if (this->have_lfe)
+	  downmix_lfe_1 (&samples[0*256], &samples[-1*256], this->class->lfe_level);
 	float_to_int (&samples[0], int_samples+(i*256), 1);
 	break;
       case AO_CAP_MODE_STEREO:
+	if (this->have_lfe)
+	  downmix_lfe_2 (&samples[0*256], &samples[1*256], &samples[-1*256], this->class->lfe_level);
 	float_to_int (&samples[0*256], int_samples+(i*256*2), 2);
 	float_to_int (&samples[1*256], int_samples+(i*256*2)+1, 2);
 	break;
       case AO_CAP_MODE_4CHANNEL:
+	if (this->have_lfe)
+	  downmix_lfe_2 (&samples[0*256], &samples[1*256], &samples[-1*256], this->class->lfe_level);
 	float_to_int (&samples[0*256], int_samples+(i*256*4),   4); /*  L */
 	float_to_int (&samples[1*256], int_samples+(i*256*4)+1, 4); /*  R */
 	float_to_int (&samples[2*256], int_samples+(i*256*4)+2, 4); /* RL */
 	float_to_int (&samples[3*256], int_samples+(i*256*4)+3, 4); /* RR */
 	break;
       case AO_CAP_MODE_4_1CHANNEL:
-	float_to_int (&samples[0*256], int_samples+(i*256*6)+5, 6); /* LFE */
-	float_to_int (&samples[1*256], int_samples+(i*256*6)+0, 6); /* L   */
-        float_to_int (&samples[2*256], int_samples+(i*256*6)+1, 6); /* R   */
-	float_to_int (&samples[3*256], int_samples+(i*256*6)+2, 6); /* RL */
-	float_to_int (&samples[4*256], int_samples+(i*256*6)+3, 6); /* RR */
+	if (this->have_lfe)
+	  float_to_int (&samples[-1*256], int_samples+(i*256*6)+5, 6); /* LFE */
+	else
+	  mute_channel (int_samples+(i*256*6)+5, 6);
+	float_to_int (&samples[0*256], int_samples+(i*256*6)+0, 6); /* L   */
+        float_to_int (&samples[1*256], int_samples+(i*256*6)+1, 6); /* R   */
+	float_to_int (&samples[2*256], int_samples+(i*256*6)+2, 6); /* RL */
+	float_to_int (&samples[3*256], int_samples+(i*256*6)+3, 6); /* RR */
 	mute_channel ( int_samples+(i*256*6)+4, 6); /* C */
 	break;
       case AO_CAP_MODE_5CHANNEL:
+	if (this->have_lfe)
+	  downmix_lfe_2 (&samples[0*256], &samples[2*256], &samples[-1*256], this->class->lfe_level);
 	float_to_int (&samples[0*256], int_samples+(i*256*6)+0, 6); /*  L */
         float_to_int (&samples[1*256], int_samples+(i*256*6)+4, 6); /*  C */
 	float_to_int (&samples[2*256], int_samples+(i*256*6)+1, 6); /*  R */
@@ -338,12 +373,15 @@ static void a52dec_decode_frame (a52dec_decoder_t *this, int64_t pts, int previe
 	mute_channel ( int_samples+(i*256*6)+5, 6); /* LFE */
 	break;
       case AO_CAP_MODE_5_1CHANNEL:
-	float_to_int (&samples[0*256], int_samples+(i*256*6)+5, 6); /* lfe */
-	float_to_int (&samples[1*256], int_samples+(i*256*6)+0, 6); /*   L */
-	float_to_int (&samples[2*256], int_samples+(i*256*6)+4, 6); /*   C */
-	float_to_int (&samples[3*256], int_samples+(i*256*6)+1, 6); /*   R */
-	float_to_int (&samples[4*256], int_samples+(i*256*6)+2, 6); /*  RL */
-	float_to_int (&samples[5*256], int_samples+(i*256*6)+3, 6); /*  RR */
+	if (this->have_lfe)
+	  float_to_int (&samples[-1*256], int_samples+(i*256*6)+5, 6); /* lfe */
+	else
+	  mute_channel (int_samples+(i*256*6)+5, 6);
+	float_to_int (&samples[0*256], int_samples+(i*256*6)+0, 6); /*   L */
+	float_to_int (&samples[1*256], int_samples+(i*256*6)+4, 6); /*   C */
+	float_to_int (&samples[2*256], int_samples+(i*256*6)+1, 6); /*   R */
+	float_to_int (&samples[3*256], int_samples+(i*256*6)+2, 6); /*  RL */
+	float_to_int (&samples[4*256], int_samples+(i*256*6)+3, 6); /*  RR */
 	break;
       default:
 	xprintf (this->stream->xine, XINE_VERBOSITY_DEBUG, "liba52: help - unsupported mode %08x\n", output_mode);
@@ -659,8 +697,6 @@ static audio_decoder_t *open_plugin (audio_decoder_class_t *class_gen, xine_stre
   this->stream                            = stream;
   this->class                             = (a52dec_class_t *) class_gen;
 
-  /* int i; */
-
   this->audio_caps        = stream->audio_out->get_capabilities(stream->audio_out);
   this->syncword          = 0;
   this->sync_state        = 0;
@@ -697,78 +733,76 @@ static audio_decoder_t *open_plugin (audio_decoder_class_t *class_gen, xine_stre
   if (this->audio_caps & AO_CAP_MODE_A52)
     this->bypass_mode = 1;
   else {
+    const int modes[] = {
+      AO_CAP_MODE_MONO,        A52_MONO,
+      AO_CAP_MODE_STEREO,      A52_STEREO,
+      AO_CAP_MODE_4CHANNEL,    A52_2F2R,
+      AO_CAP_MODE_4_1CHANNEL,  A52_2F2R | A52_LFE,
+      AO_CAP_MODE_5CHANNEL,    A52_3F2R,
+      AO_CAP_MODE_5_1CHANNEL,  A52_3F2R | A52_LFE
+    }, wishlist[] = {
+      A52_MONO,   0, 2, 4, 6, 8, 10,
+      A52_STEREO, 2, 4, 6, 8, 10, 0,
+      A52_3F,     8, 10, 2, 4, 6, 0,
+      A52_2F1R,   4, 6, 8, 10, 2, 0,
+      A52_3F1R,   8, 10, 4, 6, 2, 0,
+      A52_2F2R,   4, 6, 8, 10, 2, 0,
+      A52_3F2R,   8, 10, 4, 6, 2, 0,
+      A52_DOLBY,  2, 4, 6, 8, 10, 0,
+      /* same thing again with lfe */
+      A52_MONO,   6, 10, 0, 2, 4, 8,
+      A52_STEREO, 6, 10, 2, 4, 8, 0,
+      A52_3F,     10, 6, 8, 2, 4, 0,
+      A52_2F1R,   6, 10, 4, 8, 2, 0,
+      A52_3F1R,   10, 6, 8, 4, 2, 0,
+      A52_2F2R,   6, 10, 4, 8, 2, 0,
+      A52_3F2R,   10, 6, 8, 4, 2, 0,
+      A52_DOLBY,  2, 4, 6, 8, 10, 0
+    };
+    int i, j;
+
     this->bypass_mode = 0;
 
-    this->a52_flags_map[A52_MONO]   = A52_MONO;
-    this->a52_flags_map[A52_STEREO] = ((this->class->enable_surround_downmix ? A52_DOLBY : A52_STEREO));
-    this->a52_flags_map[A52_3F]     = ((this->class->enable_surround_downmix ? A52_DOLBY : A52_STEREO));
-    this->a52_flags_map[A52_2F1R]   = ((this->class->enable_surround_downmix ? A52_DOLBY : A52_STEREO));
-    this->a52_flags_map[A52_3F1R]   = ((this->class->enable_surround_downmix ? A52_DOLBY : A52_STEREO));
-    this->a52_flags_map[A52_2F2R]   = ((this->class->enable_surround_downmix ? A52_DOLBY : A52_STEREO));
-    this->a52_flags_map[A52_3F2R]   = ((this->class->enable_surround_downmix ? A52_DOLBY : A52_STEREO));
-    this->a52_flags_map[A52_DOLBY]  = ((this->class->enable_surround_downmix ? A52_DOLBY : A52_STEREO));
-
-    this->ao_flags_map[A52_MONO]    = AO_CAP_MODE_MONO;
-    this->ao_flags_map[A52_STEREO]  = AO_CAP_MODE_STEREO;
-    this->ao_flags_map[A52_3F]      = AO_CAP_MODE_STEREO;
-    this->ao_flags_map[A52_2F1R]    = AO_CAP_MODE_STEREO;
-    this->ao_flags_map[A52_3F1R]    = AO_CAP_MODE_STEREO;
-    this->ao_flags_map[A52_2F2R]    = AO_CAP_MODE_STEREO;
-    this->ao_flags_map[A52_3F2R]    = AO_CAP_MODE_STEREO;
-    this->ao_flags_map[A52_DOLBY]   = AO_CAP_MODE_STEREO;
+    /* guard against weird audio out */
+    if (!(this->audio_caps & (AO_CAP_MODE_MONO | AO_CAP_MODE_STEREO |
+      AO_CAP_MODE_4CHANNEL | AO_CAP_MODE_4_1CHANNEL |
+      AO_CAP_MODE_5CHANNEL | AO_CAP_MODE_5_1CHANNEL)))
+      this->audio_caps |= AO_CAP_MODE_MONO;
 
     /* find best mode */
-    if (this->audio_caps & AO_CAP_MODE_5_1CHANNEL) {
+    for (i = 0; i < 8 * 7; i += 7) {
+      for (j = 1; j < 7; j++) {
+        if (this->audio_caps & modes[wishlist[i + j]]) {
+          this->a52_flags_map[wishlist[i]] = modes[wishlist[i + j] + 1];
+          this->ao_flags_map[wishlist[i]] = modes[wishlist[i + j]];
+          break;
+        }
+      }
+    }
+    /* Always request extra bass. Liba52 will discard it if we dont. */
+    /* Instead, downmix it manually if present and audio out does not support it. */
+    for (; i < 16 * 7; i += 7) {
+      for (j = 1; j < 7; j++) {
+        if (this->audio_caps & modes[wishlist[i + j]]) {
+          this->a52_flags_map_lfe[wishlist[i]] = modes[wishlist[i + j] + 1] | A52_LFE;
+          this->ao_flags_map_lfe[wishlist[i]] = modes[wishlist[i + j]];
+          break;
+        }
+      }
+    }
 
-      this->a52_flags_map[A52_2F2R]   = A52_2F2R;
-      this->a52_flags_map[A52_3F2R]   = A52_3F2R | A52_LFE;
-      this->ao_flags_map[A52_2F2R]    = AO_CAP_MODE_4CHANNEL;
-      this->ao_flags_map[A52_3F2R]    = AO_CAP_MODE_5CHANNEL;
+    /* downmix to analogue dematrix? */
+    if (this->class->enable_surround_downmix) {
+      for (i = 0; i < 11; i++) {
+        if (this->a52_flags_map[i] == A52_STEREO)
+          this->a52_flags_map[i] = A52_DOLBY;
+        if (this->a52_flags_map_lfe[i] == (A52_STEREO | A52_LFE))
+          this->a52_flags_map_lfe[i] = A52_DOLBY | A52_LFE;
+      }
+    }
 
-    } else if (this->audio_caps & AO_CAP_MODE_5CHANNEL) {
-
-      this->a52_flags_map[A52_2F2R]   = A52_2F2R;
-      this->a52_flags_map[A52_3F2R]   = A52_3F2R;
-      this->ao_flags_map[A52_2F2R]    = AO_CAP_MODE_4CHANNEL;
-      this->ao_flags_map[A52_3F2R]    = AO_CAP_MODE_5CHANNEL;
-
-    } else if (this->audio_caps & AO_CAP_MODE_4_1CHANNEL) {
-
-      this->a52_flags_map[A52_2F2R]   = A52_2F2R;
-      this->a52_flags_map[A52_3F2R]   = A52_2F2R | A52_LFE;
-      this->ao_flags_map[A52_2F2R]    = AO_CAP_MODE_4CHANNEL;
-      this->ao_flags_map[A52_3F2R]    = AO_CAP_MODE_4CHANNEL;
-
-    } else if (this->audio_caps & AO_CAP_MODE_4CHANNEL) {
-
-      this->a52_flags_map[A52_2F2R]   = A52_2F2R;
-      this->a52_flags_map[A52_3F2R]   = A52_2F2R;
-
-      this->ao_flags_map[A52_2F2R]    = AO_CAP_MODE_4CHANNEL;
-      this->ao_flags_map[A52_3F2R]    = AO_CAP_MODE_4CHANNEL;
-
-      /* else if (this->audio_caps & AO_CAP_MODE_STEREO)
-	 defaults are ok */
-    } else if (!(this->audio_caps & AO_CAP_MODE_STEREO)) {
+    if (this->ao_flags_map[A52_STEREO] == AO_CAP_MODE_MONO) {
       xprintf (this->stream->xine, XINE_VERBOSITY_LOG, _("HELP! a mono-only audio driver?!\n"));
-
-      this->a52_flags_map[A52_MONO]   = A52_MONO;
-      this->a52_flags_map[A52_STEREO] = A52_MONO;
-      this->a52_flags_map[A52_3F]     = A52_MONO;
-      this->a52_flags_map[A52_2F1R]   = A52_MONO;
-      this->a52_flags_map[A52_3F1R]   = A52_MONO;
-      this->a52_flags_map[A52_2F2R]   = A52_MONO;
-      this->a52_flags_map[A52_3F2R]   = A52_MONO;
-      this->a52_flags_map[A52_DOLBY]  = A52_MONO;
-
-      this->ao_flags_map[A52_MONO]    = AO_CAP_MODE_MONO;
-      this->ao_flags_map[A52_STEREO]  = AO_CAP_MODE_MONO;
-      this->ao_flags_map[A52_3F]      = AO_CAP_MODE_MONO;
-      this->ao_flags_map[A52_2F1R]    = AO_CAP_MODE_MONO;
-      this->ao_flags_map[A52_3F1R]    = AO_CAP_MODE_MONO;
-      this->ao_flags_map[A52_2F2R]    = AO_CAP_MODE_MONO;
-      this->ao_flags_map[A52_3F2R]    = AO_CAP_MODE_MONO;
-      this->ao_flags_map[A52_DOLBY]   = AO_CAP_MODE_MONO;
     }
   }
 
@@ -826,8 +860,20 @@ static void *init_plugin (xine_t *xine, void *data) {
 						  "additional channels are mixed into the stereo "
 						  "signal."),
 						0, surround_downmix_change_cb, this);
+  this->lfe_level = 0.5 * cfg->register_range (cfg, "audio.a52.lfe_level", 100,
+						 0, 200,
+						 _("A/52 bass downmix volume"),
+						 _("Use this volume to mix in the bass effect,\n"
+						   "if you have large stereo speakers\n"
+						   "or an analogue subwoofer."),
+						 10, lfe_level_change_cb, this) / 100.0;
   lprintf ("init_plugin called\n");
   return this;
+}
+
+static void lfe_level_change_cb(void *this_gen, xine_cfg_entry_t *entry)
+{
+  ((a52dec_class_t *)this_gen)->lfe_level = 0.5 * entry->num_value / 100.0;
 }
 
 static void a52_level_change_cb(void *this_gen, xine_cfg_entry_t *entry)

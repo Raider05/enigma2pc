@@ -95,7 +95,7 @@ static int open_smjpeg_file(demux_smjpeg_t *this) {
   unsigned int  chunk_tag;
   unsigned char signature[8];
   unsigned char header_chunk[SMJPEG_HEADER_CHUNK_MAX_SIZE];
-  unsigned int  audio_codec = 0;
+  uint32_t      audio_codec = 0;
 
   static const uint8_t SMJPEG_SIGNATURE[8] =
     { 0x00, 0x0A, 'S', 'M', 'J', 'P', 'E', 'G' };
@@ -139,7 +139,7 @@ static int open_smjpeg_file(demux_smjpeg_t *this) {
 
       this->bih.biWidth = _X_BE_16(&header_chunk[8]);
       this->bih.biHeight = _X_BE_16(&header_chunk[10]);
-      this->bih.biCompression = *(uint32_t *)&header_chunk[12];
+      memcpy(&this->bih.biCompression, &header_chunk[12], sizeof(uint32_t));
       this->video_type = _x_fourcc_to_buf_video(this->bih.biCompression);
       if (!this->video_type)
         _x_report_video_fourcc (this->stream->xine, LOG_MODULE, this->bih.biCompression);
@@ -160,7 +160,7 @@ static int open_smjpeg_file(demux_smjpeg_t *this) {
         audio_codec = be2me_32(APCM_TAG);
         this->audio_type = BUF_AUDIO_SMJPEG_IMA;
       } else {
-        audio_codec = *(uint32_t *)&header_chunk[8];
+        memcpy(&audio_codec, &header_chunk[8], sizeof(uint32_t));
         this->audio_type = _x_formattag_to_buf_audio(audio_codec);
         if (!this->audio_type)
           _x_report_audio_format_tag (this->stream->xine, LOG_MODULE, audio_codec);

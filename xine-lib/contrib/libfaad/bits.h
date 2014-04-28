@@ -35,6 +35,8 @@
 extern "C" {
 #endif
 
+#include "xine/attributes.h"
+
 #include "analysis.h"
 #ifdef ANALYSIS
 #include <stdio.h>
@@ -108,7 +110,7 @@ static INLINE uint32_t getdword(void *mem)
 }
 
 /* reads only n bytes from the stream instead of the standard 4 */
-static /*INLINE*/ uint32_t getdword_n(void *mem, int n)
+static /*INLINE*/ __attr_unused uint32_t getdword_n(void *mem, int n)
 {
     uint32_t tmp = 0;
 #ifndef ARCH_IS_BIG_ENDIAN
@@ -266,7 +268,7 @@ static INLINE void faad_flushbits_rev(bitfile *ld, uint32_t bits)
     }
 }
 
-static /*INLINE*/ uint32_t faad_getbits_rev(bitfile *ld, uint32_t n
+static /*INLINE*/ __attr_unused uint32_t faad_getbits_rev(bitfile *ld, uint32_t n
                                         DEBUGDEC)
 {
     uint32_t ret;

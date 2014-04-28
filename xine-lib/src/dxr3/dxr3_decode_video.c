@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2011 the xine project
+ * Copyright (C) 2000-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -235,7 +235,7 @@ static video_decoder_t *dxr3_open_plugin(video_decoder_class_t *class_gen, xine_
   }
 
   this->use_panscan           = cfg->register_enum(cfg,
-    "dxr3.use_panscan", 0, panscan_types, _("use Pan & Scan info"),
+    "dxr3.use_panscan", 0, (char **)panscan_types, _("use Pan & Scan info"),
     _("\"Pan & Scan\" is a special display mode which is sometimes used in MPEG "
       "encoded material. You can specify here, how to handle such content.\n\n"
       "only when forced\n"

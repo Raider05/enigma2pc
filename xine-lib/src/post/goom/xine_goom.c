@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2012 the xine project
+ * Copyright (C) 2000-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -233,7 +233,7 @@ static void *goom_init_plugin(xine_t *xine, void *data)
 
 
   cfg->register_enum (cfg, "effects.goom.csc_method", 0,
-                           goom_csc_methods,
+                           (char **)goom_csc_methods,
                            _("colour space conversion method"),
                            _("You can choose the colour space conversion method used by goom.\n"
 			     "The available selections should be self-explaining."),

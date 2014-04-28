@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2013 the xine project
+ * Copyright (C) 2000-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -1818,7 +1818,7 @@ void xine_init (xine_t *this) {
    */
   this->demux_strategy  = this->config->register_enum (
       this->config, "engine.demux.strategy", 0,
-      demux_strategies,
+      (char **)demux_strategies,
       _("media format detection strategy"),
       _("xine offers various methods to detect the media format of input to play. "
 	"The individual values are:\n\n"

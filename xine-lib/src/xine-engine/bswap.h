@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2009 the xine project
+ * Copyright (C) 2000-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -70,6 +70,25 @@
                   ((uint64_t)(((uint8_t*)(x))[2]) << 16) | \
                   ((uint64_t)(((uint8_t*)(x))[1]) << 8) | \
                   ((uint64_t)((uint8_t*)(x))[0]))
+
+/* Tested with gcc 4.5 */
+#if defined(__GNUC__) && ((__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ > 4))
+# undef _X_BE_32
+# undef _X_BE_64
+# undef _X_LE_32
+# undef _X_LE_64
+# ifdef WORDS_BIGENDIAN
+#  define _X_LE_32(x) ({ int32_t tempi; __builtin_memcpy (&tempi, (x), 4); (uint32_t)(__builtin_bswap32 (tempi)); })
+#  define _X_LE_64(x) ({ int64_t tempi; __builtin_memcpy (&tempi, (x), 8); (uint64_t)(__builtin_bswap64 (tempi)); })
+#  define _X_BE_32(x) ({ uint32_t tempi; __builtin_memcpy (&tempi, (x), 4); tempi; })
+#  define _X_BE_64(x) ({ uint64_t tempi; __builtin_memcpy (&tempi, (x), 8); tempi; })
+# else
+#  define _X_BE_32(x) ({ int32_t tempi; __builtin_memcpy (&tempi, (x), 4); (uint32_t)(__builtin_bswap32 (tempi)); })
+#  define _X_BE_64(x) ({ int64_t tempi; __builtin_memcpy (&tempi, (x), 8); (uint64_t)(__builtin_bswap64 (tempi)); })
+#  define _X_LE_32(x) ({ uint32_t tempi; __builtin_memcpy (&tempi, (x), 4); tempi; })
+#  define _X_LE_64(x) ({ uint64_t tempi; __builtin_memcpy (&tempi, (x), 8); tempi; })
+# endif
+#endif
 
 #ifdef WORDS_BIGENDIAN
 #define _X_ME_16(x) _X_BE_16(x)

@@ -38,7 +38,7 @@ struct _DMO_AudioDecoder
 typedef long STDCALL (*GETCLASS) (GUID*, GUID*, void**);
 extern void print_wave_header(WAVEFORMATEX *h);
 
-DMO_AudioDecoder * DMO_AudioDecoder_Open(char* dllname, GUID* guid, WAVEFORMATEX* wf,int out_channels)
+DMO_AudioDecoder * DMO_AudioDecoder_Open(const char* dllname, GUID* guid, WAVEFORMATEX* wf,int out_channels)
 //DMO_AudioDecoder * DMO_AudioDecoder_Create(const CodecInfo * info, const WAVEFORMATEX* wf)
 {
     DMO_AudioDecoder *this;

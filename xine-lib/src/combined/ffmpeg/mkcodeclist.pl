@@ -74,7 +74,7 @@ if ($w) {
     next unless defined $codecs{$line->[1]};
     print LIST "  { BUF_${Type}_$line->[0], $ff_prefix$line->[1], \"$line->[2] (ffmpeg)\" },\n" or die $!;
   }
-  print LIST "};\n\nstatic uint32_t supported_${type}_types[] = {\n" or die $!;
+  print LIST "};\n\nstatic const uint32_t supported_${type}_types[] = {\n" or die $!;
   foreach $line (@known) {
     next if $line->[0] eq '!';
     next unless defined $codecs{$line->[1]};

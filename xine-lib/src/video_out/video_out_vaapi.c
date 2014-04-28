@@ -2233,18 +2233,22 @@ static int vaapi_ovl_associate(vo_driver_t *this_gen, int format, int bShow) {
 static void vaapi_overlay_clut_yuv2rgb(vaapi_driver_t  *this, vo_overlay_t *overlay, vaapi_frame_t *frame)
 {
   int i;
-  clut_t* clut = (clut_t*) overlay->color;
+  uint32_t *rgb;
 
   if (!overlay->rgb_clut) {
-    for ( i=0; i<sizeof(overlay->color)/sizeof(overlay->color[0]); i++ ) {
-      *((uint32_t *)&clut[i]) = this->ovl_yuv2rgb->yuv2rgb_single_pixel_fun(this->ovl_yuv2rgb, clut[i].y, clut[i].cb, clut[i].cr);
+    rgb = overlay->color;
+    for (i = sizeof (overlay->color) / sizeof (overlay->color[0]); i > 0; i--) {
+      clut_t *yuv = (clut_t *)rgb;
+      *rgb++ = this->ovl_yuv2rgb->yuv2rgb_single_pixel_fun (this->ovl_yuv2rgb, yuv->y, yuv->cb, yuv->cr);
     }
     overlay->rgb_clut++;
   }
+
   if (!overlay->hili_rgb_clut) {
-    clut = (clut_t*) overlay->hili_color;
-    for ( i=0; i<sizeof(overlay->color)/sizeof(overlay->color[0]); i++) {
-      *((uint32_t *)&clut[i]) = this->ovl_yuv2rgb->yuv2rgb_single_pixel_fun(this->ovl_yuv2rgb, clut[i].y, clut[i].cb, clut[i].cr);
+    rgb = overlay->hili_color;
+    for (i = sizeof (overlay->color) / sizeof (overlay->color[0]); i > 0; i--) {
+      clut_t *yuv = (clut_t *)rgb;
+      *rgb++ = this->ovl_yuv2rgb->yuv2rgb_single_pixel_fun (this->ovl_yuv2rgb, yuv->y, yuv->cb, yuv->cr);
     }
     overlay->hili_rgb_clut++;
   }

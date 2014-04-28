@@ -4,7 +4,7 @@
 typedef struct _DMO_AudioDecoder DMO_AudioDecoder;
 
 //DMO_AudioDecoder * DMO_AudioDecoder_Create(const CodecInfo * info, const WAVEFORMATEX* wf);
-DMO_AudioDecoder * DMO_AudioDecoder_Open(char* dllname, GUID* guid, WAVEFORMATEX* wf,int out_channels);
+DMO_AudioDecoder * DMO_AudioDecoder_Open(const char* dllname, GUID* guid, WAVEFORMATEX* wf,int out_channels);
 
 void DMO_AudioDecoder_Destroy(DMO_AudioDecoder *this);
 

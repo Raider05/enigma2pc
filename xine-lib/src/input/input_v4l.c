@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2011 the xine project
+ * Copyright (C) 2003-2014 the xine project
  * Copyright (C) 2003 J.Asselman <j.asselman@itsec-ps.nl>
  *
  * This file is part of xine, a free video player.
@@ -1925,7 +1925,7 @@ static void *init_video_class (xine_t *xine, void *data)
 			   10, NULL, NULL);
 #endif
   config->register_enum (config, "media.video4linux.tv_standard", 0 /* auto */,
-                        tv_standard_names, _("v4l TV standard"),
+                        (char **)tv_standard_names, _("v4l TV standard"),
                         _("Selects the TV standard of the input signals. "
                         "Either: AUTO, PAL, NTSC or SECAM. "), 20, NULL, NULL);
 
