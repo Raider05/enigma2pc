@@ -5,7 +5,7 @@ INSTALL_E2DIR="/usr/local/e2"
 
 BACKUP_E2="etc/enigma2 etc/tuxbox/*.xml etc/tuxbox/nim_sockets share/enigma2/xine.conf"
 
-REQPKG="xterm unclutter mingetty libmpcdec-dev mawk libvpx-dev \
+REQPKG="xterm unclutter mingetty libmpcdec-dev mawk libvpx-dev python-twisted-web \
 	"
 for p in $REQPKG; do
         echo -n ">>> Checking \"$p\" : "
