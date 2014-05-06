@@ -1638,7 +1638,7 @@ class InfoBarTimeshift:
 		self["SeekActions"].setEnabled(state)
 		if not state:
 			self.setSeekState(self.SEEK_STATE_PLAY)
-			self.restartSubtitle()
+		self.restartSubtitle()
 
 	def __serviceStarted(self):
 		self.pvrStateDialog.hide()
