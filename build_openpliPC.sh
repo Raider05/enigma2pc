@@ -6,6 +6,7 @@ INSTALL_E2DIR="/usr/local/e2"
 BACKUP_E2="etc/enigma2 etc/tuxbox/*.xml etc/tuxbox/nim_sockets share/enigma2/xine.conf"
 
 REQPKG="xterm unclutter mingetty libmpcdec-dev mawk libvpx-dev python-twisted-web \
+	libnl-3-dev libnl-genl-3-dev linux-headers-`uname -r` \
 	"
 for p in $REQPKG; do
         echo -n ">>> Checking \"$p\" : "
@@ -180,6 +181,7 @@ if [ "$DO_CONFIGURE" -eq "1" ]; then
 
 #Create symlinks in /usr diectory before compile enigma2
   sudo ln -sd /usr/share/swig2.0 /usr/share/swig1.3
+  sudo ln -sd /usr/include/libnl3/netlink /usr/include/netlink
 
   autoreconf -i
   ./configure --prefix=$INSTALL_E2DIR --with-xlib --with-debug
@@ -210,6 +212,7 @@ else
     echo "An error occured while building OpenPliPC - section make install"
     exit
   fi
+fi
   cd dvbsoftwareca
   sudo make -j"$DO_PARALLEL"
   if [ ! $? -eq 0 ]
@@ -229,7 +232,6 @@ else
         sudo ln -s /dev/dvb/adapter0/demux0 /dev/dvb/adapter0/demux1
   fi
 
-fi  
 cd ../..
 
 echo "--------------------------------------"
