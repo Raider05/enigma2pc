@@ -116,7 +116,7 @@ int loadPNG(ePtr<gPixmap> &result, const char *filename, int accel)
 	channels = png_get_channels(png_ptr, info_ptr);
 
 	result = new gPixmap(eSize(width, height), bit_depth * channels, accel);
-	gSurface *surface = result->surface;
+	gUnmanagedSurface *surface = result->surface;
 
 	png_bytep *rowptr = new png_bytep[height];
 	for (unsigned int i = 0; i < height; i++)
@@ -275,7 +275,8 @@ int savePNG(const char *filename, gPixmap *pixmap)
 	if (!fp)
 		return -1;
 	
-	gSurface *surface = pixmap->surface;
+//	gSurface *surface = pixmap->surface;
+	gUnmanagedSurface *surface = pixmap->surface;
 	if (!surface)
 		return -2;
 	
