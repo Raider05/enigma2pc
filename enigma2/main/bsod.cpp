@@ -265,7 +265,7 @@ void bsodFatal(const char *component)
 		"a software problem, and needs to be restarted.\n"
 		"Please send the logfile " << crashlog_name << " to " << crash_emailaddr << ".\n"
 		"Your STB restarts in 10 seconds!\n"
-		"Component: " << crash_component);
+		"Component: " << crash_component;
 
 	p.renderText(usable_area, os.str().c_str(), gPainter::RT_WRAP|gPainter::RT_HALIGN_LEFT);
 

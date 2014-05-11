@@ -246,14 +246,14 @@ void gXlibDC::setResolution(int xres, int yres)
 
 	xineLib->newOsd(windowWidth, windowHeight, argb_buffer);
 
-	m_surface.type = 0;
+//	m_surface.type = 0;
 	m_surface.x = windowWidth;
 	m_surface.y = windowHeight;
 	m_surface.bpp = 32;
 	m_surface.bypp = 4;
 	m_surface.stride = windowWidth*4;
 	m_surface.data = argb_buffer;
-	m_surface.offset = 0;
+//	m_surface.offset = 0;
 
 	m_pixmap = new gPixmap(&m_surface);
 
