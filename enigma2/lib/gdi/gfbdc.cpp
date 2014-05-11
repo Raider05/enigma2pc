@@ -162,6 +162,9 @@ void gFBDC::setResolution(int xres, int yres)
 	if ((m_xres == xres) && (m_yres == yres))
 		return;
 
+	if (gAccel::getInstance())
+		gAccel::getInstance()->releaseAccelMemorySpace();
+
 	m_xres = xres; m_yres = yres;
 
 	fb->SetMode(m_xres, m_yres, 32);
