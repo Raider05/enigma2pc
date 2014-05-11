@@ -228,13 +228,10 @@ def collectAttributes(skinAttributes, node, context, skin_path_prefix=None, igno
 
 
 def loadPixmap(path, desktop):
-	cached = False
 	option = path.find("#")
 	if option != -1:
-		options = path[option+1:].split(',')
 		path = path[:option]
-		cached = "cached" in options
-	ptr = LoadPixmap(path, desktop, cached)
+	ptr = LoadPixmap(path, desktop)
 	if ptr is None:
 		raise SkinError("pixmap file %s not found!" % (path))
 	return ptr
