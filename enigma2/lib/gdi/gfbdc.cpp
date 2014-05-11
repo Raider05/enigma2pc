@@ -92,7 +92,7 @@ void gFBDC::exec(const gOpcode *o)
 	}
 	case gOpcode::flip:
 	{
-		if (m_enable_double_buffering)
+		if (surface_back.data_phys)
 		{
 			gUnmanagedSurface s(surface);
 			surface = surface_back;
@@ -162,21 +162,19 @@ void gFBDC::setGamma(int g)
 
 void gFBDC::setResolution(int xres, int yres)
 {
-	if ((m_xres == xres) && (m_yres == yres))
+	if ((surface.x == xres) && (surface.y == yres))
 		return;
 
 	if (gAccel::getInstance())
 		gAccel::getInstance()->releaseAccelMemorySpace();
 
-	m_xres = xres; m_yres = yres;
+	fb->SetMode(xres, yres, 32);
 
-	fb->SetMode(m_xres, m_yres, 32);
-
-	for (int y=0; y<m_yres; y++)	// make whole screen transparent
+	for (int y=0; y<yres; y++)	// make whole screen transparent
 		memset(fb->lfb+y*fb->Stride(), 0x00, fb->Stride());
 
-	surface.x = m_xres;
-	surface.y = m_yres;
+	surface.x = xres;
+	surface.y = yres;
 	surface.bpp = 32;
 	surface.bypp = 4;
 	surface.stride = fb->Stride();
@@ -188,18 +186,17 @@ void gFBDC::setResolution(int xres, int yres)
 
 	if (fb->getNumPages() > 1)
 	{
-		m_enable_double_buffering = 1;
-		surface_back.x = m_xres;
-		surface_back.y = m_yres;
-		surface_back.bpp = 32;
-		surface_back.bypp = 4;
-		surface_back.stride = fb->Stride();
+		surface_back = surface;
 		surface_back.data = fb->lfb + fb_size;
 		surface_back.data_phys = surface.data_phys + fb_size;
 		fb_size *= 2;
-	} else
-		m_enable_double_buffering = 0;
-
+	}
+	else
+	{
+		surface_back.data = 0;
+		surface_back.data_phys = 0;
+	
+}
 	eDebug("%dkB available for acceleration surfaces.", (fb->Available() - fb_size)/1024);
 	eDebug("resolution: %d x %d x %d (stride: %d)", surface.x, surface.y, surface.bpp, fb->Stride());
 
