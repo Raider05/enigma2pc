@@ -943,6 +943,7 @@ int eMPEGStreamParserTS::processPacket(const unsigned char *pkt, off_t offset)
 			
 			m_last_pts = pts;
 			m_last_pts_valid = 1;
+			if (!m_pts_found) m_first_pts = pts;
 			m_pts_found = true;
 		}
 		
@@ -1219,3 +1220,13 @@ int eMPEGStreamParserTS::getLastPTS(pts_t &last_pts)
 	return 0;
 }
 
+int eMPEGStreamParserTS::getFirstPTS(pts_t &first_pts)
+{
+	if (!m_pts_found)
+	{
+		first_pts = 0;
+		return -1;
+	}
+	first_pts = m_first_pts;
+	return 0;
+}
