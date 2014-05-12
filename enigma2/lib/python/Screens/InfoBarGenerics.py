@@ -1038,7 +1038,6 @@ class InfoBarSeek:
 			{
 				iPlayableService.evSeekableStatusChanged: self.__seekableStatusChanged,
 				iPlayableService.evStart: self.__serviceStarted,
-
 				iPlayableService.evEOF: self.__evEOF,
 				iPlayableService.evSOF: self.__evSOF,
 			})
@@ -1160,7 +1159,7 @@ class InfoBarSeek:
 
 	def __serviceStarted(self):
 		self.fast_winding_hint_message_showed = False
-		self.seekstate = self.SEEK_STATE_PLAY
+		self.setSeekState(self.SEEK_STATE_PLAY)
 		self.__seekableStatusChanged()
 
 	def setSeekState(self, state):
