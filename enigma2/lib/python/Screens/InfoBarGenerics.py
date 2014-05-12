@@ -204,7 +204,7 @@ class InfoBarScreenSaver:
 			eActionMap.getInstance().bindAction('', -maxint - 1, self.keypressScreenSaver)
 
 	def keypressScreenSaver(self, key, flag):
-		if flag == 1:
+		if flag:
 			self.screensaver.hide()
 			self.show()
 			self.ScreenSaverTimerStart()
@@ -2422,7 +2422,7 @@ class InfoBarNotifications:
 			eActionMap.getInstance().unbindAction('', self.keypressNotification)
 
 	def keypressNotification(self, key, flag):
-		if flag == 1:
+		if flag:
 			self.closeNotificationInstantiateDialog()
 
 	def __notificationClosed(self, d):
@@ -2840,7 +2840,7 @@ class InfoBarPowersaver:
 		eActionMap.getInstance().bindAction('', -maxint - 1, self.keypress)
 
 	def keypress(self, key, flag):
-		if flag == 1:
+		if flag:
 			self.restartInactiveTimer()
 
 	def restartInactiveTimer(self):
