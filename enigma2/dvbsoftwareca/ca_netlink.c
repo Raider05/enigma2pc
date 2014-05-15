@@ -5,9 +5,7 @@
  *
  */
 
-#include <linux/kernel.h>
 #include "ca_netlink.h"
-#include <linux/version.h>
 
 // attribute policy 
 struct nla_policy ca_policy[ATTR_MAX + 1] = {
@@ -23,12 +21,20 @@ struct genl_family ca_family = {
 };
 
 // commands: mapping between the command enumeration and the actual function
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,13,0)
 struct genl_ops ask_ca_size_ops = {
+#else
+struct genl_ops ask_ca_size_ops[] = {
+	{
+#endif
 	.cmd = CMD_ASK_CA_SIZE,
 	.flags = 0,
 	.policy = ca_policy,
 	.doit = reply_ca,
 	.dumpit = NULL,
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,13,0)
+	},
+#endif
 };
 
 int processPid = 0;
@@ -155,24 +161,32 @@ int register_netlink(void) {
 	int ret;
 
 	// register new family
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,13,0)
 	ret = genl_register_family(&ca_family);
+#else
+	ret = genl_register_family_with_ops(&ca_family, ask_ca_size_ops);
+#endif
 	if (ret) {
 		printk("dvbsoftwareca: genl_register_family error\n");
 		return ret;
 	}
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,13,0)
 	// register functions (commands) of the new family
 	ret = genl_register_ops(&ca_family, &ask_ca_size_ops);
 	if (ret) {
 		genl_unregister_family(&ca_family);
 		printk("dvbsoftwareca: genl_register_family error\n");
 	}
+#endif
 
 	return ret;
 }
 
 void unregister_netlink(void) {
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,13,0)
         // unregister the functions
 	genl_unregister_ops(&ca_family, &ask_ca_size_ops);
+#endif
         // unregister the family
 	genl_unregister_family(&ca_family);
 }

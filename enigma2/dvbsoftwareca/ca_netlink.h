@@ -4,6 +4,8 @@
 #include <linux/dvb/ca.h>
 #include <linux/netlink.h>
 #include <net/genetlink.h>
+#include <linux/kernel.h>
+#include <linux/version.h>
 
 int reply_ca(struct sk_buff *skb_2, struct genl_info *info);
 int netlink_send_cw(unsigned char ca_num, ca_descr_t *ca_descr);
@@ -33,7 +35,11 @@ enum {
 
 extern struct nla_policy ca_policy[ATTR_MAX + 1];
 extern struct genl_family ca_family;
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,13,0)
 extern struct genl_ops ask_ca_size_ops;
+#else
+extern struct genl_ops ask_ca_size_ops[];
+#endif
 extern int devices_counter;
 
 #endif

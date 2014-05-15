@@ -26,22 +26,18 @@
 #define DVBSOFTWARECA_VERSION "0.0.1"
 #define DVBSOFTWARECA_MAJOR 236
 
-#include <linux/version.h>
 #include <linux/errno.h>
-#include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/dvb/ca.h>
 #include <linux/cdev.h>
 #include <linux/platform_device.h>
-
+#include "dvb_softwareca.h"
+#include "ca_netlink.h"
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3,7,0)
 	#include "dvbdev-3.6.h"
 #else
 	#include "dvbdev.h"
 #endif
-
-#include "dvb_softwareca.h"
-#include "ca_netlink.h"
 
 static struct platform_device *dvblb_basedev;
 static struct ca_device* ca_devices[MAX_CA_DEVICES];
