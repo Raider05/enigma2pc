@@ -365,6 +365,8 @@
 			<key id="KEY_NEXTSONG" mapto="seekFwdManual" flags="l" />
 			<key id="KEY_RED" mapto="seekBack" flags="b" />
 			<key id="KEY_BLUE" mapto="seekFwd" flags="b" />
+			<key id="KEY_PREVIOUS" mapto="jumpPreviousMark" flags="m" />
+			<key id="KEY_NEXT" mapto="jumpNextMark" flags="m" />
 		</device>
 		<device name="Lirc">
 			<key id="KEY_PLAY" mapto="playpauseService" flags="m" />
@@ -375,6 +377,8 @@
 			<key id="KEY_NEXTSONG" mapto="seekFwdManual" flags="l" />
 			<key id="KEY_RED" mapto="seekBack" flags="b" />
 			<key id="KEY_BLUE" mapto="seekFwd" flags="b" />
+			<key id="KEY_PREVIOUS" mapto="jumpPreviousMark" flags="m" />
+			<key id="KEY_NEXT" mapto="jumpNextMark" flags="m" />
 		</device>
 
 		<key id="KEY_LEFT" mapto="seekBack" flags="m" />
