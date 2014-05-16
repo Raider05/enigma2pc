@@ -529,18 +529,10 @@ class InfoBarChannelSelection:
 		self.switchChannelDown()
 
 	def historyBack(self):
-		self.checkTimeshiftRunning(self.historyBackCheckTimeshiftCallback)
-
-	def historyBackCheckTimeshiftCallback(self, answer):
-		if answer:
-			self.servicelist.historyBack()
+		self.servicelist.historyBack()
 
 	def historyNext(self):
-		self.checkTimeshiftRunning(self.historyNextCheckTimeshiftCallback)
-
-	def historyNextCheckTimeshiftCallback(self, answer):
-		if answer:
-			self.servicelist.historyNext()
+		self.servicelist.historyNext()
 
 	def switchChannelUp(self):
 		self.servicelist.moveUp()
@@ -1081,9 +1073,7 @@ class InfoBarSeek:
 				"seekFwd": (self.seekFwd, _("Seek forward")),
 				"seekFwdManual": (self.seekFwdManual, _("Seek forward (enter time)")),
 				"seekBack": (self.seekBack, _("Seek backward")),
-				"seekBackManual": (self.seekBackManual, _("Seek backward (enter time)")),
-				"jumpPreviousMark": (self.jumpPreviousMark, _("Jump to previous marked position")),
-				"jumpNextMark": (self.jumpNextMark, _("Jump to next marked position")),
+				"seekBackManual": (self.seekBackManual, _("Seek backward (enter time)"))
 			}, prio=-1)
 			# give them a little more priority to win over color buttons
 
@@ -2474,7 +2464,6 @@ class InfoBarCueSheetSupport:
 		self.__event_tracker = ServiceEventTracker(screen=self, eventmap=
 			{
 				iPlayableService.evStart: self.__serviceStarted,
-				iPlayableService.evCuesheetChanged: self.downloadCuesheet,
 			})
 
 	def __serviceStarted(self):
