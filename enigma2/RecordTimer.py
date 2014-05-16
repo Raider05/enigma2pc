@@ -354,6 +354,8 @@ class RecordTimerEntry(timer.TimerEntry, object):
 
 	def keypress(self, key=None, flag=1):
 		if flag and self.wasInStandby:
+			if not config.misc.standbyCounter.value:
+				config.misc.standbyCounter.value += 1
 			self.wasInStandby = False
 			eActionMap.getInstance().unbindAction('', self.keypress)
 
