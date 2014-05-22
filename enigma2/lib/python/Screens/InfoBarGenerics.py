@@ -1703,8 +1703,6 @@ class InfoBarTimeshift:
 				if ts:
 					ts.saveTimeshiftFile()
 					del ts
-			if "continue" not in answer:
-				self.saveTimeshiftFiles()
 		returnFunction(answer and answer != "continue")
 
 	# renames/moves timeshift files if requested
