@@ -481,36 +481,7 @@ class ScanSetup(ConfigListScreen, Screen, CableTransponderSearchSupport):
 			self.createSetup()
 
 	def createConfig(self, frontendData):
-							   #("Type", frontendData["system"], TYPE_TEXT),
-					   #("Modulation", frontendData["modulation"], TYPE_TEXT),
-					   #("Orbital position", frontendData["orbital_position"], TYPE_VALUE_DEC),
-					   #("Frequency", frontendData["frequency"], TYPE_VALUE_DEC),
-					   #("Symbolrate", frontendData["symbol_rate"], TYPE_VALUE_DEC),
-					   #("Polarization", frontendData["polarization"], TYPE_TEXT),
-					   #("Inversion", frontendData["inversion"], TYPE_TEXT),
-					   #("FEC inner", frontendData["fec_inner"], TYPE_TEXT),
-				   		#)
-		#elif frontendData["tuner_type"] == "DVB-C":
-			#return ( ("NIM", ['A', 'B', 'C', 'D'][frontendData["tuner_number"]], TYPE_TEXT),
-					   #("Type", frontendData["tuner_type"], TYPE_TEXT),
-					   #("Frequency", frontendData["frequency"], TYPE_VALUE_DEC),
-					   #("Symbolrate", frontendData["symbol_rate"], TYPE_VALUE_DEC),
-					   #("Modulation", frontendData["modulation"], TYPE_TEXT),
-					   #("Inversion", frontendData["inversion"], TYPE_TEXT),
-			#		   ("FEC inner", frontendData["fec_inner"], TYPE_TEXT),
-				   		#)
-		#elif frontendData["tuner_type"] == "DVB-T":
-			#return ( ("NIM", ['A', 'B', 'C', 'D'][frontendData["tuner_number"]], TYPE_TEXT),
-					   #("Type", frontendData["tuner_type"], TYPE_TEXT),
-					   #("Frequency", frontendData["frequency"], TYPE_VALUE_DEC),
-					   #("Inversion", frontendData["inversion"], TYPE_TEXT),
-					   #("Bandwidth", frontendData["bandwidth"], TYPE_VALUE_DEC),
-					   #("CodeRateLP", frontendData["code_rate_lp"], TYPE_TEXT),
-					   #("CodeRateHP", frontendData["code_rate_hp"], TYPE_TEXT),
-					   #("Constellation", frontendData["constellation"], TYPE_TEXT),
-					   #("Transmission Mode", frontendData["transmission_mode"], TYPE_TEXT),
-					   #("Guard Interval", frontendData["guard_interval"], TYPE_TEXT),
-					   #("Hierarchy Inform.", frontendData["hierarchy_information"], TYPE_TEXT),
+			defaultNim = "0"
 			defaultSat = {
 				"orbpos": 192,
 				"system": eDVBFrontendParametersSatellite.System_DVB_S,
@@ -543,6 +514,7 @@ class ScanSetup(ConfigListScreen, Screen, CableTransponderSearchSupport):
 
 			if frontendData is not None:
 				ttype = frontendData.get("tuner_type", "UNKNOWN")
+				defaultNim = str(frontendData.get("tuner_number", 0))
 				if ttype == "DVB-S":
 					defaultSat["system"] = frontendData.get("system", eDVBFrontendParametersSatellite.System_DVB_S)
 					defaultSat["frequency"] = frontendData.get("frequency", 0) / 1000
@@ -593,7 +565,7 @@ class ScanSetup(ConfigListScreen, Screen, CableTransponderSearchSupport):
 						continue
 				nim_list.append((str(n.slot), n.friendly_full_description))
 
-			self.scan_nims = ConfigSelection(choices = nim_list)
+			self.scan_nims = ConfigSelection(choices = nim_list, default = defaultNim)
 
 			# status
 			self.scan_snr = ConfigSlider()
