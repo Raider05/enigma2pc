@@ -123,9 +123,9 @@ RESULT eDVBDemux::createTSRecorder(ePtr<iDVBTSRecorder> &recorder, int packetsiz
 	return 0;
 }
 
-RESULT eDVBDemux::getMPEGDecoder(ePtr<iTSMPEGDecoder> &decoder, int primary)
+RESULT eDVBDemux::getMPEGDecoder(ePtr<iTSMPEGDecoder> &decoder, int index)
 {
-	decoder = new eTSMPEGDecoder(this, primary ? 0 : 1);
+	decoder = new eTSMPEGDecoder(this, index);
 	return 0;
 }
 
