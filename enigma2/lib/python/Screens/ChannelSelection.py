@@ -1889,6 +1889,7 @@ class SimpleChannelSelection(ChannelSelectionBase):
 				"keyRadio": self.setModeRadio,
 				"keyTV": self.setModeTv,
 			})
+		self.bouquet_mark_edit = OFF
 		self.title = title
 		self.onLayoutFinish.append(self.layoutFinished)
 
