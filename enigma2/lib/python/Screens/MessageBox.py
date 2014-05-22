@@ -72,6 +72,11 @@ class MessageBox(Screen):
 					"rightRepeated": self.right
 				}, -1)
 
+		self.onLayoutFinish.append(self.layoutFinished)
+
+        def layoutFinished(self):
+                self.setTitle(_(self.title))
+
 	def initTimeout(self, timeout):
 		self.timeout = timeout
 		if timeout > 0:
