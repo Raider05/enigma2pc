@@ -311,9 +311,7 @@ void runMainloop()
 
 const char *getEnigmaVersionString()
 {
-	std::string date = enigma2_date;
-	std::string branch = enigma2_branch;
-	return std::string(date + '-' + branch).c_str();
+	return enigma2_version;
 }
 
 #include <malloc.h>
