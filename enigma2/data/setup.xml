@@ -25,9 +25,10 @@
 			<item level="1" text="Hide number markers" description="When enabled, number markers will be hiden.">config.usage.hide_number_markers</item>
 			<item level="1" text="Show service type icons" description="Configure if and how service type icons will be shown.">config.usage.servicetype_icon_mode</item>
 			<item level="1" text="Show picons in servicelist" description="Configure if service picons will be shown in the servicelist.">config.usage.service_icon_enable</item>
-			<item level="1" text="Change bouquets in quickzap">config.usage.quickzap_bouquet_change</item>
+			<item level="1" text="Keep focus on current service while entering servicelist" description="Configure to keep focus on the current played service while entering the servicelist via the bouquet buttons.">config.usage.servicelist_keep_service</item>
+			<item level="1" text="Change bouquets in quickzap" description="When enabled, continue to the next bouquet when the last channel of the current bouquet is reached while changing channels.">config.usage.quickzap_bouquet_change</item>
 			<item level="1" text="Hide channel list in radio mode" description="When enabled, the channel selection list will be hidden while listening to a radio channel">config.usage.e1like_radio_mode</item>
-			<item level="1" text="Action on long powerbutton press">config.usage.on_long_powerpress</item>
+			<item level="1" text="Action on long powerbutton press" description="Configure the function of a long press on the power button.">config.usage.on_long_powerpress</item>
 			<item level="1" text="Action on short powerbutton press">config.usage.on_short_powerpress</item>
 			<item level="1" text="Automatically start timeshift after" description="When enabled, timeshift starts automatically in background after specified time.">config.usage.timeshift_start_delay</item>
 			<item level="1" text="Show warning when timeshift is stopped" description="When enabled, a warning will be displayed and the user will get an option to stop or to continue the timeshift.">config.usage.check_timeshift</item>
