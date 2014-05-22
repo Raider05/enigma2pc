@@ -789,11 +789,6 @@ class ChannelSelectionEdit:
 			self.setTitle(self.saved_title)
 			self.saved_title = None
 			self.servicelist.resetRoot()
-			# Renumber service number on InfoBar by restarting selection TODO: find a better work-a-round
-			ref = self.getCurrentSelection()
-			self.setCurrentSelection(self.session.nav.getCurrentlyPlayingServiceOrGroup())
-			self.session.nav.playService(self.getCurrentSelection(), forceRestart=True)
-			self.setCurrentSelection(ref)
 		else:
 			if not self.entry_marked:
 				self.toggleMoveMarked() # mark current entry
@@ -1491,6 +1486,7 @@ class ChannelSelection(ChannelSelectionBase, ChannelSelectionEdit, ChannelSelect
 						self.zapBack()
 					self.startServiceRef = None
 					self.startRoot = None
+					self.correctChannelNumber()
 					self.close(ref)
 
 	def togglePipzap(self):
@@ -1542,13 +1538,13 @@ class ChannelSelection(ChannelSelectionBase, ChannelSelectionEdit, ChannelSelect
 			else:
 				self.setStartRoot(self.curRoot)
 				self.setCurrentSelection(ref)
-		elif ref is None or ref != nref or self.rootChanged:
+		elif ref is None or ref != nref:
 			Screens.InfoBar.InfoBar.instance.checkTimeshiftRunning(boundFunction(self.zapCheckTimeshiftCallback, enable_pipzap, preview_zap, nref))
 
 	def zapCheckTimeshiftCallback(self, enable_pipzap, preview_zap, nref, answer):
 		if answer:
 			self.new_service_played = True
-			self.session.nav.playService(nref, forceRestart=self.rootChanged)
+			self.session.nav.playService(nref)
 			if not preview_zap:
 				self.saveRoot()
 				self.saveChannel(nref)
@@ -1558,7 +1554,6 @@ class ChannelSelection(ChannelSelectionBase, ChannelSelectionEdit, ChannelSelect
 				if self.dopipzap:
 					self.setCurrentSelection(self.session.pip.getCurrentService())
 				self.revertMode = None
-				self.rootChanged = False
 			else:
 				Notifications.RemovePopup("Parental control")
 				self.setCurrentSelection(nref)
@@ -1708,6 +1703,7 @@ class ChannelSelection(ChannelSelectionBase, ChannelSelectionEdit, ChannelSelect
 					self.setCurrentSelection(lastservice)
 		self.asciiOff()
 		self.zapBack()
+		self.correctChannelNumber()
 		self.close(None)
 
 	def zapBack(self):
@@ -1736,6 +1732,15 @@ class ChannelSelection(ChannelSelectionBase, ChannelSelectionEdit, ChannelSelect
 			self.enterPath(root)
 			self.startRoot = None
 			self.saveRoot()
+
+	def correctChannelNumber(self):
+		ref = self.getCurrentSelection()
+		nref = self.session.nav.getCurrentlyPlayingServiceOrGroup()
+		refnum = ref and ref.getChannelNum()
+		nrefnum = nref and nref.getChannelNum()
+		if refnum != nrefnum:
+			# TODO: find a better way e.g. trigger an evStart from python
+			self.session.nav.playService(ref, forceRestart=True)
 
 class RadioInfoBar(Screen):
 	def __init__(self, session):
