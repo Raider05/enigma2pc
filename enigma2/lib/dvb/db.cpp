@@ -464,7 +464,7 @@ void eDVBDB::loadServicelist(const char *file)
 	}
 
 	char line[256];
-	int version=3;
+	int version;
 	if ((!fgets(line, 256, f)) || sscanf(line, "eDVB services /%d/", &version) != 1)
 	{
 		eDebug("not a valid servicefile");
