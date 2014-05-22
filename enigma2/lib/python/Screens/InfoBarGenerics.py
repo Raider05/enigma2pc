@@ -228,7 +228,7 @@ class InfoBarShowHide(InfoBarScreenSaver):
 		self["ShowHideActions"] = ActionMap( ["InfobarShowHideActions"] ,
 			{
 				"toggleShow": self.toggleShow,
-				"hide": self.hide,
+				"hide": self.keyHide,
 			}, 1) # lower prio to make it possible to override ok and cancel..
 
 		self.__event_tracker = ServiceEventTracker(screen=self, eventmap=
@@ -272,6 +272,12 @@ class InfoBarShowHide(InfoBarScreenSaver):
 			self.secondInfoBarScreen.hide()
 		for x in self.onShowHideNotifiers:
 			x(False)
+
+	def keyHide(self):
+		if self.__state == self.STATE_SHOWN:
+			self.hide()
+		elif self.session.pipshown and config.usage.pip_hideOnExit.value:
+			self.showPiP()
 
 	def connectShowHideNotifier(self, fnc):
 		if not fnc in self.onShowHideNotifiers:
