@@ -243,6 +243,19 @@ long long eStaticServiceMP3Info::getFileSize(const eServiceReference &ref)
 	return 0;
 }
 
+RESULT eStaticServiceMP3Info::getEvent(const eServiceReference &ref, ePtr<eServiceEvent> &evt, time_t start_time)
+{
+	if (ref.path.find("://") != std::string::npos)
+	{
+		eServiceReference equivalentref(ref);
+		equivalentref.type = eServiceFactoryMP3::id;
+		equivalentref.path.clear();
+		return eEPGCache::getInstance()->lookupEventTime(equivalentref, start_time, evt);
+	}
+	evt = 0;
+	return -1;
+}
+
 // eServiceMP3
 int eServiceMP3::ac3_delay,
     eServiceMP3::pcm_delay;
