@@ -97,6 +97,7 @@ public:
 
 		// iServiceInformation
 	RESULT getName(std::string &name);
+	RESULT getEvent(ePtr<eServiceEvent> &evt, int nownext);
 	int getInfo(int w);
 	std::string getInfoString(int w);
 	PyObject *getInfoObject(int w);
@@ -145,6 +146,11 @@ public:
 		std::string error_message;
 		std::string missing_codec;
 	};
+
+protected:
+	ePtr<eTimer> m_nownext_timer;
+	ePtr<eServiceEvent> m_event_now, m_event_next;	
+	void updateEpgCacheNowNext();
 
 private:
 	static int pcm_delay;
