@@ -262,7 +262,7 @@ int eServiceMP3::ac3_delay,
 
 eServiceMP3::eServiceMP3(eServiceReference ref):
 	m_ref(ref),
-	m_pump(eApp, 1),
+//	m_pump(eApp, 1),
 	m_nownext_timer(eTimer::create(eApp))
 {
 	m_subtitle_sync_timer = eTimer::create(eApp);
