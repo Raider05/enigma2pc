@@ -14,6 +14,10 @@
 #define I2C_SLAVE_FORCE	0x0706
 #endif
 
+#ifndef DTV_DVBT2_PLP_ID
+#define DTV_DVBT2_PLP_ID DTV_DVBT2_PLP_ID_LEGACY
+#endif
+
 #define eDebugNoSimulate(x...) \
 	do { \
 		if (!m_simulate) \

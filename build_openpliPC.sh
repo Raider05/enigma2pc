@@ -239,19 +239,20 @@ echo "final step: installing E2 conf files"
 echo "--------------------------------------"
 
 #Create symlinks in /lib diectory post install enigma2
-sudo ln -sf `ls /lib/i386-linux-gnu/libc-2.??.so`  /lib/libc.so.6
+ARCH_MY=`uname -i`
+sudo ln -sf `ls /lib/"$ARCH_MY"-linux-gnu/libc-2.??.so`  /lib/libc.so.6
 
 #Create symlinks in /usr diectory post install enigma2
 sudo ln -sd $INSTALL_E2DIR/lib/enigma2 /usr/lib/enigma2
 sudo ln -sd $INSTALL_E2DIR/lib/enigma2 /usr/local/lib/enigma2
+sudo rm -fR $INSTALL_E2DIR/lib/enigma2/enigma2
 sudo ln -sd $INSTALL_E2DIR/share/enigma2 /usr/local/share/enigma2
 sudo ln -sd $INSTALL_E2DIR/share/enigma2 /usr/share/enigma2
+sudo rm -fR $INSTALL_E2DIR/share/enigma2/enigma2
 sudo ln -sd $INSTALL_E2DIR/include/enigma2 /usr/include/enigma2
+sudo rm -fR $INSTALL_E2DIR/include/enigma2/enigma2
 sudo ln -sd $INSTALL_E2DIR/etc/stb /usr/local/etc/stb
-
-#Create symlinks in /etc diectory post install enigma2
-sudo ln -s -d $INSTALL_E2DIR/etc/enigma2 /etc/enigma2
-sudo ln -s -d $INSTALL_E2DIR/etc/tuxbox /etc/tuxbox
+sudo rm -fR $INSTALL_E2DIR/etc/stb/stb
 
 # strip binary
 sudo strip $INSTALL_E2DIR/bin/enigma2
@@ -269,6 +270,12 @@ sudo cp -fR scripts/* $INSTALL_E2DIR/bin/
 
 sudo ln -sf $INSTALL_E2DIR/bin/enigma2 ./e2bin
 sudo ln -sf $INSTALL_E2DIR/bin/enigma2.sh /usr/local/bin/enigma2.sh
+
+#Create symlinks in /etc diectory post install enigma2
+sudo ln -s -d $INSTALL_E2DIR/etc/enigma2 /etc/enigma2
+sudo rm -fR $INSTALL_E2DIR/etc/enigma2/enigma2
+sudo ln -s -d $INSTALL_E2DIR/etc/tuxbox /etc/tuxbox
+sudo rm -fR $INSTALL_E2DIR/etc/tuxbox/tuxbox
 
 if [ "$DO_RESTORE" -eq "1" ]; then
 	e2_restore
