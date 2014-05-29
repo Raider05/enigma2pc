@@ -126,5 +126,5 @@ void eTuxtxtApp::setEnableTtCachingOnOff( int onoff )
 
 void eTuxtxtApp::handleKey( int key )
 {
-	tuxtxt_handlePressedKey(key);
+//	tuxtxt_handlePressedKey(key);
 }

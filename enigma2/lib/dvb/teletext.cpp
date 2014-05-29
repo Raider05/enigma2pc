@@ -714,6 +714,7 @@ void eDVBTeletextParser::handlePageEnd(int have_pts, const pts_t &pts)
 void eDVBTeletextParser::setPageAndMagazine(int page, int magazine, const char * lang)
 {
 	m_L = 0;
+	max_id = 26;
 	for (m_M29_0_valid=0; m_M29_0_valid < max_id; m_M29_0_valid++)
 	{
 		if (!memcmp(my_country_codes[m_M29_0_valid], lang, 3))
