@@ -327,7 +327,6 @@ class ScanSetup(ConfigListScreen, Screen, CableTransponderSearchSupport):
 
 		self["actions"] = NumberActionMap(["SetupActions", "MenuActions"],
 		{
-			"ok": self.keyGo,
 			"save": self.keyGo,
 			"cancel": self.keyCancel,
 			"menu": self.doCloseRecursive,
@@ -1016,7 +1015,6 @@ class ScanSimple(ConfigListScreen, Screen, CableTransponderSearchSupport):
 
 		self["actions"] = ActionMap(["SetupActions", "MenuActions"],
 		{
-			"ok": self.keyGo,
 			"save": self.keyGo,
 			"cancel": self.keyCancel,
 			"menu": self.doCloseRecursive,
