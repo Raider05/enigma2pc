@@ -75,6 +75,10 @@ if test x"$withcolorlcd" != xno ; then
 fi
 AM_CONDITIONAL(HAVE_COLORLCD, test x"$withcolorlcd" != xno)
 
+dnl ----------------------------------------------
+dnl Check for NetBSD DTV headers
+dnl ----------------------------------------------
+AC_CHECK_HEADERS([dev/dtv/dtvio.h])
 
 AC_ARG_WITH(oldpvr,
 	AC_HELP_STRING([--with-oldpvr], [use /dev/misc/pvr instead of /dev/dvb/adapterX/dvrX, yes or no]),
