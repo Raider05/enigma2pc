@@ -46,6 +46,8 @@ typedef struct {         /* CLUT == Color LookUp Table */
   uint8_t foo;
 } XINE_PACKED clut_t;
 
+void _x_clut_yuv2rgb(uint32_t *clut, int num_items, int color_matrix) XINE_PROTECTED;
+
 #define XX44_PALETTE_SIZE 32
 
 typedef struct {

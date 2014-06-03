@@ -51,6 +51,8 @@ noinst_HEADERS = \
 
 noinst_LTLIBRARIES = libwine.la
 
+libwine_la_LIBADD = ${WINE_LIBS}
+
 libwine_la_SOURCES = \
 	afl.c \
 	driver.c \

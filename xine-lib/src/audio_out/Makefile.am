@@ -83,7 +83,7 @@ xineplug_ao_out_file_la_SOURCES = audio_file_out.c
 xineplug_ao_out_file_la_LIBADD = $(XINE_LIB) $(LTLIBINTL)
 
 xineplug_ao_out_oss_la_SOURCES = audio_oss_out.c
-xineplug_ao_out_oss_la_LIBADD = $(XINE_LIB) $(LTLIBINTL)
+xineplug_ao_out_oss_la_LIBADD = $(XINE_LIB) $(LTLIBINTL) $(OSS_LIBS)
 
 xineplug_ao_out_alsa_la_SOURCES = audio_alsa_out.c
 xineplug_ao_out_alsa_la_LIBADD = $(XINE_LIB) $(ALSA_LIBS) $(PTHREAD_LIBS) $(LTLIBINTL)

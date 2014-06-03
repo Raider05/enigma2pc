@@ -549,6 +549,41 @@ AC_DEFUN([XINE_DECODER_PLUGINS], [
     fi
     AM_CONDITIONAL([ENABLE_VPX], [test x"$have_vpx" = x"yes"])
 
+    dnl Broadcom MMAL (Multi Media Abstraction Layer) decoder plugin for RPi
+    AC_ARG_ENABLE([mmal],
+                  [AS_HELP_STRING([--enable-mmal], [Enable libmmal HW decoder and video output plugin for Raspberry Pi (default: enabled)])],
+                  [test x"$enableval" != x"no" && enable_mmal="yes"])
+    if test x"$enable_mmal" != "no"; then
+        saved_CPPFLAGS="$CPPFLAGS"
+        saved_LDFLAGS="$LDFLAGS"
+        LDFLAGS="${LDFLAGS} -L/opt/vc/lib"
+        CPPFLAGS="${CPPFLAGS} -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads"
+
+        AC_CHECK_LIB([bcm_host], [bcm_host_init], [have_mmal=yes], [have_mmal=no])
+        if test x"$enable_mmal" = x"yes" && test x"$have_mmal" != x"yes"; then
+            AC_MSG_ERROR([Cannot find bcm library])
+        else
+            AC_CHECK_HEADERS([interface/mmal/mmal.h], [have_mmal=yes], [have_mmal=no])
+            if test x"$enable_mmal" = x"yes" && test x"$have_mmal" != x"yes"; then
+                AC_MSG_ERROR([Cannot find MMAL headers])
+            fi
+        fi
+
+        if test x"$have_mmal" = x"yes"; then
+            MMAL_LIBS="-lbcm_host -lmmal -lmmal_core -lmmal_util"
+            MMAL_LDFLAGS="-L/opt/vc/lib"
+            MMAL_CFLAGS="-I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux"
+            AC_SUBST(MMAL_LIBS)
+            AC_SUBST(MMAL_LDFLAGS)
+            AC_SUBST(MMAL_CFLAGS)
+            AC_DEFINE([HAVE_MMAL], 1, [Define this if you have MMAL installed])
+        fi
+
+        CPPFLAGS="$saved_CPPFLAGS"
+        LDFLAGS="$saved_LDFLAGS"
+    fi
+    AM_CONDITIONAL([ENABLE_MMAL], [test x"$have_mmal" = x"yes"])
+
     dnl Only enable building dmx image if either gdk_pixbuf or ImageMagick are enabled
     AM_CONDITIONAL([BUILD_DMX_IMAGE], [test x"$have_imagemagick" = x"yes" -o x"$have_gdkpixbuf" = x"yes"])
 ])

@@ -105,7 +105,6 @@ static int ao_sndio_open(ao_driver_t *this_gen,
   case AO_CAP_MODE_STEREO:
     par.pchan = 2;
     break;
-#if 0
   case AO_CAP_MODE_4CHANNEL:
     par.pchan = 4;
     break;
@@ -114,7 +113,6 @@ static int ao_sndio_open(ao_driver_t *this_gen,
   case AO_CAP_MODE_5_1CHANNEL:
     par.pchan = 6;
     break;
-#endif
   default:
     xprintf (this->xine, XINE_VERBOSITY_DEBUG,
              "audio_sndio_out: ao_sndio_open does not support the requested mode: 0x%X\n",
@@ -335,10 +333,8 @@ static ao_driver_t *open_plugin (audio_driver_class_t *class_gen, const void *da
    * Set capabilities
    */
   this->capabilities = AO_CAP_MODE_MONO | AO_CAP_MODE_STEREO |
-#if 0
     AO_CAP_MODE_4CHANNEL | AO_CAP_MODE_4_1CHANNEL |
     AO_CAP_MODE_5CHANNEL | AO_CAP_MODE_5_1CHANNEL |
-#endif
     AO_CAP_MIXER_VOL | AO_CAP_MUTE_VOL | AO_CAP_8BITS |
     AO_CAP_16BITS;
 

@@ -86,7 +86,6 @@ typedef struct {
 
   int ovl_changed;
   raw_overlay_t overlays[XINE_VORAW_MAX_OVL];
-  yuv2rgb_t *ovl_yuv2rgb;
 
   int doYV12;
   int doYUY2;
@@ -103,32 +102,6 @@ typedef struct {
 } raw_class_t;
 
 
-
-static void raw_overlay_clut_yuv2rgb(raw_driver_t  *this, vo_overlay_t *overlay, raw_frame_t *frame)
-{
-  int i;
-  uint32_t *rgb;
-
-  if (!overlay->rgb_clut) {
-    rgb = overlay->color;
-    for (i = sizeof (overlay->color) / sizeof (overlay->color[0]); i > 0; i--) {
-      clut_t *yuv = (clut_t *)rgb;
-      *rgb++ = this->ovl_yuv2rgb->yuv2rgb_single_pixel_fun (frame->yuv2rgb, yuv->y, yuv->cb, yuv->cr);
-    }
-    overlay->rgb_clut++;
-  }
-
-  if (!overlay->hili_rgb_clut) {
-    rgb = overlay->hili_color;
-    for (i = sizeof (overlay->color) / sizeof (overlay->color[0]); i > 0; i--) {
-      clut_t *yuv = (clut_t *)rgb;
-      *rgb++ = this->ovl_yuv2rgb->yuv2rgb_single_pixel_fun (frame->yuv2rgb, yuv->y, yuv->cb, yuv->cr);
-    }
-    overlay->hili_rgb_clut++;
-  }
-}
-
-
 static int raw_process_ovl( raw_driver_t *this_gen, vo_overlay_t *overlay )
 {
   raw_overlay_t *ovl = &this_gen->overlays[this_gen->ovl_changed-1];
@@ -143,50 +116,7 @@ static int raw_process_ovl( raw_driver_t *this_gen, vo_overlay_t *overlay )
   ovl->ovl_x = overlay->x;
   ovl->ovl_y = overlay->y;
 
-  int num_rle = overlay->num_rle;
-  rle_elem_t *rle = overlay->rle;
-  uint8_t *rgba = ovl->ovl_rgba;
-  clut_t *low_colors = (clut_t*)overlay->color;
-  clut_t *hili_colors = (clut_t*)overlay->hili_color;
-  uint8_t *low_trans = overlay->trans;
-  uint8_t *hili_trans = overlay->hili_trans;
-  clut_t *colors;
-  uint8_t *trans;
-  uint8_t alpha;
-  int rlelen = 0;
-  uint8_t clr = 0;
-  int i, pos=0, x, y;
-
-  while ( num_rle>0 ) {
-    x = pos%ovl->ovl_w;
-    y = pos/ovl->ovl_w;
-    if ( (x>=overlay->hili_left && x<=overlay->hili_right) && (y>=overlay->hili_top && y<=overlay->hili_bottom) ) {
-	colors = hili_colors;
-	trans = hili_trans;
-    }
-    else {
-	colors = low_colors;
-	trans = low_trans;
-    }
-    rlelen = rle->len;
-    clr = rle->color;
-    alpha = trans[clr];
-    for ( i=0; i<rlelen; ++i ) {
-      if ( alpha == 0 ) {
-        rgba[0] = rgba[1] = rgba[2] = rgba[3] = 0;
-      }
-      else {
-        rgba[0] = colors[clr].y;
-        rgba[1] = colors[clr].cr;
-        rgba[2] = colors[clr].cb;
-        rgba[3] = alpha*255/15;
-      }
-      rgba+= 4;
-	++pos;
-    }
-    ++rle;
-    --num_rle;
-  }
+  _x_overlay_to_argb32(overlay, (uint32_t*)ovl->ovl_rgba, overlay->width, "RGBA");
   return 1;
 }
 
@@ -205,14 +135,13 @@ static void raw_overlay_begin (vo_driver_t *this_gen, vo_frame_t *frame_gen, int
 static void raw_overlay_blend (vo_driver_t *this_gen, vo_frame_t *frame_gen, vo_overlay_t *overlay)
 {
   raw_driver_t  *this = (raw_driver_t *) this_gen;
-  raw_frame_t *frame = (raw_frame_t *) frame_gen;
 
   if ( !this->ovl_changed || this->ovl_changed>XINE_VORAW_MAX_OVL )
     return;
 
   if (overlay->rle) {
     if (!overlay->rgb_clut || !overlay->hili_rgb_clut)
-      raw_overlay_clut_yuv2rgb (this, overlay, frame);
+      _x_overlay_clut_yuv2rgb (overlay, 0);
     if ( raw_process_ovl( this, overlay ) )
       ++this->ovl_changed;
   }
@@ -557,12 +486,6 @@ static vo_driver_t *raw_open_plugin (video_driver_class_t *class_gen, const void
     this->overlays[i].ovl_x = this->overlays[i].ovl_y = 0;
   }
   this->ovl_changed = 0;
-
-  /* we have to use a second converter for overlays
-  *  because "MODE_24_BGR, 1 (swap)" breaks overlays conversion */
-  yuv2rgb_factory_t *factory = yuv2rgb_factory_init (MODE_24_BGR, 0, NULL);
-  this->ovl_yuv2rgb = factory->create_converter( factory );
-  factory->dispose( factory );
 
   return &this->vo_driver;
 }

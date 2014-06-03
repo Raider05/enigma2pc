@@ -1739,15 +1739,17 @@ void init_yuv_conversion(void) {
 typedef struct {
   /* unused:1 u:21 v:21 y:21 */
   uint64_t t0[256], t1[256], t2[256];
-  /* u:12 v:12 y:8 */
-  uint32_t p[256];
+  /* u:12 v:12 y:8 (rgb_pal8) */
+  /* native endian yuyv (other rgb_pal*) */
+  uint32_t p[272];
   int cm, fmt, pfmt;
 } rgb2yuy2_t;
 
 typedef enum {
   rgb_bgr = 0, rgb_rgb, rgb_bgra, rgb_argb, rgb_rgba,
   rgb_rgb555le, rgb_rgb555be, rgb_rgb565le, rgb_rgb565be,
-  rgb_pal8
+  rgb_bgra_clut, rgb_rgba_clut,
+  rgb_pal8, rgb_pal4, rgb_pal2, rgb_pal1
 } rgb_fmt_t;
 
 void *rgb2yuy2_alloc (int color_matrix, const char *format) {
@@ -1756,9 +1758,13 @@ void *rgb2yuy2_alloc (int color_matrix, const char *format) {
   float _ry, _gy, _by, _yoffs;
   float _bv, _bvoffset, _ru, _ruoffset, _gu, _guoffset, _gv, _gvoffset, _burv;
   int i = -1;
-  const char *fmts[] = {"bgr", "rgb", "bgra", "argb", "rgba", "rgb555le", "rgb555be", "rgb565le", "rgb565be"};
+  const char *fmts[] = {
+    "bgr", "rgb", "bgra", "argb", "rgba",
+    "rgb555le", "rgb555be", "rgb565le", "rgb565be",
+    "bgra_clut", "rgba_clut"
+  };
 
-  if (format) for (i = 8; i >= 0; i--) if (!strcmp (format, fmts[i])) break;
+  if (format) for (i = 10; i >= 0; i--) if (!strcmp (format, fmts[i])) break;
   if (i < 0) return NULL;
 
   b = malloc (sizeof (*b));
@@ -1798,9 +1804,11 @@ void *rgb2yuy2_alloc (int color_matrix, const char *format) {
     case rgb_rgb:
     case rgb_bgra:
     case rgb_argb:
-    case rgb_rgba: { /* 24/32 bit */
+    case rgb_rgba:
+    case rgb_bgra_clut:
+    case rgb_rgba_clut: { /* 24/32 bit */
       uint64_t *rr, *gg, *bb;
-      if ((b->fmt == rgb_bgr) || (b->fmt == rgb_bgra)) {
+      if ((b->fmt == rgb_bgr) || (b->fmt == rgb_bgra) || (b->fmt == rgb_bgra_clut)) {
         bb = b->t0;
         gg = b->t1;
         rr = b->t2;
@@ -1926,20 +1934,29 @@ void rgb2yuy2_free (void *rgb2yuy2) {
 void rgb2yuy2_palette (void *rgb2yuy2, const uint8_t *pal, int num_colors, int bits_per_pixel) {
   rgb2yuy2_t *b = rgb2yuy2;
   uint64_t v;
-  uint32_t w;
-  int mode, i = 0;
+  uint32_t w, *p;
+  int mode, i = 0, max_colors;
 
-  if (!b || (num_colors < 2) || (num_colors > 256)) return;
+  if (!b || (num_colors < 2)) return;
   switch (bits_per_pixel) {
-    case 8: mode = rgb_pal8; break;
-/*  case 4: mode = 10; break;  not implemented yet
-    case 2: mode = 11; break;
-    case 1: mode = 12; break; */
+    case 8: mode = rgb_pal8; max_colors = 256; p = b->p;       break;
+    case 4: mode = rgb_pal4; max_colors = 16;  p = b->p + 256; break;
+    case 2: mode = rgb_pal2; max_colors = 4;   p = b->p + 256; break;
+    case 1: mode = rgb_pal1; max_colors = 2;   p = b->p + 256; break;
     default: return;
   }
+  if (num_colors > max_colors) num_colors = max_colors;
   /* fmt now refers to the format of the _palette_ */
   if (b->pfmt == -1) b->pfmt = b->fmt;
   b->fmt = mode;
+  /* default grays */
+  if (!pal) {
+    for (i = 0; i < num_colors; i++) {
+      w = (i * 255 + (num_colors - 1) / 2) / (num_colors - 1);
+      v = b->t0[w] + b->t1[w] + b->t2[w];
+      p[i] = ((v >> 31) & 0xfff00000) | ((v >> 22) & 0xfff00) | ((v >> 13) & 0xff);
+    }
+  } else
   /* convert palette */
   switch (b->pfmt) {
     case rgb_bgr:
@@ -1948,7 +1965,7 @@ void rgb2yuy2_palette (void *rgb2yuy2, const uint8_t *pal, int num_colors, int b
         v  = b->t0[*pal++];
         v += b->t1[*pal++];
         v += b->t2[*pal++];
-        b->p[i] = ((v >> 31) & 0xfff00000) | ((v >> 22) & 0xfff00) | ((v >> 13) & 0xff);
+        p[i] = ((v >> 31) & 0xfff00000) | ((v >> 22) & 0xfff00) | ((v >> 13) & 0xff);
       }
     break;
     case rgb_argb:
@@ -1960,7 +1977,7 @@ void rgb2yuy2_palette (void *rgb2yuy2, const uint8_t *pal, int num_colors, int b
         v += b->t1[*pal++];
         v += b->t2[*pal];
         pal += 2;
-        b->p[i] = ((v >> 31) & 0xfff00000) | ((v >> 22) & 0xfff00) | ((v >> 13) & 0xff);
+        p[i] = ((v >> 31) & 0xfff00000) | ((v >> 22) & 0xfff00) | ((v >> 13) & 0xff);
       }
     break;
     default: ;
@@ -1968,7 +1985,50 @@ void rgb2yuy2_palette (void *rgb2yuy2, const uint8_t *pal, int num_colors, int b
   /* black pad rest of palette */
   v = b->t0[0] + b->t1[0] + b->t2[0];
   w = ((v >> 31) & 0xfff00000) | ((v >> 22) & 0xfff00) | ((v >> 13) & 0xff);
-  for (; i < 256; i++) b->p[i] = w;
+  for (; i < max_colors; i++) p[i] = w;
+  /* more optimization ahead? */
+  if (mode != rgb_pal8) {
+    union {uint8_t bytes[4]; uint32_t word;} tmp;
+    switch (mode) {
+      case rgb_pal4:
+        for (i = 0; i < 256; i++) {
+          w = p[i >> 4];
+          tmp.bytes[0] = w;       /* y1 */
+          w &= ~255;
+          w += p[i & 15];
+          tmp.bytes[1] = w >> 24; /* u */
+          tmp.bytes[2] = w;       /* y2 */
+          tmp.bytes[3] = w >> 12; /* v */
+          b->p[i] = tmp.word;
+        }
+      break;
+      case rgb_pal2:
+        for (i = 0; i < 16; i++) {
+          w = p[i >> 2];
+          tmp.bytes[0] = w;       /* y1 */
+          w &= ~255;
+          w += p[i & 3];
+          tmp.bytes[1] = w >> 24; /* u */
+          tmp.bytes[2] = w;       /* y2 */
+          tmp.bytes[3] = w >> 12; /* v */
+          b->p[i] = tmp.word;
+        }
+      break;
+      case rgb_pal1:
+        for (i = 0; i < 4; i++) {
+          w = p[i >> 1];
+          tmp.bytes[0] = w;       /* y1 */
+          w &= ~255;
+          w += p[i & 1];
+          tmp.bytes[1] = w >> 24; /* u */
+          tmp.bytes[2] = w;       /* y2 */
+          tmp.bytes[3] = w >> 12; /* v */
+          b->p[i] = tmp.word;
+        }
+      break;
+      default: ;
+    }
+  }
 }
 
 void rgb2yuy2_slice (void *rgb2yuy2, const uint8_t *in, int ipitch, uint8_t *out, int opitch,
@@ -2063,6 +2123,71 @@ void rgb2yuy2_slice (void *rgb2yuy2, const uint8_t *in, int ipitch, uint8_t *out
           *out++  = w >> 24; /* u */
           *out++  = w;       /* y2 */
           *out++  = w >> 12; /* v */
+        }
+        in  += ipad;
+        out += opad;
+      }
+    break;
+    case rgb_pal4:
+      ipad = ipitch - (width / 2);
+      for (y = height; y; y--) {
+        uint32_t *o2 = (uint32_t *)out;
+        for (x = width / 2; x; x--)
+          *o2++ = b->p[*in++];
+        in  += ipad;
+        out += opitch;
+      }
+    break;
+    case rgb_pal2:
+      ipad = ipitch - (width / 4);
+      for (y = height; y; y--) {
+        uint32_t *o2 = (uint32_t *)out;
+        for (x = width / 4; x; x--) {
+          *o2++ = b->p[(*in)   >> 4];
+          *o2++ = b->p[(*in++) & 15];
+        }
+        if (width & 3)
+          *o2++ = b->p[(*in) >> 4];
+        in  += ipad;
+        out += opitch;
+      }
+    break;
+    case rgb_pal1:
+      ipad = ipitch - (width / 8);
+      for (y = height; y; y--) {
+        uint32_t *o2 = (uint32_t *)out;
+        for (x = width / 8; x; x--) {
+          *o2++ = b->p[(*in) >> 6];
+          *o2++ = b->p[((*in) >> 4) & 3];
+          *o2++ = b->p[((*in) >> 2) & 3];
+          *o2++ = b->p[(*in++) & 3];
+        }
+        x = width & 7;
+        if (x) {
+          *o2++ = b->p[(*in) >> 6];
+          if (x > 2) {
+            *o2++ = b->p[((*in) >> 4) & 3];
+            if (x > 4)
+             *o2++ = b->p[((*in) >> 2) & 3];
+          }
+        }
+        in  += ipad;
+        out += opitch;
+      }
+    break;
+    case rgb_rgba_clut:
+    case rgb_bgra_clut:
+      ipad = ipitch - 4 * width;
+      opad = opitch - 4 * width;
+      for (y = height; y; y--) {
+        for (x = width; x; x--) {
+          v  = b->t0[*in++];
+          v += b->t1[*in++];
+          v += b->t2[*in++];
+          *out++  = v >> 54; /* u */
+          *out++  = v >> 33; /* v */
+          *out++  = v >> 13; /* y */
+          *out++  = *in++;   /* a */
         }
         in  += ipad;
         out += opad;

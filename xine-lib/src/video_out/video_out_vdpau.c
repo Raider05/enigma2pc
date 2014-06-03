@@ -642,57 +642,18 @@ static void vdpau_overlay_end (vo_driver_t *this_gen, vo_frame_t *frame_gen)
     }
 
     uint32_t *pixmap;
-    int is_argb = 1;
     if (voovl->rle) {
-      if ((ovl->width * ovl->height) > this->ovl_pixmap_size) {
-        this->ovl_pixmap_size = ovl->width * ovl->height;
-        free(this->ovl_pixmap);
-        this->ovl_pixmap = calloc(this->ovl_pixmap_size, sizeof(uint32_t));
+      if (!voovl->rgb_clut || !voovl->hili_rgb_clut) {
+        _x_overlay_clut_yuv2rgb (voovl, this->color_matrix);
       }
-
-      pixmap = this->ovl_pixmap;
-      rle_elem_t *rle = voovl->rle;
-      int num_rle = voovl->num_rle;
-      int pos = 0;
-      while (num_rle > 0) {
-        int x = pos % ovl->width;
-        int y = pos / ovl->width;
-        clut_t *colors;
-        uint8_t *trans;
-        if (x >= voovl->hili_left && x <= voovl->hili_right && y >= voovl->hili_top && y <= voovl->hili_bottom) {
-          colors = (clut_t*)voovl->hili_color;
-          trans = voovl->hili_trans;
-          is_argb = voovl->hili_rgb_clut;
-        } else {
-          colors = (clut_t*)voovl->color;
-          trans = voovl->trans;
-          is_argb = voovl->rgb_clut;
-        }
-
-        int clr = rle->color;
-        uint32_t pixel;
-        if ( trans[clr] == 0 )
-          pixel = 0;
-        else if (is_argb)
-          pixel = (((uint32_t)trans[clr] * 255 / 15) << 24) | (((uint32_t)colors[clr].y) << 16) | (((uint32_t)colors[clr].cr) << 8) | ((uint32_t)colors[clr].cb);
-        else
-          pixel = (((uint32_t)trans[clr] * 255 / 15) << 24) | (((uint32_t)colors[clr].y) << 16) | (((uint32_t)colors[clr].cb) << 8) | ((uint32_t)colors[clr].cr);
-
-        int rlelen = rle->len;
-        pos += rlelen;
-        while (rlelen > 0) {
-          *pixmap++ = pixel;
-          --rlelen;
-        }
-        ++rle;
-        --num_rle;
+      int pmsize = ovl->width * ovl->height;
+      if (pmsize > this->ovl_pixmap_size) {
+        this->ovl_pixmap_size = pmsize;
+        free (this->ovl_pixmap);
+        this->ovl_pixmap = calloc (pmsize, sizeof (uint32_t));
       }
-
-      int n = ovl->width * ovl->height - pos;
-      if (n > 0)
-        memset(pixmap, 0, n * sizeof(uint32_t));
-
       pixmap = this->ovl_pixmap;
+      _x_overlay_to_argb32 (voovl, pixmap, ovl->width, "BGRA");
     } else {
       pthread_mutex_lock(&voovl->argb_layer->mutex);
       pixmap = voovl->argb_layer->buffer;
@@ -714,17 +675,10 @@ static void vdpau_overlay_end (vo_driver_t *this_gen, vo_frame_t *frame_gen)
     VdpStatus st;
     uint32_t pitch = ovl->width * sizeof(uint32_t);
     const void * const ppixmap = pixmap;
-    if (is_argb) {
-      lprintf("overlay[%d] put %s %d,%d:%d,%d\n", i, ovl->use_dirty_rect ? "dirty argb": "argb", put_rect.x0, put_rect.y0, put_rect.x1, put_rect.y1);
-      st = vdp_output_surface_put_bits(ovl->render_surface.surface, &ppixmap, &pitch, &put_rect);
-      if ( st != VDP_STATUS_OK )
-          fprintf(stderr, "vdpau_overlay_end: vdp_output_surface_put_bits_native failed : %s\n", vdp_get_error_string(st));
-    } else {
-      lprintf("overlay[%d] put ycbcr %d,%d:%d,%d\n", i, put_rect.x0, put_rect.y0, put_rect.x1, put_rect.y1);
-      st = vdp_output_surface_put_bits_ycbcr(ovl->render_surface.surface, VDP_YCBCR_FORMAT_V8U8Y8A8, &ppixmap, &pitch, &put_rect, NULL);
-      if ( st != VDP_STATUS_OK )
-        fprintf(stderr, "vdpau_overlay_end: vdp_output_surface_put_bits_ycbcr failed : %s\n", vdp_get_error_string(st));
-    }
+    lprintf("overlay[%d] put %s %d,%d:%d,%d\n", i, ovl->use_dirty_rect ? "dirty argb": "argb", put_rect.x0, put_rect.y0, put_rect.x1, put_rect.y1);
+    st = vdp_output_surface_put_bits(ovl->render_surface.surface, &ppixmap, &pitch, &put_rect);
+    if ( st != VDP_STATUS_OK )
+      fprintf(stderr, "vdpau_overlay_end: vdp_output_surface_put_bits_native failed : %s\n", vdp_get_error_string(st));
 
     if (voovl->rle)
       ovl->use_dirty_rect = 0;

@@ -15,7 +15,7 @@ xineplug_LTLIBRARIES = \
 
 xineplug_decode_spucc_la_SOURCES = cc_decoder.c cc_decoder.h xine_cc_decoder.c
 xineplug_decode_spucc_la_LIBADD = $(XINE_LIB)
-xineplug_decode_spucc_la_CFLAGS = $(AM_CFLAGS) -fno-strict-aliasing
+xineplug_decode_spucc_la_CFLAGS = $(AM_CFLAGS)
 
 xineplug_decode_spucmml_la_SOURCES = cmml_decoder.c
 xineplug_decode_spucmml_la_LIBADD  = $(XINE_LIB) $(LTLIBINTL)

@@ -124,10 +124,8 @@ static void remove_events_handle( video_overlay_t *this, int32_t handle, int loc
 
       /* free its overlay */
       if( this->events[this_event].event->object.overlay ) {
-        if( this->events[this_event].event->object.overlay->rle )
-          free( this->events[this_event].event->object.overlay->rle );
-        free(this->events[this_event].event->object.overlay);
-        this->events[this_event].event->object.overlay = NULL;
+        _x_freep( &this->events[this_event].event->object.overlay->rle );
+        _x_freep( &this->events[this_event].event->object.overlay );
       }
 
       /* mark as free */
@@ -176,10 +174,8 @@ static void internal_video_overlay_free_handle(video_overlay_t *this, int32_t ha
   if( this->objects[handle].overlay ) {
     set_argb_layer_ptr(&this->objects[handle].overlay->argb_layer, NULL);
 
-    if( this->objects[handle].overlay->rle )
-      free( this->objects[handle].overlay->rle );
-    free( this->objects[handle].overlay );
-    this->objects[handle].overlay = NULL;
+    _x_freep( &this->objects[handle].overlay->rle );
+    _x_freep( &this->objects[handle].overlay );
   }
   this->objects[handle].handle = -1;
 
@@ -400,10 +396,8 @@ static int video_overlay_event( video_overlay_t *this, int64_t vpts ) {
         if (this->events[this_event].event->object.overlay != NULL) {
           set_argb_layer_ptr(&this->events[this_event].event->object.overlay->argb_layer, NULL);
 
-          if( this->events[this_event].event->object.overlay->rle != NULL )
-            free( this->events[this_event].event->object.overlay->rle );
-          free(this->events[this_event].event->object.overlay);
-          this->events[this_event].event->object.overlay = NULL;
+          _x_freep( &this->events[this_event].event->object.overlay->rle );
+          _x_freep( &this->events[this_event].event->object.overlay );
         }
         remove_showing_handle( this, handle );
         break;
@@ -416,10 +410,8 @@ static int video_overlay_event( video_overlay_t *this, int64_t vpts ) {
         if( this->events[this_event].event->object.overlay != NULL) {
           set_argb_layer_ptr(&this->events[this_event].event->object.overlay->argb_layer, NULL);
 
-          if( this->events[this_event].event->object.overlay->rle != NULL )
-            free( this->events[this_event].event->object.overlay->rle );
-          free(this->events[this_event].event->object.overlay);
-          this->events[this_event].event->object.overlay = NULL;
+          _x_freep( &this->events[this_event].event->object.overlay->rle );
+          _x_freep( &this->events[this_event].event->object.overlay );
         }
         /* this avoid removing this_event from the queue
          * (it will be removed at the end of this loop) */
@@ -480,14 +472,9 @@ static int video_overlay_event( video_overlay_t *this, int64_t vpts ) {
 
         if( this->events[this_event].event->object.overlay->rle ) {
           xprintf (this->xine, XINE_VERBOSITY_DEBUG, "video_overlay: warning EVENT_MENU_BUTTON with rle data\n");
-          free( this->events[this_event].event->object.overlay->rle );
-          this->events[this_event].event->object.overlay->rle = NULL;
+          _x_freep( &this->events[this_event].event->object.overlay->rle );
         }
-
-        if (this->events[this_event].event->object.overlay != NULL) {
-          free (this->events[this_event].event->object.overlay);
-          this->events[this_event].event->object.overlay = NULL;
-        }
+        _x_freep (&this->events[this_event].event->object.overlay);
         break;
 
       default:
@@ -506,6 +493,141 @@ static int video_overlay_event( video_overlay_t *this, int64_t vpts ) {
 
   return processed;
 }
+
+void _x_overlay_clut_yuv2rgb(vo_overlay_t *overlay, int color_matrix)
+{
+  if (!overlay->rgb_clut) {
+    _x_clut_yuv2rgb(overlay->color, sizeof(overlay->color) / sizeof (overlay->color[0]), color_matrix);
+    overlay->rgb_clut++;
+  }
+
+  if (!overlay->hili_rgb_clut) {
+    _x_clut_yuv2rgb(overlay->hili_color, sizeof (overlay->color) / sizeof (overlay->color[0]), color_matrix);
+    overlay->hili_rgb_clut++;
+  }
+}
+
+static void clut_to_argb(const uint32_t *color, const uint8_t *trans, int num_items, uint32_t *argb, const char *format)
+{
+  int i;
+  union {
+    uint32_t u32;
+    clut_t   c;
+  } tmp ;
+
+  if (!strcmp(format, "BGRA")) {
+    for (i = 0; i < num_items; i++) {
+      tmp.u32 = color[i];
+      uint8_t *rgba = (uint8_t*)(argb + i);
+      rgba[0] = tmp.c.cb;
+      rgba[1] = tmp.c.cr;
+      rgba[2] = tmp.c.y;
+      rgba[3] = trans[i] * 255 / 15;
+    }
+  }
+  else if (!strcmp(format, "RGBA")) {
+    for (i = 0; i < num_items; i++) {
+      tmp.u32 = color[i];
+      uint8_t *rgba = (uint8_t*)(argb + i);
+      rgba[0] = tmp.c.y;
+      rgba[1] = tmp.c.cr;
+      rgba[2] = tmp.c.cb;
+      rgba[3] = trans[i] * 255 / 15;
+    }
+  }
+  else {
+    fprintf(stderr, "clut_to_argb: unknown format %s\n", format);
+  }
+}
+
+#define LUT_SIZE (sizeof(overlay->color)/sizeof(overlay->color[0]))
+#define NEXT_BITE                                                       \
+  do {                                                                  \
+    if (rle_len < 1) {                                                  \
+      rle++;                                                            \
+      if (rle >= rle_end) {                                             \
+        /* fill with transparent */                                     \
+        memset(rgba, 0, (overlay->width - x) * sizeof(uint32_t));       \
+        rgba += stride;                                                 \
+        for (; y < overlay->height; y++, rgba += stride) {              \
+          memset(rgba, 0, stride * sizeof(uint32_t));                   \
+        }                                                               \
+        return;                                                         \
+      }                                                                 \
+      rle_len = rle->len;                                               \
+    }                                                                   \
+  } while (0)
+#define LIMIT_WIDTH                             \
+  do {                                          \
+    x_limit = x + rle_len;                      \
+    if (x_limit > overlay->width) {             \
+      rle_len = x_limit - overlay->width;       \
+      x_limit = overlay->width;                 \
+    } else {                                    \
+      rle_len = 0;                              \
+    }                                           \
+  } while (0)
+#define BLEND_LINE                              \
+  do {                                          \
+    for (x = 0; x < overlay->width; ) {         \
+      NEXT_BITE;                                \
+      LIMIT_WIDTH;                              \
+                                                \
+      while (x < x_limit) {                     \
+        rgba[x++] = colors[rle->color];         \
+      }                                         \
+    }                                           \
+    rgba += stride;                             \
+  } while (0)
+
+void _x_overlay_to_argb32(const vo_overlay_t *overlay, uint32_t *rgba, int stride, const char *format)
+{
+  const rle_elem_t *rle_end = overlay->rle + overlay->num_rle;
+  const rle_elem_t *rle = overlay->rle;
+  int x, y, x_limit;
+  int rle_len = rle->len;
+  int no_hili = overlay->hili_bottom < 0 || overlay->hili_bottom < overlay->hili_top ||
+                overlay->hili_right  < 0 || overlay->hili_right  < overlay->hili_left;
+
+  if (overlay->num_rle < 1)
+    return;
+
+  if (no_hili) {
+    uint32_t colors[LUT_SIZE];
+    clut_to_argb(overlay->color, overlay->trans, LUT_SIZE, colors, format);
+
+    for (y = 0; y < overlay->height; y++) {
+      BLEND_LINE;
+    }
+
+  } else {
+    uint32_t colors[LUT_SIZE * 2];
+    clut_to_argb(overlay->color,      overlay->trans,      LUT_SIZE, colors,            format);
+    clut_to_argb(overlay->hili_color, overlay->hili_trans, LUT_SIZE, colors + LUT_SIZE, format);
+
+    for (y = 0; y < overlay->height; y++) {
+      int hili_y = (y >= overlay->hili_top && y <= overlay->hili_bottom);
+      if (!hili_y) {
+        BLEND_LINE;
+      } else {
+        for (x = 0; x < overlay->width; ) {
+          NEXT_BITE;
+          LIMIT_WIDTH;
+
+          while (x < x_limit) {
+            int hili = (x >= overlay->hili_left && x <= overlay->hili_right);
+            rgba[x++] = colors[rle->color + hili * LUT_SIZE];
+          }
+        }
+        rgba += stride;
+      }
+    }
+  }
+}
+#undef LUT_SIZE
+#undef NEXT_BITE
+#undef LIMIT_WIDTH
+#undef BLEND_LINE
 
 /* This is called from video_out.c
  * must call output->overlay_blend for each active overlay.
@@ -574,11 +696,10 @@ static void video_overlay_dispose(video_overlay_manager_t *this_gen) {
   for (i=0; i < MAX_EVENTS; i++) {
     if (this->events[i].event != NULL) {
       if (this->events[i].event->object.overlay != NULL) {
-        if (this->events[i].event->object.overlay->rle)
-          free (this->events[i].event->object.overlay->rle);
-        free (this->events[i].event->object.overlay);
+        _x_freep (&this->events[i].event->object.overlay->rle);
+        _x_freep (&this->events[i].event->object.overlay);
       }
-      free (this->events[i].event);
+      _x_freep (&this->events[i].event);
     }
   }
 

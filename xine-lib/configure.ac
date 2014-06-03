@@ -272,6 +272,10 @@ AC_CHECK_LIB([nsl],    [gethostbyname], [NET_LIBS="-lnsl $NET_LIBS"])
 AC_CHECK_LIB([resolv], [hstrerror],     [NET_LIBS="-lresolv $NET_LIBS"])
 AC_SUBST(NET_LIBS)
 
+WINE_LIBS=""
+AC_CHECK_LIB(i386, i386_set_ldt, WINE_LIBS="-li386 $WINE_LIBS",)
+AC_SUBST(WINE_LIBS)
+
 AC_CHECK_LIB([rt], [clock_getres],
              [RT_LIBS="-lrt"
               AC_DEFINE(HAVE_POSIX_TIMERS, 1, [Define this if you have POSIX timers.])], 
@@ -361,6 +365,10 @@ case "$host_os" in
 esac
 AC_CHECK_HEADERS([sys/dvdio.h sys/cdio.h sys/scsiio.h])
 
+dnl ----------------------------------------------
+dnl Check for NetBSD DTV headers
+dnl ----------------------------------------------
+AC_CHECK_HEADERS([dev/dtv/dtvio.h])
 
 dnl ----------------
 dnl checks for types

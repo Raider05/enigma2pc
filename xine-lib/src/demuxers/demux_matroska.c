@@ -1425,6 +1425,11 @@ static int parse_track_entry(demux_matroska_t *this, matroska_track_t *track) {
       track->buf_type = BUF_AUDIO_VORBIS;
       init_codec = init_codec_xiph;
 
+    } else if (!strcmp(track->codec_id, MATROSKA_CODEC_ID_A_OPUS)) {
+      lprintf("MATROSKA_CODEC_ID_A_OPUS\n");
+      track->buf_type = BUF_AUDIO_OPUS;
+      init_codec = init_codec_audio;
+
     } else if (!strcmp(track->codec_id, MATROSKA_CODEC_ID_A_ACM)) {
       xine_waveformatex *wfh;
       lprintf("MATROSKA_CODEC_ID_A_ACM\n");

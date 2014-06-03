@@ -975,12 +975,21 @@ static vo_driver_t *fb_open_plugin(video_driver_class_t *class_gen,
   this->fd = open_fb_device(config, class->xine);
   if(this->fd == -1)
     goto error;
-  if(!get_fb_var_screeninfo(this->fd, &this->fb_var, class->xine))
+  if(!get_fb_var_screeninfo(this->fd, &this->fb_var, class->xine)) {
+    xprintf(this->xine, XINE_VERBOSITY_LOG, "video_out_fb: get_fb_var_screeninfo() failed: %s\n", strerror(errno));
     goto error;
-  if(!get_fb_fix_screeninfo(this->fd, &this->fb_fix, class->xine))
+  }
+  if(!get_fb_fix_screeninfo(this->fd, &this->fb_fix, class->xine)) {
+    xprintf(this->xine, XINE_VERBOSITY_LOG, "video_out_fb: get_fb_fix_screeninfo() failed: %s\n", strerror(errno));
     goto error;
-  if (!set_fb_palette (this->fd, &this->fb_var))
-    goto error;
+  }
+
+  if (!set_fb_palette (this->fd, &this->fb_var)) {
+    xprintf(this->xine, XINE_VERBOSITY_LOG, "video_out_fb: set_fb_palette() failed: %s\n", strerror(errno));
+    if (this->fb_var.bits_per_pixel < 24) {
+      goto error;
+    }
+  }
 
   this->xine = class->xine;
 
@@ -1026,6 +1035,9 @@ static vo_driver_t *fb_open_plugin(video_driver_class_t *class_gen,
 			      MAP_SHARED, this->fd, 0);
   return &this->vo_driver;
 error:
+  xprintf(class->xine, XINE_VERBOSITY_DEBUG,
+          "video_out_fb: Unable to configure fb device, aborting: %s\n", strerror(errno));
+
   free(this);
   return 0;
 }

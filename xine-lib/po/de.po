@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: xine-lib 1.2.2\n"
 "Report-Msgid-Bugs-To: xine-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2014-04-08 15:25+0100\n"
+"POT-Creation-Date: 2014-05-07 02:03+0200\n"
 "PO-Revision-Date: 2007-04-18 11:00+0200\n"
 "Last-Translator: Torsten Jager <t.jager@gmx.de>\n"
 "Language-Team: German <de@li.org>\n"
-"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: lib/hstrerror.c:17
@@ -1210,32 +1210,32 @@ msgstr "demux_asf: Warnung: Datenstrom id=%d ist verschlüsselt.\n"
 msgid "Media stream scrambled/encrypted"
 msgstr "Medienstrom verschlüsselt"
 
-#: src/demuxers/demux_asf.c:2146
+#: src/demuxers/demux_asf.c:2148
 msgid "ASF demux plugin"
 msgstr "ASF Demultiplexer"
 
-#: src/demuxers/demux_avi.c:530 src/demuxers/demux_avi.c:644
+#: src/demuxers/demux_avi.c:531 src/demuxers/demux_avi.c:645
 msgid "Restoring index..."
 msgstr "Stelle Index wieder her..."
 
-#: src/demuxers/demux_avi.c:630 src/demuxers/demux_avi.c:1693
+#: src/demuxers/demux_avi.c:631 src/demuxers/demux_avi.c:1699
 #, c-format
 msgid "demux_avi: invalid avi chunk \"%c%c%c%c\" at pos %<PRIdMAX>\n"
 msgstr "demux_avi: Ungültiges AVI-Paket \"%c%c%c%c\" an Position %<PRIdMAX>\n"
 
-#: src/demuxers/demux_avi.c:822
+#: src/demuxers/demux_avi.c:823
 #, c-format
 msgid "demux_avi: avi index is broken\n"
 msgstr "demux_avi: AVI-Index ist fehlerhaft\n"
 
-#: src/demuxers/demux_avi.c:830
+#: src/demuxers/demux_avi.c:831
 #, c-format
 msgid "demux_avi: failed to seek to the next chunk (pos %<PRIdMAX>)\n"
 msgstr ""
 "demux_avi: Positionierung zum nächsten Paket (Position %<PRIdMAX>) schlug "
 "fehl\n"
 
-#: src/demuxers/demux_avi.c:2326
+#: src/demuxers/demux_avi.c:2332
 msgid "AVI/RIFF demux plugin"
 msgstr "AVI/RIFF Demultiplexer"
 
@@ -1253,22 +1253,22 @@ msgstr "Nicht erkanntes FILM-Paket\n"
 msgid "FILM (CPK) demux plugin"
 msgstr "FILM (CPK) Demultiplexer"
 
-#: src/demuxers/demux_flv.c:198
+#: src/demuxers/demux_flv.c:201
 #, c-format
 msgid "unsupported FLV version (%d).\n"
 msgstr "Nicht unterstützte FLV-Version (%d).\n"
 
-#: src/demuxers/demux_flv.c:205
+#: src/demuxers/demux_flv.c:208
 #, c-format
 msgid "neither video nor audio stream in this file.\n"
 msgstr "Weder Bild noch Ton in dieser Datei.\n"
 
-#: src/demuxers/demux_flv.c:840
+#: src/demuxers/demux_flv.c:846
 #, c-format
 msgid "demux_flv: Not using broken seek index.\n"
 msgstr "demux_flv: Ignoriere fehlerhaften Suchindex.\n"
 
-#: src/demuxers/demux_flv.c:846
+#: src/demuxers/demux_flv.c:852
 #, c-format
 msgid ""
 "demux_flv: This file is non seekable. A/V lag may occur.\n"
@@ -1279,7 +1279,7 @@ msgstr ""
 "           Empfehle, die Datei mittels eines geeigneten \"flvtool\" zu "
 "reparieren.\n"
 
-#: src/demuxers/demux_flv.c:1110
+#: src/demuxers/demux_flv.c:1116
 msgid "Flash Video file demux plugin"
 msgstr "FLV Demultiplexer"
 
@@ -1724,11 +1724,11 @@ msgstr "Maximale Kompression für ein Bild im Modus konstanter Qualität"
 msgid "video output plugin displaying images through your DXR3 decoder card"
 msgstr "Bildausgabe über die DXR3 Karte"
 
-#: src/dxr3/video_out_dxr3.c:257
+#: src/dxr3/video_out_dxr3.c:258
 msgid "swap odd and even lines"
 msgstr "Vertausche gerade und ungerade Zeilen"
 
-#: src/dxr3/video_out_dxr3.c:258
+#: src/dxr3/video_out_dxr3.c:259
 msgid ""
 "Swaps the even and odd field of the image.\n"
 "Enable this option for non-MPEG material which produces a vertical jitter on "
@@ -1738,11 +1738,11 @@ msgstr ""
 "Aktivieren Sie diese Option für nicht-MPEG-Material, welches ein vertikales "
 "Zittern am Bildschirm zeigt."
 
-#: src/dxr3/video_out_dxr3.c:262
+#: src/dxr3/video_out_dxr3.c:263
 msgid "add black bars to correct aspect ratio"
 msgstr "Schwarze Balken zur Korrektur des Seitenverhältnisses hinzufügen"
 
-#: src/dxr3/video_out_dxr3.c:263
+#: src/dxr3/video_out_dxr3.c:264
 msgid ""
 "Adds black bars when the image has an aspect ratio the card cannot handle "
 "natively. This is needed to maintain proper image proportions."
@@ -1751,32 +1751,32 @@ msgstr ""
 "nicht direkt verarbeiten kann. Dies ist zum wahren korrekter "
 "Bildeigenschaften nötig."
 
-#: src/dxr3/video_out_dxr3.c:268
+#: src/dxr3/video_out_dxr3.c:269
 msgid "use smooth play mode for mpeg encoder playback"
 msgstr "Benutze weichen Wiedergabemodus für MPEG-kodierte Wiedergabe"
 
-#: src/dxr3/video_out_dxr3.c:269
+#: src/dxr3/video_out_dxr3.c:270
 msgid ""
 "Enabling this option will utilise a smoother play mode for non-MPEG content."
 msgstr ""
 "Das Aktivieren dieser Option sorgt für eine flüssigere Wiedergabe von nicht-"
 "MPEG-Inhalten."
 
-#: src/dxr3/video_out_dxr3.c:277
+#: src/dxr3/video_out_dxr3.c:278
 #, c-format
 msgid "video_out_dxr3: Failed to open control device %s (%s)\n"
 msgstr "video_out_dxr3: Öffnen des Steuer-Geräts %s schlug fehl (%s)\n"
 
-#: src/dxr3/video_out_dxr3.c:285
+#: src/dxr3/video_out_dxr3.c:286
 #, c-format
 msgid "video_out_dxr3: Failed to open video device %s (%s)\n"
 msgstr "video_out_dxr3: Öffnen des Video-Geräts %s schlug fehl (%s)\n"
 
-#: src/dxr3/video_out_dxr3.c:318
+#: src/dxr3/video_out_dxr3.c:319
 msgid "encoder for non mpeg content"
 msgstr "Der Enkodierer für nicht-MPEG-Inhalte"
 
-#: src/dxr3/video_out_dxr3.c:319
+#: src/dxr3/video_out_dxr3.c:320
 msgid ""
 "Content other than MPEG has to pass an additional reencoding stage, because "
 "the dxr3 handles only MPEG.\n"
@@ -1800,24 +1800,24 @@ msgstr ""
 "\"fame\" und \"rte\" werden noch angeboten, aber die xine-Unterstützung für "
 "sie ist veraltet und evtl. sogar defekt."
 
-#: src/dxr3/video_out_dxr3.c:330
+#: src/dxr3/video_out_dxr3.c:331
 #, c-format
 msgid "video_out_dxr3: Mpeg encoder libavcodec failed to init.\n"
 msgstr ""
 "video_out_dxr3: MPEG-Kodierer libavcodec konnte nicht initialisiert werden.\n"
 
-#: src/dxr3/video_out_dxr3.c:336
+#: src/dxr3/video_out_dxr3.c:337
 #, c-format
 msgid "video_out_dxr3: Mpeg encoder rte failed to init.\n"
 msgstr "video_out_dxr3: MPEG-Kodierer rte konnte nicht initialisiert werden.\n"
 
-#: src/dxr3/video_out_dxr3.c:343
+#: src/dxr3/video_out_dxr3.c:344
 #, c-format
 msgid "video_out_dxr3: Mpeg encoder fame failed to init.\n"
 msgstr ""
 "video_out_dxr3: MPEG-Kodierer fame konnte nicht initialisiert werden.\n"
 
-#: src/dxr3/video_out_dxr3.c:349
+#: src/dxr3/video_out_dxr3.c:350
 #, c-format
 msgid ""
 "video_out_dxr3: Mpeg encoding disabled.\n"
@@ -1834,7 +1834,7 @@ msgstr ""
 "video_out_dxr3: wiedergeben. Lesen Sie README.dxr3, um einen Kodierer zu "
 "konfigurieren.\n"
 
-#: src/dxr3/video_out_dxr3.c:355
+#: src/dxr3/video_out_dxr3.c:356
 #, c-format
 msgid ""
 "video_out_dxr3: No mpeg encoder compiled in.\n"
@@ -1851,11 +1851,11 @@ msgstr ""
 "video_out_dxr3: wiedergeben. Lesen Sie README.dxr3, um einen Kodierer zu "
 "konfigurieren.\n"
 
-#: src/dxr3/video_out_dxr3.c:370
+#: src/dxr3/video_out_dxr3.c:371
 msgid "video output mode (TV or overlay)"
 msgstr "Videoausgabemodus (TV oder Overlay)"
 
-#: src/dxr3/video_out_dxr3.c:371
+#: src/dxr3/video_out_dxr3.c:372
 msgid ""
 "The way the DXR3 outputs the final video can be set here. The individual "
 "values are:\n"
@@ -1915,11 +1915,11 @@ msgstr ""
 "Sofortumschaltung auf TV-Ausgabe durch Verstecken des Videofensters. Dies "
 "ist die Standardvariante bei DXR3 Overlays."
 
-#: src/dxr3/video_out_dxr3.c:418
+#: src/dxr3/video_out_dxr3.c:419
 msgid "overlay colour key value"
 msgstr "Farbwert für Overlay"
 
-#: src/dxr3/video_out_dxr3.c:418
+#: src/dxr3/video_out_dxr3.c:419
 msgid ""
 "Hexadecimal RGB value of the key colour.\n"
 "You can try different values, if you experience windows becoming transparent "
@@ -1929,11 +1929,11 @@ msgstr ""
 "Sie können verschiedene Werte probieren, falls bei der Benutzung des DXR3-"
 "Overlaymodus Fenster transparent werden."
 
-#: src/dxr3/video_out_dxr3.c:423
+#: src/dxr3/video_out_dxr3.c:424
 msgid "overlay colour key tolerance"
 msgstr "Farbvarianz für Overlay"
 
-#: src/dxr3/video_out_dxr3.c:423
+#: src/dxr3/video_out_dxr3.c:424
 msgid ""
 "A greater value widens the tolerance for the overlay key colour.\n"
 "You can try lower values, if you experience windows becoming transparent "
@@ -1945,11 +1945,11 @@ msgstr ""
 "Overlaymodus Fenster transparent werden; bei zu niedrigen Werten können "
 "teile der Bildränder verschwinden."
 
-#: src/dxr3/video_out_dxr3.c:429
+#: src/dxr3/video_out_dxr3.c:430
 msgid "crop the overlay area at top and bottom"
 msgstr "Beschneidet den Overlaybereich oben und unten"
 
-#: src/dxr3/video_out_dxr3.c:430
+#: src/dxr3/video_out_dxr3.c:431
 msgid ""
 "Removes one pixel line from the top and bottom of the overlay. Enable this, "
 "if you see green lines at the top or bottom of the overlay."
@@ -1957,16 +1957,16 @@ msgstr ""
 "Entfernt eine Pixelzeile am oberen und unteren Rand des Overlays. Aktivieren "
 "Sie dies, falls Sie grüne Linien am oberen oder unteren Rand sehen."
 
-#: src/dxr3/video_out_dxr3.c:434
+#: src/dxr3/video_out_dxr3.c:435
 #, c-format
 msgid "video_out_dxr3: please run autocal, overlay disabled\n"
 msgstr "video_out_dxr3: Starten Sie autocal, Überlagerung deaktiviert\n"
 
-#: src/dxr3/video_out_dxr3.c:444
+#: src/dxr3/video_out_dxr3.c:445
 msgid "preferred tv mode"
 msgstr "Bevorzugter TV-Modues"
 
-#: src/dxr3/video_out_dxr3.c:444
+#: src/dxr3/video_out_dxr3.c:445
 msgid ""
 "Selects the TV mode to be used by the DXR3. The values mean:\n"
 "\n"
@@ -1982,12 +1982,12 @@ msgstr ""
 "pal60: PAL bei 60Hz\n"
 "default: Einstellungen der Karte beibehalten"
 
-#: src/dxr3/video_out_dxr3.c:466
+#: src/dxr3/video_out_dxr3.c:467
 #, c-format
 msgid "video_out_dxr3: setting video mode failed.\n"
 msgstr "video_out_dxr3: Setzen des Videomodus schlug fehl.\n"
 
-#: src/dxr3/video_out_dxr3.c:693
+#: src/dxr3/video_out_dxr3.c:694
 #, c-format
 msgid ""
 "video_out_dxr3: Need an mpeg encoder to play non-mpeg videos on dxr3\n"
@@ -1997,39 +1997,39 @@ msgstr ""
 "Videos on dxr3\n"
 "video_out_dxr3: Lesen Sie README.dxr3 für Details.\n"
 
-#: src/dxr3/video_out_dxr3.c:1344
+#: src/dxr3/video_out_dxr3.c:1345
 #, c-format
 msgid "video_out_dxr3: ERROR Reading overlay init file. Run autocal!\n"
 msgstr ""
 "video_out_dxr3: Fehler beim Lesen der Überlagerungsdatei. Starten Sie "
 "autocal!\n"
 
-#: src/input/input_bluray.c:1908
+#: src/input/input_bluray.c:1917
 msgid "BluRay input plugin"
 msgstr "BluRay-Eingabe"
 
-#: src/input/input_bluray.c:1913
+#: src/input/input_bluray.c:1922
 msgid "BluRay mount point"
 msgstr "Lokales BluRay Verzeichnis"
 
-#: src/input/input_bluray.c:1914
+#: src/input/input_bluray.c:1923
 msgid "Default mount location for BluRay discs."
 msgstr "Pfadangabe wohin BluRay's eingebunden werden sollen."
 
-#: src/input/input_bluray.c:1919
+#: src/input/input_bluray.c:1928
 msgid "device used for BluRay playback"
 msgstr "Gerät für BluRay Wiedergabe"
 
-#: src/input/input_bluray.c:1920
+#: src/input/input_bluray.c:1929
 msgid "The path to the device which you intend to use for playing BluRy discs."
 msgstr ""
 "Pfadangabe zum Gerät, das zur Wiedergabe von BluRays benutzt werden soll."
 
-#: src/input/input_bluray.c:1928
+#: src/input/input_bluray.c:1937
 msgid "default language for BluRay playback"
 msgstr "Standardsprache für die BluRay-Wiedergabe"
 
-#: src/input/input_bluray.c:1929
+#: src/input/input_bluray.c:1938
 msgid ""
 "xine tries to use this language as a default for BluRay playback. As far as "
 "the BluRay supports it, menus and audio tracks will be presented in this "
@@ -2041,19 +2041,19 @@ msgstr ""
 "angezeigt.\n"
 "Der Wert muß ein dreibuchstabiger ISO639-2-Sprachcode sein."
 
-#: src/input/input_bluray.c:1937
+#: src/input/input_bluray.c:1946
 msgid "BluRay player country code"
 msgstr "BluRay Länderkennung"
 
-#: src/input/input_bluray.c:1938
+#: src/input/input_bluray.c:1947
 msgid "The value must be a two character ISO3166-1 country code."
 msgstr "Der Wert muss eine zweibuchstabiger ISO3166-1 Länderkennung sein."
 
-#: src/input/input_bluray.c:1943
+#: src/input/input_bluray.c:1952
 msgid "BluRay player region code (1=A, 2=B, 4=C)"
 msgstr "BluRay Länderkennung (1=A, 2=B, 4=C)"
 
-#: src/input/input_bluray.c:1944
+#: src/input/input_bluray.c:1953
 msgid ""
 "This only needs to be changed if your BluRay jumps to a screen complaining "
 "about a wrong region code. It has nothing to do with the region code set in "
@@ -2064,21 +2064,21 @@ msgstr ""
 "hat nichts mit der Laufwerkseinstellung zu tun, dies ist nur für die "
 "Software."
 
-#: src/input/input_bluray.c:1951
+#: src/input/input_bluray.c:1960
 msgid "parental control age limit (1-99)"
 msgstr "Jugendschutz-Mindestalter (1-99)"
 
-#: src/input/input_bluray.c:1952
+#: src/input/input_bluray.c:1961
 msgid ""
 "Prevents playback of BluRay titles where parental control age limit is "
 "higher than this limit"
 msgstr "Verhindert das Abspielen von Titeln mit höherer Altersfreigabe"
 
-#: src/input/input_bluray.c:1959 src/input/input_dvd.c:1845
+#: src/input/input_bluray.c:1968 src/input/input_dvd.c:1845
 msgid "unit for the skip action"
 msgstr "Einheit für die Überspringen-Aktion"
 
-#: src/input/input_bluray.c:1960
+#: src/input/input_bluray.c:1969
 msgid ""
 "You can configure the behaviour when issuing a skip command (using the skip "
 "buttons for example)."
@@ -2086,7 +2086,7 @@ msgstr ""
 "Hier können Sie die Funktion der \"Weiter\"- und \"Zurück\"-Tasten "
 "einstellen."
 
-#: src/input/input_bluray.c:1982
+#: src/input/input_bluray.c:1991
 msgid "BluRay input plugin (using menus)"
 msgstr "BluRay Eingabe (mit Menüs)"
 
@@ -3312,8 +3312,8 @@ msgid ""
 "See the help for the title_format for the meanings of these."
 msgstr ""
 "Das selbe Format wie für Fenstertitel. Ähnlich dem Unix date-Befehl. "
-"Formatangaben starten mit einem Prozentzeichen. Formatfelder sind %A, %C, "
-"%c, %F, %I, %L, %N, %P, %p, %S, %T, %V, %v, und %%.\n"
+"Formatangaben starten mit einem Prozentzeichen. Formatfelder sind %A, %C, %"
+"c, %F, %I, %L, %N, %P, %p, %S, %T, %V, %v, und %%.\n"
 "Siehe Hilfe für title_format bezüglich deren Bedeutung."
 
 #: src/input/vcd/xineplug_inp_vcd.c:1918
@@ -4644,7 +4644,7 @@ msgstr ""
 msgid "xine video output plugin for win32 using directx"
 msgstr "xine Videoausgabe benutzt für win32 benutzt directx"
 
-#: src/video_out/video_out_fb.c:743
+#: src/video_out/video_out_fb.c:727
 #, c-format
 msgid ""
 "video_out_fb: only packed truecolour/directcolour is supported (%d).\n"
@@ -4653,11 +4653,11 @@ msgstr ""
 "video_out_fb: Nur packed truecolor/directcolor wird unterstützt (%d).\n"
 "     Überprüden Sie 'fbset -i' oder versuchen Sie 'fbset -depth 16'.\n"
 
-#: src/video_out/video_out_fb.c:803 src/video_out/video_out_vidix.c:1248
+#: src/video_out/video_out_fb.c:787 src/video_out/video_out_vidix.c:1248
 msgid "framebuffer device name"
 msgstr "Framebuffer Gerät"
 
-#: src/video_out/video_out_fb.c:804 src/video_out/video_out_vidix.c:1249
+#: src/video_out/video_out_fb.c:788 src/video_out/video_out_vidix.c:1249
 msgid ""
 "Specifies the file name for the framebuffer device to be used.\n"
 "This setting is security critical, because when changed to a different file, "
@@ -4668,17 +4668,17 @@ msgstr ""
 "ACHTUNG: Eine falsche Angabe überschreibt eine Datei dieses Namens mit "
 "riesigen Datenmengen! Also besser doppelt prüfen."
 
-#: src/video_out/video_out_fb.c:878
+#: src/video_out/video_out_fb.c:862
 #, c-format
 msgid "%s: Your video mode was not recognized, sorry.\n"
 msgstr "%s: Ihr Videomodus wurde nicht erkannt, Entschuldigung.\n"
 
-#: src/video_out/video_out_fb.c:936
+#: src/video_out/video_out_fb.c:920
 #, c-format
 msgid "%s: %d video RAM buffers are available.\n"
 msgstr "%s: %d Grafikspeicher-Puffer sind verfügbar.\n"
 
-#: src/video_out/video_out_fb.c:942
+#: src/video_out/video_out_fb.c:926
 #, c-format
 msgid ""
 "WARNING: %s: Zero copy buffers are DISABLED because only %d buffers\n"
@@ -4690,7 +4690,7 @@ msgstr ""
 "Verringern\n"
 "     der Framebuffer-Auflösung kann helfen.\n"
 
-#: src/video_out/video_out_fb.c:953
+#: src/video_out/video_out_fb.c:937
 #, c-format
 msgid ""
 "WARNING: %s: Zero copy buffers are DISABLED because kernel driver\n"
@@ -4699,7 +4699,7 @@ msgstr ""
 "WARNUNG: %s: Null-Kopie-Puffer sind DEAKTIVIERT, weil der Kernel-Treiber\n"
 "     kein screen-panning unterstützt (benutzt für Bildwechsel).\n"
 
-#: src/video_out/video_out_fb.c:1022
+#: src/video_out/video_out_fb.c:1015
 #, c-format
 msgid ""
 "WARNING: %s: current display depth is %d. For better performance\n"
@@ -4709,19 +4709,19 @@ msgstr ""
 "WARNUNG: %s: Aktuelle Farbtiefe ist %d. Für bessere Leistung wird eine "
 "Farbtiefe von 16 bpp empfohlen!\n"
 
-#: src/video_out/video_out_fb.c:1053
+#: src/video_out/video_out_fb.c:1049
 msgid "Xine video output plugin using the Linux frame buffer device"
 msgstr "xine Videoausgabe benutzt Linux Framebuffer"
 
-#: src/video_out/video_out_none.c:279
+#: src/video_out/video_out_none.c:284
 msgid "xine video output plugin which displays nothing"
 msgstr "xine Videoausgabe zeigt nichts an"
 
-#: src/video_out/video_out_opengl2.c:1697
+#: src/video_out/video_out_opengl2.c:1851
 msgid "opengl2: use a bicubic algo to scale the video"
 msgstr "opengl2: Skaliere Video bikubisch"
 
-#: src/video_out/video_out_opengl2.c:1698
+#: src/video_out/video_out_opengl2.c:1852
 msgid ""
 "Set to true if you want bicubic scaling.\n"
 "\n"
@@ -4730,7 +4730,7 @@ msgstr ""
 "an Schärfe.\n"
 "Es benötigt aber eine schnelle Grafikkarte.\n"
 
-#: src/video_out/video_out_opengl2.c:1772
+#: src/video_out/video_out_opengl2.c:1926
 msgid "xine video output plugin using opengl 2.0"
 msgstr "Opengl 2.0 Videoausgabe"
 
@@ -4950,15 +4950,15 @@ msgstr ""
 msgid "xine video output plugin for Sun XVR100/PGX64/PGX24 framebuffers"
 msgstr "xine Videoausgabe über Sun XVR100/PGX64/PGX24 Bildpuffer"
 
-#: src/video_out/video_out_raw.c:575
+#: src/video_out/video_out_raw.c:579
 msgid "xine video output plugin passing raw data to supplied callback"
 msgstr "xine Videoausgabe als Rohdaten an externes Programm"
 
-#: src/video_out/video_out_sdl.c:490
+#: src/video_out/video_out_sdl.c:483
 msgid "use hardware acceleration if available"
 msgstr "Benutze Hardwarebeschleunigung falls verfügbar"
 
-#: src/video_out/video_out_sdl.c:491
+#: src/video_out/video_out_sdl.c:484
 msgid ""
 "When your system supports it, hardware acceleration provided by your "
 "graphics hardware will be used. This might not work, so you can disable it, "
@@ -4968,17 +4968,17 @@ msgstr ""
 "Grafikhardware benutzt. Falls es nicht funktioniert, können Sie dies "
 "deaktivieren."
 
-#: src/video_out/video_out_sdl.c:537
+#: src/video_out/video_out_sdl.c:534
 #, c-format
 msgid "sdl has to emulate a 16 bit surfaces, that will slow things down.\n"
 msgstr "SDL muß eine 16 Bit Ausgabe emulieren, was alles verlangsamt.\n"
 
-#: src/video_out/video_out_sdl.c:574
+#: src/video_out/video_out_sdl.c:573
 #, c-format
 msgid "video_out_sdl: fullscreen mode is NOT supported\n"
 msgstr "video_out_sdl: Vollbildmodus wird NICHT unterstützt\n"
 
-#: src/video_out/video_out_sdl.c:596
+#: src/video_out/video_out_sdl.c:595
 msgid "xine video output plugin using the Simple Direct Media Layer"
 msgstr "xine Videoausgabe benutzt 'Simple Direct Media Layer'"
 
@@ -4986,13 +4986,20 @@ msgstr "xine Videoausgabe benutzt 'Simple Direct Media Layer'"
 msgid "xine video output plugin using the Libstk Surface Set-top Toolkit"
 msgstr "xine Videoausgabe benutzt LibStk Surface Set-top Toolkit"
 
-#: src/video_out/video_out_vaapi.c:3824 src/video_out/video_out_vdpau.c:3169
-#: src/xine-engine/video_out.c:2305
+#: src/video_out/video_out_vaapi.c:1680
+#, c-format
+msgid ""
+"video_out_vaapi: driver does not support \"%s\" colorspace conversion mode\n"
+msgstr ""
+"video_out_vaapi: Treiber unterstützt keine \"%s\" Farbraumkonvertierung\n"
+
+#: src/video_out/video_out_vaapi.c:4129 src/video_out/video_out_vdpau.c:3190
+#: src/xine-engine/video_out.c:2331
 msgid "default number of video frames"
 msgstr "Standardanzahl von Videobildern"
 
-#: src/video_out/video_out_vaapi.c:3825 src/video_out/video_out_vdpau.c:3170
-#: src/xine-engine/video_out.c:2306
+#: src/video_out/video_out_vaapi.c:4130 src/video_out/video_out_vdpau.c:3191
+#: src/xine-engine/video_out.c:2332
 msgid ""
 "The default number of video frames to request from xine video out driver. "
 "Some drivers will override this setting with their own values."
@@ -5001,32 +5008,32 @@ msgstr ""
 "angefordert werden. Einige Treiber überschreiben diese Einstellung mit ihren "
 "eigenen Werten."
 
-#: src/video_out/video_out_vaapi.c:3836 src/video_out/video_out_vaapi.c:3837
+#: src/video_out/video_out_vaapi.c:4141 src/video_out/video_out_vaapi.c:4142
 msgid "vaapi: opengl output rendering"
 msgstr "vaapi: Ausgabe über OpenGL"
 
-#: src/video_out/video_out_vaapi.c:3843 src/video_out/video_out_vaapi.c:3844
+#: src/video_out/video_out_vaapi.c:4148 src/video_out/video_out_vaapi.c:4149
 msgid "vaapi: opengl rendering tfp"
 msgstr ""
 
-#: src/video_out/video_out_vaapi.c:3932 src/video_out/video_out_vaapi.c:3933
+#: src/video_out/video_out_vaapi.c:4237 src/video_out/video_out_vaapi.c:4238
 msgid "vaapi: VDR osd width workaround."
 msgstr "vaapi: Abhilfe für fehlerhafte Höhe von VDR Einblendungen."
 
-#: src/video_out/video_out_vaapi.c:3937 src/video_out/video_out_vaapi.c:3938
+#: src/video_out/video_out_vaapi.c:4242 src/video_out/video_out_vaapi.c:4243
 msgid "vaapi: VDR osd height workaround."
 msgstr "vaapi: Abhilfe für fehlerhafte Höhe von VDR Einblendungen."
 
-#: src/video_out/video_out_vaapi.c:3942 src/video_out/video_out_vaapi.c:3943
+#: src/video_out/video_out_vaapi.c:4247 src/video_out/video_out_vaapi.c:4248
 msgid "vaapi: set deinterlace to 0 ( none ), 1 ( top field ), 2 ( bob )."
 msgstr ""
 "vaapi: Wähle Entflechtmethode: 0 (kein), 1 (verweben), 2 (weichzeichnen)."
 
-#: src/video_out/video_out_vaapi.c:3947 src/video_out/video_out_vaapi.c:3948
+#: src/video_out/video_out_vaapi.c:4252 src/video_out/video_out_vaapi.c:4253
 msgid "vaapi: set vaapi_guarded_render to 0 ( no ) 1 ( yes )"
 msgstr "vaapi: vaapi_guarded_render 0 (aus) 1 (ein)"
 
-#: src/video_out/video_out_vaapi.c:3953 src/video_out/video_out_vaapi.c:3954
+#: src/video_out/video_out_vaapi.c:4258 src/video_out/video_out_vaapi.c:4259
 msgid ""
 "vaapi: set scaling level to : default (default) fast (fast) hq (HQ) nla "
 "(anamorphic)"
@@ -5034,11 +5041,11 @@ msgstr ""
 "vaapi: Wähle Qualität beim Vergrößern/Verkleinern:\n"
 "default (Standard), fast (schnell), hq (gut), nla (anamorph)"
 
-#: src/video_out/video_out_vaapi.c:3960
+#: src/video_out/video_out_vaapi.c:4265
 msgid "vaapi: swap UV planes."
 msgstr "vaapi: Vertausche U und V Farbebenen."
 
-#: src/video_out/video_out_vaapi.c:3961
+#: src/video_out/video_out_vaapi.c:4266
 msgid ""
 "vaapi: this is a workaround for buggy drivers ( intel IronLake ).\n"
 "There the UV planes are swapped.\n"
@@ -5046,49 +5053,79 @@ msgstr ""
 "vaapi: Korrigiere Rot/Blau-Farbfehler bei einigen Treibern (intel "
 "IronLake).\n"
 
-#: src/video_out/video_out_vaapi.c:4013 src/video_out/video_out_xcbxv.c:1640
-#: src/video_out/video_out_xv.c:1728 src/video_out/video_out_xxmc.c:2834
-msgid "xine video output plugin using the MIT X video extension"
-msgstr "xine Videoausgabe über \"MIT XVideo\" Erweiterung"
+#: src/video_out/video_out_vaapi.c:4307
+msgid "VAAPI color conversion method"
+msgstr "VAAPI Farbraumkonvertierungsmethode"
 
-#: src/video_out/video_out_vdpau.c:2968
+#: src/video_out/video_out_vaapi.c:4308
+msgid ""
+"How to handle color conversion in VAAPI:\n"
+"\n"
+"user_matrix: The best way - if your driver supports it.\n"
+"simple:      Switch SD/HD colorspaces, and let decoders convert fullrange "
+"video.\n"
+"simple+2:    Switch SD/HD colorspaces, and emulate fullrange color by "
+"modifying\n"
+"             brightness/contrast settings.\n"
+"simple+3:    Like above, but adjust saturation as well.\n"
+"\n"
+"Hint: play \"test://rgb_levels.bmp\" while trying this.\n"
+msgstr ""
+"Farbraumumwandlung über VAAPI:\n"
+"\n"
+"user_matrix: Die beste Art - falls Ihr Treiber mitspielt.\n"
+"simple:      Wähle SD/HD Farbraum, und rechne Video mit erweitertem "
+"Kontrastumfang herunter.\n"
+"simple+2:    Wähle SD/HD Farbraum, und korrigiere erweitertem Kontrastumfang "
+"über die\n"
+"             Helligkeit/Kontrast-Einstellungen.\n"
+"simple+3:    Wie oben, aber passe auch die Farbsättigung mit an.\n"
+"\n"
+"Tipp: Spielen Sie \"test://rgb_levels.bmp\" ab, während Sie dies hier "
+"ausprobieren.\n"
+
+#: src/video_out/video_out_vaapi.c:4334
+msgid "xine video output plugin using VAAPI"
+msgstr "xine Videoausgabe über VAAPI"
+
+#: src/video_out/video_out_vdpau.c:2989
 msgid "maximum number of output surfaces buffered for reuse"
 msgstr "Maximale Anzahl von mehrfach genutzten Videobildern"
 
-#: src/video_out/video_out_vdpau.c:2969
+#: src/video_out/video_out_vdpau.c:2990
 msgid "The maximum number of video output surfaces buffered for reuse"
 msgstr "Maximale Anzahl von mehrfach genutzten Videobildern"
 
-#: src/video_out/video_out_vdpau.c:2984
+#: src/video_out/video_out_vdpau.c:3005
 msgid "default length of display queue"
 msgstr "Normale Länge der Anzeige-Warteschlange"
 
-#: src/video_out/video_out_vdpau.c:2985
+#: src/video_out/video_out_vdpau.c:3006
 msgid ""
 "The default number of video output surfaces to create for the display queue"
 msgstr "Reserviere so viele Bilder für die Anzeige-Warteschlange"
 
-#: src/video_out/video_out_vdpau.c:3112
+#: src/video_out/video_out_vdpau.c:3133
 msgid "vdpau: Scaling Quality"
 msgstr "vdpau: Qualität beim Vergrößern/Verkleinern"
 
-#: src/video_out/video_out_vdpau.c:3113
+#: src/video_out/video_out_vdpau.c:3134
 msgid "Scaling Quality Level"
 msgstr "Qualitätsstufe beim Vergrößern/Verkleinern"
 
-#: src/video_out/video_out_vdpau.c:3118
+#: src/video_out/video_out_vdpau.c:3139
 msgid "vdpau: HD deinterlace method"
 msgstr "vdpau: HD-Entflechtmethode"
 
-#: src/video_out/video_out_vdpau.c:3123
+#: src/video_out/video_out_vdpau.c:3144
 msgid "vdpau: SD deinterlace method"
 msgstr "vdpau: SD-Entflechtmethode"
 
-#: src/video_out/video_out_vdpau.c:3129
+#: src/video_out/video_out_vdpau.c:3150
 msgid "vdpau: Try to recreate progressive frames from pulldown material"
 msgstr "vdpau: Versuche die originale Bildwiederholrate wieder her zu stellen"
 
-#: src/video_out/video_out_vdpau.c:3130
+#: src/video_out/video_out_vdpau.c:3151
 msgid ""
 "Enable this to detect bad-flagged progressive content to which\n"
 "a 2:2 or 3:2 pulldown was applied.\n"
@@ -5097,33 +5134,33 @@ msgstr ""
 "Erkenne falsch markiertes, für TV nachbearbeitetes Material\n"
 "(sogenanntes 2:2 oder 3:2 Pulldown).\n"
 
-#: src/video_out/video_out_vdpau.c:3136
+#: src/video_out/video_out_vdpau.c:3157
 msgid "vdpau: disable deinterlacing when progressive_frame flag is set"
 msgstr "vdpau: Deaktiviere Entflechten bei Video ohne Zeilensprung"
 
-#: src/video_out/video_out_vdpau.c:3137
+#: src/video_out/video_out_vdpau.c:3158
 msgid ""
 "Set to true if you want to trust the progressive_frame stream's flag.\n"
 "This flag is not always reliable.\n"
 "\n"
 msgstr "Vertraue den im Video enthaltenen Markierungen.\n"
 
-#: src/video_out/video_out_vdpau.c:3143
+#: src/video_out/video_out_vdpau.c:3164
 msgid "vdpau: disable advanced deinterlacers chroma filter"
 msgstr "vdpau: Deaktiviere Farbfilter beim Entflechten"
 
-#: src/video_out/video_out_vdpau.c:3144
+#: src/video_out/video_out_vdpau.c:3165
 msgid ""
 "Setting to true may help if your video card isn't able to run advanced "
 "deinterlacers.\n"
 "\n"
 msgstr "Sinnvoll bei einigen älteren Grafikkarten.\n"
 
-#: src/video_out/video_out_vdpau.c:3150
+#: src/video_out/video_out_vdpau.c:3171
 msgid "vdpau: color of none video area in output window"
 msgstr "vdpau: Füllfarbe für ungenutzte Bildflächen"
 
-#: src/video_out/video_out_vdpau.c:3151
+#: src/video_out/video_out_vdpau.c:3172
 msgid ""
 "Displaying 4:3 images on 16:9 plasma TV sets lets the inactive pixels "
 "outside the video age slower than the pixels in the active area. Setting a "
@@ -5136,11 +5173,11 @@ msgstr ""
 "Balken wie 4:3 -> 16:9. Mit einer anderen Balkenfarbe (z.B. 8421404) lässt "
 "sich dieses Problem reduzieren.\n"
 
-#: src/video_out/video_out_vdpau.c:3156
+#: src/video_out/video_out_vdpau.c:3177
 msgid "vdpau: restrict enabling video properties for SD video only"
 msgstr "vdpau: SD-spezifische Einstellungen"
 
-#: src/video_out/video_out_vdpau.c:3157
+#: src/video_out/video_out_vdpau.c:3178
 msgid ""
 "none\n"
 "No restrictions\n"
@@ -5166,7 +5203,7 @@ msgstr ""
 "noise+sharpness\n"
 "Rauschminderung und Schärfen nur bei SD.\n"
 
-#: src/video_out/video_out_vdpau.c:3265
+#: src/video_out/video_out_vdpau.c:3286
 msgid "xine video output plugin using VDPAU hardware acceleration"
 msgstr "xine Videoausgabe über VDPAU-Beschleuniger"
 
@@ -5249,17 +5286,17 @@ msgstr "xine Videoausgabe benutzt libvidix für X11"
 msgid "xine video output plugin using libvidix for linux frame buffer"
 msgstr "xine Videoausgabe benutzt libvidix für Linux Framebuffer"
 
-#: src/video_out/video_out_xcbshm.c:173 src/video_out/video_out_xshm.c:232
+#: src/video_out/video_out_xcbshm.c:178 src/video_out/video_out_xshm.c:237
 #, c-format
 msgid "%s: %s: allocating image\n"
 msgstr "%s: %s: Belege Bildpuffer\n"
 
-#: src/video_out/video_out_xcbshm.c:175 src/video_out/video_out_xcbshm.c:185
-#: src/video_out/video_out_xcbshm.c:197 src/video_out/video_out_xcbxv.c:278
+#: src/video_out/video_out_xcbshm.c:180 src/video_out/video_out_xcbshm.c:190
+#: src/video_out/video_out_xcbshm.c:202 src/video_out/video_out_xcbxv.c:278
 #: src/video_out/video_out_xcbxv.c:288 src/video_out/video_out_xcbxv.c:298
-#: src/video_out/video_out_xcbxv.c:310 src/video_out/video_out_xshm.c:217
-#: src/video_out/video_out_xshm.c:234 src/video_out/video_out_xshm.c:245
-#: src/video_out/video_out_xshm.c:264 src/video_out/video_out_xv.c:306
+#: src/video_out/video_out_xcbxv.c:310 src/video_out/video_out_xshm.c:222
+#: src/video_out/video_out_xshm.c:239 src/video_out/video_out_xshm.c:250
+#: src/video_out/video_out_xshm.c:269 src/video_out/video_out_xv.c:306
 #: src/video_out/video_out_xv.c:333 src/video_out/video_out_xv.c:342
 #: src/video_out/video_out_xv.c:378 src/video_out/video_out_xxmc.c:643
 #: src/video_out/video_out_xxmc.c:654 src/video_out/video_out_xxmc.c:663
@@ -5268,20 +5305,20 @@ msgstr "%s: %s: Belege Bildpuffer\n"
 msgid "%s: => not using MIT Shared Memory extension.\n"
 msgstr "%s: => benutze die \"MIT Shared Memory\" Erweiterung nicht.\n"
 
-#: src/video_out/video_out_xcbshm.c:183 src/video_out/video_out_xshm.c:243
+#: src/video_out/video_out_xcbshm.c:188 src/video_out/video_out_xshm.c:248
 #, c-format
 msgid "%s: shared memory error (address error) when allocating image \n"
 msgstr "%s: Shared-Memory-Fehler (Adressfehler) beim Belegen des Bildes\n"
 
-#: src/video_out/video_out_xcbshm.c:195 src/video_out/video_out_xcbxv.c:308
-#: src/video_out/video_out_xshm.c:262 src/video_out/video_out_xv.c:376
+#: src/video_out/video_out_xcbshm.c:200 src/video_out/video_out_xcbxv.c:308
+#: src/video_out/video_out_xshm.c:267 src/video_out/video_out_xv.c:376
 #: src/video_out/video_out_xxmc.c:697
 #, c-format
 msgid "%s: x11 error during shared memory XImage creation\n"
 msgstr ""
 "%s: x11 Fehler beim Anlegen eines XImage in gemeinsam genutzten Speicher\n"
 
-#: src/video_out/video_out_xcbshm.c:1212 src/video_out/video_out_xshm.c:1267
+#: src/video_out/video_out_xcbshm.c:1254 src/video_out/video_out_xshm.c:1307
 #, c-format
 msgid ""
 "\n"
@@ -5295,17 +5332,29 @@ msgstr ""
 "WARNUNG: Aktuelle Farbtiefe ist %d. Für bessere Leistung wird eine Farbtiefe "
 "von 16 bpp empfohlen!\n"
 
-#: src/video_out/video_out_xcbshm.c:1225 src/video_out/video_out_xshm.c:1280
+#: src/video_out/video_out_xcbshm.c:1267 src/video_out/video_out_xshm.c:1320
 #, c-format
 msgid "%s: MIT shared memory extension not present on display.\n"
 msgstr "%s: \"MIT-Shared-Memory\" Erweiterung für Anzeige nicht vorhanden.\n"
 
-#: src/video_out/video_out_xcbshm.c:1324 src/video_out/video_out_xshm.c:1364
+#: src/video_out/video_out_xcbshm.c:1366 src/video_out/video_out_xshm.c:1404
 #, c-format
 msgid "%s: your video mode was not recognized, sorry :-(\n"
 msgstr "%s: Ihr Videomodues wurde nicht erkannt, Entschuldigung.\n"
 
-#: src/video_out/video_out_xcbshm.c:1350 src/video_out/video_out_xshm.c:1409
+#: src/video_out/video_out_xcbshm.c:1384 src/video_out/video_out_xshm.c:1424
+msgid "Skip high rate frames"
+msgstr "Überspringe Bilder bei hoher Wiederholrate"
+
+#: src/video_out/video_out_xcbshm.c:1385 src/video_out/video_out_xshm.c:1425
+msgid ""
+"Skip every other frame when there are 40fps or more.\n"
+"You will probably not see a difference, and save CPU power.\n"
+msgstr ""
+"Überspringe jedes zweite Bild bei mehr als 40 Bildern pro Sekunde. \n"
+"Sie bemerken wahrscheinlich keinen Unterschied, sparen aber Rechenleistung.\n"
+
+#: src/video_out/video_out_xcbshm.c:1400 src/video_out/video_out_xshm.c:1457
 msgid "xine video output plugin using the MIT X shared memory extension"
 msgstr "xine Videoausgabe benutzt 'MIX X Shared Memory' Erweiterung"
 
@@ -5326,25 +5375,25 @@ msgstr "%s: Fehler bei gemeinsam genutztem Speicher in shmget: %s\n"
 msgid "%s: shared memory error (address error)\n"
 msgstr "%s: Adreßfehler bei gemeinsam genutztem Speicher\n"
 
-#: src/video_out/video_out_xcbxv.c:1306 src/video_out/video_out_xv.c:1354
+#: src/video_out/video_out_xcbxv.c:1332 src/video_out/video_out_xv.c:1386
 #: src/video_out/video_out_xxmc.c:2480
 #, c-format
 msgid "%s: Xv extension not present.\n"
 msgstr "%s: Xv-Erweiterung nicht vorhanden.\n"
 
-#: src/video_out/video_out_xcbxv.c:1333 src/video_out/video_out_xv.c:1379
+#: src/video_out/video_out_xcbxv.c:1359 src/video_out/video_out_xv.c:1411
 #: src/video_out/video_out_xxmc.c:2505
 #, c-format
 msgid "%s: could not open Xv port %lu - autodetecting\n"
 msgstr "%s: Konnte Xv Port %lu nicht öffnen - treffe automatische Wahl\n"
 
-#: src/video_out/video_out_xcbxv.c:1349 src/video_out/video_out_xv.c:1391
+#: src/video_out/video_out_xcbxv.c:1375 src/video_out/video_out_xv.c:1423
 #: src/video_out/video_out_xxmc.c:2517
 #, c-format
 msgid "%s: no available ports of type \"%s\", defaulting...\n"
 msgstr "%s: Keine Ports des Typs \"%s\" verfügbar, wähle Standardtyp...\n"
 
-#: src/video_out/video_out_xcbxv.c:1357 src/video_out/video_out_xv.c:1398
+#: src/video_out/video_out_xcbxv.c:1383 src/video_out/video_out_xv.c:1430
 #: src/video_out/video_out_xxmc.c:2524
 #, c-format
 msgid ""
@@ -5355,7 +5404,7 @@ msgstr ""
 "gefunden.\n"
 "              Unterstützt die Grafikhardware evtl. kein Xv?!\n"
 
-#: src/video_out/video_out_xcbxv.c:1366
+#: src/video_out/video_out_xcbxv.c:1392
 #, c-format
 msgid ""
 "%s: using Xv port %d from adaptor %s for hardware colour space conversion "
@@ -5364,11 +5413,11 @@ msgstr ""
 "%s: Benutze Xv-Port %d von Adapter %s for Hardware-Farbraumtransformation "
 "und Skalierung.\n"
 
-#: src/video_out/video_out_xcbxv.c:1523 src/video_out/video_out_xv.c:1561
+#: src/video_out/video_out_xcbxv.c:1574 src/video_out/video_out_xv.c:1603
 msgid "enable vblank sync"
 msgstr "Synchronisiere Bildwechsel"
 
-#: src/video_out/video_out_xcbxv.c:1524 src/video_out/video_out_xv.c:1562
+#: src/video_out/video_out_xcbxv.c:1575 src/video_out/video_out_xv.c:1604
 msgid ""
 "This option will synchronize the update of the video image to the repainting "
 "of the entire screen (\"vertical retrace\"). This eliminates flickering and "
@@ -5379,11 +5428,11 @@ msgstr ""
 "Darstellung des gesamten Bildschirms (\"Strahlenrücklauf\"). Dies verhindert "
 "Flackern und Fransenbildung, benötigt aber mehr Grafikspeicher."
 
-#: src/video_out/video_out_xcbxv.c:1557 src/video_out/video_out_xv.c:1595
+#: src/video_out/video_out_xcbxv.c:1608 src/video_out/video_out_xv.c:1637
 msgid "Fullrange color emulation"
 msgstr "Erweiterten Kontrastumfang nachbilden"
 
-#: src/video_out/video_out_xcbxv.c:1558 src/video_out/video_out_xv.c:1596
+#: src/video_out/video_out_xcbxv.c:1609 src/video_out/video_out_xv.c:1638
 msgid ""
 "Emulate fullrange color by modifying brightness/contrast/saturation "
 "settings.\n"
@@ -5405,15 +5454,20 @@ msgstr ""
 "Normal:    Schneller und bessere Bildqualität. Sollte zumindest auf neueren\n"
 "           Grafikkarten (GeForce 7+, 210+) klappen.\n"
 
-#: src/video_out/video_out_xcbxv.c:1596 src/video_out/video_out_xcbxv.c:1602
-#: src/video_out/video_out_xv.c:1631 src/video_out/video_out_xv.c:1637
+#: src/video_out/video_out_xcbxv.c:1647 src/video_out/video_out_xcbxv.c:1653
+#: src/video_out/video_out_xv.c:1673 src/video_out/video_out_xv.c:1679
 #: src/video_out/video_out_xvmc.c:1492 src/video_out/video_out_xvmc.c:1498
 #: src/video_out/video_out_xxmc.c:2709 src/video_out/video_out_xxmc.c:2715
 #, c-format
 msgid "%s: this adaptor supports the %s format.\n"
 msgstr "%s: Adapter unterstützt das %s-Format.\n"
 
-#: src/video_out/video_out_xshm.c:215
+#: src/video_out/video_out_xcbxv.c:1691 src/video_out/video_out_xv.c:1770
+#: src/video_out/video_out_xxmc.c:2834
+msgid "xine video output plugin using the MIT X video extension"
+msgstr "xine Videoausgabe über \"MIT XVideo\" Erweiterung"
+
+#: src/video_out/video_out_xshm.c:220
 #, c-format
 msgid "%s: shared memory error when allocating image\n"
 msgstr "%s: Fehler bei Anlegen des Bildes im gemeinsam genutzten Speicher\n"
@@ -5423,7 +5477,7 @@ msgstr "%s: Fehler bei Anlegen des Bildes im gemeinsam genutzten Speicher\n"
 msgid "%s: XvShmCreateImage failed\n"
 msgstr "%s: XvShmCreateImage fehlgeschlagen\n"
 
-#: src/video_out/video_out_xv.c:1408 src/video_out/video_out_xxmc.c:2534
+#: src/video_out/video_out_xv.c:1440 src/video_out/video_out_xxmc.c:2534
 #, c-format
 msgid ""
 "%s: using Xv port %ld from adaptor %s for hardware colour space conversion "
@@ -5874,50 +5928,50 @@ msgstr "%s: unbekannte Bildformatkennung %#x \"%s\"\n"
 msgid "%s: unknown audio format tag code %#x \"%s\"\n"
 msgstr "%s: unbekannte Tonformatkennung %#x \"%s\"\n"
 
-#: src/xine-engine/configfile.c:953
+#: src/xine-engine/configfile.c:957
 #, c-format
 msgid "The current config file has been modified by a newer version of xine."
 msgstr ""
 "Die Konfigurationsdatei wurde von einer neueren Version von xine modifiziert."
 
-#: src/xine-engine/configfile.c:1006
+#: src/xine-engine/configfile.c:1010
 #, c-format
 msgid "Loaded configuration from file '%s'\n"
 msgstr "Einstellungen von Datei '%s' gelesen\n"
 
-#: src/xine-engine/configfile.c:1011
+#: src/xine-engine/configfile.c:1015
 #, c-format
 msgid "Failed to load configuration from file '%s': %s\n"
 msgstr "Lesen der Einstellungen von Datei '%s' schlug fehl: %s\n"
 
-#: src/xine-engine/configfile.c:1067
+#: src/xine-engine/configfile.c:1071
 #, c-format
 msgid "configfile: WARNING: backing up configfile to %s failed\n"
 msgstr ""
 "configfile: WARNUNG: Sichern der Konfigurationsdatei nach %s schlug fehl\n"
 
-#: src/xine-engine/configfile.c:1068
+#: src/xine-engine/configfile.c:1072
 #, c-format
 msgid "configfile: WARNING: your configuration will not be saved\n"
 msgstr "configfile: WARNUNG: Ihre Konfigurationsdatei wird nicht gesichert\n"
 
-#: src/xine-engine/configfile.c:1168
+#: src/xine-engine/configfile.c:1172
 #, c-format
 msgid "configfile: WARNING: writing configuration to %s failed\n"
 msgstr "configfile: WARNUNG: Schreiben der Konfiguration nach %s schlug fehl\n"
 
-#: src/xine-engine/configfile.c:1169
+#: src/xine-engine/configfile.c:1173
 #, c-format
 msgid "configfile: WARNING: removing possibly broken config file %s\n"
 msgstr ""
 "configfile: WARNUNG: Entferne möglicherweise kaputte Konfigurationsdatei %s\n"
 
-#: src/xine-engine/configfile.c:1170
+#: src/xine-engine/configfile.c:1174
 #, c-format
 msgid "configfile: WARNING: you should check the backup file %s\n"
 msgstr "configfile: WARNUNG: Überprüfen Sie die Sicherheitskopie %s\n"
 
-#: src/xine-engine/configfile.c:1631
+#: src/xine-engine/configfile.c:1635
 #, c-format
 msgid "configfile: entry '%s' mustn't be modified from MRL\n"
 msgstr ""
@@ -6395,12 +6449,20 @@ msgstr ""
 "unzuverlässigen Quellen, erhöhen aber auch die Latenzzeit und den "
 "Speicherverbrauch."
 
-#: src/xine-engine/video_out.c:1000
+#: src/xine-engine/video_out.c:763
+#, c-format
+msgid ""
+"video_out: found an unusable frame (%dx%d, format %0x08x) - no memory??\n"
+msgstr ""
+"video_out: unbrauchbaren Bildpuffer gefunden (%dx%d, format %0x08x) - "
+"Speicherplatzmangel??\n"
+
+#: src/xine-engine/video_out.c:1012
 #, c-format
 msgid "%d frames delivered, %d frames skipped, %d frames discarded\n"
 msgstr "%d Bilder angezeigt, %d Bilder übersprungen, %d Bilder verworfen\n"
 
-#: src/xine-engine/video_out.c:1175
+#: src/xine-engine/video_out.c:1201
 #, c-format
 msgid ""
 "video_out: throwing away image with pts %<PRId64> because it's too old "
@@ -6409,16 +6471,16 @@ msgstr ""
 "video_out: Verwerfe Bild mit pts %<PRId64>, weil es zu alt ist (Unterschied: "
 "%<PRId64>).\n"
 
-#: src/xine-engine/video_out.c:1202
+#: src/xine-engine/video_out.c:1228
 #, c-format
 msgid "video_out: just discarded first frame after seek\n"
 msgstr "video_out: Verwerfe erstes Bild nach Zeitsprung\n"
 
-#: src/xine-engine/video_out.c:1567
+#: src/xine-engine/video_out.c:1593
 msgid "disable decoder flush from video out"
 msgstr "Deaktiviere Decoderleerung durch Videoausgabe"
 
-#: src/xine-engine/video_out.c:1568
+#: src/xine-engine/video_out.c:1594
 msgid ""
 "video out causes a decoder flush when video out runs out of frames for "
 "displaying,\n"
@@ -6437,11 +6499,11 @@ msgstr ""
 "Dadurch können vorübergehend Bildstörungen auftreten.\n"
 "Andererseits behebt diese Einstellung Probleme mit DVD-Standbildern.\n"
 
-#: src/xine-engine/video_out.c:2363
+#: src/xine-engine/video_out.c:2389
 msgid "percentage of skipped frames to tolerate"
 msgstr "Erlaubter Prozentsatz für übersprungene Bilder"
 
-#: src/xine-engine/video_out.c:2364
+#: src/xine-engine/video_out.c:2390
 msgid ""
 "When more than this percentage of frames are not shown, because they were "
 "not decoded in time, xine sends a notification."
@@ -6449,11 +6511,11 @@ msgstr ""
 "Eine Meldung anzeigen, wenn so viel Prozent der Videobilder nicht "
 "rechtzeitig dekodiert werden konnten."
 
-#: src/xine-engine/video_out.c:2369
+#: src/xine-engine/video_out.c:2395
 msgid "percentage of discarded frames to tolerate"
 msgstr "Erlaubter Prozentsatz für verworfene Bilder"
 
-#: src/xine-engine/video_out.c:2370
+#: src/xine-engine/video_out.c:2396
 msgid ""
 "When more than this percentage of frames are not shown, because they were "
 "not scheduled for display in time, xine sends a notification."
@@ -6461,18 +6523,18 @@ msgstr ""
 "Eine Meldung anzeigen, wenn so viel Prozent der Videobilder nicht "
 "rechtzeitig dargestellt werden konnten."
 
-#: src/xine-engine/video_out.c:2409
+#: src/xine-engine/video_out.c:2435
 #, c-format
 msgid "video_out: sorry, this should not happen. please restart xine.\n"
 msgstr ""
 "video_out : Ups, das sollte eigentlich nicht passieren, bitte xine neu "
 "starten.\n"
 
-#: src/xine-engine/vo_scale.c:384
+#: src/xine-engine/vo_scale.c:397
 msgid "horizontal image position in the output window"
 msgstr "Horizontale Bildposition im Ausgabefenster"
 
-#: src/xine-engine/vo_scale.c:385
+#: src/xine-engine/vo_scale.c:398
 msgid ""
 "If the video window's horizontal size is bigger than the actual image to "
 "show, you can adjust the position where the image will be placed.\n"
@@ -6485,11 +6547,11 @@ msgstr ""
 "Die Position wird als Prozentzahl angegeb: Der Wert 50 bedeutet \"in der "
 "Mitte\", während 0 \"ganz links\" und 100 \"ganz rechts\" bedeuten."
 
-#: src/xine-engine/vo_scale.c:392
+#: src/xine-engine/vo_scale.c:405
 msgid "vertical image position in the output window"
 msgstr "Vertikale Bildposition im Ausgabefenster"
 
-#: src/xine-engine/vo_scale.c:393
+#: src/xine-engine/vo_scale.c:406
 msgid ""
 "If the video window's vertical size is bigger than the actual image to show, "
 "you can adjust the position where the image will be placed.\n"
@@ -6502,11 +6564,11 @@ msgstr ""
 "Die Position wird als Prozentzahl angegeb: Der Wert 50 bedeutet \"in der "
 "Mitte\", während 0 \"ganz oben\" und 100 \"ganz unten\" bedeuten."
 
-#: src/xine-engine/vo_scale.c:400
+#: src/xine-engine/vo_scale.c:414
 msgid "disable all video scaling"
 msgstr "Alle Videoskalierungen deaktivieren"
 
-#: src/xine-engine/vo_scale.c:401
+#: src/xine-engine/vo_scale.c:415
 msgid ""
 "If you want the video image to be always shown at its original resolution, "
 "you can disable all image scaling here.\n"
@@ -6523,6 +6585,24 @@ msgstr ""
 "(z.B. amorphe DVDs), verzerrt angezeigt werden. Andererseits profitieren "
 "einige Videoausgabetreiber wie XShm davon, deren Bildskalierung nicht "
 "hardwarebeschleunigt ist, wodurch die CPU-Auslastung drastisch sinkt."
+
+#: src/xine-engine/vo_scale.c:425
+msgid "treat screen pixels as exactly square"
+msgstr "Betrachte Monitor-Bildpunkte als genau quadratisch"
+
+#: src/xine-engine/vo_scale.c:426
+msgid ""
+"Many screens have \"only\" almost square pixels, like 94x93 dpi.\n"
+"This little deviation is important for true size graphics applications.\n"
+"For video, however, it often just means unnecessary black bars and less "
+"sharpness.\n"
+msgstr ""
+"Viele Monitore haben \"nur\" fast quadratische Bildpunkte, wie z.B. 94x93 "
+"dpi.\n"
+"Für Druckgrafik und ähnliche Anwendungen ist diese kleine Abweichung "
+"wichtig.\n"
+"Für Video bedeutet sie hingegen oft nur unnötige schwarze Balken und weniger "
+"Bildschärfe.\n"
 
 #: src/xine-engine/xine.c:894 src/xine-engine/xine.c:1016
 #: src/xine-engine/xine.c:1056 src/xine-engine/xine.c:1092
@@ -6833,14 +6913,3 @@ msgstr ""
 #, c-format
 msgid "Benchmarking memcpy methods (smaller is better):\n"
 msgstr "Geschwindigkeitsvergleich der memcpy-Methoden (klein ist besser):\n"
-
-#~ msgid "Skip high rate frames"
-#~ msgstr "Überspringe Bilder bei hoher Wiederholrate"
-
-#~ msgid ""
-#~ "Skip every other frame when there are 40fps or more.\n"
-#~ "You will probably not see a difference, and save CPU power.\n"
-#~ msgstr ""
-#~ "Überspringe jedes zweite Bild bei mehr als 40 Bildern pro Sekunde. \n"
-#~ "Sie bemerken wahrscheinlich keinen Unterschied, sparen aber "
-#~ "Rechenleistung.\n"

@@ -1231,6 +1231,14 @@ static const audio_db_t audio_db[] = {
   BUF_AUDIO_ADPCM_G726,
   "ADPCM G.726"
 },
+{
+  {
+    ME_FOURCC('O', 'p', 'u', 's'),
+    0
+  },
+  BUF_AUDIO_OPUS,
+  "Opus Audio"
+},
 { { 0 }, 0, "last entry" }
 };
 

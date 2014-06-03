@@ -22,6 +22,10 @@
 #include <basedir.h>
 #endif
 
+#ifdef __DragonFly__
+#include <sys/stat.h>
+#endif
+
 //#undef TRACE
 //#define TRACE printf
 

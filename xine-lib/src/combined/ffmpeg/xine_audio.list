@@ -46,6 +46,7 @@ AAC			AAC			MPEG4
 AAC_LATM		AAC_LATM		AAC LATM
 ADPCM_G726		ADPCM_G726		ADPCM G726
 QCLP			QCELP			QualComm Purevoice
+OPUS			OPUS			Opus Audio
 
 # disabled codecs (ref. configure.ac)
 !			AC3

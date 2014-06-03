@@ -508,6 +508,12 @@ static uint64_t memcpy_timing[sizeof(memcpy_method)/sizeof(memcpy_method[0])] = 
 
 #ifdef HAVE_POSIX_TIMERS
 /* Prefer clock_gettime() where available. */
+
+# ifndef CLOCK_THREAD_CPUTIME_ID
+/*  not defined in NetBSD (bug #535) */
+#   define CLOCK_THREAD_CPUTIME_ID CLOCK_MONOTONIC
+# endif
+
 static int64_t _x_gettime(void)
 {
   struct timespec tm;

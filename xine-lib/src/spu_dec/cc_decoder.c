@@ -850,28 +850,23 @@ static void cc_renderer_build_palette(cc_renderer_t *this)
   memset(this->cc_trans, 0, sizeof (this->cc_trans));
   for (i = 0; i < NUM_FG_COL; i++) {
     /* background color */
-    this->cc_palette[i * TEXT_PALETTE_SIZE + 1 + OSD_TEXT1] =
-      *(uint32_t *) &cc_text[i].bgcol;
+    memcpy(&this->cc_palette[i * TEXT_PALETTE_SIZE + 1 + OSD_TEXT1], &cc_text[i].bgcol, sizeof(uint32_t));
     /* background -> border */
     for (j = 2; j <= 5; j++) {
       clut_t col = interpolate_color(cc_text[i].bgcol,
 				     cc_text[i].bordercol, 4, j - 1);
-      this->cc_palette[i * TEXT_PALETTE_SIZE + j + OSD_TEXT1] =
-	*(uint32_t *) &col;
+      memcpy(&this->cc_palette[i * TEXT_PALETTE_SIZE + j + OSD_TEXT1], &col, sizeof(uint32_t));
     }
     /* border color */
-    this->cc_palette[i * TEXT_PALETTE_SIZE + 6 + OSD_TEXT1] =
-      *(uint32_t *) &cc_text[i].bordercol;
+    memcpy(&this->cc_palette[i * TEXT_PALETTE_SIZE + 6 + OSD_TEXT1], &cc_text[i].bordercol, sizeof(uint32_t));
     /* border -> foreground */
     for (j = 7; j <= 9; j++) {
       clut_t col = interpolate_color(cc_text[i].bordercol,
 				     cc_text[i].textcol, 3, j - 6);
-      this->cc_palette[i * TEXT_PALETTE_SIZE + j + OSD_TEXT1] =
-	*(uint32_t *) &col;
+      memcpy(&this->cc_palette[i * TEXT_PALETTE_SIZE + j + OSD_TEXT1], &col, sizeof(uint32_t));
     }
     /* foreground color */
-    this->cc_palette[i * TEXT_PALETTE_SIZE + 10 + OSD_TEXT1] =
-      *(uint32_t *) &cc_text[i].textcol;
+    memcpy(&this->cc_palette[i * TEXT_PALETTE_SIZE + 10 + OSD_TEXT1], &cc_text[i].textcol, sizeof(uint32_t));
 
     /* alpha values */
     for (j = 0; j <= 10; j++)

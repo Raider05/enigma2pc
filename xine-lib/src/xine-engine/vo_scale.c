@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2000-2009 the xine project
+ * Copyright (C) 2000-2014 the xine project
  *
  * This file is part of xine, a free video player.
  *
@@ -48,7 +48,7 @@ void _x_vo_scale_compute_ideal_size (vo_scale_t *this) {
 
   double image_ratio, desired_ratio;
 
-  if (this->scaling_disabled) {
+  if (this->scaling_disabled & ~1) {
 
     this->video_pixel_aspect = this->gui_pixel_aspect;
 
@@ -114,11 +114,13 @@ void _x_vo_scale_compute_output_size (vo_scale_t *this) {
   cropped_width  = this->delivered_width - (this->crop_left + this->crop_right);
   cropped_height = this->delivered_height - (this->crop_top + this->crop_bottom);
 
-  aspect   = this->video_pixel_aspect / this->gui_pixel_aspect;
+  aspect   = this->video_pixel_aspect;
+  if ( !( this->scaling_disabled & 1 ) )
+    aspect /= this->gui_pixel_aspect;
   x_factor = (double) this->gui_width  / (double) (cropped_width * aspect);
   y_factor = (double) (this->gui_height * aspect) / (double) cropped_height;
 
-  if (this->scaling_disabled) {
+  if (this->scaling_disabled & ~1) {
 
     this->output_width   = cropped_width;
     this->output_height  = cropped_height;
@@ -246,17 +248,22 @@ void _x_vo_scale_compute_output_size (vo_scale_t *this) {
 
 int _x_vo_scale_redraw_needed (vo_scale_t *this) {
   int gui_x, gui_y, gui_width, gui_height, gui_win_x, gui_win_y;
-  double gui_pixel_aspect;
+  double gui_pixel_aspect, video_pixel_aspect;
   int ret = 0;
 
   _x_assert(this->frame_output_cb);
   if ( ! this->frame_output_cb )
     return 0;
 
+  video_pixel_aspect = this->video_pixel_aspect;
+  /* Nasty: tweaking GUI into different output window size will work from 2nd attempt on only... */
+  if ( this->scaling_disabled & 1 )
+    video_pixel_aspect *= this->gui_pixel_aspect;
+
   this->frame_output_cb (this->user_data,
 			 this->delivered_width - (this->crop_left + this->crop_right),
 			 this->delivered_height - (this->crop_top + this->crop_bottom),
-			 this->video_pixel_aspect,
+			 video_pixel_aspect,
 			 &gui_x, &gui_y, &gui_width, &gui_height,
 			 &gui_pixel_aspect, &gui_win_x, &gui_win_y );
 
@@ -351,12 +358,18 @@ static void vo_scale_vertical_pos_changed(void *data, xine_cfg_entry_t *entry) {
 static void vo_scale_disable_scaling_changed(void *data, xine_cfg_entry_t *entry) {
   vo_scale_t *this = (vo_scale_t *)data;
 
-  if (this->scaling_disabled < 2) {
-    this->scaling_disabled = entry->num_value;
-    this->force_redraw = 1;
-  }
+  this->scaling_disabled &= ~2;
+  this->scaling_disabled |= (entry->num_value & 1) << 1;
+  this->force_redraw = 1;
 }
 
+static void vo_scale_square_pixels_changed(void *data, xine_cfg_entry_t *entry) {
+  vo_scale_t *this = (vo_scale_t *)data;
+
+  this->scaling_disabled &= ~1;
+  this->scaling_disabled |= entry->num_value & 1;
+  this->force_redraw = 1;
+}
 
 /*
  * initialize rescaling struct
@@ -395,7 +408,8 @@ void _x_vo_scale_init(vo_scale_t *this, int support_zoom, int scaling_disabled,
 	"The position is given as a percentage, so a value of 50 means \"in the "
 	"middle\", while 0 means \"at the top\" and 100 \"at the bottom\"."),
       10, vo_scale_vertical_pos_changed, this) / 100.0;
-  this->scaling_disabled = (scaling_disabled << 1) |
+  this->scaling_disabled = scaling_disabled << 2;
+  this->scaling_disabled |=
     config->register_bool(config, "video.output.disable_scaling", 0,
       _("disable all video scaling"),
       _("If you want the video image to be always shown at its original resolution, "
@@ -405,5 +419,13 @@ void _x_vo_scale_init(vo_scale_t *this, int support_zoom, int scaling_disabled,
 	"anamorphic DVDs, will be shown distorted. But on the other hand, with some "
 	"video output drivers like XShm, where the image scaling is not hardware "
 	"accelerated, this can dramatically reduce CPU usage."),
-      10, vo_scale_disable_scaling_changed, this);
+      10, vo_scale_disable_scaling_changed, this) << 1;
+  this->scaling_disabled |=
+    config->register_bool(config, "video.output.square_pixels", 0,
+      _("treat screen pixels as exactly square"),
+      _("Many screens have \"only\" almost square pixels, like 94x93 dpi.\n"
+	"This little deviation is important for true size graphics applications.\n"
+	"For video, however, it often just means unnecessary black bars and less "
+	"sharpness.\n"),
+      10, vo_scale_square_pixels_changed, this);
 }

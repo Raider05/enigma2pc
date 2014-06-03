@@ -94,23 +94,21 @@ struct sdl_driver_s {
 
   uint32_t           capabilities;
 
-#ifdef HAVE_X11
-   /* X11 / Xv related stuff */
-  Display           *display;
-  int                screen;
-  Drawable           drawable;
-#endif
-
   vo_scale_t         sc;
   xine_t            *xine;
 
   alphablend_t       alphablend_extra_data;
+
+  int                last_gui_width;  /* used when frontend does not provide frame_output_cb */
+  int                last_gui_height;
 };
 
 typedef struct {
   video_driver_class_t driver_class;
   config_values_t     *config;
   xine_t              *xine;
+
+  int                  visual_type;
 } sdl_class_t;
 
 static uint32_t sdl_get_capabilities (vo_driver_t *this_gen) {
@@ -275,38 +273,36 @@ static int sdl_redraw_needed (vo_driver_t *this_gen) {
   sdl_driver_t  *this = (sdl_driver_t *) this_gen;
   int ret = 0;
 
-#ifdef HAVE_X11
+  if (this->sc.frame_output_cb) {
 
-  if( _x_vo_scale_redraw_needed( &this->sc ) ) {
+    if( _x_vo_scale_redraw_needed( &this->sc ) ) {
 
-    sdl_compute_output_size (this);
+      sdl_compute_output_size (this);
 
-    ret = 1;
+      ret = 1;
+    }
+
+    return ret;
+
+  } else {
+
+    if( this->last_gui_width != this->sc.gui_width ||
+        this->last_gui_height != this->sc.gui_height ||
+        this->sc.force_redraw ) {
+
+      this->last_gui_width = this->sc.gui_width;
+      this->last_gui_height = this->sc.gui_height;
+
+      sdl_compute_output_size (this);
+
+      ret = 1;
+    }
+
+    this->sc.force_redraw = 0;
+
+    return ret;
+
   }
-
-  return ret;
-
-#else
-
-  static int last_gui_width, last_gui_height;
-
-  if( last_gui_width != this->sc.gui_width ||
-      last_gui_height != this->sc.gui_height ||
-      this->sc.force_redraw ) {
-
-    last_gui_width = this->sc.gui_width;
-    last_gui_height = this->sc.gui_height;
-
-    sdl_compute_output_size (this);
-
-    ret = 1;
-  }
-
-  this->sc.force_redraw = 0;
-
-  return ret;
-
-#endif
 }
 
 
@@ -413,7 +409,7 @@ static int sdl_gui_data_exchange (vo_driver_t *this_gen,
   case XINE_GUI_SEND_DRAWABLE_CHANGED:
     lprintf ("XINE_GUI_SEND_DRAWABLE_CHANGED\n");
 
-    this->drawable = (Drawable) data;
+    //this->drawable = (Drawable) data;
     /* OOPS! Is it possible to change SDL window id? */
     /* probably we need to close and reinitialize SDL */
     break;
@@ -469,10 +465,7 @@ static vo_driver_t *open_plugin (video_driver_class_t *class_gen, const void *vi
   sdl_driver_t         *this;
 
   const SDL_VideoInfo  *vidInfo;
-#if defined(HAVE_X11) || defined(WIN32)
   static char           SDL_windowhack[32];
-  x11_visual_t         *visual = (x11_visual_t *) visual_gen;
-#endif
 #ifdef HAVE_X11
   XWindowAttributes     window_attributes;
 #endif
@@ -496,25 +489,29 @@ static vo_driver_t *open_plugin (video_driver_class_t *class_gen, const void *vi
   xine_setenv("SDL_VIDEO_X11_NODIRECTCOLOR", "1", 1);
 
   this->xine              = class->xine;
-#ifdef HAVE_X11
-  this->display           = visual->display;
-  this->screen            = visual->screen;
-  this->drawable          = visual->d;
 
   _x_vo_scale_init( &this->sc, 0, 0, config);
-  this->sc.frame_output_cb   = visual->frame_output_cb;
-  this->sc.user_data         = visual->user_data;
-#else
-  _x_vo_scale_init( &this->sc, 0, 0, config );
-#endif
 
-#if defined(HAVE_X11) || defined(WIN32)
-  /* set SDL to use our existing X11/win32 window */
-  if (visual->d){
-    sprintf(SDL_windowhack,"SDL_WINDOWID=0x%x", (uint32_t) visual->d);
-    putenv(SDL_windowhack);
+  if (visual_gen) {
+    if (class->visual_type == XINE_VISUAL_TYPE_X11) {
+      x11_visual_t      *visual = (x11_visual_t *) visual_gen;
+
+      this->sc.frame_output_cb   = visual->frame_output_cb;
+      this->sc.user_data         = visual->user_data;
+
+      /* set SDL to use our existing X11/win32 window */
+      if (visual->d) {
+        sprintf(SDL_windowhack,"SDL_WINDOWID=0x%x", (uint32_t) visual->d);
+        putenv(SDL_windowhack);
+      }
+
+    } else {
+      fb_visual_t *visual = (fb_visual_t *) visual_gen;
+
+      this->sc.frame_output_cb   = visual->frame_output_cb;
+      this->sc.user_data         = visual->user_data;
+    }
   }
-#endif
 
   if ((SDL_Init (SDL_INIT_VIDEO)) < 0) {
     xprintf (this->xine, XINE_VERBOSITY_DEBUG, "video_out_sdl: open_plugin - sdl video initialization failed.\n");
@@ -543,13 +540,15 @@ static vo_driver_t *open_plugin (video_driver_class_t *class_gen, const void *vi
 
   this->capabilities      = VO_CAP_YUY2 | VO_CAP_YV12;
 
-#ifdef HAVE_X11
-  XGetWindowAttributes(this->display, this->drawable, &window_attributes);
-  this->sc.gui_width         = window_attributes.width;
-  this->sc.gui_height        = window_attributes.height;
-#else
   this->sc.gui_width         = 320;
   this->sc.gui_height        = 240;
+#ifdef HAVE_X11
+  if (visual_gen && class->visual_type == XINE_VISUAL_TYPE_X11) {
+    x11_visual_t *visual = (x11_visual_t *) visual_gen;
+    XGetWindowAttributes(visual->display, visual->d, &window_attributes);
+    this->sc.gui_width         = window_attributes.width;
+    this->sc.gui_height        = window_attributes.height;
+  }
 #endif
 
   this->surface = SDL_SetVideoMode (this->sc.gui_width, this->sc.gui_height,
@@ -599,6 +598,18 @@ static void *init_class (xine_t *xine, void *visual_gen) {
   this->config                        = xine->config;
   this->xine                          = xine;
 
+  this->visual_type                   = XINE_VISUAL_TYPE_X11;
+
+  return this;
+}
+
+static void *init_class_fb (xine_t *xine, void *visual_gen) {
+  sdl_class_t *this = (sdl_class_t *)init_class(xine, visual_gen);
+
+  if (this) {
+    this->visual_type = XINE_VISUAL_TYPE_FB;
+  }
+
   return this;
 }
 
@@ -607,8 +618,14 @@ static const vo_info_t vo_info_sdl = {
   XINE_VISUAL_TYPE_X11, /* visual type supported by this plugin */
 };
 
+static const vo_info_t vo_info_sdl_fb = {
+  4,                    /* priority */
+  XINE_VISUAL_TYPE_FB,  /* visual type supported by this plugin */
+};
+
 const plugin_info_t xine_plugin_info[] EXPORTED = {
   /* type, API, "name", version, special_info, init_function */
   { PLUGIN_VIDEO_OUT, 22, "sdl", XINE_VERSION_CODE, &vo_info_sdl, init_class },
+  { PLUGIN_VIDEO_OUT, 22, "sdl", XINE_VERSION_CODE, &vo_info_sdl_fb, init_class_fb },
   { PLUGIN_NONE, 0, "" , 0 , NULL, NULL}
 };

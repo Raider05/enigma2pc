@@ -94,6 +94,8 @@ typedef struct {
   int                format;         /* constants see below        */
   char               next_line[SUB_BUFSIZE]; /* a buffer for next line read from file */
 
+  char              *encoding; /* charset. NULL if unknown. currently only "utf-8" autodetected. */
+
 } demux_sputext_t;
 
 typedef struct demux_sputext_class_s {
@@ -1105,6 +1107,44 @@ static int sub_autodetect (demux_sputext_t *this) {
   return FORMAT_UNKNOWN;  /* too many bad lines */
 }
 
+static int detect_utf8(subtitle_t *subs, int num_subs)
+{
+  /* return:
+     -1: unknown (ASCII?)
+      0: not valid utf-8
+      1: valid utf-8
+  */
+  int i, l, utf8 = -1;
+
+  for (i = 0; i < num_subs; i++) {
+    for (l = 0; l < subs[i].lines && subs[i].text[l]; l++) {
+      const uint8_t *c = subs[i].text[l];
+      for (; *c; c++) {
+        if (*c & 0x80) {
+          if ( (c[0]>=0xC2 && c[0]<=0xDF) && (c[1]>=0x80 && c[1]<=0xBF) ) {
+            /* valid 2-byte */
+            utf8 = 1;
+            c++;
+          } else if ( ( c[0]==0xE0 && (c[1]>=0xA0 && c[1]<=0xBF) && (c[2]>=0x80 && c[1]<=0xBF)) ||
+                      ( (c[0]>=0xE1 && c[0]<=0xEC) && (c[1]>=0x80 && c[1]<=0xBF) && (c[2]>=0x80 && c[1]<=0xBF)) ||
+                      ( c[0]==0xED && (c[1]>=0x80 && c[1]<=0x9F) && (c[2]>=0x80 && c[1]<=0xBF))  ||
+                      ( c[0]==0xEE && (c[1]>=0xA4 && c[1]<=0xBF) && (c[2]>=0x80 && c[1]<=0xBF) ) ||
+                      ( c[0]==0xEF && (c[1]>=0xA4 && c[1]<=0xBF) && (c[2]>=0x80 && c[1]<=0xBF) )) {
+            /* valid 3-byte */
+            utf8 = 1;
+            c += 2;
+          } else {
+            /* TODO: 4-byte not checked */
+            return 0;
+          }
+        }
+      }
+    }
+  }
+
+  return utf8;
+}
+
 static subtitle_t *sub_read_file (demux_sputext_t *this) {
 
   int n_max;
@@ -1196,6 +1236,11 @@ static subtitle_t *sub_read_file (demux_sputext_t *this) {
       first[this->num-1].end = first[this->num-1].start + timeout;
     }
 
+  if (detect_utf8(first, this->num) > 0) {
+    xprintf (this->stream->xine, XINE_VERBOSITY_LOG, "detected utf-8 subtitles\n");
+    this->encoding = strdup("utf-8");
+  }
+
   if(this->stream->xine->verbosity >= XINE_VERBOSITY_DEBUG) {
     char buffer[1024];
 
@@ -1240,6 +1285,13 @@ static int demux_sputext_next (demux_sputext_t *this_gen) {
     str[SUB_BUFSIZE-1] = '\0';
   }
 
+  if (this->encoding) {
+    buf->decoder_flags |= BUF_FLAG_SPECIAL;
+    buf->decoder_info[1] = BUF_SPECIAL_CHARSET_ENCODING;
+    buf->decoder_info_ptr[2] = this->encoding;
+    buf->decoder_info[2] = strlen(buf->decoder_info_ptr[2]);
+  }
+
   this->stream->video_fifo->put(this->stream->video_fifo, buf);
   this->cur++;
 
@@ -1255,6 +1307,7 @@ static void demux_sputext_dispose (demux_plugin_t *this_gen) {
       free(this->subtitles[i].text[l]);
   }
   free(this->subtitles);
+  free(this->encoding);
   free(this);
 }
 

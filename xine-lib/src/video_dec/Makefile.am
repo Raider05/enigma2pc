@@ -28,11 +28,16 @@ if ENABLE_VPX
 libvpx_module = xineplug_decode_libvpx.la
 endif
 
+if ENABLE_MMAL
+libmmal_module = xineplug_decode_libmmal.la
+endif
+
 xineplug_LTLIBRARIES = $(image_module) \
 	$(gdkpixbuf_module) \
 	$(libjpeg_module) \
 	$(theora_module) \
 	$(libvpx_module) \
+	$(libmmal_module) \
 	xineplug_decode_bitplane.la \
 	xineplug_decode_rgb.la \
 	xineplug_decode_yuv.la
@@ -61,3 +66,8 @@ xineplug_decode_libjpeg_la_CFLAGS = $(AM_CFLAGS) $(JPEG_CFLAGS)
 xineplug_decode_libvpx_la_SOURCES = libvpx.c
 xineplug_decode_libvpx_la_LIBADD = $(XINE_LIB) $(VPX_LIBS)
 xineplug_decode_libvpx_la_CFLAGS = $(AM_CFLAGS) $(VPX_CFLAGS)
+
+xineplug_decode_libmmal_la_SOURCES = mmal.c
+xineplug_decode_libmmal_la_LIBADD = $(XINE_LIB) $(PTHREAD_LIBS) $(MMAL_LIBS)
+xineplug_decode_libmmal_la_CFLAGS = $(AM_CFLAGS) $(MMAL_CFLAGS)
+xineplug_decode_libmmal_la_LDFLAGS = $(AM_LDFLAGS) $(MMAL_LDFLAGS)
