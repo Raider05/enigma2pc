@@ -73,12 +73,14 @@
 	</screen>
 
 <!-- numberzap -->
-	<screen name="NumberZapSummary" position="fill">
+	<screen name="NumberZap_summary" position="fill">
 		<panel position="top" size="*,20">
-			<widget source="channel" render="Label" position="left" size="64,*" font="Bigger" noWrap="1"/>
-			<widget source="number" render="Label" position="fill" font="Bigger" halign="right"/>
+			<widget source="parent.channel" render="Label" position="left" size="80,*" font="Bigger" noWrap="1"/>
+			<widget source="parent.number" render="Label" position="fill" font="Bigger" halign="right"/>
 		</panel>
-		<widget source="servicename" render="Label" position="fill" font="Medium" noWrap="1"/>
+		<panel position="fill" name="SummaryClockPanel">
+			<widget source="parent.servicename" render="Label" position="fill" font="Medium" noWrap="1"/>
+		</panel>
 	</screen>
 
 <!-- movieplayer-->
