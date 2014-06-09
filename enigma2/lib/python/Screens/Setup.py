@@ -35,7 +35,6 @@ class SetupError(Exception):
 class SetupSummary(Screen):
 
 	def __init__(self, session, parent):
-
 		Screen.__init__(self, session, parent = parent)
 		self["SetupTitle"] = StaticText(_(parent.setup_title))
 		self["SetupEntry"] = StaticText("")
@@ -44,13 +43,15 @@ class SetupSummary(Screen):
 		self.onHide.append(self.removeWatcher)
 
 	def addWatcher(self):
-		self.parent.onChangedEntry.append(self.selectionChanged)
-		self.parent["config"].onSelectionChanged.append(self.selectionChanged)
-		self.selectionChanged()
+		if hasattr(self.parent,"onChangedEntry"):
+			self.parent.onChangedEntry.append(self.selectionChanged)
+			self.parent["config"].onSelectionChanged.append(self.selectionChanged)
+			self.selectionChanged()
 
 	def removeWatcher(self):
-		self.parent.onChangedEntry.remove(self.selectionChanged)
-		self.parent["config"].onSelectionChanged.remove(self.selectionChanged)
+		if hasattr(self.parent,"onChangedEntry"):
+			self.parent.onChangedEntry.remove(self.selectionChanged)
+			self.parent["config"].onSelectionChanged.remove(self.selectionChanged)
 
 	def selectionChanged(self):
 		self["SetupEntry"].text = self.parent.getCurrentEntry()
