@@ -1,6 +1,7 @@
 import sys
 import os
 import time
+from Tools.HardwareInfo import HardwareInfo
 
 def getVersionString():
 	return getImageVersionString()
@@ -29,16 +30,17 @@ def getKernelVersionString():
 		return "unknown"
 
 def getHardwareTypeString():                                                    
-	try:
-		if os.path.isfile("/usr/local/e2/etc/stb/info/boxtype"):                            
-			return open("/usr/local/e2/etc/stb/info/boxtype").read().strip().upper() + " (" + open("/usr/local/e2/etc/stb/info/board_revision").read().strip() + "-" + open("/usr/local/e2/etc/stb/info/version").read().strip() + ")"
-		if os.path.isfile("/usr/local/e2/etc/stb/info/vumodel"):                            
-			return "VU+" + open("/usr/local/e2/etc/stb/info/vumodel").read().strip().upper() + "(" + open("/usr/local/e2/etc/stb/info/version").read().strip().upper() + ")" 
-		if os.path.isfile("/usr/local/e2/etc/stb/info/model"):                              
-			return open("/usr/local/e2/etc/stb/info/model").read().strip().upper()      
-	except:
-		pass
-	return "Unavailable"                                                    
+#	try:
+#		if os.path.isfile("/usr/local/e2/etc/stb/info/boxtype"):                            
+#			return open("/usr/local/e2/etc/stb/info/boxtype").read().strip().upper() + " (" + open("/usr/local/e2/etc/stb/info/board_revision").read().strip() + "-" + open("/usr/local/e2/etc/stb/info/version").read().strip() + ")"
+#		if os.path.isfile("/usr/local/e2/etc/stb/info/vumodel"):                            
+#			return "VU+" + open("/usr/local/e2/etc/stb/info/vumodel").read().strip().upper() + "(" + open("/usr/local/e2/etc/stb/info/version").read().strip().upper() + ")" 
+#		if os.path.isfile("/usr/local/e2/etc/stb/info/model"):                              
+#			return open("/usr/local/e2/etc/stb/info/model").read().strip().upper()      
+#	except:
+#		pass
+#	return "Unavailable"                                                    
+	return HardwareInfo().get_device_string()
                                                                                 
 def getImageTypeString():                                                             
 	try:                                                            
