@@ -197,6 +197,7 @@ public:
 	int getTransmissionMode() const;
 	int getGuardInterval() const;
 	int getHierarchyInformation() const;
+	int getPlpId() const;
 };
 
 class eDVBSatelliteTransponderData : public eDVBTransponderData
@@ -259,6 +260,7 @@ public:
 	int getTransmissionMode() const;
 	int getGuardInterval() const;
 	int getHierarchyInformation() const;
+	int getPlpId() const;
 	int getSystem() const;
 };
 
