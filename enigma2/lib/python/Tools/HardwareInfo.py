@@ -22,30 +22,28 @@ class HardwareInfo:
 		# Version
 #		if os.path.exists("/proc/stb/info/version"):
 		if os.path.exists(eEnv.resolve("${sysconfdir}/stb/info/model")):
-			self.device_version = open(eEnv.resolve("${sysconfdir}/stb/info/model").read().strip())
+			self.device_version = open(eEnv.resolve("${sysconfdir}/stb/info/model")).read().strip()
 
 		# Revision
 		if os.path.exists(eEnv.resolve("${sysconfdir}/stb/info/board_revision")):
-			self.device_revision = open(eEnv.resolve("${sysconfdir}/stb/info/board_revision").read().strip())
+			self.device_revision = open(eEnv.resolve("${sysconfdir}/stb/info/board_revision")).read().strip()
 
 		# Name ... bit odd, but history prevails
 		if os.path.exists(eEnv.resolve("${sysconfdir}/stb/info/model")):
-			self.device_name = open(eEnv.resolve("${sysconfdir}/stb/info/model").read().strip())
+			self.device_name = open(eEnv.resolve("${sysconfdir}/stb/info/model")).read().strip()
 		else:
 			print "----------------"
 			print "you should upgrade to new drivers for the hardware detection to work properly"
 			print "----------------"
 			print "fallback to detect hardware via /proc/cpuinfo!!"
 			try:
-				rd = open("proc/cpuinfo", "r").read()
+				rd = open("/proc/cpuinfo", "r").read()
 				if "Brcm4380 V4.2" in rd:
 					self.device_name = "dm8000"
 				elif "Brcm7401 V0.0" in rd:
 					self.device_name = "dm800"
 				elif "MIPS 4KEc V4.8" in rd:
 					self.device_name = "dm7025"
-				else
-					self.device_name = "e2pc"
 				rd.close();
 			except:
 				pass
@@ -59,8 +57,8 @@ class HardwareInfo:
 				else:
 					infoFname = l
 					prefix = ""
-				if os.path.exists((eEnv.resolve("${sysconfdir}/stb/info/" + infoFname)):
-					self.device_model = prefix + open((eEnv.resolve("${sysconfdir}/stb/info/" + infoFname).read().strip())
+				if os.path.exists((eEnv.resolve("${sysconfdir}/stb/info/")) + infoFname):
+					self.device_model = prefix + open((eEnv.resolve("${sysconfdir}/stb/info/") + infoFname).read().strip())
 					break
 
 		if self.device_model is None:
