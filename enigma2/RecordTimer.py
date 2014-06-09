@@ -51,7 +51,7 @@ class AFTEREVENT:
 	DEEPSTANDBY = 2
 	AUTO = 3
 
-def chechForRecordings():
+def checkForRecordings():
 	if NavigationInstance.instance.getRecordings():
 		return True
 	rec_time = NavigationInstance.instance.RecordTimer.getNextTimerTime(isWakeup=True)
@@ -92,7 +92,7 @@ class RecordTimerEntry(timer.TimerEntry, object):
 	def staticGotRecordEvent(recservice, event):
 		if event == iRecordableService.evEnd:
 			print "RecordTimer.staticGotRecordEvent(iRecordableService.evEnd)"
-			if not chechForRecordings():
+			if not checkForRecordings():
 				print "No recordings busy of sceduled within 6 minutes so shutdown"
 				RecordTimerEntry.shutdown() # immediate shutdown
 		elif event == iRecordableService.evStart:
@@ -379,7 +379,7 @@ class RecordTimerEntry(timer.TimerEntry, object):
 			if not self.justplay:
 				NavigationInstance.instance.stopRecordService(self.record_service)
 				self.record_service = None
-			if not chechForRecordings():
+			if not checkForRecordings():
 				if self.afterEvent == AFTEREVENT.DEEPSTANDBY or self.afterEvent == AFTEREVENT.AUTO and (Screens.Standby.inStandby or RecordTimerEntry.wasInStandby) and not config.misc.standbyCounter.value:
 					if not Screens.Standby.inTryQuitMainloop:
 						if Screens.Standby.inStandby:
