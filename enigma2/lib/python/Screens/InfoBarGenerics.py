@@ -364,7 +364,7 @@ class NumberZap(Screen):
 	def handleServiceName(self):
 		if self.searchNumber:
 			self.service, self.bouquet = self.searchNumber(int(self["number"].getText()))
-			self ["servicename"].text = ServiceReference(self.service).getServiceName()
+			self["servicename"].text = self["servicename_summary"].text = ServiceReference(self.service).getServiceName()
 			if not self.startBouquet:
 				self.startBouquet = self.bouquet
 
@@ -375,14 +375,12 @@ class NumberZap(Screen):
 				self.service, self.bouquet = self.searchNumber(int(self["number"].getText()), firstBouquetOnly = True)
 			else:
 				self.service, self.bouquet = self.searchNumber(int(self["number"].getText()))
-			self ["servicename"].text = ServiceReference(self.service).getServiceName()
-		for x in self.onChanged:
-			x()
+			self["servicename"].text = self["servicename_summary"].text = ServiceReference(self.service).getServiceName()
 
 	def keyNumberGlobal(self, number):
-		self.Timer.start(3000, True)
+		self.Timer.start(1000, True)
 		self.field = self.field + str(number)
-		self["number"].setText(self.field)
+		self["number"].text = self["number_summary"].text = self.field
 
 		self.handleServiceName()
 
