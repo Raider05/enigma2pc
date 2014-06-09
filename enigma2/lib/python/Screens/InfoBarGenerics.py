@@ -379,26 +379,29 @@ class NumberZap(Screen):
 
 	def keyNumberGlobal(self, number):
 		self.Timer.start(1000, True)
-		self.field = self.field + str(number)
-		self["number"].text = self["number_summary"].text = self.field
+		self.numberString = self.numberString + str(number)
+		self["number"].text = self["number_summary"].text = self.numberString
 
 		self.handleServiceName()
 
-		if len(self.field) >= 5:
+		if len(self.numberString) >= 5:
 			self.keyOK()
 		for x in self.onChanged:
 			x()
 
 	def __init__(self, session, number, searchNumberFunction = None):
 		Screen.__init__(self, session)
-		self.field = str(number)
+		self.numberString = str(number)
 		self.searchNumber = searchNumberFunction
 		self.startBouquet = None
 		self.onChanged = []
 
 		self["channel"] = StaticText(_("Channel:"))
-		self["number"] = StaticText(self.field)
+		self["number"] = Label(self.numberString)
 		self["servicename"] = StaticText()
+		self["channel_summary"] = StaticText(_("Channel:"))
+		self["number_summary"] = StaticText(self.numberString)
+		self["servicename_summary"] = StaticText()
 
 		self.handleServiceName()
 
