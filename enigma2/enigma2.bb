@@ -92,7 +92,7 @@ PACKAGES =+ "${PN}-src"
 PACKAGES += "${PN}-meta"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-inherit autotools pkgconfig
+inherit autotools pkgconfig pythonnative
 
 # fonts: Rarely changed, but updated everytime. Put in separate package,
 # so the dm7025 can keep them in squashfs. Also saves bandwidth...
