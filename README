@@ -46,7 +46,7 @@ Some tasks require root access (sudo). You will be asked for your password.
 
 ./build_openpliPC.sh 
 If you are interested to have a logfile , simply do:
-./build_openpliPC.sh.sh 2>&1 | tee build_log.log
+./build_openpliPC.sh 2>&1 | tee build_log.log
 
 ./build_openpliPC.sh has some command-line options
 ./build_openpliPC.sh -h  to see them

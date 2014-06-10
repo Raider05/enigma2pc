@@ -127,7 +127,8 @@ if [ -d $PKG ]; then
 	sudo rm -Rf $PKG
 	sudo rm -f $PKG*
 fi
-git clone git://git.berlios.de/$PKG
+#git clone git://git.berlios.de/$PKG
+git clone git://github.com/pingflood/$PKG
 cd $PKG
 sudo python setup.py install
 cd ..
