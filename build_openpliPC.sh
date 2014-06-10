@@ -3,7 +3,7 @@
 # where install Enigma2 tree
 INSTALL_E2DIR="/usr/local/e2"
 
-BACKUP_E2="etc/enigma2 etc/tuxbox/*.xml etc/tuxbox/nim_sockets share/enigma2/xine.conf"
+BACKUP_E2="etc/enigma2 etc/tuxbox share/enigma2/xine.conf"
 
 REQPKG="xterm unclutter mingetty libmpcdec-dev mawk libvpx-dev python-twisted-web \
 	libnl-3-dev libnl-genl-3-dev linux-headers-`uname -r` \
@@ -29,15 +29,24 @@ DO_CONFIGURE=1
 DO_PARALLEL=1
 DO_MAKEINSTALL=1
 
-function e2_backup {
+e2_backup() {
         echo "-----------------------------"
         echo "BACKUP E2 CONFIG"
         echo "-----------------------------"
 
-	tar -C $INSTALL_E2DIR -v -c -z -f e2backup.tgz $BACKUP_E2
+	if [ -d $INSTALL_E2DIR ]; then
+		tar -C $INSTALL_E2DIR --exclude="logo.mvi" -v -c -z -f e2backup.tgz $BACKUP_E2
+		echo "-----------------------------"
+		echo "COMPLITE"
+		echo "-----------------------------"
+	else
+		echo "NOTHING BACKUP,"
+		echo "YOU FIRST INSTALL ;-)"
+		echo "-----------------------------"
+	fi
 }
 
-function e2_restore {
+e2_restore() {
         echo "-----------------------------"
         echo "RESTORE OLD E2 CONFIG"
         echo "-----------------------------"
@@ -47,7 +56,7 @@ function e2_restore {
 	fi
 }
 
-function usage {
+usage() {
 	echo "Usage:"
 	echo " -b : backup E2 conf file before re-compile"
 	echo " -r : restore E2 conf file after re-compile"
@@ -62,7 +71,7 @@ function usage {
 	echo ""
 }
 
-function copy_dvbsoftwareca {
+copy_dvbsoftwareca() {
 	KERNEL_1="3.7"
 	KERNEL=`uname -r | mawk -F. '{ printf("%d.%d\n",$1,$2); }'`
 	KERNEL_2=`echo -e "$KERNEL\n$KERNEL_1" | sort -V | head -n1`
