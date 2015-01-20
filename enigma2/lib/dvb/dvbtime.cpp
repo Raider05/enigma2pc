@@ -47,7 +47,7 @@ void setRTC(time_t time)
 time_t getRTC()
 {
 	time_t rtc_time=0;
-	FILE *f = fopen(eEnv::resolve("${sysconfdir}/stb/fp/rtc").c_str(), "r");
+	FILE *f = fopen(eEnv::resolve("${sysconfdir}/stb/fp/rtc_read").c_str(), "r");
 	if (f)
 	{
 		// sanity check to detect corrupt atmel firmware
