@@ -8,9 +8,10 @@ nobody9 thread discussion:
 http://openpli.org/forums/topic/20871-build-script-for-openpli-enigma2-on-ubuntu-104-32-bit/
 
 ------------------------------
-Tested on
+Tested on platforms x32 and x64
 ------------------------------
-Ubuntu 12.04 32 bit, Nvidia cards with VDPAU support
+Ubuntu 12.04, 12.10, 14.04, 14.10 Nvidia cards with VDPAU support (driver 'nvidia')
+Ubuntu 14.04, 14.10 AMD HD Graphics cards with UVD 2.2+ support (open driver 'radeon', 'mesa 10.3+')
 
 ------------------------------
 BUILDING openpliPC
@@ -43,6 +44,9 @@ It compile and install xine-lib and the openpliPC Enigma2.
 xine-lib and enigma2 are included in openpliPC main repo and code
 is already patched ready to compile.
 Some tasks require root access (sudo). You will be asked for your password.
+
+(When use AMD HD Graphics with UVD 2.2+ need install open driver 'radeon'
+and packages 'mesa-vdpau-drivers','vdpau-va-driver')
 
 ./build_openpliPC.sh 
 If you are interested to have a logfile , simply do:
@@ -104,6 +108,7 @@ VDPAU has the best results but it's only available with Nvidia graphics cards
 VDPAU library use Nvidia GPU as MPEG2/4 hardware coprocessor speeding up decode process
 http://en.wikipedia.org/wiki/VDPAU
 http://en.wikipedia.org/wiki/Nvidia_PureVideo
+http://en.wikipedia.org/w/index.php?title=Unified_Video_Decoder&stable=1
 
 Here you can find a message about VDPAU benchmark and performance:
 http://openpli.org/forums/topic/20871-build-script-for-openpli-enigma2-on-ubuntu-104-32-bit/page__view__findpost__p__239696

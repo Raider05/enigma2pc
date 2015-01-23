@@ -326,7 +326,7 @@ void gXlibDC::thread()
 		tv.tv_sec = 0;
 
 		if (select(x11_fd+1, &in_fds, 0, 0, &tv))
-			printf("Event Received!\n");
+//			printf("Event Received!\n");
 
 		while(XPending(display))
 		{
