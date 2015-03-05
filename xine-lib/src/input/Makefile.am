@@ -164,6 +164,6 @@ xineplug_inp_bluray_la_SOURCES = input_bluray.c media_helper.c
 xineplug_inp_bluray_la_LIBADD = $(XINE_LIB) $(LIBBLURAY_LIBS) $(PTHREAD_LIBS) $(LTLIBINTL)
 xineplug_inp_bluray_la_CFLAGS = $(AM_CFLAGS) $(LIBBLURAY_CFLAGS)
 
-xineplug_inp_enigma_la_SOURCES = combined_enigma.c combined_enigma.h input_enigma.c net_buf_ctrl.c post_enigma_video.c
+xineplug_inp_enigma_la_SOURCES = combined_enigma.c combined_enigma.h input_enigma.c net_buf_ctrl.c post_enigma_video.c post_enigma_audio.c
 xineplug_vdr_la_CFLAGS = $(AM_CFLAGS) -fno-strict-aliasing
 xineplug_inp_enigma_la_LIBADD = $(XINE_LIB) $(PTHREAD_LIBS) $(LTLIBINTL)

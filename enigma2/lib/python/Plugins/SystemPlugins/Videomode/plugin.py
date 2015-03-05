@@ -87,6 +87,9 @@ class VideoSetup(Screen, ConfigListScreen):
 		self.list.append(getConfigListEntry(_("TV resolution width"), config.pc.initial_window_width))
 		self.list.append(getConfigListEntry(_("TV resolution height"), config.pc.initial_window_height))
 
+		self.list.append(getConfigListEntry(_("HD prebuffer metronom"), config.pc.prebuffer_metronom_hd))
+		self.list.append(getConfigListEntry(_("SD prebuffer metronom"), config.pc.prebuffer_metronom_sd))
+
 		if level >= 1:
 			if SystemInfo["CanDownmixAC3"]:
 				self.list.append(getConfigListEntry(_("AC3 downmix"), config.av.downmix_ac3))

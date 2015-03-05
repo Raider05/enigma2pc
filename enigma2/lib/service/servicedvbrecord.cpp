@@ -71,7 +71,7 @@ void eDVBServiceRecord::serviceEvent(int event)
 			doPrepare();
 		else if (m_want_record) /* doRecord can be called from Prepared and Recording state */
 			doRecord();
-		m_event((iRecordableService*)this, evNewProgramInfo);
+//		m_event((iRecordableService*)this, evNewProgramInfo);
 		break;
 	}
 	case eDVBServicePMTHandler::eventMisconfiguration:

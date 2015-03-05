@@ -157,13 +157,14 @@ cXineLib::cXineLib(x11_visual_t *vis) : m_pump(eApp, 1) {
 	char        configfile[150];
 	char        *vo_driver = "auto";
 	char        *ao_driver = "alsa";
-	const char  *static_post_plugins = "enigma_video;upmix_mono";
+	const char  *static_post_plugins = "enigma_video;enigma_audio;upmix_mono";
 
 	instance = this;
 	osd = NULL;
 	stream = NULL;
 	end_of_stream = false;
 	videoPlayed = false;
+	doDescramble = false;
 	post_plugins_t *posts = NULL;
 
 	printf("XINE-LIB version: %s\n", xine_get_version_string() );
@@ -259,6 +260,16 @@ cXineLib::cXineLib(x11_visual_t *vis) : m_pump(eApp, 1) {
 
 	m_sharpness = 0;
 	m_noise = 0;
+
+	m_streamtype = -1;
+
+	m_hd = getConfigInt("config.pc.prebuffer_metronom_hd");
+	m_sd = getConfigInt("config.pc.prebuffer_metronom_sd");
+
+	if (m_hd == 0)
+	        m_hd = 126000;
+	if (m_sd == 0)
+	        m_sd = 72000;
 }
 
 cXineLib::~cXineLib() {
@@ -290,6 +301,8 @@ cXineLib::~cXineLib() {
 		xine_close_audio_driver(xine, ao_port);
 	if (vo_port)
 		xine_close_video_driver(xine, vo_port);
+
+	xine_exit(xine);
 }
 
 void cXineLib::rewire_posts_load() {
@@ -335,17 +348,32 @@ void cXineLib::newOsd(int width, int height, uint32_t *argb_buffer) {
 	xine_osd_set_argb_buffer(osd, argb_buffer, 0, 0, osdWidth, osdHeight);
 }
 
+void cXineLib::setScrambled(bool doDescrambleChannel) {
+	printf("doDescrambled Channel: %s\n", doDescrambleChannel ? "true" : "false");
+	doDescramble = doDescrambleChannel;
+}
+
 void cXineLib::playVideo(void) {
+	if (doDescramble) {
+//		doDescramble = false;
+		return;
+	}
+
 	end_of_stream = false;
 	videoPlayed = false;
+
+        if (m_streamtype == 3)
+                setPrebuffer(m_hd);
+        else if (m_streamtype == 2)
+                setPrebuffer(m_sd);
+        else if (m_streamtype == 1)
+                setPrebuffer(3000);
 
 	printf("XINE try START !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 	if ( !xine_open(stream, "enigma:/") ) {
 		printf("Unable to open stream !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 	}
 
-	//	setStreamType(1);
-	//	setStreamType(0);
 	xine_pids_data_t data;
 	xine_event_t event;
 	event.type = XINE_EVENT_PIDS_CHANGE;
@@ -363,16 +391,17 @@ void cXineLib::playVideo(void) {
 	setStreamType(1);
 	setStreamType(0);
 
-        //_x_demux_control_start(stream);
-        //_x_demux_seek(stream, 0, 0, 0);
-
-//	rewire_posts_load();
-
+/*        if (doDescramble) {
+                setScrambled(false);
+                return;
+        }
+*/
 	if( !xine_play(stream, 0, 0) ) {
 		printf("Unable to play stream !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 	}
 	else {
 		printf("XINE STARTED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+		printf("STILL, FIRST, CONTROL, SEEK FRAME\n");
 		videoPlayed = true;
 	}
 }
@@ -380,6 +409,7 @@ void cXineLib::playVideo(void) {
 void cXineLib::stopVideo(void) {
 
 	if (videoPlayed) {
+//		xine_close(stream);
 		xine_stop(stream);
 		end_of_stream = true;
 		videoPlayed = false;
@@ -405,6 +435,11 @@ void cXineLib::setStreamType(int video) {
 void cXineLib::setVideoType(int pid, int type) {
 	videoData.pid = pid;
 	videoData.streamtype = type;
+
+	if (type == 27)
+		setLiveTV(3); // HD Live mode
+	else
+		setLiveTV(2); // SD Live mode
 }
 
 //////////////////////7
@@ -436,20 +471,19 @@ ASSERT(stream);
 int
 cXineLib::VideoPause()
 {
-xine_set_param(stream, XINE_PARAM_SPEED, XINE_SPEED_PAUSE);
-return 1;
+//	_x_set_speed (stream, XINE_SPEED_PAUSE);
+//	stream->xine->clock->set_option (stream->xine->clock, CLOCK_SCR_ADJUSTABLE, 0);
+	xine_set_param(stream, XINE_PARAM_SPEED, XINE_SPEED_PAUSE);
+	return 1;
 }
 
 
 int
 cXineLib::VideoResume()
 {
-//	int ret;
-	/* Resume the playback. */
-//	ret = xine_get_param(stream, XINE_PARAM_SPEED);
-//	if( ret != XINE_SPEED_NORMAL ){
-		xine_set_param(stream, XINE_PARAM_SPEED, XINE_SPEED_NORMAL);
-//	}
+	xine_set_param(stream, XINE_PARAM_SPEED, XINE_SPEED_NORMAL);
+//	_x_set_speed (stream, XINE_SPEED_NORMAL);
+//	stream->xine->clock->set_option (stream->xine->clock, CLOCK_SCR_ADJUSTABLE, 1);
 	return 1;
 }
 
@@ -503,9 +537,11 @@ void cXineLib::setAudioType(int pid, int type) {
 	audioData.pid = pid;
 	audioData.streamtype = type;
 	
-	if (videoPlayed) {
-	    setStreamType(0);
-	}
+	if (videoPlayed)
+		setStreamType(0);
+	else
+		setLiveTV(1); //  Radio mode
+
 }
 
 int cXineLib::getNumberOfTracksAudio() {
@@ -537,39 +573,21 @@ std::string cXineLib::getAudioLang(int value) {
 	return lang;
 }
 
+void cXineLib::setLiveTV(int streamtype)
+{
+	m_streamtype = streamtype;
+}
+
 void cXineLib::setPrebuffer(int prebuffer) {
 	xine_set_param(stream, XINE_PARAM_METRONOM_PREBUFFER, prebuffer);
 }
 
-/* void cXineLib::detect_aspect_from_frame(bool b_aspect)
+void cXineLib::setBufMetronom(int hd, int sd)
 {
-        int old_height, old_width;
-        xine_current_frame_data_t frame_data;
-        memset(&frame_data, 0, sizeof (frame_data));
-	old_height=old_width=-1;
-
-        while (b_aspect)
-        {
-                if (xine_get_current_frame_data(this->stream, &frame_data, XINE_FRAME_DATA_ALLOCATE_IMG))
-                {
-                   /*     cur_aspect=frame_data.ratio_code;
-                        if ((cur_aspect != old_aspect) && (old_aspect<0))
-                        {
-                                printf("Aspect changed from %d to %d !!!\n", old_aspect, cur_aspect);
-                        }
-			old_aspect=cur_aspect;
-		* /
-			printf("Current height - %d, current width - %d, old height - %d, old  width - %d !!!\n", frame_data.crop_left, frame_data.crop_right, frame_data.crop_top, frame_data.crop_bottom);
-			old_height = frame_data.height;
-			old_width = frame_data.width;
-                }
-		sleep(1);
-
-        }
-
-
+        m_hd = hd;
+        m_sd = sd;
 }
-*/
+
 void cXineLib::xine_event_handler(void *user_data, const xine_event_t *event)
 {
 	cXineLib *xineLib = (cXineLib*)user_data;

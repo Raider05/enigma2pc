@@ -1203,7 +1203,8 @@ void eDVBServicePlay::serviceEvent(int event)
 	}
 	case eDVBServicePMTHandler::eventNewProgramInfo:
 	{
-		eDebug("eventNewProgramInfo %d %d", m_timeshift_enabled, m_timeshift_active);
+		eDebug("eventNewProgramInfo %d %d %d", m_timeshift_enabled, m_timeshift_active);
+
 		if (m_timeshift_enabled)
 			updateTimeshiftPids();
 		if (!m_timeshift_active)
@@ -1216,31 +1217,31 @@ void eDVBServicePlay::serviceEvent(int event)
 		if (!m_timeshift_active)
 			m_event((iPlayableService*)this, evUpdatedInfo);
 
-		/* OpenPliPC */
-		ePtr<iDVBDemux> demux;
-		if ((!m_is_pvr && !m_service_handler.getDataDemux(demux)) &  !m_timeshift_enabled)
-		{
-			printf("Start live TV!\n");
+                /* OpenPliPC */
+                ePtr<iDVBDemux> demux;
+                if ((!m_is_pvr && !m_service_handler.getDataDemux(demux)) &  !m_timeshift_enabled)
+                {
+                        printf("Start live TV!\n");
 
-			demux->createTSRecorder(m_openpliPC_record);
-			if (!m_openpliPC_record)
-				return;
-		
-			if (m_openpliPC_fd < 0)
-			{
-				m_openpliPC_record = 0;
-				return;
-			}
-			m_openpliPC_record->setTargetFD(m_openpliPC_fd);
-			m_openpliPC_record->setTargetFilename(m_openpliPC_file);
-			m_openpliPC_record->enableAccessPoints(false);
-			updateTimeshiftPids(); // workaround to set PIDs
-			m_openpliPC_record->start();
+                        demux->createTSRecorder(m_openpliPC_record);
+                        if (!m_openpliPC_record)
+                                return;
 
-			printf("Start live TV END\n");
-		}
+                        if (m_openpliPC_fd < 0)
+                        {
+                                m_openpliPC_record = 0;
+                                return;
+                        }
+                        m_openpliPC_record->setTargetFD(m_openpliPC_fd);
+                        m_openpliPC_record->setTargetFilename(m_openpliPC_file);
+                        m_openpliPC_record->enableAccessPoints(false);
+                        updateTimeshiftPids(); // workaround to set PIDs
+                        m_openpliPC_record->start();
 
-		m_event((iPlayableService*)this, evNewProgramInfo);
+                        printf("Start live TV END\n");
+                }
+
+//		m_event((iPlayableService*)this, evNewProgramInfo);
 		break;
 	}
 	case eDVBServicePMTHandler::eventPreStart:
@@ -1410,6 +1411,12 @@ RESULT eDVBServicePlay::start()
 		}
 		m_event(this, evStart);
 	}
+
+	cXineLib *xineLib = cXineLib::getInstance();
+	if (m_timeshift_changed)
+		xineLib->setScrambled(false);
+	else
+		xineLib->setScrambled(scrambled);
 
 	m_first_program_info = 1;
 	ePtr<iTsSource> source = createTsSource(service, packetsize);

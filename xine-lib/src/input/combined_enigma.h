@@ -73,7 +73,7 @@ inline static int enigma_is_stream(xine_stream_t *stream)
 /* plugin class initialization function */
 void *init_class(xine_t *xine, void *data);
 void *enigma_video_init_plugin(xine_t *xine, void *data);
-//void *vdr_audio_init_plugin(xine_t *xine, void *data);
+void *enigma_audio_init_plugin(xine_t *xine, void *data);
 
 
 

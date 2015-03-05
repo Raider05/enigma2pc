@@ -97,7 +97,7 @@ self.session.openWithCallback(msgClosed, FactoryReset)
 			<!--<item text="Expert -disabled-"><setup id="expert" /></item>-->
 		</menu>
 		<!--<item text="Unser Setup">self.openSetup("Blaselfasel")</item>-->
-		<menu text="Standby / Restart" entryID="standby_restart_list">
+		<menu text="Standby / restart" entryID="standby_restart_list">
 			<id val="shutdown" />
 			<!--<item text="Standby"><code>quitMainloop(0)</code></item>-->
 			<item text="Sleep timer" entryID="sleep"><screen module="SleepTimerEdit" screen="SleepTimerEdit" /></item>

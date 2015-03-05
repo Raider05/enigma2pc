@@ -76,6 +76,11 @@ class VideoHardware:
 		config.pc.initial_window_width = ConfigSelection(choices = {"0": _("0"), "720": _("720"), "1280": _("1280"), "1366": _("1366"), "1600": _("1600"), "1680": _("1680"), "1920": _("1920")}, default="0")
 		config.pc.initial_window_height = ConfigSelection(choices = {"0": _("0"), "576": _("576"), "720": _("720"), "768": _("768"), "1050": _("1050"), "1080": _("1080"), "1200": _("1200")}, default="0")
 
+		config.pc.prebuffer_metronom_hd = ConfigSelection(choices = {"90000": _("1"), "100000": _("1.1"), "108000": _("1.2"), "117000": _("1.3"), "126000": _("1.4"), "135000": _("1.5"), "145000": _("1.6")}, default="126000")
+		config.pc.prebuffer_metronom_sd = ConfigSelection(choices = {"55000": _("0.6"), "63000": _("0.7"), "72000": _("0.8"), "81000": _("0.9"), "90000": _("1"), "100000": _("1.1")}, default="72000")
+		config.pc.prebuffer_metronom_hd.addNotifier(self.updateBufMetronom)
+		config.pc.prebuffer_metronom_sd.addNotifier(self.updateBufMetronom)
+
 		# until we have the hotplug poll socket
 #		self.timer = eTimer()
 #		self.timer.callback.append(self.readPreferredModes)
@@ -117,6 +122,7 @@ class VideoHardware:
 
 		self.updateDeinterlace(None)
 		self.updateSDfeatures(None)
+		self.updateBufMetronom(None)
 		self.updateAspect(None)
 
 	def saveMode(self, port, mode, rate):
@@ -200,6 +206,10 @@ class VideoHardware:
 	def updateSDfeatures(self, cfgelement):
 		print "-> update SD features !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 		eAVSwitch.getInstance().setSDfeatures(int(config.pc.sd_sharpness.value), int(config.pc.sd_noise.value))
+
+	def updateBufMetronom(self, cfgelement):
+		print "-> update Prebuffer Metronom !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+		eAVSwitch.getInstance().setBufMetronom(int(config.pc.prebuffer_metronom_hd.value), int(config.pc.prebuffer_metronom_sd.value))
 
 config.av.edid_override = ConfigYesNo(default = False)
 video_hw = VideoHardware()

@@ -334,8 +334,8 @@ static int enigma_video_draw(vo_frame_t *frame, xine_stream_t *stream)
     this->old_frame_ratio  = 0;
   }
 
-  if (!this->enigma_stream
-      && enigma_is_stream(stream))
+  if (!this->enigma_stream)
+//      && enigma_is_stream(stream))
   {
     this->event_queue = xine_event_new_queue(stream);
     if (this->event_queue)

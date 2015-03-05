@@ -38,6 +38,7 @@ public:
 	void setWSS(int val);
 	void setDeinterlace(int global, int sd, int hd);
  	void setSDfeatures(int sharpness, int noise);
+ 	void setBufMetronom(int hd, int sd);
 	bool isActive();
 	PSignal1<void, int> vcr_sb_notifier;
 };

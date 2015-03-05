@@ -38,7 +38,7 @@ const plugin_info_t xine_plugin_info[] EXPORTED =
   { PLUGIN_INPUT,  18, "ENIGMA"      , XINE_VERSION_CODE, NULL                   , &init_class },
   { PLUGIN_POST ,  10, "enigma"      , XINE_VERSION_CODE, &enigma_video_special_info, &enigma_video_init_plugin },
   { PLUGIN_POST ,  10, "enigma_video", XINE_VERSION_CODE, &enigma_video_special_info, &enigma_video_init_plugin },
-//  { PLUGIN_POST ,  10, "vdr_audio", XINE_VERSION_CODE, &vdr_audio_special_info, &vdr_audio_init_plugin },
+  { PLUGIN_POST ,  10, "enigma_audio", XINE_VERSION_CODE, &enigma_audio_special_info, &enigma_audio_init_plugin },
   { PLUGIN_NONE ,   0, ""         , 0                , NULL                   , NULL }
 };
 

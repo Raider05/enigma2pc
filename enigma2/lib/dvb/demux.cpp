@@ -18,12 +18,12 @@ static int determineBufferCount()
 	unsigned int megabytes = si.totalram >> 20;
 	int result;
 	if (megabytes > 200)
-		result = 20; // 512MB systems: Use 4MB IO buffers (et9x00, vuultimo, ...)
+		result = 30; // 512MB systems: Use 4MB IO buffers (et9x00, vuultimo, ...)
 	else if (megabytes > 100)
 		result = 16; // 256MB systems: Use 3MB demux buffers (dm8000, et5x00, vuduo)
 	else
 		result = 8; // Smaller boxes: Use 1.5MB buffer (dm7025)
-	return 20;
+	return 30;
 }
 
 static int recordingBufferCount = determineBufferCount();
@@ -765,7 +765,7 @@ eDebug("eDVBTSRecorder::start %s", filename);
 		return -3;
 	}
 
-	setBufferSize(2*1024*1024);
+	setBufferSize(4*1024*1024);
 
 	dmx_pes_filter_params flt;
 	flt.pes_type = DMX_PES_OTHER;

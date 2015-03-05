@@ -316,5 +316,11 @@ void eAVSwitch::setSDfeatures(int sharpness, int noise)
 	cXineLib::getInstance()->setSDfeatures(sharpness, noise);
 }
 
+void eAVSwitch::setBufMetronom(int hd, int sd)
+{
+        cXineLib *xineLib = cXineLib::getInstance();
+        cXineLib::getInstance()->setBufMetronom(hd, sd);
+}
+
 //FIXME: correct "run/startlevel"
 eAutoInitP0<eAVSwitch> init_avswitch(eAutoInitNumbers::rc, "AVSwitch Driver");

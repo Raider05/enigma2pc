@@ -25,6 +25,7 @@ private:
         xine_streamtype_data_t  videoData, audioData;
 
 	bool                    videoPlayed;
+	bool			doDescramble;
 	int                     osdWidth, osdHeight;
 	int                     windowWidth, windowHeight;
 
@@ -33,10 +34,11 @@ private:
 	int m_windowAspectRatio, m_policy43, m_policy169;
 	int m_zoom43_x, m_zoom43_y, m_zoom169_x, m_zoom169_y;
 	int m_sharpness, m_noise;
+	int m_streamtype;
+        int m_hd, m_sd;
 
 	void setStreamType(int video);
-
-//	void detect_aspect_from_frame(bool b_aspect);
+	void setLiveTV(int v_streamtype);
 
 	static void xine_event_handler(void *user_data, const xine_event_t *event);
 
@@ -101,6 +103,8 @@ public:
 	void setPolicy43(int mode);
 	void setPolicy169(int mode);
 	void setZoom(int zoom43_x, int zoom43_y, int zoom169_x, int zoom169_y);
+	void setBufMetronom(int hd, int sd);
+	void setScrambled(bool doDescramble);
 };
 
 #endif

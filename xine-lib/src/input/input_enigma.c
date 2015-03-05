@@ -38,8 +38,11 @@
 
 #include <xine/xine_internal.h>
 #include <xine/input_plugin.h>
-#include "net_buf_ctrl.h"
+//#include "net_buf_ctrl.h"
 #include "combined_enigma.h"
+
+// xvdr
+#include <sys/time.h>
 
 #define ENIGMA_ABS_FIFO_DIR     "/tmp"
 #define DEFAULT_PTS_START       150000
@@ -47,7 +50,51 @@
 #define FILE_FLAGS O_RDONLY
 #define FIFO_PUT                0
 
+// xvdr 
+#define XVDR_METRONOM_OPTION_BASE  0x1001
+#define XVDR_METRONOM_LAST_VO_PTS  (XVDR_METRONOM_OPTION_BASE)
+#define XVDR_METRONOM_TRICK_SPEED  (XVDR_METRONOM_OPTION_BASE + 1)
+#define XVDR_METRONOM_STILL_MODE   (XVDR_METRONOM_OPTION_BASE + 2)
+#define XVDR_METRONOM_ID           (XVDR_METRONOM_OPTION_BASE + 3)
+
+#define XVDR_METRONOM_LIVE_BUFFERING   (XVDR_METRONOM_OPTION_BASE + 4)
+#define XVDR_METRONOM_STREAM_START     (XVDR_METRONOM_OPTION_BASE + 5)
+
 typedef struct enigma_input_plugin_s enigma_input_plugin_t;
+
+typedef struct 
+{
+  metronom_t          metronom;
+  metronom_t         *stream_metronom;
+  enigma_input_plugin_t *input;
+// xvdr 
+  int     trickspeed;    /* current trick speed */
+  int     still_mode;
+  int64_t last_vo_pts;   /* last displayed video frame PTS */
+  int     wired;         /* true if currently wired to stream */
+
+  /* initial buffering in live mode */
+  uint8_t  buffering;      /* buffering active */
+  uint8_t  live_buffering; /* live buffering enabled */
+  uint8_t  stream_start;
+  int64_t  vid_pts;        /* last seen video pts */
+  int64_t  aud_pts;        /* last seen audio pts */
+  int64_t  disc_pts;       /* reported discontinuity pts */
+  uint64_t buffering_start_time;
+  uint64_t first_frame_seen_time;
+
+  pthread_mutex_t mutex;
+}
+enigma_metronom_t;
+
+typedef struct enigma_vpts_offset_s enigma_vpts_offset_t;
+
+struct enigma_vpts_offset_s
+{
+  enigma_vpts_offset_t *next;
+  int64_t            vpts;
+  int64_t            offset;
+};
 
 struct enigma_input_plugin_s {
   input_plugin_t      input_plugin;
@@ -58,7 +105,51 @@ struct enigma_input_plugin_s {
   char                seek_buf[BUFSIZE];
   xine_t             *xine;
   int                 last_disc_type;
-  nbc_t              *nbc;
+//  nbc_t              *nbc;
+
+  uint8_t             trick_speed_mode;
+  uint8_t             trick_speed_mode_blocked;
+  pthread_mutex_t     trick_speed_mode_lock;
+  pthread_cond_t      trick_speed_mode_cond;
+
+  pthread_t           metronom_thread;
+  pthread_mutex_t     metronom_thread_lock;
+  int64_t             metronom_thread_request;
+  int                 metronom_thread_reply;
+  pthread_cond_t      metronom_thread_request_cond;
+  pthread_cond_t      metronom_thread_reply_cond;
+  pthread_mutex_t     metronom_thread_call_lock;
+
+  uint8_t             find_sync_point;
+  pthread_mutex_t     find_sync_point_lock;
+
+  enigma_metronom_t      metronom;
+//  int                 last_disc_type;
+
+  enigma_vpts_offset_t  *vpts_offset_queue;
+  enigma_vpts_offset_t  *vpts_offset_queue_tail;
+  pthread_mutex_t     vpts_offset_queue_lock;
+  pthread_cond_t      vpts_offset_queue_changed_cond;
+  int                 vpts_offset_queue_changes;
+
+//* xvdr 
+  int     trickspeed;    // current trick speed
+  int     still_mode;
+  int64_t last_vo_pts;   // last displayed video frame PTS 
+  int     wired;         // true if currently wired to stream 
+
+  /* initial buffering in live mode */
+/*  uint8_t  buffering;      // buffering active 
+  uint8_t  live_buffering; // live buffering enabled 
+  uint8_t  stream_start;
+  int64_t  vid_pts;        // last seen video pts 
+  int64_t  aud_pts;        // last seen audio pts 
+  int64_t  disc_pts;       // reported discontinuity pts 
+  uint64_t buffering_start_time;
+  uint64_t first_frame_seen_time;
+
+  pthread_mutex_t mutex;
+*/
 };
 
 typedef struct {
@@ -66,259 +157,319 @@ typedef struct {
   xine_t           *xine;
 } enigma_input_class_t;
 
+// xvdr
 
-/* Put callback the fifo mutex is locked */
-static void enigma_nbc_put_cb (fifo_buffer_t *fifo, buf_element_t *buf, void *this_gen) {
-  nbc_t *this = (nbc_t*)this_gen;
-  int64_t progress = 0;
-  int64_t video_p = 0;
-  int64_t audio_p = 0;
-  int force_dvbspeed = 0;
-  int has_video, has_audio;
-  force_dvbspeed = 0;
-  xine_t *xine = this->stream->xine;
+static uint64_t time_ms(void)
+{
+  struct timeval t;
+#ifdef XINEUTILS_H
+  if (xine_monotonic_clock(&t, NULL) == 0)
+#else
+  if (gettimeofday(&t, NULL) == 0)
+#endif
+     return ((uint64_t)t.tv_sec) * 1000ULL + t.tv_usec / 1000ULL;
+  return 0;
+}
 
-  cfg_entry_t *entry;
-	config_values_t *cfg;
-	cfg = xine->config;
-	entry = cfg->lookup_entry(cfg, "input.buffer.dynamic");
-  if  (strdup(entry->unknown_value) == "1");
-  			force_dvbspeed = 1;
+static uint64_t elapsed(uint64_t t)
+{
+  return time_ms() - t;
+}
 
-  lprintf("enter enigma_nbc_put_cb\n");
-  pthread_mutex_lock(&this->mutex);
+static int warnings = 0;
 
-  if ((buf->type & BUF_MAJOR_MASK) != BUF_CONTROL_BASE) {
+static int64_t absdiff(int64_t a, int64_t b) { int64_t diff = a-b; if (diff<0) diff = -diff; return diff; }
+static int64_t min64(int64_t a, int64_t b) { return a < b ? a : b; }
 
-    if (this->enabled) {
-      if (this->dvbspeed)
-        dvbspeed_put (this, fifo, buf);
-      else {
-      nbc_compute_fifo_length(this, fifo, buf, FIFO_PUT);
-
-      if (this->buffering) {
-
-        has_video = _x_stream_info_get(this->stream, XINE_STREAM_INFO_HAS_VIDEO);
-        has_audio = _x_stream_info_get(this->stream, XINE_STREAM_INFO_HAS_AUDIO);
-        /* restart playing if high_water_mark is reached by all fifos
-         * do not restart if has_video and has_audio are false to avoid
-         * a yoyo effect at the beginning of the stream when these values
-         * are not yet known.
-         *
-         * be sure that the next buffer_pool_alloc() call will not deadlock,
-         * we need at least 2 buffers (see buffer.c)
-         */
-//printf("this->video_last_pts %lld   this->audio_last_pts %lld\n", this->video_last_pts, this->audio_last_pts);
-        int64_t first_pts = this->video_first_pts>this->audio_first_pts?this->video_first_pts:this->audio_first_pts;
-        int64_t last_pts = this->video_last_pts<this->audio_last_pts?this->video_last_pts:this->audio_last_pts;
-//printf("AAA first_pts %lld  last_pts %lld\n", first_pts, last_pts);
-        if ( has_video && has_audio && (last_pts-first_pts)>DEFAULT_PTS_START ) {
-          this->progress = 100;
-          //report_progress (this->stream, 100);
-          this->buffering = 0;
-          nbc_set_speed_normal(this);
-        }
-        else if ((((!has_video) || (this->video_fifo_length > this->high_water_mark)) &&
-             ((!has_audio) || (this->audio_fifo_length > this->high_water_mark)) &&
-             (has_video || has_audio))) {
-
-          this->progress = 100;
-          //report_progress (this->stream, 100);
-          this->buffering = 0;
-
-          xprintf(this->stream->xine, XINE_VERBOSITY_DEBUG, "\nnet_buf_ctrl: enigma_nbc_put_cb: stops buffering\n");
-
-          nbc_set_speed_normal(this);
-
-          this->high_water_mark += this->high_water_mark / 2;
-
-        } else {
-          /*  compute the buffering progress
-           *    50%: video
-           *    50%: audio */
-          video_p = ((this->video_fifo_length * 50) / this->high_water_mark);
-          if (video_p > 50) video_p = 50;
-          audio_p = ((this->audio_fifo_length * 50) / this->high_water_mark);
-          if (audio_p > 50) audio_p = 50;
-
-          if ((has_video) && (has_audio)) {
-            progress = video_p + audio_p;
-          } else if (has_video) {
-            progress = 2 * video_p;
-          } else {
-            progress = 2 * audio_p;
-          }
-
-          /* if the progress can't be computed using the fifo length,
-             use the number of buffers */
-          if (!progress) {
-            video_p = this->video_fifo_fill;
-            audio_p = this->audio_fifo_fill;
-            progress = (video_p > audio_p) ? video_p : audio_p;
-          }
-
-          if (progress > this->progress) {
-            //report_progress (this->stream, progress);
-            this->progress = progress;
-          }
-        }
-      }
-      //if(this->stream->xine->verbosity >= XINE_VERBOSITY_DEBUG)
-      //  display_stats(this);
-
-      //report_stats(this, 0);
-      }
-  	}
-  } else {
-
-    switch (buf->type) {
-      case BUF_CONTROL_START:
-        lprintf("BUF_CONTROL_START\n");
-        if (!this->enabled) {
-          /* a new stream starts */
-          xprintf(this->stream->xine, XINE_VERBOSITY_DEBUG, "\nnet_buf_ctrl: enigma_nbc_put_cb: starts buffering\n");
-          this->enabled           = 1;
-          this->buffering         = 1;
-          this->video_first_pts   = 0;
-          this->video_last_pts    = 0;
-          this->audio_first_pts   = 0;
-          this->audio_last_pts    = 0;
-          this->video_fifo_length = 0;
-          this->audio_fifo_length = 0;
-          dvbspeed_init (this, force_dvbspeed);
-          if (!this->dvbspeed) nbc_set_speed_pause(this);
-/*          this->progress = 0;
-          report_progress (this->stream, progress);*/
-        }
-        break;
-      case BUF_CONTROL_NOP:
-        if (!(buf->decoder_flags & BUF_FLAG_END_USER) &&
-            !(buf->decoder_flags & BUF_FLAG_END_STREAM)) {
-          break;
-        }
-        /* fall through */
-      case BUF_CONTROL_END:
-      case BUF_CONTROL_QUIT:
-        lprintf("BUF_CONTROL_END\n");
-        dvbspeed_close (this);
-        if (this->enabled) {
-          /* end of stream :
-           *   - disable the nbc
-           *   - unpause the engine if buffering
-           */
-          this->enabled = 0;
-
-          lprintf("DISABLE netbuf\n");
-
-          if (this->buffering) {
-            this->buffering = 0;
-            this->progress = 100;
-            //report_progress (this->stream, this->progress);
-
-            xprintf(this->stream->xine, XINE_VERBOSITY_DEBUG, "\nnet_buf_ctrl: enigma_nbc_put_cb: stops buffering\n");
-
-            nbc_set_speed_normal(this);
-          }
-        }
-        break;
-
-      case BUF_CONTROL_NEWPTS:
-        /* discontinuity management */
-        if (fifo == this->video_fifo) {
-          this->video_in_disc++;
-          xprintf(this->stream->xine, XINE_VERBOSITY_DEBUG,
-		  "\nnet_buf_ctrl: enigma_nbc_put_cb video disc %d\n", this->video_in_disc);
-        } else {
-          this->audio_in_disc++;
-          xprintf(this->stream->xine, XINE_VERBOSITY_DEBUG,
-		  "\nnet_buf_ctrl: enigma_nbc_put_cb audio disc %d\n", this->audio_in_disc);
-        }
-        break;
+static void check_buffering_done(enigma_metronom_t *this)
+{
+  /* both audio and video timestamps seen ? */
+  if (this->vid_pts && this->aud_pts) {
+    int64_t da = this->aud_pts - this->disc_pts;
+    int64_t dv = this->vid_pts - this->disc_pts;
+    int64_t d_min = min64(da, dv);
+    printf("  stream A-V diff %d ms", (int)(this->vid_pts - this->aud_pts)/90);
+    printf("  reported stream start at pts %"PRId64, this->disc_pts);
+    printf("  output fifo end at: audio %"PRId64" video %"PRId64, this->aud_pts, this->vid_pts);
+    printf("  dA %"PRId64" dV %"PRId64, da, dv);
+    if (d_min < 0 && d_min > -10*90000) {
+      printf("  *** output is late %"PRId64" ticks (%"PRId64" ms) ***", d_min, -d_min/90);
+//      this->scr->jump(this->scr, d_min);
     }
+    this->buffering = 0;
+    this->stream_start = 0;
+//    this->scr->set_buffering(this->scr, 0);
+    return;
+  }
 
-    if (fifo == this->video_fifo) {
-      this->video_fifo_free = fifo->buffer_pool_num_free;
-      this->video_fifo_size = fifo->fifo_data_size;
-    } else {
-      this->audio_fifo_free = fifo->buffer_pool_num_free;
-      this->audio_fifo_size = fifo->fifo_data_size;
+  if (this->first_frame_seen_time) {
+    int64_t ms_since_first_frame = elapsed(this->first_frame_seen_time);
+
+    if (ms_since_first_frame > 1000) {
+
+      this->stream_start = 0;
+
+      /* abort buffering if no audio */
+      if (this->vid_pts && !this->aud_pts) {
+        printf("buffering stopped: NO AUDIO ? elapsed time %d ms", (int)ms_since_first_frame);
+        this->buffering = 0;
+//        this->scr->set_buffering(this->scr, 0);
+        return;
+      }
+
+      /* abort buffering if no video */
+      if (!this->vid_pts && this->aud_pts) {
+        printf("buffering stopped: NO VIDEO ? elapsed time %d ms", (int)ms_since_first_frame);
+        this->buffering = 0;
+//        this->scr->set_buffering(this->scr, 0);
+        return;
+      }
     }
   }
+}
+
+static void got_video_frame(metronom_t *self, vo_frame_t *frame)
+{
+  enigma_metronom_t *this = (enigma_metronom_t *)self;
+  int64_t          pts  = frame->pts;
+/*
+#if 1 /* xine-lib master-slave metronom causes some problems ... * /
+  if (metronom->got_video_frame != got_video_frame) {
+    if (!warnings++)
+      LOGMSG("got_video_frame: invalid object");
+    return;
+  }
+  warnings = 0;
+#endif
+*/
+  if (this->still_mode) {
+    printf("Still frame, type %d", frame->picture_coding_type);
+    frame->pts       = 0;
+  }
+
+  if (this->trickspeed) {
+    frame->pts       = 0;
+    frame->duration *= 12; /* GOP */
+  }
+
+  /* initial buffering */
+  pthread_mutex_lock(&this->mutex);
+  if (this->buffering && !frame->bad_frame) {
+
+    /* track video pts */
+    if (pts) {
+      if (this->vid_pts && (absdiff(this->vid_pts, pts) > 5*90000)) {
+        printf("buffering: video jump resetted audio pts");
+        this->aud_pts = 0;
+      }
+      if (this->vid_pts && this->aud_pts && (absdiff(this->vid_pts, this->aud_pts) > 5*90000)) {
+        printf("buffering: A-V diff resetted audio pts");
+        this->aud_pts = 0;
+      }
+      if (!this->vid_pts) {
+        printf("got video pts, frame type %d (@%d ms)", frame->picture_coding_type, (int)elapsed(this->buffering_start_time));
+        this->first_frame_seen_time = time_ms(); 
+      }
+      this->vid_pts = pts;
+    }
+
+    /* some logging */
+    if (!pts) {
+      printf("got video, pts 0, buffering, frame type %d, bad_frame %d", frame->picture_coding_type, frame->bad_frame);
+    }
+    if (pts && !frame->pts) {
+      printf("*** ERROR: hiding video pts while buffering ***");
+    }
+
+    check_buffering_done(this);
+  }
+
   pthread_mutex_unlock(&this->mutex);
-  lprintf("exit enigma_nbc_put_cb\n");
+
+  this->stream_metronom->got_video_frame (this->stream_metronom, frame);
+
+  frame->pts = pts;
 }
 
-nbc_t *enigma_nbc_init (xine_stream_t *stream) {
+static int64_t got_audio_samples(metronom_t *self, int64_t pts, int nsamples)
+{
+  enigma_metronom_t *this = (enigma_metronom_t *)self;
 
-  nbc_t *this = calloc(1, sizeof (nbc_t));
-  fifo_buffer_t *video_fifo = stream->video_fifo;
-  fifo_buffer_t *audio_fifo = stream->audio_fifo;
-  
-  
-  double video_fifo_factor, audio_fifo_factor;
-  cfg_entry_t *entry;
+  pthread_mutex_lock(&this->mutex);
 
-  lprintf("enigma_nbc_init\n");
-  pthread_mutex_init (&this->mutex, NULL);
+  /* initial buffering */
+  if (this->buffering) {
 
-  this->stream              = stream;
-  this->video_fifo          = video_fifo;
-  this->audio_fifo          = audio_fifo;
+    /* track audio pts */
+    if (pts) {
+      if (this->aud_pts && (this->aud_pts > pts || absdiff(pts, this->aud_pts) > 5*90000)) {
+        printf("audio jump resetted video pts");
+        this->vid_pts = 0;
+      }
+      if (this->aud_pts && this->vid_pts && (absdiff(this->vid_pts, this->aud_pts) > 5*90000)) {
+        printf("buffering: A-V diff resetted video pts");
+        this->vid_pts = 0;
+      }
+      if (!this->aud_pts) {
+        printf("got audio pts (@%d ms)", (int)elapsed(this->buffering_start_time));
+        this->first_frame_seen_time = time_ms();
+      }
+      this->aud_pts = pts;
+    }
 
-  /* when the FIFO sizes are increased compared to the default configuration,
-   * apply a factor to the high water mark */
-  entry = stream->xine->config->lookup_entry(stream->xine->config, "engine.buffers.video_num_buffers");
-  /* No entry when no video output */
-  if (entry)
-    video_fifo_factor = (double)video_fifo->buffer_pool_capacity / (double)entry->num_default;
-  else
-    video_fifo_factor = 1.0;
-  entry = stream->xine->config->lookup_entry(stream->xine->config, "engine.buffers.audio_num_buffers");
-  /* When there's no audio output, there's no entry */
-  if (entry)
-    audio_fifo_factor = (double)audio_fifo->buffer_pool_capacity / (double)entry->num_default;
-  else
-    audio_fifo_factor = 1.0;
-  /* use the smaller factor */
-  if (video_fifo_factor < audio_fifo_factor)
-    this->high_water_mark = (double)DEFAULT_HIGH_WATER_MARK * video_fifo_factor;
-  else
-    this->high_water_mark = (double)DEFAULT_HIGH_WATER_MARK * audio_fifo_factor;
+    /* some logging */
+    if (!pts && !this->aud_pts) {
+      printf("got audio, pts 0, buffering");
+    }
 
-  video_fifo->register_alloc_cb(video_fifo, nbc_alloc_cb, this);
-  video_fifo->register_put_cb(video_fifo, enigma_nbc_put_cb, this);
-  video_fifo->register_get_cb(video_fifo, nbc_get_cb, this);
+    check_buffering_done(this);
+  }
 
-  audio_fifo->register_alloc_cb(audio_fifo, nbc_alloc_cb, this);
-  audio_fifo->register_put_cb(audio_fifo, enigma_nbc_put_cb, this);
-  audio_fifo->register_get_cb(audio_fifo, nbc_get_cb, this);
+  pthread_mutex_unlock(&this->mutex);
 
-  return this;
+  return this->stream_metronom->got_audio_samples (this->stream_metronom, pts, nsamples);
 }
 
-void enigma_nbc_close (nbc_t *this) {
-  fifo_buffer_t *video_fifo = this->stream->video_fifo;
-  fifo_buffer_t *audio_fifo = this->stream->audio_fifo;
-  xine_t        *xine       = this->stream->xine;
+static int64_t got_spu_packet(metronom_t *self, int64_t pts)
+{
+  enigma_metronom_t *this = (enigma_metronom_t *)self;
+  return this->stream_metronom->got_spu_packet(this->stream_metronom, pts);
+}
 
-  xprintf(xine, XINE_VERBOSITY_DEBUG, "\nnet_buf_ctrl: enigma_nbc_close\n");
+static void start_buffering(enigma_metronom_t *this, int64_t disc_off)
+{
+  if (this->live_buffering && this->stream_start && disc_off) {
+    if (!this->buffering) {
+      printf("live mode buffering started (@%d ms)", (int)elapsed(this->buffering_start_time));
 
-  /* unregister all fifo callbacks */
-  /* do not lock the mutex to avoid deadlocks if a decoder calls fifo->get() */
-  video_fifo->unregister_alloc_cb(video_fifo, nbc_alloc_cb);
-  video_fifo->unregister_put_cb(video_fifo, enigma_nbc_put_cb);
-  video_fifo->unregister_get_cb(video_fifo, nbc_get_cb);
+      this->aud_pts  = 0;
+      this->vid_pts  = 0;
+      this->disc_pts = disc_off;
 
-  audio_fifo->unregister_alloc_cb(audio_fifo, nbc_alloc_cb);
-  audio_fifo->unregister_put_cb(audio_fifo, enigma_nbc_put_cb);
-  audio_fifo->unregister_get_cb(audio_fifo, nbc_get_cb);
+      this->first_frame_seen_time = 0;
 
-  /* now we are sure that nobody will call a callback */
-  this->stream->xine->clock->set_option (this->stream->xine->clock, CLOCK_SCR_ADJUSTABLE, 1);
+      this->buffering = 1;
+//      this->scr->set_buffering(this->scr, 1);
+    }
+  } else {
+    if (this->buffering) {
+      printf("live mode buffering aborted (@%d ms)", (int)elapsed(this->buffering_start_time));
+      this->buffering = 0;
+//      this->scr->set_buffering(this->scr, 0);
+    }
+  }
+}
 
-  pthread_mutex_destroy(&this->mutex);
-  free (this);
-  xprintf(xine, XINE_VERBOSITY_DEBUG, "\nnet_buf_ctrl: enigma_nbc_close: done\n");
+static void handle_audio_discontinuity(metronom_t *self, int type, int64_t disc_off)
+{
+  enigma_metronom_t *this = (enigma_metronom_t *)self;
+
+  start_buffering(this, disc_off);
+
+  this->stream_metronom->handle_audio_discontinuity(this->stream_metronom, type, disc_off);
+}
+
+static void handle_video_discontinuity(metronom_t *self, int type, int64_t disc_off)
+{
+  enigma_metronom_t *this = (enigma_metronom_t *)self;
+
+  start_buffering(this, disc_off);
+
+  this->stream_metronom->handle_video_discontinuity(this->stream_metronom, type, disc_off);
+}
+
+static void set_audio_rate(metronom_t *self, int64_t pts_per_smpls)
+{
+  enigma_metronom_t *this = (enigma_metronom_t *)self;
+  this->stream_metronom->set_audio_rate(this->stream_metronom, pts_per_smpls);
+}
+
+static void set_option(metronom_t *self, int option, int64_t value)
+{
+  enigma_metronom_t *this = (enigma_metronom_t *)self;
+
+  if (option == XVDR_METRONOM_LAST_VO_PTS) {
+    if (value > 0) {
+      pthread_mutex_lock(&this->mutex);
+      this->last_vo_pts = value;
+      pthread_mutex_unlock(&this->mutex);
+    }
+    return;
+  }
+
+  if (option == XVDR_METRONOM_LIVE_BUFFERING) {
+    pthread_mutex_lock(&this->mutex);
+    this->live_buffering = value;
+    pthread_mutex_unlock(&this->mutex);
+    return;
+  }
+
+  if (option == XVDR_METRONOM_STREAM_START) {
+    pthread_mutex_lock(&this->mutex);
+    this->stream_start = 1;
+    this->buffering_start_time = time_ms();
+    pthread_mutex_unlock(&this->mutex);
+    return;
+  }
+
+  if (option == XVDR_METRONOM_TRICK_SPEED) {
+    this->trickspeed = value;
+    return;
+  }
+
+  if (option == XVDR_METRONOM_STILL_MODE) {
+    this->still_mode = value;
+    return;
+  }
+
+  this->stream_metronom->set_option(this->stream_metronom, option, value);
+}
+
+static int64_t get_option(metronom_t *self, int option)
+{
+  enigma_metronom_t *this = (enigma_metronom_t *)self;
+
+  if (option == XVDR_METRONOM_LAST_VO_PTS) {
+    int64_t pts;
+    pthread_mutex_lock(&this->mutex);
+    pts = this->last_vo_pts;
+    pthread_mutex_unlock(&this->mutex);
+    return pts;
+  }
+  if (option == XVDR_METRONOM_TRICK_SPEED) {
+    return this->trickspeed;
+  }
+  if (option == XVDR_METRONOM_STILL_MODE) {
+    return this->still_mode;
+  }
+  if (option == XVDR_METRONOM_ID) {
+    return XVDR_METRONOM_ID;
+  }
+
+  return this->stream_metronom->get_option(this->stream_metronom, option);
+}
+
+static void set_master(metronom_t *self, metronom_t *master)
+{
+  enigma_metronom_t *this = (enigma_metronom_t *)self;
+  this->stream_metronom->set_master(this->stream_metronom, master);
+}
+
+static void metronom_exit(metronom_t *self)
+{
+  enigma_metronom_t *this = (enigma_metronom_t *)self;
+
+/*  this->unwire(this);
+  this->stream = NULL;
+
+  if (this->orig_metronom) {
+    metronom_t *orig_metronom = this->orig_metronom;
+    this->orig_metronom = NULL;
+
+    orig_metronom->exit(orig_metronom);
+  }
+*/
+  _x_abort();
 }
 
 static off_t enigma_read_abort(xine_stream_t *stream, int fd, char *buf, off_t todo)
@@ -386,6 +537,52 @@ static off_t enigma_plugin_read (input_plugin_t *this_gen,
     total += n;
   }
 
+  if (this->find_sync_point
+    && total == 6)
+  {
+    pthread_mutex_lock(&this->find_sync_point_lock);
+
+    while (this->find_sync_point
+      && total == 6
+      && buf[0] == 0x00
+      && buf[1] == 0x00
+      && buf[2] == 0x01)
+    {
+      int l, sp;
+
+      if (buf[3] == 0xbe
+        && buf[4] == 0xff)
+      {
+/* fprintf(stderr, "------- seen sync point: %02x, waiting for: %02x\n", buf[5], this->find_sync_point); */
+        if (buf[5] == this->find_sync_point)
+        {
+          this->find_sync_point = 0;
+          break;
+        }
+      }
+
+      if ((buf[3] & 0xf0) != 0xe0
+        && (buf[3] & 0xe0) != 0xc0
+        && buf[3] != 0xbd
+        && buf[3] != 0xbe)
+      {
+        break;
+      }
+
+      l = buf[4] * 256 + buf[5];
+      if (l <= 0)
+         break;
+
+      sp = this->find_sync_point;
+      this->find_sync_point = 0;
+      this_gen->seek(this_gen, l, SEEK_CUR);
+      total = this_gen->read(this_gen, buf, 6);
+      this->find_sync_point = sp;
+    }
+
+    pthread_mutex_unlock(&this->find_sync_point_lock);
+  }
+
   return total;
 
 }
@@ -420,6 +617,8 @@ static buf_element_t *enigma_plugin_read_block (input_plugin_t *this_gen, fifo_b
 }
 
 /* forward reference */
+static off_t enigma_plugin_get_current_pos(input_plugin_t *this_gen);
+
 static off_t enigma_plugin_seek (input_plugin_t *this_gen, off_t offset, int origin) {
 
   enigma_input_plugin_t  *this = (enigma_input_plugin_t *) this_gen;
@@ -493,21 +692,26 @@ static const char* enigma_plugin_get_mrl (input_plugin_t *this_gen) {
 static void enigma_plugin_dispose (input_plugin_t *this_gen ) {
   enigma_input_plugin_t *this = (enigma_input_plugin_t *) this_gen;
 
-  if (this->nbc) {
-    enigma_nbc_close (this->nbc);
-  }
+  pthread_mutex_destroy(&this->metronom.mutex);
+
+  pthread_mutex_destroy(&this->find_sync_point_lock); // need
+
 
   if (this->fh != -1)
     close(this->fh);
 
   free (this->mrl);
+
+  this->stream->metronom = this->metronom.stream_metronom;
+  this->metronom.stream_metronom = 0;
+
   free (this);
 }
 
 static int enigma_plugin_get_optional_data (input_plugin_t *this_gen,
 					   void *data, int data_type) {
   enigma_input_plugin_t *this = (enigma_input_plugin_t *) this_gen;
-
+  (void)this; //Add from 
   switch (data_type)
   {
   case INPUT_OPTIONAL_DATA_PREVIEW:
@@ -531,7 +735,7 @@ static int enigma_plugin_open (input_plugin_t *this_gen ) {
   printf ("trying to open '%s'...\n", this->mrl);
 
   if (this->fh == -1) {
-    int err = 0;
+//    int err = 0;
     char *filename = (char *)ENIGMA_ABS_FIFO_DIR "/ENIGMA_FIFO";
     this->fh = open (filename, FILE_FLAGS);
 
@@ -562,7 +766,7 @@ static input_plugin_t *enigma_class_get_instance (input_class_t *class_gen,
   enigma_input_class_t  *class = (enigma_input_class_t *) class_gen;
   enigma_input_plugin_t *this;
   char                 *mrl = strdup(data);
-  int                   fh;
+//  int                   fh;
 
   if (!strncasecmp(mrl, "enigma:/", 8)) {
     lprintf("Enigma plugin\n");
@@ -597,11 +801,54 @@ static input_plugin_t *enigma_class_get_instance (input_class_t *class_gen,
   this->input_plugin.dispose           = enigma_plugin_dispose;
   this->input_plugin.get_optional_data = enigma_plugin_get_optional_data;
   this->input_plugin.input_class       = class_gen;
+/*
+  pthread_mutex_init(&this->trick_speed_mode_lock, 0);
+  pthread_cond_init(&this->trick_speed_mode_cond, 0);
+
+  pthread_mutex_init(&this->metronom_thread_lock, 0);
+  pthread_cond_init(&this->metronom_thread_request_cond, 0);
+  pthread_cond_init(&this->metronom_thread_reply_cond, 0);
+  pthread_mutex_init(&this->metronom_thread_call_lock, 0);
+*/
+  pthread_mutex_init(&this->find_sync_point_lock, 0);
+
+  this->metronom.input = this;
+/*  this->metronom.metronom.set_audio_rate             = enigma_metronom_set_audio_rate;
+  this->metronom.metronom.got_video_frame            = enigma_metronom_got_video_frame;
+  this->metronom.metronom.got_audio_samples          = enigma_metronom_got_audio_samples;
+  this->metronom.metronom.got_spu_packet             = enigma_metronom_got_spu_packet;
+  this->metronom.metronom.handle_audio_discontinuity = enigma_metronom_handle_audio_discontinuity;
+  this->metronom.metronom.handle_video_discontinuity = enigma_metronom_handle_video_discontinuity;
+  this->metronom.metronom.set_option                 = enigma_metronom_set_option;
+  this->metronom.metronom.get_option                 = enigma_metronom_get_option;
+  this->metronom.metronom.set_master                 = enigma_metronom_set_master;
+  this->metronom.metronom.exit                       = enigma_metronom_exit;
+*/
+
+// xvdr 
+  this->metronom.metronom.set_audio_rate             = set_audio_rate;
+  this->metronom.metronom.got_video_frame            = got_video_frame;
+  this->metronom.metronom.got_audio_samples          = got_audio_samples;
+  this->metronom.metronom.got_spu_packet             = got_spu_packet;
+  this->metronom.metronom.handle_audio_discontinuity = handle_audio_discontinuity;
+  this->metronom.metronom.handle_video_discontinuity = handle_video_discontinuity;
+  this->metronom.metronom.set_option                 = set_option;
+  this->metronom.metronom.get_option                 = get_option;
+  this->metronom.metronom.set_master                 = set_master;
+  this->metronom.metronom.exit                       = metronom_exit;
+
+  pthread_mutex_init(&this->metronom.mutex, NULL);
+
+  this->metronom.stream_metronom = stream->metronom;
+  stream->metronom = &this->metronom.metronom;
+
+//  pthread_mutex_init(&this->vpts_offset_queue_lock, 0);
+//  pthread_cond_init(&this->vpts_offset_queue_changed_cond, 0);
 
   /*
    * buffering control
    */
-  this->nbc    = enigma_nbc_init (this->stream);
+//  this->nbc    = enigma_nbc_init (this->stream);
 
   return &this->input_plugin;
 }

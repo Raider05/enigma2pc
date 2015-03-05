@@ -3,6 +3,7 @@
 #include <fcntl.h>
 #include <lib/base/rawfile.h>
 #include <lib/base/eerror.h>
+#include <lib/gdi/xineLib.h>
 
 DEFINE_REF(eRawFile);
 
@@ -194,7 +195,7 @@ off_t eRawFile::offset()
 eDecryptRawFile::eDecryptRawFile(int packetsize)
  : eRawFile(packetsize)
 {
-	ringBuffer = new cRingBufferLinear(KILOBYTE(2024),TS_SIZE,true,"IN-TS");
+	ringBuffer = new cRingBufferLinear(KILOBYTE(4096),TS_SIZE,true,"IN-TS");
 	ringBuffer->SetTimeouts(100,100);
 	bs_size = dvbcsa_bs_batch_size();
 	delivered=false;
@@ -289,6 +290,10 @@ ssize_t eDecryptRawFile::read(off_t offset, void *buf, size_t count)
 					printf("-------------------- I have PES ---------------------- %02X\n", wsk[3]);
 					ret = (packetsCount-i)*TS_SIZE;
 					memcpy(buf, packet, (packetsCount-i)*TS_SIZE);
+// When channel descramble, then start xineLib-playVideo()
+					cXineLib *xineLib = cXineLib::getInstance();
+					xineLib->setScrambled(false);
+					xineLib->playVideo();
 					break;
 				}
 			}
