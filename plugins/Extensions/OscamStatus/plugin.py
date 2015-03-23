@@ -365,6 +365,13 @@ class ClientDataScreen(Screen):
 				self["KeyYellow"].show()
 
 		self.ecmhistory = data.ecmhistory.split(',')
+		# echt toll wenn in den OSCAM Sourcen die ecmhistory sinnlos geaendert wird...
+		if self.ecmhistory[0] == '':
+			self.ecmhistory[0] = '0'
+		if len(self.ecmhistory) < 20:
+			for x in range(20 - len(self.ecmhistory)):
+				 self.ecmhistory.append('0')
+
 		maxh = 0.0
 		for i in range(20):
 			self["progress%d" % i] = ProgressBar()
@@ -471,7 +478,12 @@ class DownloadXMLScreen(Screen):
 		# Message Queue initialisieren...
 		getPage2.MessagePump.recv_msg.get().append(self.gotThreadMsg)	
 		# Download Thread starten...
-		getPage2.Start(self.url, self.oServer.username, self.oServer.password)
+		try:
+			getPage2.Start(self.url, self.oServer.username, self.oServer.password)
+		except RuntimeError:
+			self.download = False
+			getPage2.MessagePump.recv_msg.get().remove(self.gotThreadMsg)	
+			print "[OscamStatus] Thread already running..."
 
 	def sendNewPart(self, part):
 		self.timer.stop()
@@ -485,7 +497,12 @@ class DownloadXMLScreen(Screen):
 		self.downloadXML()
 
 	def gotThreadMsg(self, msg):
+#		try:
 		msg = getPage2.Message.pop()
+#		except IndexError:
+#			getPage2.MessagePump.recv_msg.get().remove(self.gotThreadMsg)	
+#			return
+
 		if msg[0] == THREAD_ERROR:
 			getPage2.MessagePump.recv_msg.get().remove(self.gotThreadMsg)	
 			self.download = False
@@ -1416,7 +1433,7 @@ class UserstatsScreen(DownloadXMLScreen):
 		for index, u in enumerate(self.users):
 			if u.timeonchannel != "n/a":
 				self["label1"].setText(_("time on channel"))
-				u.ip = u.timeonchannel
+				u.ip = elapsedTime(u.timeonchannel, "%02d:%02d:%02d")
 			if "disabled" in u.status:
 				list.append((self.icondis, u.name, u.ip, u.status, u.protocol, index))        
 			else:
