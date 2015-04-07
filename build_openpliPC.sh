@@ -139,7 +139,7 @@ if [ "$DO_XINE" -eq "1" ]; then
 	  echo "configuring OpenPliPC $PKG"
 	  echo "-----------------------------------------"
 
-	  ./autogen.sh --disable-xinerama --prefix=/usr
+	  ./autogen.sh --disable-xinerama --prefix=/usr --enable-a52dec=internal --enable-dts=internal
   fi	
 
   if [ "$DO_MAKEINSTALL" -eq "0" ]; then
