@@ -627,7 +627,6 @@ eServiceFactoryDVB::eServiceFactoryDVB()
 	if (sc)
 	{
 		std::list<std::string> extensions;
-		extensions.push_back("ts");
 		extensions.push_back("trp");
 		sc->addServiceFactory(eServiceFactoryDVB::id, this, extensions);
 		/*

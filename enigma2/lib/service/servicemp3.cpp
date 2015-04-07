@@ -67,6 +67,7 @@ eServiceFactoryMP3::eServiceFactoryMP3()
 		extensions.push_back("wma");
 		extensions.push_back("m2ts");
 		extensions.push_back("webm");
+		extensions.push_back("ts");
 		sc->addServiceFactory(eServiceFactoryMP3::id, this, extensions);
 	}
 

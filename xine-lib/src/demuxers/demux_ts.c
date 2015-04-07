@@ -427,6 +427,7 @@ typedef struct {
   off_t        tbre_bytes, tbre_lastpos;
   int64_t      tbre_time, tbre_lasttime;
   unsigned int tbre_mode, tbre_pid;
+  int          pvr_mode; // Default equal is '0', then pids receive from E2
 
 } demux_ts_t;
 
@@ -2271,6 +2272,32 @@ static void demux_ts_parse_packet (demux_ts_t*this) {
   /* PAT */
   /* PMT */
   // PAT and PMT are not processed for openpliPC. PIDs are recognized in E2
+ if (this->pvr_mode == 1)
+ {
+  if (pid == 0) {
+    demux_ts_parse_pat(this, originalPkt, originalPkt + data_offset,
+                      payload_unit_start_indicator, PKT_SIZE - data_offset);
+    return;
+  }
+
+  program_count=0;
+  while ((this->program_number[program_count] != INVALID_PROGRAM) &&
+         (program_count < MAX_PMTS)) {
+    if (pid == this->pmt_pid[program_count]) {
+
+#ifdef TS_LOG
+      printf ("demux_ts: PMT prog: 0x%.4x pid: 0x%.4x\n",
+              this->program_number[program_count],
+              this->pmt_pid[program_count]);
+#endif
+      demux_ts_parse_pmt (this, originalPkt, originalPkt + data_offset,
+                          payload_unit_start_indicator, PKT_SIZE - data_offset,
+                          program_count);
+      return;
+    }
+    program_count++;
+  }
+ }
 
   data_len = PKT_SIZE - data_offset;
 
@@ -2373,6 +2400,12 @@ static void demux_ts_event_handler (demux_ts_t *this) {
 
         mi = demux_ts_dynamic_pmt_find (this, data->pid, BUF_AUDIO_BASE, data->streamtype);
       }
+      break;  
+
+    case XINE_EVENT_SET_PVR_MODE:
+      printf("RECEIVED XINE_EVENT_SET_PVR_MODE\n");
+
+      this->pvr_mode = 1;
       break;  
 
     }
@@ -2715,6 +2748,9 @@ static demux_plugin_t *open_plugin (demux_class_t *class_gen,
   this->hdmv       = hdmv;
   this->pkt_offset = (hdmv > 0) ? 4 : 0;
   this->pkt_size   = PKT_SIZE + this->pkt_offset;
+
+  /* PVR_MODE, default is LIVE_TV, pids receive from E2 */
+  this->pvr_mode = 0;
 
   return &this->demux_plugin;
 }

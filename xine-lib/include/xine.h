@@ -1844,6 +1844,7 @@ void xine_config_reset (xine_t *self) XINE_PROTECTED;
 
 #define XINE_EVENT_SET_VIDEO_STREAMTYPE 501
 #define XINE_EVENT_SET_AUDIO_STREAMTYPE 502
+#define XINE_EVENT_SET_PVR_MODE		503
 
 
 /*

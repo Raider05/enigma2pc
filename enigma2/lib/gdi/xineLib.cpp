@@ -452,6 +452,16 @@ ASSERT(stream);
 		return ;
 	}
 
+// SET_PVR_MODE, call event set 'demux_ts' to read PAT, PMT files *.ts, *.m2ts
+        int data;
+        xine_event_t event;
+        event.type = XINE_EVENT_SET_PVR_MODE;
+	data = 1;
+        event.data = &data;
+        event.data_length = sizeof (int);
+        xine_event_send (stream, &event);
+
+
 	if (!xine_play(stream, 0, 0))
 	{
 		eWarning("xine_play failed!");
