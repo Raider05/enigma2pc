@@ -13,7 +13,7 @@ static int determineBufferCount()
 	struct sysinfo si;
 	if (sysinfo(&si) != 0)
 	{
-		return 20; // Default to small
+		return 30; // Default to small
 	}
 	unsigned int megabytes = si.totalram >> 20;
 	int result;
@@ -765,7 +765,7 @@ eDebug("eDVBTSRecorder::start %s", filename);
 		return -3;
 	}
 
-	setBufferSize(4*1024*1024);
+	setBufferSize(3*1024*1024);
 
 	dmx_pes_filter_params flt;
 	flt.pes_type = DMX_PES_OTHER;
