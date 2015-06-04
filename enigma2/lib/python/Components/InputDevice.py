@@ -29,12 +29,12 @@ class inputDevices:
 		self.getInputDevices()
 
 	def getInputDevices(self):
-		devices = listdir("/dev/input/")
+		devices = listdir("/dev/input/by-id")
 
 		for evdev in devices:
 			try:
 				buffer = "\0"*512
-				self.fd = os_open("/dev/input/" + evdev, O_RDWR | O_NONBLOCK)
+				self.fd = os_open("/dev/input/by-id" + evdev, O_RDWR | O_NONBLOCK)
 				self.name = ioctl(self.fd, EVIOCGNAME(256), buffer)
 				self.name = self.name[:self.name.find("\0")]
 				os_close(self.fd)

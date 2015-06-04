@@ -2171,7 +2171,8 @@ void eDVBChannel::stop()
 	}
 	if (m_pvr_fd_dst >= 0)
 	{
-		::close(m_pvr_fd_dst);
+//		Pipe '/tmp/ENIGMA_FIFO' closed in eDVBServicePlay::stop() (lib/service/servicedvb.cpp)
+//		::close(m_pvr_fd_dst);
 		m_pvr_fd_dst = -1;
 	}
 	m_source = NULL;
