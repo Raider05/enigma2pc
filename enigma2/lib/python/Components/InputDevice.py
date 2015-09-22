@@ -29,7 +29,7 @@ class inputDevices:
 		self.getInputDevices()
 
 	def getInputDevices(self):
-		devices = listdir("/dev/input/by-id")
+		devices = listdir("/dev/input")
 
 		for evdev in devices:
 			try:
