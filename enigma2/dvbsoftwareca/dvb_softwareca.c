@@ -115,7 +115,7 @@ static int ca_ioctl(struct inode *inode, struct file *f,
 
 	if (cmd == CA_SET_DESCR) {
 		ca_descr_t *ca_descr = (ca_descr_t *)arg;
-		int ca_num = ((cadev->adapter_num&0xFF)<<8)|(cadev->device_num&0xFF);
+		unsigned short ca_num = ((cadev->adapter_num&0xFF)<<8)|(cadev->device_num&0xFF);
 
 		printk("cactl CA_SET_DESCR par %d idx %d %02X...%02X\n",
 				ca_descr->parity, ca_descr->index, ca_descr->cw[0], ca_descr->cw[7]);
@@ -125,7 +125,7 @@ static int ca_ioctl(struct inode *inode, struct file *f,
 	}
 	if (cmd == CA_SET_PID) {
 		ca_pid_t *ca_pid = (ca_pid_t *)arg;
-		int ca_num = ((cadev->adapter_num&0xFF)<<8)|(cadev->device_num&0xFF);
+		unsigned short ca_num = ((cadev->adapter_num&0xFF)<<8)|(cadev->device_num&0xFF);
 
 		printk("cactl CA_SET_PID %04X index %d\n", ca_pid->pid, ca_pid->index);
 
