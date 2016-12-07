@@ -101,7 +101,7 @@ static int ca_ioctl(struct inode *inode, struct file *f,
 	unsigned int cmd, unsigned long arg)
 {
 #ifdef HAVE_UNLOCKED_IOCTL
-	struct inode *inode = f->f_dentry->d_inode;
+	struct inode *inode = f->f_path.dentry->d_inode;
 #endif
 	struct ca_device *cadev = find_device(iminor(inode));
 
