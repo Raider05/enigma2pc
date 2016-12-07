@@ -193,7 +193,7 @@ if [ "$DO_CONFIGURE" -eq "1" ]; then
   sudo ln -sd /usr/include/libnl3/netlink /usr/include/netlink
 
   autoreconf -i
-  ./configure --prefix=$INSTALL_E2DIR --with-xlib --with-debug
+  CPP="gcc -E -P" ./configure --prefix=$INSTALL_E2DIR --with-xlib --with-debug
 fi  
  
 echo "--------------------------------------"
