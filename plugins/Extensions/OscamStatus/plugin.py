@@ -903,6 +903,12 @@ class LogDataScreen(DownloadXMLScreen):
 				<widget render="Label" source="title"  position="42,70" size="700,26" valign="center" zPosition="5" transparent="0" foregroundColor="#fcc000" font="Regular;22"/>
 				<widget name="data" position="42,100" size="940,400" scrollbarMode="showOnDemand" />
 			</screen>"""
+	elif w == 1920:
+		skin = """
+			<screen flags="wfNoBorder" position="0,0" size="1920,1080" name="LogDataScreen" >
+				<widget render="Label" source="title"  position="42,70" size="700,34" valign="center" zPosition="5" transparent="0" foregroundColor="#fcc000" font="Regular;22"/>
+				<widget name="data" position="40,105" size="1840,960" scrollbarMode="showOnDemand"/>
+			</screen>"""	
 	else:
 		skin = """
 			<screen flags="wfNoBorder" position="0,0" size="720,576" name="LogDataScreen" >
@@ -926,6 +932,10 @@ class LogDataScreen(DownloadXMLScreen):
 			self.entryW = 938
 			self.entryH = 16
 			self["data"] = LogDataList([], 16)
+		elif LogDataScreen.w == 1920:
+			self.entryW = 1840
+			self.entryH = 26
+			self["data"] = LogDataList([], 18)
 		else:
 			self.entryW = 698
 			self.entryH = 14
